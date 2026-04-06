@@ -225,6 +225,7 @@ export default function AuditTool() {
     return (
       <AuditResults
         result={result}
+        input={form}
         emailSubmitted={emailSubmitted}
         onEmailSubmit={() => setEmailSubmitted(true)}
         onRunAgain={() => {
@@ -432,11 +433,13 @@ function AuditLoading({
 
 function AuditResults({
   result,
+  input,
   emailSubmitted,
   onEmailSubmit,
   onRunAgain,
 }: {
   result: AuditResult;
+  input: AuditInput;
   emailSubmitted: boolean;
   onEmailSubmit: () => void;
   onRunAgain: () => void;
@@ -496,6 +499,14 @@ function AuditResults({
           <EmailGate
             businessName={result.business_name}
             auditId={result.auditId ?? null}
+            trade={input.primaryTrade}
+            city={input.serviceCity}
+            scoreBucket={result.score_bucket}
+            overallScore={result.overall_score}
+            lowestSection={
+              [...result.sections].sort((a, b) => a.score - b.score)[0]?.id ??
+              ""
+            }
             onSubmit={onEmailSubmit}
           />
         )}
@@ -611,10 +622,21 @@ function SectionCard({
 
 function EmailGate({
   businessName,
+  auditId,
+  trade,
+  city,
+  scoreBucket,
+  overallScore,
+  lowestSection,
   onSubmit,
 }: {
   businessName: string;
   auditId: string | null;
+  trade: string;
+  city: string;
+  scoreBucket: string;
+  overallScore: number;
+  lowestSection: string;
   onSubmit: () => void;
 }) {
   const [email, setEmail] = useState("");
@@ -629,8 +651,35 @@ function EmailGate({
     }
     setError("");
     setLoading(true);
-    // Email delivery wired in next step
-    await new Promise((r) => setTimeout(r, 500));
+    try {
+      const res = await fetch("/api/email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          auditId,
+          businessName,
+          trade,
+          city,
+          scoreBucket,
+          overallScore,
+          lowestSection,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(
+          (data as { error?: string }).error ??
+            "Failed to send. Please try again.",
+        );
+        setLoading(false);
+        return;
+      }
+    } catch {
+      setError("Failed to send. Please try again.");
+      setLoading(false);
+      return;
+    }
     setLoading(false);
     onSubmit();
   }
