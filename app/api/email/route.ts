@@ -59,7 +59,7 @@ export async function POST(req: Request) {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://localsearchally.com";
   const calendlyUrl =
-    process.env.CALENDLY_URL ?? "https://calendly.com/localse archally";
+    process.env.CALENDLY_URL ?? "https://calendly.com/localsearchally";
   const auditUrl = auditId ? `${siteUrl}/audit/${auditId}` : siteUrl;
   const lowestLabel = SECTION_LABELS[lowestSection] ?? lowestSection;
 
@@ -141,6 +141,55 @@ export async function POST(req: Request) {
         ],
       }),
     }).catch((err) => console.error("Slack notify failed:", err));
+  }
+
+  // ── Resend audience tagging (non-blocking) ──────────────────────────────
+  const audienceId = process.env.RESEND_AUDIENCE_ID;
+  if (audienceId) {
+    resend.contacts
+      .create({
+        audienceId,
+        email,
+        firstName: businessName,
+        unsubscribed: false,
+      })
+      .catch((err) => console.error("Resend contact create failed:", err));
+  }
+
+  // ── Schedule drip sequence (non-blocking) ───────────────────────────────
+  const drips = [
+    {
+      daysOut: 2,
+      subject: `One thing to fix first — ${businessName}`,
+      html: buildDripDay2Html({ businessName, lowestLabel, calendlyUrl }),
+    },
+    {
+      daysOut: 5,
+      subject: `What ${trade} contractors in the Map Pack do differently`,
+      html: buildDripDay5Html({ businessName, trade, calendlyUrl }),
+    },
+    {
+      daysOut: 10,
+      subject: `Last note from Local Search Ally`,
+      html: buildDripDay10Html({ businessName, calendlyUrl }),
+    },
+  ];
+
+  for (const drip of drips) {
+    const scheduledAt = new Date(
+      Date.now() + drip.daysOut * 24 * 60 * 60 * 1000,
+    ).toISOString();
+    resend.emails
+      .send({
+        from: "Local Search Ally <audits@localsearchally.com>",
+        to: email,
+        subject: drip.subject,
+        html: drip.html,
+        scheduledAt,
+      })
+      .catch((err) =>
+        console.error(`Drip day-${drip.daysOut} schedule failed:`, err),
+      );
   }
 
   return Response.json({ ok: true });
@@ -275,4 +324,168 @@ function buildEmailHtml({
   </table>
 </body>
 </html>`;
+}
+
+// ─── Shared email shell ────────────────────────────────────────────────────────
+
+function emailShell(bodyHtml: string): string {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body style="margin:0;padding:0;background:#020203;font-family:'Helvetica Neue',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#020203;">
+    <tr>
+      <td align="center" style="padding:40px 16px;">
+        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+          <tr>
+            <td style="padding-bottom:28px;">
+              <p style="margin:0;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#7bafd4;font-weight:600;">Local Search Ally</p>
+            </td>
+          </tr>
+          ${bodyHtml}
+          <tr>
+            <td style="padding-top:32px;border-top:1px solid rgba(255,255,255,0.06);">
+              <p style="margin:0;font-size:12px;color:rgba(255,255,255,0.2);line-height:1.6;">
+                Local Search Ally · NWA Local SEO for Contractors<br/>
+                You received this because you ran a free audit at localsearchally.com.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
+
+// ─── Day 2: Specific finding ───────────────────────────────────────────────────
+
+function buildDripDay2Html({
+  businessName,
+  lowestLabel,
+  calendlyUrl,
+}: {
+  businessName: string;
+  lowestLabel: string;
+  calendlyUrl: string;
+}): string {
+  return emailShell(`
+    <tr>
+      <td style="padding-bottom:24px;">
+        <p style="margin:0 0 20px;font-size:16px;line-height:1.7;color:rgba(255,255,255,0.8);">
+          Wanted to follow up on your audit for <strong style="color:#ffffff;">${businessName}</strong>.
+        </p>
+        <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
+          The biggest gap I flagged was in <strong style="color:#ffffff;">${lowestLabel}</strong>.
+          That's the one issue that, if fixed, will have the most immediate impact on
+          how often you show up when someone in your area searches for what you do.
+        </p>
+        <p style="margin:0 0 28px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
+          Takes about 20 minutes to fix. Want to do it together?
+        </p>
+        <a href="${calendlyUrl}"
+          style="display:inline-block;background:#7bafd4;color:#020203;font-size:15px;font-weight:600;text-decoration:none;border-radius:8px;padding:14px 28px;">
+          Book a Free 20-Min Call →
+        </a>
+      </td>
+    </tr>
+  `);
+}
+
+// ─── Day 5: Industry data ──────────────────────────────────────────────────────
+
+const TRADE_STATS: Record<string, string> = {
+  HVAC: "HVAC contractors in the Google Map Pack receive 3× more calls than those ranking below it — BrightLocal, 2024.",
+  Plumbing:
+    "Plumbers in the Map Pack get 2.7× more quote requests than those on page 2 — BrightLocal, 2024.",
+  Electrical:
+    "Electricians ranking in the top 3 local results capture 68% of all local service clicks — BrightLocal, 2024.",
+  Roofing:
+    "Roofing contractors in the Map Pack close 40% more storm-season leads than unlisted competitors — BrightLocal, 2024.",
+  Landscaping:
+    "Landscaping companies in the top 3 local spots get 3× more seasonal inquiry volume — BrightLocal, 2024.",
+  Remodeling:
+    "Remodelers with complete GBP profiles get 520% more direction requests than incomplete listings — Google, 2024.",
+  "General Contracting":
+    "General contractors listed in the Map Pack receive 2.8× more project quote requests — BrightLocal, 2024.",
+  Other:
+    "Local service businesses in the Google Map Pack receive on average 2.5× more calls than those outside it — BrightLocal, 2024.",
+};
+
+function buildDripDay5Html({
+  businessName,
+  trade,
+  calendlyUrl,
+}: {
+  businessName: string;
+  trade: string;
+  calendlyUrl: string;
+}): string {
+  const stat = TRADE_STATS[trade] ?? TRADE_STATS["Other"];
+  return emailShell(`
+    <tr>
+      <td style="padding-bottom:24px;">
+        <p style="margin:0 0 20px;font-size:16px;line-height:1.7;color:rgba(255,255,255,0.8);">
+          One stat I keep coming back to when I work with ${trade.toLowerCase()} contractors:
+        </p>
+        <table cellpadding="0" cellspacing="0" style="width:100%;margin-bottom:24px;">
+          <tr>
+            <td style="background:rgba(123,175,212,0.07);border-left:3px solid #7bafd4;border-radius:4px;padding:18px 20px;">
+              <p style="margin:0;font-size:15px;line-height:1.65;color:#ffffff;font-style:italic;">
+                "${stat}"
+              </p>
+            </td>
+          </tr>
+        </table>
+        <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
+          The audit I ran for <strong style="color:#ffffff;">${businessName}</strong> shows
+          exactly what's keeping you out of that top 3. The fixes aren't complicated —
+          they're just specific.
+        </p>
+        <p style="margin:0 0 28px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
+          If you want to talk through what to prioritize, I have time this week.
+        </p>
+        <a href="${calendlyUrl}"
+          style="display:inline-block;background:#7bafd4;color:#020203;font-size:15px;font-weight:600;text-decoration:none;border-radius:8px;padding:14px 28px;">
+          Book a Free Strategy Call →
+        </a>
+      </td>
+    </tr>
+  `);
+}
+
+// ─── Day 10: Last touch ────────────────────────────────────────────────────────
+
+function buildDripDay10Html({
+  businessName,
+  calendlyUrl,
+}: {
+  businessName: string;
+  calendlyUrl: string;
+}): string {
+  return emailShell(`
+    <tr>
+      <td style="padding-bottom:24px;">
+        <p style="margin:0 0 16px;font-size:16px;line-height:1.7;color:rgba(255,255,255,0.8);">
+          Last note — I promise.
+        </p>
+        <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
+          If now's not the right time for <strong style="color:#ffffff;">${businessName}</strong>,
+          no worries at all. Local SEO isn't going anywhere — whenever you're ready,
+          the audit will still be there.
+        </p>
+        <p style="margin:0 0 28px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
+          And if you do want to talk through it: I'm easy to reach.
+        </p>
+        <a href="${calendlyUrl}"
+          style="display:inline-block;background:transparent;color:#7bafd4;font-size:15px;font-weight:600;text-decoration:none;border:1px solid rgba(123,175,212,0.35);border-radius:8px;padding:13px 28px;">
+          ${calendlyUrl.replace("https://", "")} →
+        </a>
+      </td>
+    </tr>
+  `);
 }
