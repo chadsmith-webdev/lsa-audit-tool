@@ -1,0 +1,790 @@
+/* ==========================================================================
+   audit.module.css
+   All visual styles for the AuditTool component.
+   Layout/spacing → Tailwind. Visual styles → here.
+   Consume brand tokens via var(). Never hardcode colors or font names.
+   data-status="green|yellow|red" drives score-dependent color.
+   ========================================================================== */
+
+/* ─── Form ─────────────────────────────────────────────────────────────────── */
+
+.formWrap {
+  min-height: 100vh;
+}
+
+.formCard {
+  width: 100%;
+  max-width: 480px;
+  border: 1px solid rgba(123, 175, 212, 0.14);
+  border-radius: 16px;
+  padding: 48px 40px;
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(2px);
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--carolina);
+  margin-bottom: 14px;
+}
+
+.formHeader {
+  margin-bottom: 36px;
+  text-align: center;
+}
+
+.formTitle {
+  font-family: var(--font-heading);
+  font-size: clamp(22px, 5vw, 30px);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--white);
+  margin: 0 0 12px;
+}
+
+.formSub {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.35);
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.label {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.02em;
+}
+
+.input,
+.select {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 11px 14px;
+  width: 100%;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.22);
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--carolina);
+  background: rgba(123, 175, 212, 0.06);
+}
+
+.input[aria-invalid="true"],
+.select[aria-invalid="true"] {
+  border-color: var(--status-red);
+}
+
+/* Custom select arrow */
+.select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.3)' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 38px;
+  cursor: pointer;
+}
+
+.select option {
+  background: #0d1117;
+  color: var(--white);
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 0;
+}
+
+.checkbox {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--carolina);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.checkboxLabel {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.65);
+  cursor: pointer;
+}
+
+.noWebsiteNotice {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--status-red);
+  background: rgba(239, 68, 68, 0.07);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin: 0;
+}
+
+.fieldError {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--status-red);
+}
+
+.auditError {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--status-red);
+  background: rgba(239, 68, 68, 0.07);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin: 0;
+}
+
+.submitBtn {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--carolina);
+  border: none;
+  border-radius: 8px;
+  padding: 14px 24px;
+  cursor: pointer;
+  width: 100%;
+  transition:
+    opacity 0.15s,
+    transform 0.1s;
+  margin-top: 4px;
+}
+
+.submitBtn:hover {
+  opacity: 0.88;
+}
+
+.submitBtn:active {
+  transform: scale(0.985);
+}
+
+/* ─── Loading ──────────────────────────────────────────────────────────────── */
+
+.loadingWrap {
+  min-height: 100vh;
+}
+
+.loadingCard {
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.loadingEyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0 0 8px;
+}
+
+.loadingTitle {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--white);
+  margin: 0 0 36px;
+}
+
+.sectionList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: left;
+}
+
+.sectionChip {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition:
+    background 0.25s,
+    border-color 0.25s;
+}
+
+.sectionChip[data-done="true"] {
+  background: rgba(34, 197, 94, 0.05);
+  border-color: rgba(34, 197, 94, 0.14);
+}
+
+.sectionChip[data-active="true"] {
+  background: rgba(123, 175, 212, 0.07);
+  border-color: rgba(123, 175, 212, 0.18);
+  animation: chipPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes chipPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.chipIndicator {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  width: 20px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+
+.sectionChip[data-done="true"] .chipIndicator {
+  color: var(--status-green);
+}
+
+.sectionChip[data-active="true"] .chipIndicator {
+  color: var(--carolina);
+  animation: dotBounce 0.9s ease-in-out infinite;
+}
+
+@keyframes dotBounce {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+}
+
+.chipLabel {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.4);
+  transition: color 0.2s;
+}
+
+.sectionChip[data-done="true"] .chipLabel {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.sectionChip[data-active="true"] .chipLabel {
+  color: var(--white);
+}
+
+/* ─── Results ──────────────────────────────────────────────────────────────── */
+
+.resultsWrap {
+  width: 100%;
+  padding: 48px 16px 96px;
+}
+
+.resultsInner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* Score header */
+.scoreHeader {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.gauge {
+  position: relative;
+  flex-shrink: 0;
+  width: 144px;
+  height: 144px;
+}
+
+.gaugeSvg {
+  width: 144px;
+  height: 144px;
+}
+
+.gaugeTrack {
+  color: rgba(255, 255, 255, 0.07);
+}
+
+.gaugeFill {
+  transition: stroke-dasharray 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gaugeLabel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.gaugeScore {
+  font-family: var(--font-mono);
+  font-size: 38px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.gaugeMax {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.35);
+  margin-top: 1px;
+}
+
+.gaugeOverallLabel {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 6px;
+}
+
+.scoreMeta {
+  flex: 1;
+  min-width: 0;
+}
+
+.resultsTitle {
+  font-family: var(--font-heading);
+  font-size: clamp(20px, 4vw, 28px);
+  font-weight: 700;
+  color: var(--white);
+  margin: 0 0 10px;
+  line-height: 1.2;
+}
+
+.summary {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0 0 10px;
+}
+
+.competitors {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.38);
+  margin: 0;
+}
+
+.competitorsLabel {
+  font-weight: 600;
+}
+
+/* Top 3 actions */
+.topActions {
+  background: rgba(123, 175, 212, 0.04);
+  border: 1px solid rgba(123, 175, 212, 0.14);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.topActionsTitle {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--carolina);
+  margin: 0 0 18px;
+}
+
+.topActionsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.topActionItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.actionNumber {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--carolina);
+  flex-shrink: 0;
+  width: 18px;
+  padding-top: 1px;
+}
+
+/* Section cards */
+.sectionsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sectionCard {
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.02);
+  animation: cardIn 0.4s ease both;
+  animation-delay: calc(var(--i, 0) * 180ms);
+  overflow: hidden;
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sectionCard[data-status="green"] {
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
+.sectionCard[data-status="yellow"] {
+  border-color: rgba(234, 179, 8, 0.2);
+}
+
+.sectionCard[data-status="red"] {
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sectionScore {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 600;
+  width: 30px;
+  text-align: center;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.sectionCard[data-status="green"] .sectionScore {
+  color: var(--status-green);
+}
+.sectionCard[data-status="yellow"] .sectionScore {
+  color: var(--status-yellow);
+}
+.sectionCard[data-status="red"] .sectionScore {
+  color: var(--status-red);
+}
+
+.cardHeadText {
+  flex: 1;
+  min-width: 0;
+}
+
+.sectionName {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  margin-bottom: 3px;
+}
+
+.sectionHeadline {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--white);
+  line-height: 1.4;
+}
+
+.statusDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.sectionCard[data-status="green"] .statusDot {
+  background: var(--status-green);
+}
+.sectionCard[data-status="yellow"] .statusDot {
+  background: var(--status-yellow);
+}
+.sectionCard[data-status="red"] .statusDot {
+  background: var(--status-red);
+}
+
+.cardBody {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cardBodyLocked {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  filter: blur(5px);
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.45;
+}
+
+.finding {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 12px;
+}
+
+.priorityAction {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.5;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.priorityLabel {
+  font-weight: 600;
+  color: var(--carolina);
+  flex-shrink: 0;
+}
+
+/* ─── Email Gate ───────────────────────────────────────────────────────────── */
+
+.emailGate {
+  border: 1px solid rgba(123, 175, 212, 0.22);
+  border-radius: 16px;
+  padding: 40px 32px;
+  background: rgba(123, 175, 212, 0.03);
+  text-align: center;
+}
+
+.emailGateInner {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.lockIcon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.emailGateTitle {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--white);
+  margin: 0 0 12px;
+  line-height: 1.3;
+}
+
+.emailGateSub {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.52);
+  margin: 0 0 24px;
+}
+
+.emailGateSub strong {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+}
+
+.emailForm {
+  display: flex;
+  gap: 8px;
+}
+
+.emailInput {
+  flex: 1;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 11px 14px;
+  transition: border-color 0.15s;
+  min-width: 0;
+}
+
+.emailInput:focus {
+  outline: none;
+  border-color: var(--carolina);
+}
+
+.emailInput::placeholder {
+  color: rgba(255, 255, 255, 0.22);
+}
+
+.emailBtn {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--carolina);
+  border: none;
+  border-radius: 8px;
+  padding: 11px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: opacity 0.15s;
+}
+
+.emailBtn:hover {
+  opacity: 0.88;
+}
+
+.emailBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.emailError {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--status-red);
+  margin-top: 10px;
+}
+
+/* ─── Re-audit Footer ──────────────────────────────────────────────────────── */
+
+.reauditCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  gap: 16px;
+}
+
+.reauditText {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0;
+}
+
+.reauditBtn {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--carolina);
+  background: transparent;
+  border: 1px solid rgba(123, 175, 212, 0.28);
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+
+.reauditBtn:hover {
+  border-color: var(--carolina);
+  background: rgba(123, 175, 212, 0.07);
+}
+
+/* ─── Responsive ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 560px) {
+  .formCard {
+    padding: 32px 20px;
+  }
+
+  .scoreHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .emailForm {
+    flex-direction: column;
+  }
+
+  .reauditCard {
+    flex-direction: column;
+    text-align: center;
+  }
+}
