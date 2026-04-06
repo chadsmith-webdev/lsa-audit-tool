@@ -59,7 +59,9 @@ export async function POST(req: Request) {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://localsearchally.com";
   const calendlyUrl =
-    process.env.CALENDLY_URL ?? "https://calendly.com/localsearchally";
+    process.env.CALENDLY_URL ??
+    process.env.CALENDY_URL ??
+    "https://calendly.com/localsearchally";
   const auditUrl = auditId ? `${siteUrl}/audit/${auditId}` : siteUrl;
   const lowestLabel = SECTION_LABELS[lowestSection] ?? lowestSection;
 
