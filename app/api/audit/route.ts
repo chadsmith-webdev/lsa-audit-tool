@@ -1,4 +1,6 @@
-import { NextRequest } from "next/server";
+import { supabase } from "@/lib/supabase";
+
+export const maxDuration = 120;
 
 export type AuditInput = {
   businessName: string;
@@ -8,26 +10,113 @@ export type AuditInput = {
   noWebsite: boolean;
 };
 
-export async function POST(req: NextRequest) {
-  let input: AuditInput;
-  try {
-    input = await req.json();
-  } catch {
-    return Response.json({ error: "Invalid JSON" }, { status: 400 });
-  }
+export interface AuditSection {
+  id: string;
+  name: string;
+  score: number;
+  status: "green" | "yellow" | "red";
+  headline: string;
+  finding: string;
+  priority_action: string;
+}
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    return Response.json(
-      { error: "Missing Anthropic API key" },
-      { status: 500 },
-    );
-  }
+export interface AuditResult {
+  business_name: string;
+  overall_score: number;
+  overall_label: "Strong" | "Solid" | "Needs Work" | "Critical";
+  summary: string;
+  has_website: boolean;
+  score_bucket: "Critical" | "Needs Work" | "Solid" | "Strong";
+  sections: AuditSection[];
+  top_3_actions: string[];
+  competitor_names: string[];
+}
 
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 120_000);
+const SYSTEM_PROMPT = `You are a local SEO specialist auditing a contractor's online presence for Local Search Ally. Research the business using web search and produce an honest, scored audit across 7 sections. Return ONLY valid JSON — no preamble, no markdown.
 
-  try {
+AUDIT SECTIONS (score each 1–10):
+1. gbp — Google Business Profile: claimed, complete, keyword-optimized description, active with posts? Note photo count specifically — under 10 photos is a critical gap.
+2. reviews — Quantity, recency, average rating, owner response rate. Under 10 reviews or zero responses = red.
+3. onpage — Title tags, H1s, dedicated service pages, keyword targeting (trade + city).
+4. technical — Core Web Vitals (LCP, INP, CLS from PageSpeed Insights if findable), mobile-friendly, HTTPS, sitemap.xml present, AND schema markup: is there a <script type="application/ld+json"> block with @type LocalBusiness or a trade subtype (Plumber, HVACBusiness, Electrician, RoofingContractor)? Does it include name, address, phone, serviceArea, openingHours?
+5. citations — NAP consistency across Google, Yelp, BBB, Angi, HomeAdvisor.
+6. backlinks — Domain authority signals, local/industry links, anchor text quality.
+7. competitors — Top 3 Map Pack results for [trade] [city] AR. How does this business compare on reviews, GBP completeness, and web presence?
+
+NO-WEBSITE HANDLING: If the business has no website, score onpage, technical, and backlinks as 1 each. Set headline to "No website found — this is costing you calls every day." Skip URL-based checks for those sections only.
+
+SCORING:
+- 8–10 → status: "green"
+- 5–7  → status: "yellow"
+- 1–4  → status: "red"
+
+SEARCH STRATEGY:
+- Search "[business name] [city]" → GBP panel, photo count, review count
+- Search "[business name] reviews" → recency, owner response rate
+- Fetch homepage + a service page; look for JSON-LD schema block + CWV via PageSpeed
+- Check [website]/sitemap.xml
+- Search "[trade] [city] AR" → top 3 Map Pack competitors
+- Search "[business name]" on Yelp, Angi, BBB for NAP consistency
+
+REQUIRED JSON:
+{
+  "business_name": string,
+  "overall_score": number (average of 7 sections, rounded),
+  "overall_label": "Strong" | "Solid" | "Needs Work" | "Critical",
+  "summary": string (1 sentence, plain English, specific),
+  "has_website": boolean,
+  "score_bucket": "Critical" | "Needs Work" | "Solid" | "Strong",
+  "sections": [{
+    "id": "gbp|reviews|onpage|technical|citations|backlinks|competitors",
+    "name": string,
+    "score": number (1–10),
+    "status": "green" | "yellow" | "red",
+    "headline": string (plain English, no jargon),
+    "finding": string (2–3 sentences, business impact, specific),
+    "priority_action": string (specific next step)
+  }],
+  "top_3_actions": string[],
+  "competitor_names": string[]
+}
+
+VOICE: Plain English only. Every finding = a business consequence (lost calls, lost jobs, invisible to Google). Be specific. Never invent data.`;
+
+function buildAuditPrompt(input: AuditInput): string {
+  const websiteLine = input.noWebsite
+    ? "Website: NONE — this business has no website"
+    : `Website: ${input.websiteUrl}`;
+
+  const noWebsiteNote = input.noWebsite
+    ? "\nNOTE: No website. Score onpage, technical, backlinks as 1. Focus on GBP, reviews, citations, competitors."
+    : "";
+
+  return `Audit this contractor's local SEO:
+
+Business Name: ${input.businessName}
+${websiteLine}
+Primary Trade: ${input.primaryTrade}
+Service City: ${input.serviceCity}
+${noWebsiteNote}
+
+Research all 7 sections using web search. Return the JSON audit result only.`.trim();
+}
+
+function parseAuditResult(rawText: string): AuditResult {
+  // Strip any accidental markdown code fences
+  const cleaned = rawText
+    .replace(/^```(?:json)?\n?/, "")
+    .replace(/\n?```$/, "")
+    .trim();
+  return JSON.parse(cleaned);
+}
+
+async function callClaude(
+  input: AuditInput,
+  signal: AbortSignal,
+): Promise<AuditResult> {
+  const apiKey = process.env.ANTHROPIC_API_KEY!;
+
+  async function attempt(prompt: string): Promise<AuditResult> {
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
@@ -37,60 +126,182 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
-        tools: [{ name: "web_search_20250305" }],
-        messages: [
-          {
-            role: "user",
-            content: [
-              {
-                type: "text",
-                text: `Audit this business for local SEO:\nBusiness Name: ${input.businessName}\nWebsite: ${input.websiteUrl}\nPrimary Trade: ${input.primaryTrade}\nService City: ${input.serviceCity}\nNo Website: ${input.noWebsite}`,
-              },
-            ],
-          },
-        ],
-        max_tokens: 2048,
+        system: SYSTEM_PROMPT,
+        tools: [{ type: "web_search_20250305", name: "web_search" }],
+        messages: [{ role: "user", content: prompt }],
+        max_tokens: 4096,
         temperature: 0.2,
       }),
-      signal: controller.signal,
+      signal,
     });
-    clearTimeout(timeout);
 
     if (!response.ok) {
-      return Response.json(
-        { error: "Anthropic API error", details: await response.text() },
-        { status: response.status },
-      );
+      const details = await response.text();
+      throw new Error(`Anthropic API error ${response.status}: ${details}`);
     }
 
     const data = await response.json();
-    // Find the first content block with type 'json' or parse from text
-    let parsed;
-    if (Array.isArray(data.content)) {
-      const jsonBlock = data.content.find((b: any) => b.type === "json");
-      if (jsonBlock) {
-        parsed = jsonBlock.json;
-      } else {
-        // fallback: try to parse text block as JSON
-        const textBlock = data.content.find((b: any) => b.type === "text");
-        if (textBlock) {
-          try {
-            parsed = JSON.parse(textBlock.text);
-          } catch {
-            parsed = { raw: textBlock.text };
-          }
-        }
-      }
-    }
-    if (!parsed) parsed = data;
-    return Response.json(parsed);
+    const textBlock = (data.content as any[]).findLast(
+      (b: any) => b.type === "text",
+    );
+    if (!textBlock) throw new Error("No text block in Anthropic response");
+    return parseAuditResult(textBlock.text);
+  }
+
+  try {
+    return await attempt(buildAuditPrompt(input));
   } catch (err: any) {
-    if (err.name === "AbortError") {
-      return Response.json({ error: "Request timed out" }, { status: 504 });
+    if (err instanceof SyntaxError) {
+      // Retry once with explicit JSON reminder
+      return await attempt(
+        buildAuditPrompt(input) + "\n\nReturn ONLY JSON, no other text.",
+      );
     }
+    throw err;
+  }
+}
+
+async function notifySlack(
+  result: AuditResult,
+  input: AuditInput,
+  auditId: string,
+): Promise<void> {
+  const webhookUrl = process.env.SLACK_WEBHOOK_URL;
+  if (!webhookUrl) return;
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://localsearchally.com";
+  await fetch(webhookUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      text: "🔔 New audit completed",
+      blocks: [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: `*${input.businessName}* — ${input.primaryTrade} in ${input.serviceCity}\nScore: *${result.overall_score}/10* (${result.score_bucket})\n<${siteUrl}/audit/${auditId}|View audit>`,
+          },
+        },
+      ],
+    }),
+  });
+}
+
+export async function POST(req: Request) {
+  let input: AuditInput;
+  try {
+    input = await req.json();
+  } catch {
+    return Response.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  if (!process.env.ANTHROPIC_API_KEY) {
     return Response.json(
-      { error: "Internal server error", details: err?.message },
+      { error: "Missing Anthropic API key" },
       { status: 500 },
     );
   }
+
+  const encoder = new TextEncoder();
+
+  const stream = new ReadableStream({
+    async start(controller) {
+      const send = (event: string, data: unknown) => {
+        controller.enqueue(
+          encoder.encode(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`),
+        );
+      };
+
+      const abortController = new AbortController();
+      const timer = setTimeout(() => abortController.abort(), 120_000);
+
+      try {
+        // --- 24-hour cache check ---
+        if (!input.noWebsite && input.websiteUrl) {
+          const { data: cached } = await supabase
+            .from("audits")
+            .select("*")
+            .eq("input->>websiteUrl", input.websiteUrl)
+            .gte("created_at", new Date(Date.now() - 86_400_000).toISOString())
+            .maybeSingle();
+
+          if (cached) {
+            const cachedResult: AuditResult = cached.result;
+            for (const section of cachedResult.sections) {
+              send("section", section);
+              await new Promise((r) => setTimeout(r, 150));
+            }
+            send("complete", {
+              ...cachedResult,
+              auditId: cached.id,
+              cached: true,
+            });
+            controller.close();
+            return;
+          }
+        }
+
+        // --- Run Claude audit ---
+        const result = await callClaude(input, abortController.signal);
+        clearTimeout(timer);
+
+        // --- Stream sections with 150ms stagger ---
+        for (const section of result.sections) {
+          send("section", section);
+          await new Promise((r) => setTimeout(r, 150));
+        }
+
+        // --- Persist to Supabase ---
+        let auditId: string | null = null;
+        try {
+          const { data: row } = await supabase
+            .from("audits")
+            .insert({
+              business_name: result.business_name,
+              overall_score: result.overall_score,
+              score_bucket: result.score_bucket,
+              trade: input.primaryTrade,
+              city: input.serviceCity,
+              result,
+              input,
+            })
+            .select("id")
+            .single();
+          auditId = row?.id ?? null;
+        } catch (dbErr) {
+          console.error("Supabase insert failed:", dbErr);
+        }
+
+        send("complete", { ...result, auditId });
+
+        // --- Slack notification (non-blocking) ---
+        if (auditId) {
+          notifySlack(result, input, auditId).catch((e) =>
+            console.error("Slack notify failed:", e),
+          );
+        }
+      } catch (err: any) {
+        clearTimeout(timer);
+        if (err.name === "AbortError") {
+          send("error", {
+            message:
+              "The audit took too long — try again, it usually completes.",
+          });
+        } else {
+          send("error", { message: err.message ?? "Unknown error" });
+        }
+      } finally {
+        controller.close();
+      }
+    },
+  });
+
+  return new Response(stream, {
+    headers: {
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      Connection: "keep-alive",
+    },
+  });
 }
