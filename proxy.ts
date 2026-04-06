@@ -18,7 +18,7 @@ function getRatelimiter() {
   });
 }
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   if (req.method !== "POST" || !req.nextUrl.pathname.startsWith("/api/audit")) {
     return NextResponse.next();
   }
