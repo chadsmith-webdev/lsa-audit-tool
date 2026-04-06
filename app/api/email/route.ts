@@ -1,4 +1,8 @@
 import { Resend } from "resend";
+import { renderToBuffer } from "@react-pdf/renderer";
+import { createElement } from "react";
+import { AuditPdf } from "@/lib/AuditPdf";
+import { supabase } from "@/lib/supabase";
 
 export type EmailPayload = {
   email: string;
@@ -61,6 +65,40 @@ export async function POST(req: Request) {
 
   const resend = new Resend(resendKey);
 
+  // ── Generate PDF if auditId provided ────────────────────────────────────
+  let pdfAttachment:
+    | { filename: string; content: Buffer; contentType: string }
+    | undefined;
+
+  if (auditId) {
+    try {
+      const { data: auditRow } = await supabase
+        .from("audits")
+        .select("result, input")
+        .eq("id", auditId)
+        .single();
+
+      if (auditRow?.result) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const pdfElement = createElement(AuditPdf, {
+          result: auditRow.result,
+          trade,
+          city,
+          calendlyUrl,
+        }) as any;
+        const pdfBuffer = await renderToBuffer(pdfElement);
+        pdfAttachment = {
+          filename: `local-seo-audit-${businessName.toLowerCase().replace(/\s+/g, "-")}.pdf`,
+          content: pdfBuffer,
+          contentType: "application/pdf",
+        };
+      }
+    } catch (err) {
+      // Non-fatal: send email without attachment if PDF generation fails
+      console.error("PDF generation error:", err);
+    }
+  }
+
   // ── Send confirmation email ──────────────────────────────────────────────
   const { error: sendError } = await resend.emails.send({
     from: "Local Search Ally <audits@localsearchally.com>",
@@ -76,6 +114,7 @@ export async function POST(req: Request) {
       auditUrl,
       calendlyUrl,
     }),
+    ...(pdfAttachment ? { attachments: [pdfAttachment] } : {}),
   });
 
   if (sendError) {

@@ -127,12 +127,24 @@ export default function AuditTool() {
     setActiveSectionId(SECTION_ORDER[0]);
     setAuditError(null);
 
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 120_000);
+
     try {
       const response = await fetch("/api/audit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(input),
+        signal: controller.signal,
       });
+
+      if (response.status === 429) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(
+          (data as { error?: string }).error ??
+            "You've run 5 audits today. Come back tomorrow for another free audit.",
+        );
+      }
 
       if (!response.ok || !response.body) {
         throw new Error(
@@ -187,13 +199,18 @@ export default function AuditTool() {
         }
       }
     } catch (err: unknown) {
-      const message =
-        err instanceof Error
+      clearTimeout(timer);
+      const isAbort = err instanceof DOMException && err.name === "AbortError";
+      const message = isAbort
+        ? "The audit took too long — try again, it usually completes."
+        : err instanceof Error
           ? err.message
           : "Something went wrong. Please try again.";
       setAuditError(message);
       setPhase("form");
+      return;
     }
+    clearTimeout(timer);
   }
 
   if (phase === "form") {
