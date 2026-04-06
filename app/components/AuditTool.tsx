@@ -447,6 +447,13 @@ function AuditResults({
   return (
     <div className={styles.resultsWrap}>
       <div className={styles.resultsInner}>
+        {/* Share button */}
+        {result.auditId && (
+          <div className={styles.shareRow}>
+            <CopyLinkButton auditId={result.auditId} />
+          </div>
+        )}
+
         {/* Score header */}
         <div className={styles.scoreHeader}>
           <ScoreGauge
@@ -522,6 +529,42 @@ function AuditResults({
         </div>
       </div>
     </div>
+  );
+}
+
+// ─── CopyLinkButton ───────────────────────────────────────────────────────────
+
+function CopyLinkButton({ auditId }: { auditId: string }) {
+  const [copied, setCopied] = useState(false);
+  const siteUrl =
+    typeof window !== "undefined"
+      ? window.location.origin
+      : "https://localsearchally.com";
+
+  async function handleCopy() {
+    const url = `${siteUrl}/audit/${auditId}`;
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      const el = document.createElement("input");
+      el.value = url;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  return (
+    <button
+      onClick={handleCopy}
+      className={styles.copyLinkBtn}
+      aria-label='Copy shareable link'
+    >
+      {copied ? "✓ Copied!" : "🔗 Share Results"}
+    </button>
   );
 }
 
