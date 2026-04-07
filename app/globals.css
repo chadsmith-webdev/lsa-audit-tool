@@ -4,10 +4,9 @@
    Single source of truth. Never hardcode hex values or font names elsewhere.
 ────────────────────────────────────────────────────────────────────────────── */
 :root {
-  /* Fonts */
+  /* Fonts — --font-heading / --font-ui / --font-mono are injected on <html>
+     by Next.js font loader. Only alias here, never self-reference. */
   --font-display: var(--font-heading);
-  --font-ui: var(--font-ui);
-  --font-mono: var(--font-mono);
 
   /* Brand colors */
   --carolina: #7bafd4;
