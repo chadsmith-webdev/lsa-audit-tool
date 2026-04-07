@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import AuditTool from "@/app/components/AuditTool";
 import SiteNav from "@/app/components/SiteNav";
+import SiteFooter from "@/app/components/SiteFooter";
 import styles from "@/styles/landing.module.css";
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
@@ -204,69 +205,7 @@ export default function FreeLocalSEOAuditPage() {
         </a>
       </section>
 
-      {/* Site footer */}
-      <footer className={styles.siteFooter}>
-        <div className={styles.footerInner}>
-          <div className={styles.footerBrand}>
-            <a href='https://localsearchally.com' className={styles.footerLogo}>
-              Local Search Ally
-            </a>
-            <p className={styles.footerTagline}>
-              The best contractor in town shouldn&apos;t be the hardest to find.
-            </p>
-          </div>
-          <div className={styles.footerColumns}>
-            <div>
-              <p className={styles.footerColHead}>Services</p>
-              <ul className={styles.footerLinks}>
-                <li>
-                  <a href='https://localsearchally.com/services#local-seo'>
-                    Local SEO
-                  </a>
-                </li>
-                <li>
-                  <a href='https://localsearchally.com/services#web-design'>
-                    Web Design
-                  </a>
-                </li>
-                <li>
-                  <a href='https://localsearchally.com/services#gbp'>
-                    GBP Optimization
-                  </a>
-                </li>
-                <li>
-                  <a href='https://localsearchally.com/services#reputation'>
-                    Reputation
-                  </a>
-                </li>
-                <li>
-                  <a href='#top'>Free SEO Audit</a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <p className={styles.footerColHead}>Company</p>
-              <ul className={styles.footerLinks}>
-                <li>
-                  <a href='https://localsearchally.com/about'>About</a>
-                </li>
-                <li>
-                  <a href='https://localsearchally.com/blog'>Blog</a>
-                </li>
-                <li>
-                  <a href='https://localsearchally.com/portfolio'>Portfolio</a>
-                </li>
-                <li>
-                  <a href='https://localsearchally.com/contact'>Contact</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div className={styles.footerBottom}>
-          <p>© 2026 Local Search Ally · Siloam Springs, AR</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

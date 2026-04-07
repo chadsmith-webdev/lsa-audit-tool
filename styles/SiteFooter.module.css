@@ -1,0 +1,168 @@
+/* ─── Site footer — matches localsearchally.com Footer ──────────────────────
+   Uses brand tokens from globals.css. No hardcoded hex values.
+────────────────────────────────────────────────────────────────────────────── */
+
+.footer {
+  border-top: 1px solid var(--border);
+  padding-top: 3rem;
+  padding-bottom: 2rem;
+}
+
+.inner {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--page-gutter);
+  padding-right: var(--page-gutter);
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 3rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  text-decoration: none;
+}
+
+.logoIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.logoText {
+  font-family: var(--font-heading);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--white);
+}
+
+.logoText span {
+  color: var(--carolina);
+}
+
+.tagline {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 240px;
+  margin: 0;
+}
+
+.phone {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--carolina);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.phone:hover {
+  color: var(--white);
+}
+
+.col h4 {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 1rem;
+}
+
+.col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.col ul a {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.col ul a:hover {
+  color: var(--white);
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1.5rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.copy {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.legal {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.legal a {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.legal a:hover {
+  color: var(--white);
+}
+
+@media (max-width: 768px) {
+  .top {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .tagline,
+  .copy {
+    font-size: 0.875rem;
+  }
+
+  .col h4 {
+    font-size: 0.75rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .col ul a,
+  .phone {
+    font-size: 0.9375rem;
+  }
+
+  .bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}
