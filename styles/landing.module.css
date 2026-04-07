@@ -2,15 +2,36 @@
    All values via CSS vars — no hardcoded hex or font names.
 ────────────────────────────────────────────────────────────────────────────── */
 
-/* ─── Hero ───────────────────────────────────────────────────────────────── */
+/* ─── Hero row (copy + tool side by side) ───────────────────────────────── */
 
-.hero {
+.heroRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 72px 40px 80px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.heroCopy {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 80px 24px 64px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  justify-content: center;
+  padding-top: 16px;
+}
+
+.heroTool {
+  width: 100%;
+}
+
+@media (max-width: 860px) {
+  .heroRow {
+    grid-template-columns: 1fr;
+    padding: 48px 24px 56px;
+    gap: 40px;
+  }
 }
 
 .eyebrow {
@@ -25,11 +46,10 @@
 
 .heroTitle {
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
   font-weight: 700;
   line-height: 1.1;
   color: var(--white);
-  max-width: 820px;
   margin: 0 0 20px;
 }
 
@@ -58,13 +78,7 @@
 
 /* ─── Tool embed ─────────────────────────────────────────────────────────── */
 
-.toolSection {
-  width: 100%;
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 48px 24px 64px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
+/* Tool is now inlined inside .heroTool — .toolSection no longer used */
 
 /* ─── Shared section wrapper ─────────────────────────────────────────────── */
 

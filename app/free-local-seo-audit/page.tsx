@@ -67,27 +67,26 @@ export default function FreeLocalSEOAuditPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
 
-      {/* Hero */}
-      <header className={styles.hero} id='top'>
-        <span className={styles.eyebrow}>Free Tool</span>
-        <h1 className={styles.heroTitle}>
-          See Exactly How Your Business
-          <br />
-          Shows Up in <span className={styles.heroAccent}>Google</span> — Free
-        </h1>
-        <p className={styles.heroSub}>
-          Enter your business info. Get a real audit in 90 seconds.
-        </p>
-        <p className={styles.heroClaim}>
-          No signup required. Real data. AI-powered research.
-        </p>
-      </header>
-
       <main>
-        {/* Tool — above the fold */}
-        <div className={styles.toolSection}>
-          <AuditTool />
-        </div>
+        {/* Hero + Tool — two-column above the fold */}
+        <header className={styles.heroRow} id='top'>
+          <div className={styles.heroCopy}>
+            <span className={styles.eyebrow}>Free Tool</span>
+            <h1 className={styles.heroTitle}>
+              See Exactly How Your Business Shows Up in{" "}
+              <span className={styles.heroAccent}>Google</span>
+            </h1>
+            <p className={styles.heroSub}>
+              Enter your business info. Get a real audit in 90 seconds.
+            </p>
+            <p className={styles.heroClaim}>
+              No signup required. Real data. AI-powered research.
+            </p>
+          </div>
+          <div className={styles.heroTool}>
+            <AuditTool />
+          </div>
+        </header>
 
         {/* What the audit checks */}
         <section className={styles.section} aria-labelledby='checks-heading'>

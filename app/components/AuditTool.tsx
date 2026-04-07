@@ -274,9 +274,7 @@ function AuditForm({
   onSubmit: (e: React.FormEvent) => void;
 }) {
   return (
-    <div
-      className={`flex flex-1 flex-col items-center justify-center px-4 py-16 ${styles.formWrap}`}
-    >
+    <div className={`flex flex-col items-center px-4 py-4 ${styles.formWrap}`}>
       <div className={styles.formCard}>
         <form onSubmit={onSubmit} noValidate className={styles.form}>
           <div className={styles.fieldGroup}>
