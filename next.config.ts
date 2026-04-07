@@ -1,7 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/free-local-seo-audit",
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

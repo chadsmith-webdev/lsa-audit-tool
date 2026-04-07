@@ -554,9 +554,10 @@ function AuditResults({
 function CopyLinkButton({ auditId }: { auditId: string }) {
   const [copied, setCopied] = useState(false);
   const siteUrl =
-    typeof window !== "undefined"
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    (typeof window !== "undefined"
       ? window.location.origin
-      : "https://localsearchally.com";
+      : "https://audit.localsearchally.com");
 
   async function handleCopy() {
     const url = `${siteUrl}/audit/${auditId}`;
