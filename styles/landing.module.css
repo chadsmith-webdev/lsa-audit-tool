@@ -11,6 +11,8 @@
 /* ─── Hero row (copy + tool side by side) ───────────────────────────────── */
 
 .heroRow {
+  position: relative;
+  overflow: hidden;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 48px;
@@ -22,41 +24,90 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+/* Radial glow — top right quadrant */
+.heroRow::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 65%;
+  height: 70%;
+  background: radial-gradient(
+    ellipse,
+    rgba(123, 175, 212, 0.07) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Subtle grid lines */
+.heroRow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(123, 175, 212, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(123, 175, 212, 0.025) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none;
+  z-index: 0;
+}
+
 .heroCopy {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 1.75rem;
+  position: relative;
+  z-index: 1;
 }
 
 .heroTool {
   width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 @media (max-width: 860px) {
   .heroRow {
     grid-template-columns: 1fr;
-    padding: 48px 24px 56px;
+    padding: 48px var(--page-gutter) 56px;
     gap: 40px;
   }
 }
 
 .eyebrow {
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--carolina);
-  margin-bottom: 20px;
+  animation: fadeUp 0.6s ease-out 0.2s both;
+}
+
+.eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: var(--carolina);
+  opacity: 0.6;
+  flex-shrink: 0;
 }
 
 .heroTitle {
-  font-family: var(--font-heading);
-  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 3rem);
   font-weight: 700;
   line-height: 1.1;
-  color: var(--white);
-  margin: 0 0 20px;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  animation: fadeUp 0.6s ease-out 0.35s both;
 }
 
 .heroTitle em {
@@ -65,11 +116,12 @@
 }
 
 .heroSub {
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  color: rgba(255, 255, 255, 0.65);
-  max-width: 520px;
-  line-height: 1.65;
-  margin: 0 0 8px;
+  font-family: var(--font-ui);
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
+  color: var(--muted);
+  max-width: 540px;
+  line-height: 1.75;
+  animation: fadeUp 0.6s ease-out 0.45s both;
 }
 
 .heroClaim {
@@ -406,18 +458,19 @@ details[open] > .faqA {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 20px;
+  animation: fadeUp 0.6s ease-out 0.55s both;
 }
 
 .heroPill {
   display: inline-flex;
   align-items: center;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  color: rgba(248, 249, 250, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 3px;
   padding: 5px 10px;
 }
