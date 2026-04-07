@@ -278,18 +278,6 @@ function AuditForm({
       className={`flex flex-1 flex-col items-center justify-center px-4 py-16 ${styles.formWrap}`}
     >
       <div className={styles.formCard}>
-        <div className={styles.formHeader}>
-          <span className={styles.eyebrow}>Free Local SEO Audit</span>
-          <h1 className={styles.formTitle}>
-            See exactly how your business
-            <br />
-            shows up in Google
-          </h1>
-          <p className={styles.formSub}>
-            Real audit. Real data. 60–90 seconds.
-          </p>
-        </div>
-
         <form onSubmit={onSubmit} noValidate className={styles.form}>
           <div className={styles.fieldGroup}>
             <label className={styles.label} htmlFor='businessName'>
