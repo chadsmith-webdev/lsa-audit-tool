@@ -47,6 +47,12 @@ body {
 
 body {
   background: var(--bg);
+  background-image: radial-gradient(
+    circle,
+    color-mix(in oklch, var(--carolina) 10%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 28px 28px;
   color: var(--text);
   font-family: var(--font-ui);
   -webkit-font-smoothing: antialiased;

@@ -171,19 +171,16 @@
 }
 
 .reasonNum {
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(123, 175, 212, 0.12);
-  color: var(--carolina);
-  font-size: 13px;
-  font-weight: 700;
   font-family: var(--font-mono);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 2px;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--carolina);
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+  line-height: 1;
+  min-width: 44px;
+  opacity: 0.55;
+  padding-top: 2px;
 }
 
 .reasonText {
@@ -338,4 +335,198 @@ details[open] > .faqA {
   outline: 2px solid var(--carolina);
   outline-offset: 3px;
   opacity: 1;
+}
+
+/* ─── Site nav ─────────────────────────────────────────────────────────────── */
+
+.siteNav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.navLogo {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--white);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  transition: color 0.15s ease;
+}
+
+.navLogo:hover {
+  color: var(--carolina);
+}
+
+.navDivider {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 14px;
+  user-select: none;
+}
+
+.navTagline {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  flex: 1;
+}
+
+.navCta {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--carolina);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: opacity 0.15s ease;
+}
+
+.navCta:hover {
+  opacity: 0.72;
+}
+
+.navCta:focus-visible {
+  outline: 2px solid var(--carolina);
+  outline-offset: 3px;
+}
+
+@media (max-width: 860px) {
+  .siteNav {
+    padding: 18px 24px;
+  }
+
+  .navTagline {
+    display: none;
+  }
+}
+
+/* ─── Hero pills ───────────────────────────────────────────────────────── */
+
+.heroPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.heroPill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 3px;
+  padding: 5px 10px;
+}
+
+/* ─── Site footer ───────────────────────────────────────────────────────── */
+
+.siteFooter {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.footerInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 56px 40px 40px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 64px;
+  align-items: start;
+}
+
+.footerBrand {
+  max-width: 280px;
+}
+
+.footerLogo {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--white);
+  text-decoration: none;
+  display: block;
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+  transition: color 0.15s ease;
+}
+
+.footerLogo:hover {
+  color: var(--carolina);
+}
+
+.footerTagline {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.3);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.footerColumns {
+  display: flex;
+  gap: 48px;
+}
+
+.footerColHead {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--carolina);
+  margin: 0 0 14px;
+}
+
+.footerLinks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footerLinks a {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footerLinks a:hover {
+  color: var(--white);
+}
+
+.footerBottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 40px;
+}
+
+.footerBottom p {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.22);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 860px) {
+  .footerInner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 40px 24px 32px;
+  }
+
+  .footerBottom {
+    padding: 16px 24px;
+  }
 }

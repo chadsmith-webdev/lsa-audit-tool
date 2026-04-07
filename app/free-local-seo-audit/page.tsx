@@ -67,21 +67,38 @@ export default function FreeLocalSEOAuditPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
 
+      {/* Site nav */}
+      <nav className={styles.siteNav} aria-label='Site navigation'>
+        <a href='https://localsearchally.com' className={styles.navLogo}>
+          Local Search Ally
+        </a>
+        <span className={styles.navDivider} aria-hidden='true'>
+          ·
+        </span>
+        <span className={styles.navTagline}>NWA Contractor SEO</span>
+        <a href='https://localsearchally.com/contact' className={styles.navCta}>
+          Let&apos;s Talk →
+        </a>
+      </nav>
+
       <main>
         {/* Hero + Tool — two-column above the fold */}
         <header className={styles.heroRow} id='top'>
           <div className={styles.heroCopy}>
-            <span className={styles.eyebrow}>Free Tool</span>
+            <span className={styles.eyebrow}>FREE TOOL · LSA</span>
             <h1 className={styles.heroTitle}>
-              See Exactly How Your Business Shows Up in{" "}
-              <span className={styles.heroAccent}>Google</span>
+              See Exactly How Your Business
+              <br />
+              Shows Up in <span className={styles.heroAccent}>Google</span>
             </h1>
             <p className={styles.heroSub}>
               Enter your business info. Get a real audit in 90 seconds.
             </p>
-            <p className={styles.heroClaim}>
-              No signup required. Real data. AI-powered research.
-            </p>
+            <div className={styles.heroPills}>
+              <span className={styles.heroPill}>Free · No Email Required</span>
+              <span className={styles.heroPill}>Results in 90 Seconds</span>
+              <span className={styles.heroPill}>AI-Powered Research</span>
+            </div>
           </div>
           <div className={styles.heroTool}>
             <AuditTool />
@@ -90,7 +107,7 @@ export default function FreeLocalSEOAuditPage() {
 
         {/* What the audit checks */}
         <section className={styles.section} aria-labelledby='checks-heading'>
-          <p className={styles.sectionLabel}>What we check</p>
+          <p className={styles.sectionLabel}>DIAGNOSTIC · 7 FACTORS</p>
           <h2 className={styles.sectionTitle} id='checks-heading'>
             7 factors that determine
             <br />
@@ -101,12 +118,16 @@ export default function FreeLocalSEOAuditPage() {
             — not guesses. Every section gets a score, a plain-English finding,
             and a specific next step.
           </p>
-          <div className={styles.checksGrid}>
-            {AUDIT_CHECKS.map((c) => (
-              <div key={c.name} className={styles.checkCard}>
-                <span className={styles.checkIcon}>{c.icon}</span>
-                <p className={styles.checkName}>{c.name}</p>
-                <p className={styles.checkDesc}>{c.desc}</p>
+          <div className={styles.diagnosticList}>
+            {AUDIT_CHECKS.map((c, i) => (
+              <div key={c.name} className={styles.diagnosticRow}>
+                <span className={styles.diagnosticIdx} aria-hidden='true'>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div className={styles.diagnosticContent}>
+                  <p className={styles.diagnosticName}>{c.name}</p>
+                  <p className={styles.diagnosticDesc}>{c.desc}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -114,7 +135,7 @@ export default function FreeLocalSEOAuditPage() {
 
         {/* Why contractors use it */}
         <section className={styles.section} aria-labelledby='why-heading'>
-          <p className={styles.sectionLabel}>Why it works</p>
+          <p className={styles.sectionLabel}>WHY IT WORKS</p>
           <h2 className={styles.sectionTitle} id='why-heading'>
             Why NWA contractors use it
           </h2>
@@ -122,7 +143,7 @@ export default function FreeLocalSEOAuditPage() {
             {REASONS.map((r, i) => (
               <div key={i} className={styles.reasonItem}>
                 <span className={styles.reasonNum} aria-hidden='true'>
-                  {i + 1}
+                  {String(i + 1).padStart(2, "0")}
                 </span>
                 <div className={styles.reasonText}>
                   <p className={styles.reasonTitle}>{r.title}</p>
@@ -135,7 +156,7 @@ export default function FreeLocalSEOAuditPage() {
 
         {/* What you get */}
         <section className={styles.section} aria-labelledby='get-heading'>
-          <p className={styles.sectionLabel}>What you get</p>
+          <p className={styles.sectionLabel}>YOUR REPORT</p>
           <h2 className={styles.sectionTitle} id='get-heading'>
             A complete picture of your
             <br />
@@ -166,7 +187,7 @@ export default function FreeLocalSEOAuditPage() {
 
         {/* FAQ */}
         <section className={styles.section} aria-labelledby='faq-heading'>
-          <p className={styles.sectionLabel}>FAQ</p>
+          <p className={styles.sectionLabel}>FAQ · COMMON QUESTIONS</p>
           <h2 className={styles.sectionTitle} id='faq-heading'>
             Frequently asked questions
           </h2>
@@ -181,15 +202,81 @@ export default function FreeLocalSEOAuditPage() {
         </section>
       </main>
 
-      {/* Footer CTA */}
-      <footer className={styles.footerCta}>
-        <p className={styles.footerCtaTitle}>Ready to see where you stand?</p>
+      {/* CTA section */}
+      <section className={styles.footerCta} aria-labelledby='cta-heading'>
+        <p className={styles.footerCtaTitle} id='cta-heading'>
+          Ready to see where you stand?
+        </p>
         <p className={styles.footerCtaSub}>
           Free. No signup. Results in 90 seconds.
         </p>
         <a href='#top' className={styles.ctaBtn}>
           Run My Free Audit →
         </a>
+      </section>
+
+      {/* Site footer */}
+      <footer className={styles.siteFooter}>
+        <div className={styles.footerInner}>
+          <div className={styles.footerBrand}>
+            <a href='https://localsearchally.com' className={styles.footerLogo}>
+              Local Search Ally
+            </a>
+            <p className={styles.footerTagline}>
+              The best contractor in town shouldn&apos;t be the hardest to find.
+            </p>
+          </div>
+          <div className={styles.footerColumns}>
+            <div>
+              <p className={styles.footerColHead}>Services</p>
+              <ul className={styles.footerLinks}>
+                <li>
+                  <a href='https://localsearchally.com/services#local-seo'>
+                    Local SEO
+                  </a>
+                </li>
+                <li>
+                  <a href='https://localsearchally.com/services#web-design'>
+                    Web Design
+                  </a>
+                </li>
+                <li>
+                  <a href='https://localsearchally.com/services#gbp'>
+                    GBP Optimization
+                  </a>
+                </li>
+                <li>
+                  <a href='https://localsearchally.com/services#reputation'>
+                    Reputation
+                  </a>
+                </li>
+                <li>
+                  <a href='#top'>Free SEO Audit</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <p className={styles.footerColHead}>Company</p>
+              <ul className={styles.footerLinks}>
+                <li>
+                  <a href='https://localsearchally.com/about'>About</a>
+                </li>
+                <li>
+                  <a href='https://localsearchally.com/blog'>Blog</a>
+                </li>
+                <li>
+                  <a href='https://localsearchally.com/portfolio'>Portfolio</a>
+                </li>
+                <li>
+                  <a href='https://localsearchally.com/contact'>Contact</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className={styles.footerBottom}>
+          <p>© 2026 Local Search Ally · Siloam Springs, AR</p>
+        </div>
       </footer>
     </>
   );
