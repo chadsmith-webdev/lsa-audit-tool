@@ -19,6 +19,11 @@
   --status-green: #22c55e;
   --status-yellow: #eab308;
   --status-red: #ef4444;
+
+  /* Nav tokens — matches main site */
+  --border: rgba(255, 255, 255, 0.08);
+  --muted: rgba(255, 255, 255, 0.55);
+  --page-gutter: 40px;
 }
 
 /* ─── Tailwind theme bridge ─────────────────────────────── */

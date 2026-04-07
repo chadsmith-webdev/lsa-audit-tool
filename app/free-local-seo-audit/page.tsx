@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AuditTool from "@/app/components/AuditTool";
+import SiteNav from "@/app/components/SiteNav";
 import styles from "@/styles/landing.module.css";
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
@@ -67,21 +68,9 @@ export default function FreeLocalSEOAuditPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
 
-      {/* Site nav */}
-      <nav className={styles.siteNav} aria-label='Site navigation'>
-        <a href='https://localsearchally.com' className={styles.navLogo}>
-          Local Search Ally
-        </a>
-        <span className={styles.navDivider} aria-hidden='true'>
-          ·
-        </span>
-        <span className={styles.navTagline}>NWA Contractor SEO</span>
-        <a href='https://localsearchally.com/contact' className={styles.navCta}>
-          Let&apos;s Talk →
-        </a>
-      </nav>
+      <SiteNav />
 
-      <main>
+      <main className={styles.mainContent}>
         {/* Hero + Tool — two-column above the fold */}
         <header className={styles.heroRow} id='top'>
           <div className={styles.heroCopy}>
