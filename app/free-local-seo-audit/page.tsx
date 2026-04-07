@@ -123,21 +123,15 @@ export default function FreeLocalSEOAuditPage() {
           <ul className={styles.getList} role='list'>
             {GET_ITEMS.map((item, i) => (
               <li key={i} className={styles.getItem}>
-                <span className={styles.getCheck} aria-hidden='true'>
-                  <svg
-                    width='10'
-                    height='10'
-                    viewBox='0 0 12 12'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='2'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                  >
-                    <polyline points='2 6 5 9 10 3' />
-                  </svg>
+                <span className={styles.getNum}>
+                  {String(i + 1).padStart(2, "0")}
                 </span>
-                {item}
+                <div className={styles.getBody}>
+                  <span className={styles.getLabel}>{item.label}</span>
+                  <span className={styles.getTitle}>{item.title}</span>
+                  <span className={styles.getDesc}>{item.body}</span>
+                </div>
+                <span className={styles.getBadge}>Included</span>
               </li>
             ))}
           </ul>
@@ -202,13 +196,41 @@ const REASONS = [
 ];
 
 const GET_ITEMS = [
-  "A score out of 10 for all 7 local SEO factors",
-  "Plain-English findings — no jargon, just business impact",
-  "A specific next step for every section",
-  "Your top 3 highest-impact priorities",
-  "A competitor comparison for your trade and city",
-  "A branded PDF report delivered to your email",
-  "A permanent shareable URL for your audit",
+  {
+    label: "Scoring",
+    title: "Scores for all 7 local SEO factors",
+    body: "Every category is rated 1–10 with a traffic-light status so you know at a glance where you stand.",
+  },
+  {
+    label: "Findings",
+    title: "Plain-English findings",
+    body: "No jargon — every finding describes the business impact in plain terms a contractor can act on.",
+  },
+  {
+    label: "Actions",
+    title: "A specific next step per section",
+    body: "Each section ends with one high-leverage action you can take this week — not a vague recommendation.",
+  },
+  {
+    label: "Priorities",
+    title: "Your top 3 highest-impact priorities",
+    body: "The audit ranks your biggest opportunities so you know exactly where to focus your time and budget.",
+  },
+  {
+    label: "Competitors",
+    title: "A competitor comparison",
+    body: "See how the top 3 businesses ranking in your Map Pack compare to you on GBP, reviews, and web presence.",
+  },
+  {
+    label: "PDF Report",
+    title: "A branded PDF report by email",
+    body: "Unlock the full report with your email and get a formatted PDF delivered instantly — yours to keep.",
+  },
+  {
+    label: "Shareable URL",
+    title: "A permanent shareable link",
+    body: "Every audit gets its own URL. Send it to a developer, a partner, or your team — no login required to view.",
+  },
 ];
 
 const FAQS = [
