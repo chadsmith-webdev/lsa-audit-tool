@@ -1,4 +1,12 @@
 import { supabase } from "@/lib/supabase";
+import {
+  fetchGBPData,
+  fetchPageSpeedData,
+  formatGBPBlock,
+  formatPageSpeedBlock,
+  type GBPData,
+  type PageSpeedData,
+} from "@/lib/prefetch";
 
 export const maxDuration = 120;
 
@@ -50,13 +58,13 @@ SCORING:
 - 5–7  → status: "yellow"
 - 1–4  → status: "red"
 
+PRE-FETCHED DATA: The audit prompt will contain a PRE-FETCHED DATA block with authoritative GBP and PageSpeed data pulled directly from Google APIs. You MUST use these values verbatim for the gbp and technical sections — do not contradict or override them with web search findings. If the data says GBP_EXISTS: NO, score gbp as red regardless of what search shows.
+
 SEARCH STRATEGY:
-- Search "[business name] [city]" → GBP panel, photo count, review count
-- Search "[business name] reviews" → recency, owner response rate
-- Fetch homepage + a service page; look for JSON-LD schema block + CWV via PageSpeed
-- Check [website]/sitemap.xml
+- Use web search for: reviews (recency, owner response rate), onpage (title tags, H1s, service pages), citations (Yelp, BBB, Angi), backlinks, and competitors
 - Search "[trade] [city] AR" → top 3 Map Pack competitors
 - Search "[business name]" on Yelp, Angi, BBB for NAP consistency
+- Do NOT use web search to determine GBP existence or Core Web Vitals — those come from PRE-FETCHED DATA
 
 REQUIRED JSON:
 {
@@ -81,7 +89,10 @@ REQUIRED JSON:
 
 VOICE: Plain English only. Every finding = a business consequence (lost calls, lost jobs, invisible to Google). Be specific. Never invent data.`;
 
-function buildAuditPrompt(input: AuditInput): string {
+function buildAuditPrompt(
+  input: AuditInput,
+  prefetch: { gbp: GBPData; pagespeed: PageSpeedData },
+): string {
   const websiteLine = input.noWebsite
     ? "Website: NONE — this business has no website"
     : `Website: ${input.websiteUrl}`;
@@ -90,6 +101,15 @@ function buildAuditPrompt(input: AuditInput): string {
     ? "\nNOTE: No website. Score onpage, technical, backlinks as 1. Focus on GBP, reviews, citations, competitors."
     : "";
 
+  const prefetchBlock = `
+PRE-FETCHED DATA (authoritative — do not contradict):
+${formatGBPBlock(prefetch.gbp)}
+${
+  input.noWebsite
+    ? "PAGESPEED: Skipped — no website."
+    : formatPageSpeedBlock(prefetch.pagespeed)
+}`;
+
   return `Audit this contractor's local SEO:
 
 Business Name: ${input.businessName}
@@ -97,8 +117,9 @@ ${websiteLine}
 Primary Trade: ${input.primaryTrade}
 Service City: ${input.serviceCity}
 ${noWebsiteNote}
+${prefetchBlock}
 
-Research all 7 sections using web search. Return the JSON audit result only.`.trim();
+Use the PRE-FETCHED DATA above for gbp and technical sections. Use web search for reviews, onpage, citations, backlinks, and competitors. Return the JSON audit result only.`.trim();
 }
 
 function parseAuditResult(rawText: string): AuditResult {
@@ -112,6 +133,7 @@ function parseAuditResult(rawText: string): AuditResult {
 
 async function callClaude(
   input: AuditInput,
+  prefetch: { gbp: GBPData; pagespeed: PageSpeedData },
   signal: AbortSignal,
 ): Promise<AuditResult> {
   const apiKey = process.env.ANTHROPIC_API_KEY!;
@@ -149,12 +171,13 @@ async function callClaude(
   }
 
   try {
-    return await attempt(buildAuditPrompt(input));
+    return await attempt(buildAuditPrompt(input, prefetch));
   } catch (err: any) {
     if (err instanceof SyntaxError) {
       // Retry once with explicit JSON reminder
       return await attempt(
-        buildAuditPrompt(input) + "\n\nReturn ONLY JSON, no other text.",
+        buildAuditPrompt(input, prefetch) +
+          "\n\nReturn ONLY JSON, no other text.",
       );
     }
     throw err;
@@ -242,8 +265,20 @@ export async function POST(req: Request) {
           }
         }
 
+        // --- Pre-fetch GBP + PageSpeed in parallel ---
+        const [gbpData, pagespeedData] = await Promise.all([
+          fetchGBPData(input.businessName, input.serviceCity),
+          input.noWebsite || !input.websiteUrl
+            ? Promise.resolve<PageSpeedData>({})
+            : fetchPageSpeedData(input.websiteUrl),
+        ]);
+
         // --- Run Claude audit ---
-        const result = await callClaude(input, abortController.signal);
+        const result = await callClaude(
+          input,
+          { gbp: gbpData, pagespeed: pagespeedData },
+          abortController.signal,
+        );
         clearTimeout(timer);
 
         // --- Stream sections with 150ms stagger ---
