@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import AuditTool from "@/app/components/AuditTool";
 import SiteNav from "@/app/components/SiteNav";
 import SiteFooter from "@/app/components/SiteFooter";
+import HeroSection from "@/app/components/HeroSection";
 import styles from "@/styles/landing.module.css";
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
@@ -72,28 +72,7 @@ export default function FreeLocalSEOAuditPage() {
       <SiteNav />
 
       <main className={styles.mainContent}>
-        {/* Hero + Tool — two-column above the fold */}
-        <header className={styles.heroRow} id='top'>
-          <div className={styles.heroCopy}>
-            <span className={styles.eyebrow}>FREE TOOL · LSA</span>
-            <h1 className={styles.heroTitle}>
-              See Exactly How Your Business
-              <br />
-              Shows Up in <span className={styles.heroAccent}>Google</span>
-            </h1>
-            <p className={styles.heroSub}>
-              Enter your business info. Get a real audit in 90 seconds.
-            </p>
-            <div className={styles.heroPills}>
-              <span className={styles.heroPill}>Free · No Email Required</span>
-              <span className={styles.heroPill}>Results in 90 Seconds</span>
-              <span className={styles.heroPill}>AI-Powered Research</span>
-            </div>
-          </div>
-          <div className={styles.heroTool}>
-            <AuditTool />
-          </div>
-        </header>
+        <HeroSection />
 
         {/* What the audit checks */}
         <section className={styles.section} aria-labelledby='checks-heading'>
