@@ -1,5 +1,32 @@
 import type { Metadata } from "next";
+import {
+  Bricolage_Grotesque,
+  Space_Grotesk,
+  JetBrains_Mono,
+} from "next/font/google";
 import "./globals.css";
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  display: "swap",
+  weight: "variable",
+  axes: ["opsz"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-ui",
+  display: "swap",
+  weight: ["400", "500", "600"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+  weight: ["400", "600"],
+});
 
 export const metadata: Metadata = {
   title: "Free Local SEO Audit for Contractors | Local Search Ally",
@@ -13,7 +40,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en' className='h-full'>
+    <html
+      lang='en'
+      className={`h-full ${bricolage.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+    >
       <body className='min-h-full flex flex-col'>{children}</body>
     </html>
   );

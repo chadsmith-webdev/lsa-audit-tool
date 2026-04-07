@@ -68,12 +68,12 @@ export default function FreeLocalSEOAuditPage() {
       />
 
       {/* Hero */}
-      <header className={styles.hero}>
+      <header className={styles.hero} id='top'>
         <span className={styles.eyebrow}>Free Tool</span>
         <h1 className={styles.heroTitle}>
           See Exactly How Your Business
           <br />
-          Shows Up in <em>Google</em> — Free
+          Shows Up in <span className={styles.heroAccent}>Google</span> — Free
         </h1>
         <p className={styles.heroSub}>
           Enter your business info. Get a real audit in 90 seconds.
@@ -83,96 +83,107 @@ export default function FreeLocalSEOAuditPage() {
         </p>
       </header>
 
-      {/* Tool — above the fold */}
-      <div className={styles.toolSection}>
-        <AuditTool />
-      </div>
-
-      {/* What the audit checks */}
-      <section className={styles.section} aria-labelledby='checks-heading'>
-        <p className={styles.sectionLabel}>What we check</p>
-        <h2 className={styles.sectionTitle} id='checks-heading'>
-          7 factors that determine
-          <br />
-          whether customers find you
-        </h2>
-        <p className={styles.sectionBody}>
-          The audit researches your actual online presence using live web data —
-          not guesses. Every section gets a score, a plain-English finding, and
-          a specific next step.
-        </p>
-        <div className={styles.checksGrid}>
-          {AUDIT_CHECKS.map((c) => (
-            <div key={c.name} className={styles.checkCard}>
-              <span className={styles.checkIcon} aria-hidden='true'>
-                {c.icon}
-              </span>
-              <p className={styles.checkName}>{c.name}</p>
-              <p className={styles.checkDesc}>{c.desc}</p>
-            </div>
-          ))}
+      <main>
+        {/* Tool — above the fold */}
+        <div className={styles.toolSection}>
+          <AuditTool />
         </div>
-      </section>
 
-      {/* Why contractors use it */}
-      <section className={styles.section} aria-labelledby='why-heading'>
-        <p className={styles.sectionLabel}>Why it works</p>
-        <h2 className={styles.sectionTitle} id='why-heading'>
-          Why NWA contractors use it
-        </h2>
-        <div className={styles.reasons}>
-          {REASONS.map((r, i) => (
-            <div key={i} className={styles.reasonItem}>
-              <span className={styles.reasonNum} aria-hidden='true'>
-                {i + 1}
-              </span>
-              <div className={styles.reasonText}>
-                <p className={styles.reasonTitle}>{r.title}</p>
-                <p className={styles.reasonBody}>{r.body}</p>
+        {/* What the audit checks */}
+        <section className={styles.section} aria-labelledby='checks-heading'>
+          <p className={styles.sectionLabel}>What we check</p>
+          <h2 className={styles.sectionTitle} id='checks-heading'>
+            7 factors that determine
+            <br />
+            whether customers find you
+          </h2>
+          <p className={styles.sectionBody}>
+            The audit researches your actual online presence using live web data
+            — not guesses. Every section gets a score, a plain-English finding,
+            and a specific next step.
+          </p>
+          <div className={styles.checksGrid}>
+            {AUDIT_CHECKS.map((c) => (
+              <div key={c.name} className={styles.checkCard}>
+                <span className={styles.checkIcon}>{c.icon}</span>
+                <p className={styles.checkName}>{c.name}</p>
+                <p className={styles.checkDesc}>{c.desc}</p>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
 
-      {/* What you get */}
-      <section className={styles.section} aria-labelledby='get-heading'>
-        <p className={styles.sectionLabel}>What you get</p>
-        <h2 className={styles.sectionTitle} id='get-heading'>
-          A complete picture of your
-          <br />
-          local search presence
-        </h2>
-        <ul className={styles.getList} role='list'>
-          {GET_ITEMS.map((item, i) => (
-            <li key={i} className={styles.getItem}>
-              <span className={styles.getCheck} aria-hidden='true'>
-                ✓
-              </span>
-              {item}
-            </li>
-          ))}
-        </ul>
-      </section>
+        {/* Why contractors use it */}
+        <section className={styles.section} aria-labelledby='why-heading'>
+          <p className={styles.sectionLabel}>Why it works</p>
+          <h2 className={styles.sectionTitle} id='why-heading'>
+            Why NWA contractors use it
+          </h2>
+          <div className={styles.reasons}>
+            {REASONS.map((r, i) => (
+              <div key={i} className={styles.reasonItem}>
+                <span className={styles.reasonNum} aria-hidden='true'>
+                  {i + 1}
+                </span>
+                <div className={styles.reasonText}>
+                  <p className={styles.reasonTitle}>{r.title}</p>
+                  <p className={styles.reasonBody}>{r.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
-      {/* FAQ */}
-      <section className={styles.section} aria-labelledby='faq-heading'>
-        <p className={styles.sectionLabel}>FAQ</p>
-        <h2 className={styles.sectionTitle} id='faq-heading'>
-          Frequently asked questions
-        </h2>
-        <div className={styles.faqList}>
-          {FAQS.map((faq, i) => (
-            <div key={i} className={styles.faqItem}>
-              <p className={styles.faqQ}>{faq.q}</p>
-              <p className={styles.faqA}>{faq.a}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+        {/* What you get */}
+        <section className={styles.section} aria-labelledby='get-heading'>
+          <p className={styles.sectionLabel}>What you get</p>
+          <h2 className={styles.sectionTitle} id='get-heading'>
+            A complete picture of your
+            <br />
+            local search presence
+          </h2>
+          <ul className={styles.getList} role='list'>
+            {GET_ITEMS.map((item, i) => (
+              <li key={i} className={styles.getItem}>
+                <span className={styles.getCheck} aria-hidden='true'>
+                  <svg
+                    width='10'
+                    height='10'
+                    viewBox='0 0 12 12'
+                    fill='none'
+                    stroke='currentColor'
+                    strokeWidth='2'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                  >
+                    <polyline points='2 6 5 9 10 3' />
+                  </svg>
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* FAQ */}
+        <section className={styles.section} aria-labelledby='faq-heading'>
+          <p className={styles.sectionLabel}>FAQ</p>
+          <h2 className={styles.sectionTitle} id='faq-heading'>
+            Frequently asked questions
+          </h2>
+          <div className={styles.faqList}>
+            {FAQS.map((faq, i) => (
+              <details key={i} className={styles.faqItem}>
+                <summary className={styles.faqQ}>{faq.q}</summary>
+                <p className={styles.faqA}>{faq.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+      </main>
 
       {/* Footer CTA */}
-      <div className={styles.footerCta}>
+      <footer className={styles.footerCta}>
         <p className={styles.footerCtaTitle}>Ready to see where you stand?</p>
         <p className={styles.footerCtaSub}>
           Free. No signup. Results in 90 seconds.
@@ -180,7 +191,7 @@ export default function FreeLocalSEOAuditPage() {
         <a href='#top' className={styles.ctaBtn}>
           Run My Free Audit →
         </a>
-      </div>
+      </footer>
     </>
   );
 }
@@ -189,37 +200,143 @@ export default function FreeLocalSEOAuditPage() {
 
 const AUDIT_CHECKS = [
   {
-    icon: "📍",
+    icon: (
+      <svg
+        width='20'
+        height='20'
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke='currentColor'
+        strokeWidth='1.75'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        aria-hidden='true'
+      >
+        <path d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z' />
+        <circle cx='12' cy='9' r='2.5' />
+      </svg>
+    ),
     name: "Google Business Profile",
     desc: "Claimed, complete, keyword-optimized, active with posts and photos.",
   },
   {
-    icon: "⭐",
+    icon: (
+      <svg
+        width='20'
+        height='20'
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke='currentColor'
+        strokeWidth='1.75'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        aria-hidden='true'
+      >
+        <polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2' />
+      </svg>
+    ),
     name: "Reviews",
     desc: "Quantity, recency, average rating, and whether you're responding.",
   },
   {
-    icon: "🔍",
+    icon: (
+      <svg
+        width='20'
+        height='20'
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke='currentColor'
+        strokeWidth='1.75'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        aria-hidden='true'
+      >
+        <circle cx='11' cy='11' r='8' />
+        <path d='m21 21-4.35-4.35' />
+      </svg>
+    ),
     name: "On-Page SEO",
     desc: "Title tags, H1s, service pages, and keyword targeting for your trade and city.",
   },
   {
-    icon: "⚡",
+    icon: (
+      <svg
+        width='20'
+        height='20'
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke='currentColor'
+        strokeWidth='1.75'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        aria-hidden='true'
+      >
+        <polygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2' />
+      </svg>
+    ),
     name: "Technical SEO",
     desc: "Core Web Vitals, mobile-friendliness, HTTPS, sitemap, and schema markup.",
   },
   {
-    icon: "🗂️",
+    icon: (
+      <svg
+        width='20'
+        height='20'
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke='currentColor'
+        strokeWidth='1.75'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        aria-hidden='true'
+      >
+        <path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z' />
+        <polyline points='14 2 14 8 20 8' />
+        <line x1='16' y1='13' x2='8' y2='13' />
+        <line x1='16' y1='17' x2='8' y2='17' />
+        <polyline points='10 9 9 9 8 9' />
+      </svg>
+    ),
     name: "Citations",
     desc: "NAP consistency across Google, Yelp, BBB, Angi, and HomeAdvisor.",
   },
   {
-    icon: "🔗",
+    icon: (
+      <svg
+        width='20'
+        height='20'
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke='currentColor'
+        strokeWidth='1.75'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        aria-hidden='true'
+      >
+        <path d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71' />
+        <path d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71' />
+      </svg>
+    ),
     name: "Backlinks",
     desc: "Domain authority signals, local and industry links, anchor text quality.",
   },
   {
-    icon: "🏆",
+    icon: (
+      <svg
+        width='20'
+        height='20'
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke='currentColor'
+        strokeWidth='1.75'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        aria-hidden='true'
+      >
+        <circle cx='12' cy='8' r='6' />
+        <path d='M15.477 12.89 17 22l-5-3-5 3 1.523-9.11' />
+      </svg>
+    ),
     name: "Competitors",
     desc: "Top 3 Map Pack results for your trade and city — and how you compare.",
   },

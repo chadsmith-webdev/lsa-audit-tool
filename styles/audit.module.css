@@ -9,7 +9,6 @@
 /* ─── Form ─────────────────────────────────────────────────────────────────── */
 
 .formWrap {
-  min-height: 100vh;
 }
 
 .formCard {
@@ -82,7 +81,8 @@
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  padding: 11px 14px;
+  padding: 12px 14px;
+  min-height: 44px;
   width: 100%;
   transition:
     border-color 0.15s,
@@ -147,9 +147,9 @@
   font-family: var(--font-ui);
   font-size: 13px;
   line-height: 1.55;
-  color: var(--status-red);
-  background: rgba(239, 68, 68, 0.07);
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: var(--status-yellow);
+  background: rgba(234, 179, 8, 0.07);
+  border: 1px solid rgba(234, 179, 8, 0.2);
   border-radius: 6px;
   padding: 10px 14px;
   margin: 0;
@@ -198,10 +198,21 @@
   transform: scale(0.985);
 }
 
+.submitBtn:focus-visible {
+  outline: 2px solid var(--carolina);
+  outline-offset: 3px;
+  opacity: 1;
+}
+
+@media (max-width: 480px) {
+  .formCard {
+    padding: 32px 24px;
+  }
+}
+
 /* ─── Loading ──────────────────────────────────────────────────────────────── */
 
 .loadingWrap {
-  min-height: 100vh;
 }
 
 .loadingCard {
@@ -267,6 +278,20 @@
   }
   50% {
     opacity: 0.6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sectionChip[data-active="true"] {
+    animation: none;
+  }
+
+  .sectionChip[data-active="true"] .chipIndicator {
+    animation: none;
+  }
+
+  .sectionCard {
+    animation: none;
   }
 }
 
@@ -435,7 +460,7 @@
 
 .topActionsTitle {
   font-family: var(--font-ui);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
