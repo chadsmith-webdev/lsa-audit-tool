@@ -735,6 +735,12 @@ function ScoreGauge({ score, label }: { score: number; label: string }) {
 
 // ─── SectionCard ──────────────────────────────────────────────────────────────
 
+const STATUS_LABELS: Record<AuditSection["status"], string> = {
+  green: "Strong",
+  yellow: "Needs Work",
+  red: "Critical",
+};
+
 function SectionCard({
   section,
   index,
@@ -744,31 +750,53 @@ function SectionCard({
   index: number;
   locked: boolean;
 }) {
+  const num = String(index + 1).padStart(2, "0");
+  const barWidth = `${(section.score / 10) * 100}%`;
+
   return (
     <motion.article
       className={styles.sectionCard}
       data-status={section.status}
       data-locked={locked ? "true" : undefined}
-      style={{ "--i": index } as React.CSSProperties}
       custom={index}
       variants={cardIn}
       initial='hidden'
       animate='visible'
     >
       <div className={styles.cardHead}>
-        <span className={styles.sectionScore}>{section.score}</span>
+        <span className={styles.sectionNum}>{num}</span>
         <div className={styles.cardHeadText}>
           <span className={styles.sectionName}>{section.name}</span>
           <span className={styles.sectionHeadline}>{section.headline}</span>
         </div>
-        <span className={styles.statusDot} aria-label={section.status} />
+        <span
+          className={styles.statusBadge}
+          data-status={section.status}
+          aria-label={`Status: ${STATUS_LABELS[section.status]}`}
+        >
+          {STATUS_LABELS[section.status]}
+        </span>
       </div>
-      <div className={locked ? styles.cardBodyLocked : styles.cardBody}>
-        <p className={styles.finding}>{section.finding}</p>
+
+      <div className={styles.scoreBarWrap}>
+        <div className={styles.scoreTrack} role='presentation'>
+          <div
+            className={styles.scoreBarFill}
+            style={{ width: barWidth } as React.CSSProperties}
+          />
+        </div>
+        <span className={styles.scoreValue}>{section.score}/10</span>
+      </div>
+
+      <div className={locked ? styles.cardBodyLocked : styles.cardBodyGrid}>
+        <div className={styles.findingCol}>
+          <span className={styles.colLabel}>Finding</span>
+          <p className={styles.finding}>{section.finding}</p>
+        </div>
         {section.priority_action && (
-          <div className={styles.priorityAction}>
-            <span className={styles.priorityLabel}>Next step:</span>
-            <span>{section.priority_action}</span>
+          <div className={styles.actionCol}>
+            <span className={styles.colLabel}>Recommended Action</span>
+            <p className={styles.actionText}>{section.priority_action}</p>
           </div>
         )}
       </div>

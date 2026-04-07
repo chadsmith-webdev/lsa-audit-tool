@@ -530,7 +530,7 @@
 .sectionsGrid {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .sectionCard {
@@ -538,58 +538,59 @@
   border-radius: 12px;
   padding: 20px;
   background: rgba(255, 255, 255, 0.02);
-  animation: cardIn 0.4s ease both;
-  animation-delay: calc(var(--i, 0) * 180ms);
   overflow: hidden;
+  position: relative;
 }
 
-@keyframes cardIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Status-colored top accent line */
+.sectionCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
 }
 
 .sectionCard[data-status="green"] {
-  border-color: rgba(34, 197, 94, 0.2);
+  border-color: rgba(34, 197, 94, 0.18);
+}
+.sectionCard[data-status="green"]::before {
+  background: var(--status-green);
+  opacity: 0.6;
 }
 
 .sectionCard[data-status="yellow"] {
-  border-color: rgba(234, 179, 8, 0.2);
+  border-color: rgba(234, 179, 8, 0.18);
+}
+.sectionCard[data-status="yellow"]::before {
+  background: var(--status-yellow);
+  opacity: 0.6;
 }
 
 .sectionCard[data-status="red"] {
-  border-color: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.18);
+}
+.sectionCard[data-status="red"]::before {
+  background: var(--status-red);
+  opacity: 0.6;
 }
 
+/* ── Card head: index · name + headline · status badge ── */
 .cardHead {
   display: flex;
-  align-items: center;
-  gap: 16px;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 14px;
 }
 
-.sectionScore {
+.sectionNum {
   font-family: var(--font-mono);
-  font-size: 24px;
-  font-weight: 600;
-  width: 30px;
-  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.22);
   flex-shrink: 0;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.sectionCard[data-status="green"] .sectionScore {
-  color: var(--status-green);
-}
-.sectionCard[data-status="yellow"] .sectionScore {
-  color: var(--status-yellow);
-}
-.sectionCard[data-status="red"] .sectionScore {
-  color: var(--status-red);
+  padding-top: 3px;
 }
 
 .cardHeadText {
@@ -599,13 +600,13 @@
 
 .sectionName {
   display: block;
-  font-family: var(--font-ui);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.35);
-  margin-bottom: 3px;
+  color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 4px;
 }
 
 .sectionHeadline {
@@ -617,32 +618,82 @@
   line-height: 1.4;
 }
 
-.statusDot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+.statusBadge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
   flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.12);
+}
+.statusBadge[data-status="green"] {
+  color: var(--status-green);
+  background: rgba(34, 197, 94, 0.1);
+}
+.statusBadge[data-status="yellow"] {
+  color: var(--status-yellow);
+  background: rgba(234, 179, 8, 0.1);
+}
+.statusBadge[data-status="red"] {
+  color: var(--status-red);
+  background: rgba(239, 68, 68, 0.1);
 }
 
-.sectionCard[data-status="green"] .statusDot {
+/* ── Score bar ── */
+.scoreBarWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.scoreTrack {
+  flex: 1;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.scoreBarFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sectionCard[data-status="green"] .scoreBarFill {
   background: var(--status-green);
 }
-.sectionCard[data-status="yellow"] .statusDot {
+.sectionCard[data-status="yellow"] .scoreBarFill {
   background: var(--status-yellow);
 }
-.sectionCard[data-status="red"] .statusDot {
+.sectionCard[data-status="red"] .scoreBarFill {
   background: var(--status-red);
 }
 
-.cardBody {
-  margin-top: 16px;
+.scoreValue {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ── Two-column finding / action body ── */
+.cardBodyGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 20px;
   padding-top: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .cardBodyLocked {
-  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 20px;
   padding-top: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   filter: blur(5px);
@@ -651,30 +702,54 @@
   opacity: 0.45;
 }
 
+.findingCol,
+.actionCol {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.actionCol {
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  padding-left: 20px;
+}
+
+.colLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.22);
+}
+
 .finding {
   font-family: var(--font-ui);
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.65;
-  color: rgba(255, 255, 255, 0.6);
-  margin: 0 0 12px;
+  color: rgba(255, 255, 255, 0.58);
+  margin: 0;
 }
 
-.priorityAction {
+.actionText {
   font-family: var(--font-ui);
   font-size: 13px;
-  line-height: 1.5;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 6px;
-  padding: 10px 12px;
-  display: flex;
-  gap: 8px;
-  align-items: flex-start;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0;
 }
 
-.priorityLabel {
-  font-weight: 600;
-  color: var(--carolina);
-  flex-shrink: 0;
+@media (max-width: 520px) {
+  .cardBodyGrid,
+  .cardBodyLocked {
+    grid-template-columns: 1fr;
+  }
+  .actionCol {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 16px;
+  }
 }
 
 /* ─── Email Gate ───────────────────────────────────────────────────────────── */

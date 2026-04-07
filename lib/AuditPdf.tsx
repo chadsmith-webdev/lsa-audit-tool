@@ -150,35 +150,113 @@ const s = StyleSheet.create({
   },
   // Section card
   card: {
-    backgroundColor: "#0e0f11",
     borderRadius: 8,
     padding: 16,
     marginBottom: 12,
+    backgroundColor: "#0c0e11",
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: "#1e2530",
+    overflow: "hidden",
+    position: "relative",
+  },
+  cardAccent: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 2,
   },
   cardHead: {
     flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-    marginBottom: 8,
+    alignItems: "flex-start",
+    gap: 10,
+    marginBottom: 10,
   },
-  cardScore: { fontSize: 22, fontFamily: "Helvetica-Bold", width: 36 },
+  cardNum: {
+    fontSize: 9,
+    color: "#444d58",
+    letterSpacing: 0.5,
+    paddingTop: 2,
+  },
   cardHeadText: { flex: 1 },
   cardName: {
-    fontSize: 10,
-    color: CAROLINA,
-    letterSpacing: 1,
-    marginBottom: 2,
+    fontSize: 8,
+    color: "#6b7a8d",
+    letterSpacing: 1.2,
+    marginBottom: 3,
+    textTransform: "uppercase",
   },
-  cardHeadline: { fontSize: 13, fontFamily: "Helvetica-Bold", color: WHITE },
-  statusDot: { width: 10, height: 10, borderRadius: 5 },
-  finding: { fontSize: 10, color: GRAY, lineHeight: 1.6, marginBottom: 8 },
+  cardHeadline: { fontSize: 12, fontFamily: "Helvetica-Bold", color: WHITE },
+  statusBadge: {
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 3,
+    borderWidth: 1,
+    borderStyle: "solid",
+  },
+  statusBadgeText: {
+    fontSize: 8,
+    fontFamily: "Helvetica-Bold",
+    letterSpacing: 0.6,
+    textTransform: "uppercase",
+  },
+  // Score bar
+  scoreBarWrap: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 12,
+  },
+  scoreTrack: {
+    flex: 1,
+    height: 3,
+    backgroundColor: "#1e2530",
+    borderRadius: 2,
+    overflow: "hidden",
+  },
+  scoreBarFill: {
+    height: 3,
+    borderRadius: 2,
+  },
+  scoreValue: {
+    fontSize: 9,
+    color: "#4a5568",
+  },
+  // Two-column body
+  cardBodyGrid: {
+    flexDirection: "row",
+    gap: 14,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopStyle: "solid",
+    borderTopColor: "#1a1f27",
+  },
+  findingCol: { flex: 5 },
+  actionCol: {
+    flex: 5,
+    borderLeftWidth: 1,
+    borderLeftStyle: "solid",
+    borderLeftColor: "#1a1f27",
+    paddingLeft: 14,
+  },
+  colLabel: {
+    fontSize: 7,
+    color: "#3d4a58",
+    letterSpacing: 1,
+    textTransform: "uppercase",
+    marginBottom: 4,
+    fontFamily: "Helvetica-Bold",
+  },
+  finding: { fontSize: 9.5, color: GRAY, lineHeight: 1.6 },
+  nextStep: { fontSize: 9.5, color: WHITE, lineHeight: 1.6 },
+  // Keep for compat
   nextStepLabel: {
     fontSize: 9,
     color: CAROLINA,
     letterSpacing: 0.8,
     marginBottom: 2,
   },
-  nextStep: { fontSize: 10, color: WHITE, lineHeight: 1.5 },
   // About page
   aboutTitle: {
     fontSize: 24,
@@ -305,43 +383,90 @@ function OverallScorePage({ result }: { result: AuditResult }) {
   );
 }
 
+const STATUS_LABELS_PDF: Record<string, string> = {
+  green: "Strong",
+  yellow: "Needs Work",
+  red: "Critical",
+};
+
 function SectionBreakdownPage({
   sections,
+  startIndex,
   pageNum,
 }: {
   sections: AuditSection[];
+  startIndex: number;
   pageNum: number;
 }) {
   return (
     <Page style={s.page}>
       <Text style={s.sectionLabel}>Section Breakdown</Text>
       <View style={s.divider} />
-      {sections.map((sec) => (
-        <View key={sec.id} style={s.card}>
-          <View style={s.cardHead}>
-            <Text style={{ ...s.cardScore, color: statusColor(sec.status) }}>
-              {sec.score}
-            </Text>
-            <View style={s.cardHeadText}>
-              <Text style={s.cardName}>{sec.name.toUpperCase()}</Text>
-              <Text style={s.cardHeadline}>{sec.headline}</Text>
+      {sections.map((sec, i) => {
+        const color = statusColor(sec.status);
+        const num = String(startIndex + i + 1).padStart(2, "0");
+        const barWidth = `${sec.score * 10}%`;
+        const badgeBg =
+          sec.status === "green"
+            ? "rgba(34,197,94,0.12)"
+            : sec.status === "yellow"
+              ? "rgba(234,179,8,0.12)"
+              : "rgba(239,68,68,0.12)";
+        return (
+          <View key={sec.id} style={s.card}>
+            {/* Top accent */}
+            <View style={{ ...s.cardAccent, backgroundColor: color }} />
+
+            {/* Head: num · name + headline · badge */}
+            <View style={s.cardHead}>
+              <Text style={s.cardNum}>{num}</Text>
+              <View style={s.cardHeadText}>
+                <Text style={s.cardName}>{sec.name.toUpperCase()}</Text>
+                <Text style={s.cardHeadline}>{sec.headline}</Text>
+              </View>
+              <View
+                style={{
+                  ...s.statusBadge,
+                  backgroundColor: badgeBg,
+                  borderColor: color,
+                }}
+              >
+                <Text style={{ ...s.statusBadgeText, color }}>
+                  {STATUS_LABELS_PDF[sec.status] ?? sec.status}
+                </Text>
+              </View>
             </View>
-            <View
-              style={{
-                ...s.statusDot,
-                backgroundColor: statusColor(sec.status),
-              }}
-            />
+
+            {/* Score bar */}
+            <View style={s.scoreBarWrap}>
+              <View style={s.scoreTrack}>
+                <View
+                  style={{
+                    ...s.scoreBarFill,
+                    width: barWidth,
+                    backgroundColor: color,
+                  }}
+                />
+              </View>
+              <Text style={s.scoreValue}>{sec.score}/10</Text>
+            </View>
+
+            {/* Two-column body */}
+            <View style={s.cardBodyGrid}>
+              <View style={s.findingCol}>
+                <Text style={s.colLabel}>FINDING</Text>
+                <Text style={s.finding}>{sec.finding}</Text>
+              </View>
+              {sec.priority_action && (
+                <View style={s.actionCol}>
+                  <Text style={s.colLabel}>RECOMMENDED ACTION</Text>
+                  <Text style={s.nextStep}>{sec.priority_action}</Text>
+                </View>
+              )}
+            </View>
           </View>
-          <Text style={s.finding}>{sec.finding}</Text>
-          {sec.priority_action && (
-            <>
-              <Text style={s.nextStepLabel}>NEXT STEP</Text>
-              <Text style={s.nextStep}>{sec.priority_action}</Text>
-            </>
-          )}
-        </View>
-      ))}
+        );
+      })}
       <Text style={s.pageNum}>{pageNum}</Text>
     </Page>
   );
@@ -387,9 +512,13 @@ export function AuditPdf({ result, trade, city, calendlyUrl }: PdfProps) {
     >
       <CoverPage result={result} trade={trade} city={city} />
       <OverallScorePage result={result} />
-      <SectionBreakdownPage sections={firstHalf} pageNum={3} />
+      <SectionBreakdownPage sections={firstHalf} startIndex={0} pageNum={3} />
       {secondHalf.length > 0 && (
-        <SectionBreakdownPage sections={secondHalf} pageNum={4} />
+        <SectionBreakdownPage
+          sections={secondHalf}
+          startIndex={firstHalf.length}
+          pageNum={4}
+        />
       )}
       <AboutPage calendlyUrl={calendlyUrl} />
     </Document>
