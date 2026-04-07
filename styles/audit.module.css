@@ -20,6 +20,17 @@
   padding: 2rem 2rem 2.5rem;
   position: relative;
   overflow: hidden;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.formCard:hover {
+  border-color: rgba(123, 175, 212, 0.3);
+  box-shadow:
+    0 0 0 1px rgba(123, 175, 212, 0.08),
+    0 0 32px rgba(123, 175, 212, 0.1),
+    0 0 64px rgba(123, 175, 212, 0.05);
 }
 
 .formCard::before {
@@ -215,6 +226,17 @@
   padding: 2rem;
   position: relative;
   overflow: hidden;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.loadingCard:hover {
+  border-color: rgba(123, 175, 212, 0.3);
+  box-shadow:
+    0 0 0 1px rgba(123, 175, 212, 0.08),
+    0 0 32px rgba(123, 175, 212, 0.1),
+    0 0 64px rgba(123, 175, 212, 0.05);
 }
 
 .loadingCard::before {
