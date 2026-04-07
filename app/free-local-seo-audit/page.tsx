@@ -94,7 +94,7 @@ export default function FreeLocalSEOAuditPage() {
         {/* Why contractors use it */}
         <section className={styles.section} aria-labelledby='why-heading'>
           <p className={styles.sectionLabel}>WHY IT WORKS</p>
-          <h2 className={styles.sectionTitle} id='why-heading'>
+          <h2 className={styles.sectionTitleSpaced} id='why-heading'>
             Why NWA contractors use it
           </h2>
           <div className={styles.reasons}>
@@ -115,7 +115,7 @@ export default function FreeLocalSEOAuditPage() {
         {/* What you get */}
         <section className={styles.section} aria-labelledby='get-heading'>
           <p className={styles.sectionLabel}>YOUR REPORT</p>
-          <h2 className={styles.sectionTitle} id='get-heading'>
+          <h2 className={styles.sectionTitleSpaced} id='get-heading'>
             A complete picture of your
             <br />
             local search presence

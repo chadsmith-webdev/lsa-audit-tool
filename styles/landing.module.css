@@ -166,6 +166,15 @@
   line-height: 1.2;
 }
 
+.sectionTitleSpaced {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  color: var(--white);
+  margin: 0 0 32px;
+  line-height: 1.2;
+}
+
 .sectionBody {
   font-size: 16px;
   line-height: 1.75;
