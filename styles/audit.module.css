@@ -14,11 +14,23 @@
 .formCard {
   width: 100%;
   max-width: 480px;
-  border: 1px solid rgba(123, 175, 212, 0.14);
-  border-radius: 16px;
-  padding: 48px 40px;
-  background: rgba(255, 255, 255, 0.025);
-  backdrop-filter: blur(2px);
+  background: rgba(123, 175, 212, 0.04);
+  border: 1px solid rgba(123, 175, 212, 0.12);
+  border-radius: 12px;
+  padding: 2rem 2rem 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.formCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--carolina), transparent);
+  opacity: 0.5;
 }
 
 .eyebrow {
@@ -184,7 +196,7 @@
 
 @media (max-width: 480px) {
   .formCard {
-    padding: 32px 24px;
+    padding: 1.5rem 1.25rem 2rem;
   }
 }
 
@@ -197,6 +209,23 @@
   width: 100%;
   max-width: 400px;
   text-align: center;
+  background: rgba(123, 175, 212, 0.04);
+  border: 1px solid rgba(123, 175, 212, 0.12);
+  border-radius: 12px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.loadingCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--carolina), transparent);
+  opacity: 0.5;
 }
 
 .loadingEyebrow {
