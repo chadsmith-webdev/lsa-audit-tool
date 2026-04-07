@@ -1,7 +1,30 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 import styles from "@/styles/audit.module.css";
+
+// ─── Shared motion variants ───────────────────────────────────────────────────
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  exit: { opacity: 0, y: -8, transition: { duration: 0.25, ease: "easeIn" } },
+};
+
+const stagger: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.07, delayChildren: 0.15 } },
+};
+
+const cardIn: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: "easeOut", delay: i * 0.07 },
+  }),
+};
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -274,7 +297,12 @@ function AuditForm({
   onSubmit: (e: React.FormEvent) => void;
 }) {
   return (
-    <div className={`flex flex-col items-center px-4 py-4 ${styles.formWrap}`}>
+    <motion.div
+      className={`flex flex-col items-center px-4 py-4 ${styles.formWrap}`}
+      variants={fadeUp}
+      initial='hidden'
+      animate='visible'
+    >
       <div className={styles.formCard}>
         <form onSubmit={onSubmit} noValidate className={styles.form}>
           <div className={styles.fieldGroup}>
@@ -385,7 +413,7 @@ function AuditForm({
           </button>
         </form>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -401,8 +429,11 @@ function AuditLoading({
   activeSectionId: string;
 }) {
   return (
-    <div
+    <motion.div
       className={`flex flex-1 flex-col items-center justify-center px-4 ${styles.loadingWrap}`}
+      variants={fadeUp}
+      initial='hidden'
+      animate='visible'
     >
       <div className={styles.loadingCard}>
         <p className={styles.loadingEyebrow}>Running audit for</p>
@@ -412,23 +443,44 @@ function AuditLoading({
             const done = doneSections.includes(id);
             const active = !done && id === activeSectionId;
             return (
-              <li
+              <motion.li
                 key={id}
                 className={styles.sectionChip}
                 data-done={done ? "true" : undefined}
                 data-active={active ? "true" : undefined}
                 aria-label={`${SECTION_LABELS[id]}: ${done ? "complete" : active ? "checking" : "pending"}`}
+                animate={{
+                  opacity: done ? 1 : active ? 1 : 0.4,
+                  x: active ? [0, 3, 0] : 0,
+                }}
+                transition={{
+                  opacity: { duration: 0.3 },
+                  x: {
+                    duration: 0.6,
+                    repeat: active ? Infinity : 0,
+                    ease: "easeInOut",
+                  },
+                }}
               >
-                <span className={styles.chipIndicator} aria-hidden='true'>
-                  {done ? "✓" : "·"}
-                </span>
+                <AnimatePresence mode='wait'>
+                  <motion.span
+                    key={done ? "done" : "pending"}
+                    className={styles.chipIndicator}
+                    aria-hidden='true'
+                    initial={{ scale: 0.5, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {done ? "✓" : "·"}
+                  </motion.span>
+                </AnimatePresence>
                 <span className={styles.chipLabel}>{SECTION_LABELS[id]}</span>
-              </li>
+              </motion.li>
             );
           })}
         </ul>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -448,34 +500,53 @@ function AuditResults({
   onRunAgain: () => void;
 }) {
   return (
-    <div className={styles.resultsWrap}>
+    <motion.div
+      className={styles.resultsWrap}
+      variants={fadeUp}
+      initial='hidden'
+      animate='visible'
+    >
       <div className={styles.resultsInner}>
         {/* Share button */}
         {result.auditId && (
-          <div className={styles.shareRow}>
+          <motion.div
+            className={styles.shareRow}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1, duration: 0.4 }}
+          >
             <CopyLinkButton auditId={result.auditId} />
-          </div>
+          </motion.div>
         )}
 
         {/* Score header */}
-        <div className={styles.scoreHeader}>
+        <motion.div
+          className={styles.scoreHeader}
+          variants={stagger}
+          initial='hidden'
+          animate='visible'
+        >
           <ScoreGauge
             score={result.overall_score}
             label={result.overall_label}
           />
-          <div className={styles.scoreMeta}>
-            <h1 className={styles.resultsTitle}>{result.business_name}</h1>
-            <p className={styles.summary}>{result.summary}</p>
+          <motion.div className={styles.scoreMeta} variants={stagger}>
+            <motion.h1 variants={fadeUp} className={styles.resultsTitle}>
+              {result.business_name}
+            </motion.h1>
+            <motion.p variants={fadeUp} className={styles.summary}>
+              {result.summary}
+            </motion.p>
             {result.competitor_names.length > 0 && (
-              <p className={styles.competitors}>
+              <motion.p variants={fadeUp} className={styles.competitors}>
                 <span className={styles.competitorsLabel}>
                   Competing against:
                 </span>{" "}
                 {result.competitor_names.join(", ")}
-              </p>
+              </motion.p>
             )}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Top 3 actions */}
         {result.top_3_actions.length > 0 && (
@@ -506,32 +577,43 @@ function AuditResults({
 
         {/* Email gate */}
         {!emailSubmitted && (
-          <EmailGate
-            businessName={result.business_name}
-            auditId={result.auditId ?? null}
-            trade={input.primaryTrade}
-            city={input.serviceCity}
-            scoreBucket={result.score_bucket}
-            overallScore={result.overall_score}
-            lowestSection={
-              [...result.sections].sort((a, b) => a.score - b.score)[0]?.id ??
-              ""
-            }
-            onSubmit={onEmailSubmit}
-          />
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.45, ease: "easeOut" }}
+          >
+            <EmailGate
+              businessName={result.business_name}
+              auditId={result.auditId ?? null}
+              trade={input.primaryTrade}
+              city={input.serviceCity}
+              scoreBucket={result.score_bucket}
+              overallScore={result.overall_score}
+              lowestSection={
+                [...result.sections].sort((a, b) => a.score - b.score)[0]?.id ??
+                ""
+              }
+              onSubmit={onEmailSubmit}
+            />
+          </motion.div>
         )}
 
         {/* Re-audit footer */}
-        <div className={styles.reauditCard}>
+        <motion.div
+          className={styles.reauditCard}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 0.4 }}
+        >
           <p className={styles.reauditText}>
             Run this again in 30 days to track your progress.
           </p>
           <button onClick={onRunAgain} className={styles.reauditBtn}>
             Audit Another Business
           </button>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -663,11 +745,15 @@ function SectionCard({
   locked: boolean;
 }) {
   return (
-    <article
+    <motion.article
       className={styles.sectionCard}
       data-status={section.status}
       data-locked={locked ? "true" : undefined}
       style={{ "--i": index } as React.CSSProperties}
+      custom={index}
+      variants={cardIn}
+      initial='hidden'
+      animate='visible'
     >
       <div className={styles.cardHead}>
         <span className={styles.sectionScore}>{section.score}</span>
@@ -686,7 +772,7 @@ function SectionCard({
           </div>
         )}
       </div>
-    </article>
+    </motion.article>
   );
 }
 
