@@ -173,7 +173,7 @@ export default function AuditTool() {
         const data = await response.json().catch(() => ({}));
         throw new Error(
           (data as { error?: string }).error ??
-            "You've run 5 audits today. Come back tomorrow for another free audit.",
+            "You've already run a free audit this month. Come back in 30 days.",
         );
       }
 
@@ -892,9 +892,9 @@ function EmailGate({
         </h3>
         <p className={styles.emailGateSub}>
           I&rsquo;ve ranked every fix for <strong>{businessName}</strong> by
-          impact — so you can move from a{" "}
-          <strong>{overallScore}/10</strong> to a 10/10 as fast as possible.
-          Enter your email to unlock the full technical recon
+          impact — so you can move from a <strong>{overallScore}/10</strong> to
+          a 10/10 as fast as possible. Enter your email to unlock the full
+          technical recon
           {competitorNames.length > 0
             ? `, the exact gaps ${competitorNames.slice(0, 2).join(" and ")} are using to outrank you,`
             : ","}{" "}

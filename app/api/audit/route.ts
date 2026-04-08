@@ -7,6 +7,7 @@ import {
   type GBPData,
   type PageSpeedData,
 } from "@/lib/prefetch";
+import { ratelimit } from "@/lib/ratelimit";
 
 export const maxDuration = 120;
 
@@ -231,6 +232,18 @@ export async function POST(req: Request) {
     input = await req.json();
   } catch {
     return Response.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  const ip = req.headers.get("x-forwarded-for") ?? "anonymous";
+  const { success } = await ratelimit.limit(ip);
+  if (!success) {
+    return Response.json(
+      {
+        error:
+          "You've already run a free audit this month. Come back in 30 days.",
+      },
+      { status: 429 },
+    );
   }
 
   if (!process.env.ANTHROPIC_API_KEY) {

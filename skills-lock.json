@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "skills": {
+    "Framer Expert": {
+      "source": "frankxai/claude-skills-library",
+      "sourceType": "github",
+      "computedHash": "2370ebe70b19e3a60948772624c904d2308add52a403c4dceb84cf44708c6d3f"
+    },
+    "framer-ui-skills": {
+      "source": "ihlamury/design-skills",
+      "sourceType": "github",
+      "computedHash": "435977afccf8443fabc511b8d12569493e652828eb473778c12cb07d42af69b8"
+    }
+  }
+}
