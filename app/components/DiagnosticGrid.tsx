@@ -25,7 +25,7 @@ const AUDIT_CHECKS = [
       </svg>
     ),
     name: "Google Business Profile",
-    desc: "Claimed, complete, keyword-optimized, active with posts and photos.",
+    desc: "The Map Pack Scan. I check if you're showing up where customers look first — and what's keeping you out if you're not.",
   },
   {
     icon: (
@@ -44,7 +44,7 @@ const AUDIT_CHECKS = [
       </svg>
     ),
     name: "Reviews",
-    desc: "Quantity, recency, average rating, and whether you're responding.",
+    desc: "The Trust Check. I look at your review count, recency, rating, and response rate. Silence reads as inactive to both Google and customers.",
   },
   {
     icon: (
@@ -64,7 +64,7 @@ const AUDIT_CHECKS = [
       </svg>
     ),
     name: "On-Page SEO",
-    desc: "Title tags, H1s, service pages, and keyword targeting for your trade and city.",
+    desc: "I check your title tags, H1s, and service pages for trade- and city-specific targeting. Generic pages don't rank for anything.",
   },
   {
     icon: (
@@ -83,7 +83,7 @@ const AUDIT_CHECKS = [
       </svg>
     ),
     name: "Technical SEO",
-    desc: "Core Web Vitals, mobile-friendliness, HTTPS, sitemap, and schema markup.",
+    desc: "The Technical Map. I hunt for schema markup gaps and Core Web Vitals issues that confuse Google and filter you out of local results.",
   },
   {
     icon: (
@@ -106,7 +106,7 @@ const AUDIT_CHECKS = [
       </svg>
     ),
     name: "Citations",
-    desc: "NAP consistency across Google, Yelp, BBB, Angi, and HomeAdvisor.",
+    desc: "I check your name, address, and phone across Yelp, BBB, Angi, and HomeAdvisor. Inconsistent info causes Google to lose trust in your listing.",
   },
   {
     icon: (
@@ -126,7 +126,7 @@ const AUDIT_CHECKS = [
       </svg>
     ),
     name: "Backlinks",
-    desc: "Domain authority signals, local and industry links, anchor text quality.",
+    desc: "I look at the local and industry signals pointing to your site. Authority signals tell Google you're a real, established business — not a ghost.",
   },
   {
     icon: (
@@ -146,7 +146,7 @@ const AUDIT_CHECKS = [
       </svg>
     ),
     name: "Competitors",
-    desc: "Top 3 Map Pack results for your trade and city — and how you compare.",
+    desc: "I find the top 3 businesses ranking above you in the Map Pack right now and show you exactly where the gap is.",
   },
 ];
 

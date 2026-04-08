@@ -77,25 +77,28 @@ export default function FreeLocalSEOAuditPage() {
 
         {/* What the audit checks */}
         <section className={styles.section} aria-labelledby='checks-heading'>
-          <p className={styles.sectionLabel}>DIAGNOSTIC · 7 FACTORS</p>
+          <p className={styles.sectionLabel}>RECONNAISSANCE · 7 FACTORS</p>
           <h2 className={styles.sectionTitle} id='checks-heading'>
-            7 factors that determine
+            7 signals that determine
             <br />
-            whether customers find you
+            whether you&rsquo;re found or invisible
           </h2>
           <p className={styles.sectionBody}>
-            The audit researches your actual online presence using live web data
-            — not guesses. Every section gets a score, a plain-English finding,
-            and a specific next step.
+            97% of consumers use Google to evaluate local businesses before
+            calling. The scan researches your actual GBP listing, website,
+            reviews, and citations using live web data — and flags every
+            technical gap keeping you off the Map Pack.
           </p>
           <DiagnosticGrid />
         </section>
 
         {/* Why contractors use it */}
         <section className={styles.section} aria-labelledby='why-heading'>
-          <p className={styles.sectionLabel}>WHY IT WORKS</p>
+          <p className={styles.sectionLabel}>WHY I BUILT THIS</p>
           <h2 className={styles.sectionTitleSpaced} id='why-heading'>
-            Why NWA contractors use it
+            Why I built the
+            <br />
+            Local Search Ally Radar
           </h2>
           <div className={styles.reasons}>
             {REASONS.map((r, i) => (
@@ -116,9 +119,9 @@ export default function FreeLocalSEOAuditPage() {
         <section className={styles.section} aria-labelledby='get-heading'>
           <p className={styles.sectionLabel}>YOUR REPORT</p>
           <h2 className={styles.sectionTitleSpaced} id='get-heading'>
-            A complete picture of your
+            Everything in the report,
             <br />
-            local search presence
+            explained up front
           </h2>
           <ul className={styles.getList} role='list'>
             {GET_ITEMS.map((item, i) => (
@@ -157,10 +160,10 @@ export default function FreeLocalSEOAuditPage() {
       {/* CTA section */}
       <section className={styles.footerCta} aria-labelledby='cta-heading'>
         <p className={styles.footerCtaTitle} id='cta-heading'>
-          Ready to see where you stand?
+          The best contractor in town shouldn&rsquo;t be the hardest to find.
         </p>
         <p className={styles.footerCtaSub}>
-          Free. No signup. Results in 90 seconds.
+          Free. No signup. 90 seconds.
         </p>
         <a href='#top' className={styles.ctaBtn}>
           Run My Free Audit →
@@ -178,20 +181,20 @@ export default function FreeLocalSEOAuditPage() {
 
 const REASONS = [
   {
-    title: "It uses real data, not templates",
-    body: "The AI researches your actual GBP listing, website, and citations in real time using web search. Every finding is specific to your business — not a generic checklist.",
+    title: "I built it because good contractors deserve to be found",
+    body: "Too many skilled NWA trade owners sit invisible online while a franchise with a bigger ad budget owns the Map Pack. This scan shows you exactly where the gap is — and what's causing it.",
   },
   {
-    title: "You get a score you can act on",
-    body: "Every section is scored 1–10 with a traffic light. You'll know in 90 seconds whether you're in green, yellow, or red — and exactly what to fix first.",
+    title: "78% of local mobile searches result in an offline purchase",
+    body: "When someone searches for a plumber or HVAC tech nearby, they're ready to call — not browse. If your business isn't showing up, that call goes to whoever is. The scan tells you exactly what's keeping you out.",
   },
   {
-    title: "It shows you what competitors are doing",
-    body: "The audit finds the top 3 businesses ranking in your Map Pack and tells you how their GBP, reviews, and web presence compare to yours.",
+    title: "It checks seven factors, not just reviews",
+    body: "Citations, schema markup, GBP completeness, on-page content, backlinks, and how your presence compares to whoever is already ranking above you — the scan covers all seven.",
   },
   {
     title: "The report is yours to keep",
-    body: "Every audit gets a permanent shareable URL. Send it to a partner, a web developer, or your team. No login required to view it.",
+    body: "Every audit gets a permanent shareable URL. Send it to a developer, a partner, or your team — no login required.",
   },
 ];
 

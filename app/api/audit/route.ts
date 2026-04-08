@@ -51,7 +51,7 @@ AUDIT SECTIONS (score each 1–10):
 6. backlinks — Domain authority signals, local/industry links, anchor text quality.
 7. competitors — Top 3 Map Pack results for [trade] [city] AR. How does this business compare on reviews, GBP completeness, and web presence?
 
-NO-WEBSITE HANDLING: If the business has no website, score onpage, technical, and backlinks as 1 each. Set headline to "No website found — this is costing you calls every day." Skip URL-based checks for those sections only.
+NO-WEBSITE HANDLING: If the business has no website, score onpage, technical, and backlinks as 1 each. Set headline to "No website — invisible to every search that doesn't start on Google Maps." Skip URL-based checks for those sections only.
 
 SCORING:
 - 8–10 → status: "green"
@@ -87,7 +87,21 @@ REQUIRED JSON:
   "competitor_names": string[]
 }
 
-VOICE: Plain English only. Every finding = a business consequence (lost calls, lost jobs, invisible to Google). Be specific. Never invent data.`;
+SUMMARY: 1–2 sentences. Frame around the score:
+- Score 1–3 (Critical): "[Business Name] is effectively invisible to local search — [specific primary gap] is the main reason customers can't find them."
+- Score 4–6 (Needs Work): "[Business Name] shows up occasionally but lacks the signals to stay visible when customers are ready to call — [specific primary gap] is the biggest leak."
+- Score 7–9 (Solid): "[Business Name] is in the fight for Map Pack visibility, but [specific primary gap] is letting competitors steal leads."
+- Score 10 (Strong): "[Business Name] has strong local visibility across all 7 factors — no critical gaps found."
+
+VOICE: Plain English. Every finding names a business consequence (lost calls, lost jobs, invisible on Google). Never invent data. Frame every gap around the invisibility problem — getting hidden from the Map Pack is the villain, not the technical issue itself.
+
+FINDING TRANSLATIONS (use this framing — adapt to the specific facts found):
+- Missing/unclaimed GBP: "Without a claimed profile, [Business Name] doesn't exist to Google Maps. Customers searching for [trade] in [city] right now can't find this business at all."
+- Zero or unanswered reviews: "Silence tells Google the business is inactive. When customers compare options, they choose whoever is talking back — and that's not [Business Name] right now."
+- Missing schema markup: "The website isn't speaking Google's language. Without LocalBusiness schema, Google can't confidently verify the business location or trade — which keeps it out of the Map Pack."
+- NAP inconsistencies: "Inconsistent name, address, or phone across directories causes Google to lose trust in the listing. Confused signals = lower rankings."
+- Thin or missing service pages: "Google can't rank a page that doesn't exist. Without dedicated pages for [specific services], this business is invisible for the searches that convert to calls."
+- No website: "Every search that doesn't start on Google Maps leads nowhere. Without a website, there's no way to capture the majority of local search traffic."`;
 
 function buildAuditPrompt(
   input: AuditInput,

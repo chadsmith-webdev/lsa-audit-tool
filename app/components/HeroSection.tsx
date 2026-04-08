@@ -30,23 +30,25 @@ export default function HeroSection() {
         animate='visible'
       >
         <motion.span variants={fadeUp} className={styles.eyebrow}>
-          FREE TOOL · LSA
+          VISIBILITY SCAN · LOCAL SEARCH ALLY
         </motion.span>
 
         <motion.h1 variants={fadeUp} className={styles.heroTitle}>
-          See Exactly How Your Business
+          Reveal Your
           <br />
-          Shows Up in <span className={styles.heroAccent}>Google</span>
+          <span className={styles.heroAccent}>Invisibility Score</span>
         </motion.h1>
 
         <motion.p variants={fadeUp} className={styles.heroSub}>
-          Enter your business info. Get a real audit in 90 seconds.
+          If you&rsquo;re not in the Google Map Pack, you&rsquo;re invisible to
+          customers searching right now. See exactly where you stand — free, in
+          90 seconds.
         </motion.p>
 
         <motion.div variants={fadeUp} className={styles.heroPills}>
           <span className={styles.heroPill}>Free · No Email Required</span>
           <span className={styles.heroPill}>Results in 90 Seconds</span>
-          <span className={styles.heroPill}>AI-Powered Research</span>
+          <span className={styles.heroPill}>AI-Powered Recon</span>
         </motion.div>
       </motion.div>
 

@@ -82,6 +82,14 @@ const SECTION_ORDER = [
   "competitors",
 ];
 
+// Maps API overall_label values to display names shown in the results card
+const SCORE_DISPLAY_LABELS: Record<AuditResult["overall_label"], string> = {
+  Critical: "Digital Ghost",
+  "Needs Work": "Local Mirage",
+  Solid: "Visible Contender",
+  Strong: "Local Authority",
+};
+
 const SECTION_LABELS: Record<string, string> = {
   gbp: "Google Business Profile",
   reviews: "Reviews",
@@ -436,7 +444,7 @@ function AuditLoading({
       animate='visible'
     >
       <div className={styles.loadingCard}>
-        <p className={styles.loadingEyebrow}>Running audit for</p>
+        <p className={styles.loadingEyebrow}>Running reconnaissance on</p>
         <h2 className={styles.loadingTitle}>{businessName}</h2>
         <ul className={styles.sectionList} aria-label='Audit progress'>
           {SECTION_ORDER.map((id) => {
@@ -528,7 +536,7 @@ function AuditResults({
         >
           <ScoreGauge
             score={result.overall_score}
-            label={result.overall_label}
+            label={SCORE_DISPLAY_LABELS[result.overall_label]}
           />
           <motion.div className={styles.scoreMeta} variants={stagger}>
             <motion.h1 variants={fadeUp} className={styles.resultsTitle}>
@@ -540,7 +548,7 @@ function AuditResults({
             {result.competitor_names.length > 0 && (
               <motion.p variants={fadeUp} className={styles.competitors}>
                 <span className={styles.competitorsLabel}>
-                  Competing against:
+                  Outranking you right now:
                 </span>{" "}
                 {result.competitor_names.join(", ")}
               </motion.p>
@@ -551,7 +559,7 @@ function AuditResults({
         {/* Top 3 actions */}
         {result.top_3_actions.length > 0 && (
           <div className={styles.topActions}>
-            <h2 className={styles.topActionsTitle}>Top 3 Priorities</h2>
+            <h2 className={styles.topActionsTitle}>Top 3 High-Impact Fixes</h2>
             <ol className={styles.topActionsList}>
               {result.top_3_actions.map((action, i) => (
                 <li key={i} className={styles.topActionItem}>
@@ -589,6 +597,7 @@ function AuditResults({
               city={input.serviceCity}
               scoreBucket={result.score_bucket}
               overallScore={result.overall_score}
+              competitorNames={result.competitor_names}
               lowestSection={
                 [...result.sections].sort((a, b) => a.score - b.score)[0]?.id ??
                 ""
@@ -609,7 +618,7 @@ function AuditResults({
             Run this again in 30 days to track your progress.
           </p>
           <button onClick={onRunAgain} className={styles.reauditBtn}>
-            Audit Another Business
+            Scan Another Business
           </button>
         </motion.div>
       </div>
@@ -813,6 +822,7 @@ function EmailGate({
   city,
   scoreBucket,
   overallScore,
+  competitorNames,
   lowestSection,
   onSubmit,
 }: {
@@ -822,6 +832,7 @@ function EmailGate({
   city: string;
   scoreBucket: string;
   overallScore: number;
+  competitorNames: string[];
   lowestSection: string;
   onSubmit: () => void;
 }) {
@@ -877,12 +888,17 @@ function EmailGate({
           🔒
         </span>
         <h3 className={styles.emailGateTitle}>
-          Your full action plan — ranked by impact — is ready.
+          Stop the leak. Claim your full action plan.
         </h3>
         <p className={styles.emailGateSub}>
-          Enter your email to unlock the complete audit for{" "}
-          <strong>{businessName}</strong> — including citations, backlinks, and
-          competitor gaps.
+          I&rsquo;ve ranked every fix for <strong>{businessName}</strong> by
+          impact — so you can move from a{" "}
+          <strong>{overallScore}/10</strong> to a 10/10 as fast as possible.
+          Enter your email to unlock the full technical recon
+          {competitorNames.length > 0
+            ? `, the exact gaps ${competitorNames.slice(0, 2).join(" and ")} are using to outrank you,`
+            : ","}{" "}
+          and my step-by-step roadmap ranked by what moves the needle first.
         </p>
         <form onSubmit={handleSubmit} className={styles.emailForm} noValidate>
           <input
@@ -898,7 +914,7 @@ function EmailGate({
             aria-invalid={!!error}
           />
           <button type='submit' className={styles.emailBtn} disabled={loading}>
-            {loading ? "Sending…" : "Send It →"}
+            {loading ? "Sending…" : "Unlock My Full Audit →"}
           </button>
         </form>
         {error && (
