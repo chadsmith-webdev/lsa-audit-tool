@@ -235,8 +235,14 @@ export async function POST(req: Request) {
   }
 
   const ip = req.headers.get("x-forwarded-for") ?? "anonymous";
-  const { success } = await ratelimit.limit(ip);
-  if (!success) {
+  let rateLimited = false;
+  try {
+    const { success } = await ratelimit.limit(ip);
+    rateLimited = !success;
+  } catch (err) {
+    console.error("Ratelimit error (failing open):", err);
+  }
+  if (rateLimited) {
     return Response.json(
       {
         error:
