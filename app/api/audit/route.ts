@@ -339,10 +339,9 @@ export async function POST(req: Request) {
 
         // --- Slack notification (non-blocking) ---
         if (auditId) {
-          notifySlack(result, input, auditId).catch(
-            (e) => console.log("Firing Slack notify for auditID", auditId),
-
-            //console.error("Slack notify failed:", e),//
+          console.log;
+          notifySlack(result, input, auditId).catch((e) =>
+            console.error("Slack notify failed:", e),
           );
         }
       } catch (err: any) {
