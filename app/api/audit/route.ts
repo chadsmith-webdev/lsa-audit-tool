@@ -1,15 +1,21 @@
 import { supabase } from "@/lib/supabase";
 import {
+  fetchBacklinksData,
   fetchGBPData,
   fetchPageSpeedData,
+  fetchReviewsData,
   fetchSerperData,
   fetchWebsiteData,
+  formatBacklinksBlock,
   formatGBPBlock,
   formatPageSpeedBlock,
+  formatReviewsBlock,
   formatSerperBlock,
   formatWebsiteBlock,
+  type BacklinksData,
   type GBPData,
   type PageSpeedData,
+  type ReviewsData,
   type SerperData,
   type WebsiteData,
 } from "@/lib/prefetch";
@@ -51,11 +57,11 @@ const SYSTEM_PROMPT = `You are a local SEO specialist auditing a contractor's on
 
 AUDIT SECTIONS (score each 1–10):
 1. gbp — Google Business Profile: claimed, complete, keyword-optimized description, active with posts? Note photo count specifically — under 10 photos is a critical gap.
-2. reviews — Quantity, recency, average rating, owner response rate. Under 10 reviews or zero responses = red.
+2. reviews — Use REVIEWS_DATA from PRE-FETCHED DATA for recency and owner response rate. Use GBP data for total count and overall rating. Under 10 reviews or zero owner responses = red.
 3. onpage — Use ONPAGE_DATA from PRE-FETCHED DATA. Evaluate: is the trade + city in the title tag? Does the H1 target the right keywords? Do the H2s indicate dedicated service pages? Is a meta description present?
 4. technical — Core Web Vitals from PAGESPEED block. HTTPS and sitemap from ONPAGE_DATA. Schema markup from ONPAGE_DATA: is LocalBusiness schema present with the right @type and required fields (name, address, telephone, serviceArea, openingHours)?
 5. citations — NAP consistency across Google, Yelp, BBB, Angi, HomeAdvisor.
-6. backlinks — Domain authority signals, local/industry links, anchor text quality.
+6. backlinks — Use BACKLINKS block from PRE-FETCHED DATA for domain rank and referring domains. Domain rank under 20 = red, 20–39 = yellow, 40+ = green.
 7. competitors — Use the MAP_PACK block from PRE-FETCHED DATA. These are the real Google Local Pack results for [trade] [city] AR. Compare this business against those competitors on reviews, GBP completeness, and web presence.
 
 NO-WEBSITE HANDLING: If the business has no website, score onpage, technical, and backlinks as 1 each. Set headline to "No website — invisible to every search that doesn't start on Google Maps." Skip URL-based checks for those sections only.
@@ -69,11 +75,13 @@ PRE-FETCHED DATA: The audit prompt will contain a PRE-FETCHED DATA block with au
 - GBP_EXISTS: NO → score gbp as red regardless of what search shows
 - ONPAGE_DATA → use verbatim for onpage and the schema/HTTPS/sitemap parts of technical
 - PAGESPEED → use verbatim for Core Web Vitals part of technical
+- BACKLINKS → use verbatim for backlinks section
+- REVIEWS_DATA → use verbatim for review recency and owner response rate
 - MAP_PACK → use verbatim for competitors section
 
 SEARCH STRATEGY:
-- Use web search for: reviews (recency, owner response rate), citations (Yelp, BBB, Angi NAP consistency), and backlinks
-- Do NOT use web search for GBP existence, Core Web Vitals, on-page signals, schema markup, or Map Pack competitors — all come from PRE-FETCHED DATA
+- Use web search only for: citations (Yelp, BBB, Angi NAP consistency)
+- Do NOT use web search for GBP, Core Web Vitals, on-page signals, schema, backlinks, review recency/responses, or Map Pack competitors — all come from PRE-FETCHED DATA
 
 REQUIRED JSON:
 {
@@ -114,7 +122,14 @@ FINDING TRANSLATIONS (use this framing — adapt to the specific facts found):
 
 function buildAuditPrompt(
   input: AuditInput,
-  prefetch: { gbp: GBPData; pagespeed: PageSpeedData; serper: SerperData; website: WebsiteData | null },
+  prefetch: {
+    gbp: GBPData;
+    pagespeed: PageSpeedData;
+    serper: SerperData;
+    website: WebsiteData | null;
+    backlinks: BacklinksData | null;
+    reviews: ReviewsData;
+  },
 ): string {
   const websiteLine = input.noWebsite
     ? "Website: NONE — this business has no website"
@@ -127,16 +142,10 @@ function buildAuditPrompt(
   const prefetchBlock = `
 PRE-FETCHED DATA (authoritative — do not contradict):
 ${formatGBPBlock(prefetch.gbp)}
-${
-  input.noWebsite
-    ? "PAGESPEED: Skipped — no website."
-    : formatPageSpeedBlock(prefetch.pagespeed)
-}
-${
-  input.noWebsite || !prefetch.website
-    ? "ONPAGE_DATA: Skipped — no website."
-    : formatWebsiteBlock(prefetch.website)
-}
+${input.noWebsite ? "PAGESPEED: Skipped — no website." : formatPageSpeedBlock(prefetch.pagespeed)}
+${input.noWebsite || !prefetch.website ? "ONPAGE_DATA: Skipped — no website." : formatWebsiteBlock(prefetch.website)}
+${input.noWebsite || !prefetch.backlinks ? "BACKLINKS: Skipped — no website." : formatBacklinksBlock(prefetch.backlinks)}
+${formatReviewsBlock(prefetch.reviews)}
 ${formatSerperBlock(prefetch.serper)}`;
 
   return `Audit this contractor's local SEO:
@@ -148,7 +157,7 @@ Service City: ${input.serviceCity}
 ${noWebsiteNote}
 ${prefetchBlock}
 
-Use the PRE-FETCHED DATA above for gbp, technical, onpage, and competitors sections. Use web search for reviews, citations, and backlinks. Return the JSON audit result only.`.trim();
+Use the PRE-FETCHED DATA above for gbp, technical, onpage, backlinks, reviews, and competitors sections. Use web search only for citations. Return the JSON audit result only.`.trim();
 }
 
 function parseAuditResult(rawText: string): AuditResult {
@@ -162,7 +171,14 @@ function parseAuditResult(rawText: string): AuditResult {
 
 async function callClaude(
   input: AuditInput,
-  prefetch: { gbp: GBPData; pagespeed: PageSpeedData; serper: SerperData; website: WebsiteData | null },
+  prefetch: {
+    gbp: GBPData;
+    pagespeed: PageSpeedData;
+    serper: SerperData;
+    website: WebsiteData | null;
+    backlinks: BacklinksData | null;
+    reviews: ReviewsData;
+  },
   signal: AbortSignal,
 ): Promise<AuditResult> {
   const apiKey = process.env.ANTHROPIC_API_KEY!;
@@ -312,22 +328,34 @@ export async function POST(req: Request) {
           }
         }
 
-        // --- Pre-fetch GBP + PageSpeed + Serper + Website in parallel ---
-        const [gbpData, pagespeedData, serperData, websiteData] = await Promise.all([
-          fetchGBPData(input.businessName, input.serviceCity),
-          input.noWebsite || !input.websiteUrl
-            ? Promise.resolve<PageSpeedData>({})
-            : fetchPageSpeedData(input.websiteUrl),
-          fetchSerperData(input.primaryTrade, input.serviceCity),
-          input.noWebsite || !input.websiteUrl
-            ? Promise.resolve(null)
-            : fetchWebsiteData(input.websiteUrl),
-        ]);
+        // --- Pre-fetch all signals in parallel ---
+        const [gbpData, pagespeedData, serperData, websiteData, backlinksData, reviewsData] =
+          await Promise.all([
+            fetchGBPData(input.businessName, input.serviceCity),
+            input.noWebsite || !input.websiteUrl
+              ? Promise.resolve<PageSpeedData>({})
+              : fetchPageSpeedData(input.websiteUrl),
+            fetchSerperData(input.primaryTrade, input.serviceCity),
+            input.noWebsite || !input.websiteUrl
+              ? Promise.resolve(null)
+              : fetchWebsiteData(input.websiteUrl),
+            input.noWebsite || !input.websiteUrl
+              ? Promise.resolve(null)
+              : fetchBacklinksData(input.websiteUrl),
+            fetchReviewsData(input.businessName, input.serviceCity),
+          ]);
 
         // --- Run Claude audit ---
         const result = await callClaude(
           input,
-          { gbp: gbpData, pagespeed: pagespeedData, serper: serperData, website: websiteData },
+          {
+            gbp: gbpData,
+            pagespeed: pagespeedData,
+            serper: serperData,
+            website: websiteData,
+            backlinks: backlinksData,
+            reviews: reviewsData,
+          },
           abortController.signal,
         );
         clearTimeout(timer);
