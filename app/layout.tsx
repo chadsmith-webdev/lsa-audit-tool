@@ -32,6 +32,18 @@ export const metadata: Metadata = {
   title: "Free Local SEO Audit for Contractors | Local Search Ally",
   description:
     "See exactly how your business shows up in Google — free. Enter your business info and get a real audit in 90 seconds.",
+  openGraph: {
+    title: "Free Local SEO Audit for Contractors | Local Search Ally",
+    description:
+      "See exactly how your business shows up in Google — free. Enter your business info and get a real audit in 90 seconds.",
+    url: "https://audit.localsearchally.com",
+    siteName: "Local Search Ally",
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
