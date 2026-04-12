@@ -10,14 +10,14 @@ import styles from "@/styles/landing.module.css";
 export const metadata: Metadata = {
   title: "Free Local SEO Audit for Contractors | Local Search Ally",
   description:
-    "Find out if Google can actually find your contracting business. This free AI-powered audit checks your Google Business Profile, reviews, on-page SEO, technical health, citations, backlinks, and how you stack up against the top 3 competitors ranking above you — in about 90 seconds. No signup. No credit card. Built for NWA home service trades.",
+    "See how your contracting business ranks on Google. Free AI audit checks 7 factors — GBP, reviews, citations, and more. Results in 90 seconds.",
   alternates: {
     canonical: "https://audit.localsearchally.com/free-local-seo-audit",
   },
   openGraph: {
     title: "Find Out If Google Can Find You — Free Local SEO Audit",
     description:
-      "AI-powered audit for NWA contractors. 7 factors. Real data. Plain-English findings. 90 seconds.",
+      "Free AI-powered audit for NWA contractors. 7 factors, real data, plain-English findings. No signup. 90 seconds.",
     url: "https://audit.localsearchally.com/free-local-seo-audit",
     type: "website",
     images: [
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Find Out If Google Can Find You — Free Local SEO Audit",
     description:
-      "AI-powered audit for NWA contractors. 7 factors. Real data. 90 seconds.",
+      "Free AI audit for NWA contractors. Checks GBP, reviews, citations, and 4 more factors. Real data. 90 seconds.",
     images: ["https://audit.localsearchally.com/og-audit.png"],
   },
 };
