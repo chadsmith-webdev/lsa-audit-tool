@@ -10,16 +10,31 @@ import styles from "@/styles/landing.module.css";
 export const metadata: Metadata = {
   title: "Free Local SEO Audit for Contractors | Local Search Ally",
   description:
-    "See exactly how your business shows up in Google — GBP, reviews, on-page SEO, citations, and more. Free AI-powered audit for NWA contractors. Results in 90 seconds.",
+    "Find out if Google can actually find your contracting business. This free AI-powered audit checks your Google Business Profile, reviews, on-page SEO, technical health, citations, backlinks, and how you stack up against the top 3 competitors ranking above you — in about 90 seconds. No signup. No credit card. Built for NWA home service trades.",
   alternates: {
-    canonical: "https://localsearchally.com/free-local-seo-audit",
+    canonical: "https://audit.localsearchally.com/free-local-seo-audit",
   },
   openGraph: {
-    title: "Free Local SEO Audit for Contractors | Local Search Ally",
+    title: "Find Out If Google Can Find You — Free Local SEO Audit",
     description:
-      "See exactly how your business shows up in Google. Real data. 90 seconds. Free.",
-    url: "https://localsearchally.com/free-local-seo-audit",
+      "AI-powered audit for NWA contractors. 7 factors. Real data. Plain-English findings. 90 seconds.",
+    url: "https://audit.localsearchally.com/free-local-seo-audit",
     type: "website",
+    images: [
+      {
+        url: "https://audit.localsearchally.com/og-audit.png",
+        width: 1200,
+        height: 630,
+        alt: "Local Search Ally — Free Local SEO Audit for Contractors",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Find Out If Google Can Find You — Free Local SEO Audit",
+    description:
+      "AI-powered audit for NWA contractors. 7 factors. Real data. 90 seconds.",
+    images: ["https://audit.localsearchally.com/og-audit.png"],
   },
 };
 
@@ -162,9 +177,7 @@ export default function FreeLocalSEOAuditPage() {
         <p className={styles.footerCtaTitle} id='cta-heading'>
           The best contractor in town shouldn&rsquo;t be the hardest to find.
         </p>
-        <p className={styles.footerCtaSub}>
-          Free. No signup. 90 seconds.
-        </p>
+        <p className={styles.footerCtaSub}>Free. No signup. 90 seconds.</p>
         <a href='#top' className={styles.ctaBtn}>
           Run My Free Audit →
         </a>
