@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://audit.localsearchally.com/og-audit.png",
+        url: "https://audit.localsearchally.com/og-image.png",
         width: 1200,
         height: 630,
         alt: "Local Search Ally — Free Local SEO Audit for Contractors",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     title: "Find Out If Google Can Find You — Free Local SEO Audit",
     description:
       "Free AI audit for NWA contractors. Checks GBP, reviews, citations, and 4 more factors. Real data. 90 seconds.",
-    images: ["https://audit.localsearchally.com/og-audit.png"],
+    images: ["https://audit.localsearchally.com/og-image.png"],
   },
 };
 
