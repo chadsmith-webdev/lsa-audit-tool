@@ -173,7 +173,7 @@ export default function AuditTool() {
         const data = await response.json().catch(() => ({}));
         throw new Error(
           (data as { error?: string }).error ??
-            "You've already run a free audit this month. Come back in 30 days.",
+            "You've already run 2 free audits this month. Come back in 30 days.",
         );
       }
 
@@ -878,7 +878,10 @@ function EmailGate({
       return;
     }
     setLoading(false);
-    if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
+    if (
+      typeof window !== "undefined" &&
+      typeof (window as any).gtag === "function"
+    ) {
       (window as any).gtag("event", "conversion", {
         send_to: "AW-18091036166/R9z0CNyoqpwcEIacvbJD",
         value: 1.0,
