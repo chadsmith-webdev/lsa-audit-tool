@@ -4,6 +4,7 @@ import {
   Space_Grotesk,
   JetBrains_Mono,
 } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const bricolage = Bricolage_Grotesque({
@@ -56,7 +57,21 @@ export default function RootLayout({
       lang='en'
       className={`h-full ${bricolage.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
-      <body className='min-h-full flex flex-col'>{children}</body>
+      <body className='min-h-full flex flex-col'>
+        {children}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18091036166"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18091036166');
+          `}
+        </Script>
+      </body>
     </html>
   );
 }
