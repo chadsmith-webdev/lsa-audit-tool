@@ -238,7 +238,7 @@ async function notifySlack(
   if (!webhookUrl) return;
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://localsearchally.com";
-  await fetch(webhookUrl, {
+  const res = await fetch(webhookUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -254,6 +254,10 @@ async function notifySlack(
       ],
     }),
   });
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    throw new Error(`Slack webhook ${res.status}: ${body}`);
+  }
 }
 
 export async function POST(req: Request) {
@@ -329,21 +333,27 @@ export async function POST(req: Request) {
         }
 
         // --- Pre-fetch all signals in parallel ---
-        const [gbpData, pagespeedData, serperData, websiteData, backlinksData, reviewsData] =
-          await Promise.all([
-            fetchGBPData(input.businessName, input.serviceCity),
-            input.noWebsite || !input.websiteUrl
-              ? Promise.resolve<PageSpeedData>({})
-              : fetchPageSpeedData(input.websiteUrl),
-            fetchSerperData(input.primaryTrade, input.serviceCity),
-            input.noWebsite || !input.websiteUrl
-              ? Promise.resolve(null)
-              : fetchWebsiteData(input.websiteUrl),
-            input.noWebsite || !input.websiteUrl
-              ? Promise.resolve(null)
-              : fetchBacklinksData(input.websiteUrl),
-            fetchReviewsData(input.businessName, input.serviceCity),
-          ]);
+        const [
+          gbpData,
+          pagespeedData,
+          serperData,
+          websiteData,
+          backlinksData,
+          reviewsData,
+        ] = await Promise.all([
+          fetchGBPData(input.businessName, input.serviceCity),
+          input.noWebsite || !input.websiteUrl
+            ? Promise.resolve<PageSpeedData>({})
+            : fetchPageSpeedData(input.websiteUrl),
+          fetchSerperData(input.primaryTrade, input.serviceCity),
+          input.noWebsite || !input.websiteUrl
+            ? Promise.resolve(null)
+            : fetchWebsiteData(input.websiteUrl),
+          input.noWebsite || !input.websiteUrl
+            ? Promise.resolve(null)
+            : fetchBacklinksData(input.websiteUrl),
+          fetchReviewsData(input.businessName, input.serviceCity),
+        ]);
 
         // --- Run Claude audit ---
         const result = await callClaude(
@@ -391,7 +401,6 @@ export async function POST(req: Request) {
 
         // --- Slack notification (non-blocking) ---
         if (auditId) {
-          console.log;
           notifySlack(result, input, auditId).catch((e) =>
             console.error("Slack notify failed:", e),
           );
