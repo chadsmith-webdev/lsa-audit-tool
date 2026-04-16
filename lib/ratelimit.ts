@@ -3,7 +3,7 @@ import { Redis } from "@upstash/redis";
 
 export const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(5, "30 d"),
+  limiter: Ratelimit.slidingWindow(1, "30 d"),
   analytics: true,
   prefix: "lsa-audit",
 });
