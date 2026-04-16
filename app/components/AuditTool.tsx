@@ -173,7 +173,7 @@ export default function AuditTool() {
         const data = await response.json().catch(() => ({}));
         throw new Error(
           (data as { error?: string }).error ??
-            "You've already run 2 free audits this month. Come back in 30 days.",
+            "You've already run a free audit this month. Come back in 30 days.",
         );
       }
 
