@@ -313,6 +313,26 @@ function AuditForm({
     >
       <div className={styles.formCard}>
         <form onSubmit={onSubmit} noValidate className={styles.form}>
+          {/* Field order: Business Name → Trade → City → Website
+              Progressive commitment: start easy, increase effort gradually */}
+          <div className={styles.fieldGroup}>
+            <label className={styles.label} htmlFor='businessName'>
+              Business Name
+            </label>
+            <input
+              id='businessName'
+              type='text'
+              className={styles.input}
+              placeholder='Rogers HVAC Pro'
+              value={form.businessName}
+              onChange={(e) => onChange("businessName", e.target.value)}
+              aria-invalid={!!errors.businessName}
+            />
+            {errors.businessName && (
+              <span className={styles.fieldError}>{errors.businessName}</span>
+            )}
+          </div>
+
           <div className={styles.fieldGroup}>
             <label className={styles.label} htmlFor='primaryTrade'>
               Primary Trade
@@ -351,24 +371,6 @@ function AuditForm({
             />
             {errors.serviceCity && (
               <span className={styles.fieldError}>{errors.serviceCity}</span>
-            )}
-          </div>
-
-          <div className={styles.fieldGroup}>
-            <label className={styles.label} htmlFor='businessName'>
-              Business Name
-            </label>
-            <input
-              id='businessName'
-              type='text'
-              className={styles.input}
-              placeholder='Rogers HVAC Pro'
-              value={form.businessName}
-              onChange={(e) => onChange("businessName", e.target.value)}
-              aria-invalid={!!errors.businessName}
-            />
-            {errors.businessName && (
-              <span className={styles.fieldError}>{errors.businessName}</span>
             )}
           </div>
 

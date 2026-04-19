@@ -22,7 +22,7 @@ const fadeUp: Variants = {
 
 export default function HeroSection() {
   return (
-    <header className={styles.heroRowCentered} id='top'>
+    <section className={styles.heroRowCentered} id='top'>
       <motion.div
         className={styles.heroCopyCentered}
         variants={container}
@@ -39,8 +39,8 @@ export default function HeroSection() {
         </motion.h1>
 
         <motion.p variants={fadeUp} className={styles.heroSubCentered}>
-          Not in the Map Pack? You&apos;re invisible to customers searching right now.{" "}
-          This audit shows you exactly why — and what to fix first.
+          You&apos;re invisible to customers searching right now — this free
+          audit reveals exactly why, in 90 seconds flat.
         </motion.p>
 
         <div className={styles.heroToolCentered}>
@@ -50,9 +50,14 @@ export default function HeroSection() {
         <motion.div variants={fadeUp} className={styles.heroPillsCentered}>
           <span className={styles.heroPill}>Free</span>
           <span className={styles.heroPill}>Results in 90 Seconds</span>
-          <span className={styles.heroPill}>No email to start</span>
+          <span className={styles.heroPill}>No Email to Start</span>
+          <span className={styles.heroPill}>Real Data — Not Estimates</span>
         </motion.div>
+
+        <motion.p variants={fadeUp} className={styles.urgencyLine}>
+          Your competitors checked their rankings this week.
+        </motion.p>
       </motion.div>
-    </header>
+    </section>
   );
 }

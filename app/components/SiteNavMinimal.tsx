@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import styles from "@/styles/SiteNav.module.css";
+import landingStyles from "@/styles/landing.module.css";
 
 export default function SiteNavMinimal() {
   const [scrolled, setScrolled] = useState(false);
@@ -14,7 +15,8 @@ export default function SiteNavMinimal() {
 
   return (
     <header className={`${styles.nav} ${scrolled ? styles.scrolled : ""}`}>
-      <div className={styles.innerCentered}>
+      <div className={landingStyles.navInnerMinimal}>
+        {/* Logo — links to main site, subtle */}
         <a href="https://localsearchally.com" className={styles.logo}>
           <svg
             className={styles.logoIcon}
@@ -48,7 +50,17 @@ export default function SiteNavMinimal() {
             Local Search <span>Ally</span>
           </span>
         </a>
+
+        {/* Sticky CTA — always visible, converts from any scroll depth */}
+        <a
+          href="#top"
+          className={landingStyles.navCta}
+          id="nav-cta-button"
+        >
+          Get My Free Audit →
+        </a>
       </div>
     </header>
   );
 }
+

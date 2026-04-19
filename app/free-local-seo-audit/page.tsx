@@ -3,6 +3,10 @@ import SiteNavMinimal from "@/app/components/SiteNavMinimal";
 import SiteFooterMinimal from "@/app/components/SiteFooterMinimal";
 import HeroSection from "@/app/components/HeroSection";
 import DiagnosticGrid from "@/app/components/DiagnosticGrid";
+import TrustBar from "@/app/components/TrustBar";
+import HowItWorksSection from "@/app/components/HowItWorksSection";
+import TestimonialsSection from "@/app/components/TestimonialsSection";
+import FinalCtaSection from "@/app/components/FinalCtaSection";
 import styles from "@/styles/landing.module.css";
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
@@ -88,23 +92,14 @@ export default function FreeLocalSEOAuditPage() {
       <SiteNavMinimal />
 
       <main className={styles.mainContent}>
+        {/* Hero — form is the CTA */}
         <HeroSection />
 
-        {/* FAQ — objection handling before content sections */}
-        <section className={styles.sectionWide} aria-labelledby='faq-heading'>
-          <p className={styles.sectionLabel}>FAQ · COMMON QUESTIONS</p>
-          <h2 className={styles.sectionTitle} id='faq-heading'>
-            Questions I hear before people run the audit
-          </h2>
-          <div className={styles.faqList}>
-            {FAQS.map((faq, i) => (
-              <details key={i} className={styles.faqItem}>
-                <summary className={styles.faqQ}>{faq.q}</summary>
-                <p className={styles.faqA}>{faq.a}</p>
-              </details>
-            ))}
-          </div>
-        </section>
+        {/* Trust bar — stats + featured testimonial immediately below the hero */}
+        <TrustBar />
+
+        {/* How it works — orient cold ad traffic before they hit the detail */}
+        <HowItWorksSection />
 
         {/* What the audit checks */}
         <section className={styles.section} aria-labelledby='checks-heading'>
@@ -122,6 +117,9 @@ export default function FreeLocalSEOAuditPage() {
           </p>
           <DiagnosticGrid />
         </section>
+
+        {/* Testimonials — social proof after content builds conviction */}
+        <TestimonialsSection />
 
         {/* Why contractors use it */}
         <section className={styles.section} aria-labelledby='why-heading'>
@@ -168,20 +166,26 @@ export default function FreeLocalSEOAuditPage() {
             ))}
           </ul>
         </section>
-      </main>
 
-      {/* CTA section */}
-      <section className={styles.footerCta} aria-labelledby='cta-heading'>
-        <p className={styles.footerCtaTitle} id='cta-heading'>
-          The best contractor in town shouldn&rsquo;t be the hardest to find.
-        </p>
-        <p className={styles.footerCtaSub}>
-          Free. No email to start. Results in 90 seconds.
-        </p>
-        <a href='#top' className={styles.ctaBtn}>
-          Run My Free Audit →
-        </a>
-      </section>
+        {/* FAQ — handle final objections before the last CTA */}
+        <section className={styles.sectionWide} aria-labelledby='faq-heading'>
+          <p className={styles.sectionLabel}>FAQ · COMMON QUESTIONS</p>
+          <h2 className={styles.sectionTitle} id='faq-heading'>
+            Questions I hear before people run the audit
+          </h2>
+          <div className={styles.faqList}>
+            {FAQS.map((faq, i) => (
+              <details key={i} className={styles.faqItem}>
+                <summary className={styles.faqQ}>{faq.q}</summary>
+                <p className={styles.faqA}>{faq.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        {/* Final CTA — repeat the conversion action before footer */}
+        <FinalCtaSection />
+      </main>
 
       <SiteFooterMinimal />
     </>
@@ -189,8 +193,6 @@ export default function FreeLocalSEOAuditPage() {
 }
 
 // ─── Content ──────────────────────────────────────────────────────────────────
-
-// AUDIT_CHECKS data moved to app/components/DiagnosticGrid.tsx
 
 const REASONS = [
   {
@@ -260,7 +262,7 @@ const FAQS = [
   },
   {
     q: "What if I don't have a website yet?",
-    a: "Check the \"No website yet\" box on the form. The audit will focus on your GBP, reviews, and citations — and it'll show you exactly what you're missing by not having a site.",
+    a: 'Check the "No website yet" box on the form. The audit will focus on your GBP, reviews, and citations — and it\'ll show you exactly what you\'re missing by not having a site.',
   },
   {
     q: "How long does it take?",
