@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import SiteNavMinimal from "@/app/components/SiteNavMinimal";
 import SiteFooterMinimal from "@/app/components/SiteFooterMinimal";
 import HeroSection from "@/app/components/HeroSection";
 import DiagnosticGrid from "@/app/components/DiagnosticGrid";
 import TrustBar from "@/app/components/TrustBar";
 import HowItWorksSection from "@/app/components/HowItWorksSection";
+import ReportPreviewSection from "@/app/components/ReportPreviewSection";
 import TestimonialsSection from "@/app/components/TestimonialsSection";
 import FinalCtaSection from "@/app/components/FinalCtaSection";
 import styles from "@/styles/landing.module.css";
@@ -95,11 +97,26 @@ export default function FreeLocalSEOAuditPage() {
         {/* Hero — form is the CTA */}
         <HeroSection />
 
+        {/* Map Pack visual — makes the problem visceral before trust-building */}
+        <div className={styles.mapPackVisual}>
+          <Image
+            src="/map-pack-visibility.png"
+            alt="Google Map Pack showing two active contractor listings and one ghosted invisible listing"
+            width={900}
+            height={900}
+            className={styles.mapPackImg}
+            priority={false}
+          />
+        </div>
+
         {/* Trust bar — stats + featured testimonial immediately below the hero */}
         <TrustBar />
 
         {/* How it works — orient cold ad traffic before they hit the detail */}
         <HowItWorksSection />
+
+        {/* Report preview — show the output before they commit */}
+        <ReportPreviewSection />
 
         {/* What the audit checks */}
         <section className={styles.section} aria-labelledby='checks-heading'>
@@ -127,6 +144,17 @@ export default function FreeLocalSEOAuditPage() {
           <h2 className={styles.sectionTitleSpaced} id='why-heading'>
             The BEST contractors in town shouldn&rsquo;t be the hardest to find.
           </h2>
+
+          <div className={styles.transformationVisual}>
+            <Image
+              src="/visibility-transformation.png"
+              alt="Before vs After comparison showing a missing business listing becoming dominant at #1 on Google"
+              width={800}
+              height={400}
+              className={styles.transformationImg}
+            />
+          </div>
+
           <div className={styles.reasons}>
             {REASONS.map((r, i) => (
               <div key={i} className={styles.reasonItem}>
