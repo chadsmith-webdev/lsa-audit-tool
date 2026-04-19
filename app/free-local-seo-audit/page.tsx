@@ -152,6 +152,7 @@ export default function FreeLocalSEOAuditPage() {
               width={800}
               height={400}
               className={styles.transformationImg}
+              loading="eager"
             />
           </div>
 

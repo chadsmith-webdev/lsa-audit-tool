@@ -24,7 +24,8 @@ export default function ReportPreviewSection() {
           width={680}
           height={680}
           className={styles.reportPreviewImg}
-          priority={false}
+          loading="eager"
+          priority
         />
         <p className={styles.reportPreviewCaption}>
           Sample report — your results will reflect your actual business data

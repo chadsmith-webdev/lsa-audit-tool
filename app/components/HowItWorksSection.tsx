@@ -43,6 +43,7 @@ export default function HowItWorksSection() {
                 width={300}
                 height={200}
                 className={styles.stepVisual}
+                style={{ width: "100%", height: "auto" }}
               />
             </div>
             <div className={styles.stepNum} aria-hidden="true">
