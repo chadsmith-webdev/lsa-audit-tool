@@ -90,6 +90,22 @@ export default function FreeLocalSEOAuditPage() {
       <main className={styles.mainContent}>
         <HeroSection />
 
+        {/* FAQ — objection handling before content sections */}
+        <section className={styles.sectionWide} aria-labelledby='faq-heading'>
+          <p className={styles.sectionLabel}>FAQ · COMMON QUESTIONS</p>
+          <h2 className={styles.sectionTitle} id='faq-heading'>
+            Questions I hear before people run the audit
+          </h2>
+          <div className={styles.faqList}>
+            {FAQS.map((faq, i) => (
+              <details key={i} className={styles.faqItem}>
+                <summary className={styles.faqQ}>{faq.q}</summary>
+                <p className={styles.faqA}>{faq.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
         {/* What the audit checks */}
         <section className={styles.section} aria-labelledby='checks-heading'>
           <p className={styles.sectionLabel}>WHAT THE AUDIT CHECKS</p>
@@ -151,22 +167,6 @@ export default function FreeLocalSEOAuditPage() {
               </li>
             ))}
           </ul>
-        </section>
-
-        {/* FAQ */}
-        <section className={styles.section} aria-labelledby='faq-heading'>
-          <p className={styles.sectionLabel}>FAQ · COMMON QUESTIONS</p>
-          <h2 className={styles.sectionTitle} id='faq-heading'>
-            Questions I hear before people run the audit
-          </h2>
-          <div className={styles.faqList}>
-            {FAQS.map((faq, i) => (
-              <details key={i} className={styles.faqItem}>
-                <summary className={styles.faqQ}>{faq.q}</summary>
-                <p className={styles.faqA}>{faq.a}</p>
-              </details>
-            ))}
-          </div>
         </section>
       </main>
 
@@ -277,5 +277,9 @@ const FAQS = [
   {
     q: "I already have good reviews. Why would I need this?",
     a: "Reviews are one of 7 factors. Contractors with great reviews still lose Map Pack spots because of weak citations, missing schema markup, or a GBP with outdated info. The audit shows you the full picture.",
+  },
+  {
+    q: "Will you try to sell me something after?",
+    a: "No pitch, no follow-up call unless you ask for one. You'll get your results, a shareable link, and a PDF if you enter your email. That's it. If you want to talk about fixing what the audit finds, there's a link to book a free call — but it's there if you want it, not pushed on you.",
   },
 ];
