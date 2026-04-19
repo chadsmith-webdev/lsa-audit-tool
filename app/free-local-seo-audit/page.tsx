@@ -175,7 +175,9 @@ export default function FreeLocalSEOAuditPage() {
         <p className={styles.footerCtaTitle} id='cta-heading'>
           The best contractor in town shouldn&rsquo;t be the hardest to find.
         </p>
-        <p className={styles.footerCtaSub}>Free. No signup. 90 seconds.</p>
+        <p className={styles.footerCtaSub}>
+          Free. No email to start. Results in 90 seconds.
+        </p>
         <a href='#top' className={styles.ctaBtn}>
           Run My Free Audit →
         </a>

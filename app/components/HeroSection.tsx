@@ -50,7 +50,7 @@ export default function HeroSection() {
         <motion.div variants={fadeUp} className={styles.heroPills}>
           <span className={styles.heroPill}>Free</span>
           <span className={styles.heroPill}>Results in 90 Seconds</span>
-          <span className={styles.heroPill}>Next steps included </span>
+          <span className={styles.heroPill}>No email to start </span>
         </motion.div>
       </motion.div>
 
