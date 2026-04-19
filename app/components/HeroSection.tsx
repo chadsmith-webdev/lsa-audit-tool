@@ -34,9 +34,11 @@ export default function HeroSection() {
         </motion.span>
 
         <motion.h1 variants={fadeUp} className={styles.heroTitle}>
-          Reveal Your
+          Free Local SEO Audit -
           <br />
-          <span className={styles.heroAccent}>Invisibility Score</span>
+          <span className={styles.heroAccent}>
+            See Why Google Isn't Showing Your Business
+          </span>
         </motion.h1>
 
         <motion.p variants={fadeUp} className={styles.heroSub}>
@@ -46,9 +48,9 @@ export default function HeroSection() {
         </motion.p>
 
         <motion.div variants={fadeUp} className={styles.heroPills}>
-          <span className={styles.heroPill}>Free · No Email Required</span>
+          <span className={styles.heroPill}>Free</span>
           <span className={styles.heroPill}>Results in 90 Seconds</span>
-          <span className={styles.heroPill}>AI-Powered Recon</span>
+          <span className={styles.heroPill}>Next steps included </span>
         </motion.div>
       </motion.div>
 

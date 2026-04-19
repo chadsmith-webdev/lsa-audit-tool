@@ -83,7 +83,7 @@ const AUDIT_CHECKS = [
       </svg>
     ),
     name: "Technical SEO",
-    desc: "The Technical Map. I hunt for schema markup gaps and Core Web Vitals issues that confuse Google and filter you out of local results.",
+    desc: "The Technical Map. I check for schema markup gaps and page speed issues that confuse Google and quietly filter you out of local results.",
   },
   {
     icon: (
@@ -126,7 +126,7 @@ const AUDIT_CHECKS = [
       </svg>
     ),
     name: "Backlinks",
-    desc: "I look at the local and industry signals pointing to your site. Authority signals tell Google you're a real, established business — not a ghost.",
+    desc: "I look at the local and industry signals pointing to your site. These signals tell Google your business is real and active — not a shell with a website.",
   },
   {
     icon: (

@@ -45,7 +45,7 @@ const schema = {
   "@type": "SoftwareApplication",
   name: "Local SEO Audit Tool",
   description:
-    "Free AI-powered local SEO audit for contractors. Checks Google Business Profile, reviews, on-page SEO, technical SEO, citations, backlinks, and competitors in 90 seconds.",
+    "Free local SEO audit for contractors. Checks Google Business Profile, reviews, on-page SEO, technical SEO, citations, backlinks, and competitors in 90 seconds.",
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   offers: {
@@ -92,7 +92,7 @@ export default function FreeLocalSEOAuditPage() {
 
         {/* What the audit checks */}
         <section className={styles.section} aria-labelledby='checks-heading'>
-          <p className={styles.sectionLabel}>RECONNAISSANCE · 7 FACTORS</p>
+          <p className={styles.sectionLabel}>WHAT THE AUDIT CHECKS</p>
           <h2 className={styles.sectionTitle} id='checks-heading'>
             7 signals that determine
             <br />
@@ -111,9 +111,7 @@ export default function FreeLocalSEOAuditPage() {
         <section className={styles.section} aria-labelledby='why-heading'>
           <p className={styles.sectionLabel}>WHY I BUILT THIS</p>
           <h2 className={styles.sectionTitleSpaced} id='why-heading'>
-            Why I built the
-            <br />
-            Local Search Ally Radar
+            The BEST contractors in town shouldn&rsquo;t be the hardest to find.
           </h2>
           <div className={styles.reasons}>
             {REASONS.map((r, i) => (
@@ -159,7 +157,7 @@ export default function FreeLocalSEOAuditPage() {
         <section className={styles.section} aria-labelledby='faq-heading'>
           <p className={styles.sectionLabel}>FAQ · COMMON QUESTIONS</p>
           <h2 className={styles.sectionTitle} id='faq-heading'>
-            Frequently asked questions
+            Questions I hear before people run the audit
           </h2>
           <div className={styles.faqList}>
             {FAQS.map((faq, i) => (

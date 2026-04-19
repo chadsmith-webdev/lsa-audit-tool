@@ -21,9 +21,9 @@
   --accent: var(--carolina);
 
   /* Deep dark palette */
-  --bg: #020203;
-  --surface: #080a0d;
-  --surface2: #0e1217;
+  --bg: #0a0a0a;
+  --surface: #141414;
+  --surface2: #1e1e1e;
   --text: #f8f9fa;
   --muted: #6c757d;
 
