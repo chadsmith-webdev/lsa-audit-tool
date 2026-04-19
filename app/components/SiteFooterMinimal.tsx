@@ -4,7 +4,7 @@ export default function SiteFooterMinimal() {
   return (
     <footer className={styles.footer}>
       <p className={styles.copy}>
-        &copy; {new Date().getFullYear()} Local Search Ally &middot; Siloam
+        &copy; {new Date().getFullYear()}{" "}Local Search Ally &middot; Siloam
         Springs, AR
       </p>
       <nav className={styles.legal} aria-label="Legal">

@@ -678,7 +678,7 @@ details[open] > .faqA {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 28px;
+  gap: 16px;
 }
 
 .statsRow {
@@ -784,7 +784,7 @@ details[open] > .faqA {
 }
 
 .stepCard {
-  padding: 28px 24px;
+  padding: 22px 20px;
   border-right: 1px solid rgba(255, 255, 255, 0.07);
   position: relative;
   background: rgba(255, 255, 255, 0.02);
@@ -801,7 +801,7 @@ details[open] > .faqA {
   color: var(--carolina);
   opacity: 0.2;
   line-height: 1;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
   letter-spacing: -0.04em;
 }
 
@@ -912,8 +912,12 @@ details[open] > .faqA {
   text-align: center;
   padding: 80px var(--page-gutter);
   border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   position: relative;
   overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 100%, rgba(123, 175, 212, 0.07) 0%, transparent 100%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(123, 175, 212, 0.04) 0%, transparent 100%);
 }
 
 .finalCta::before {
