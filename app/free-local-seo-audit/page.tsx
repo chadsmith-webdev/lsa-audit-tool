@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import SiteNav from "@/app/components/SiteNav";
-import SiteFooter from "@/app/components/SiteFooter";
+import SiteNavMinimal from "@/app/components/SiteNavMinimal";
+import SiteFooterMinimal from "@/app/components/SiteFooterMinimal";
 import HeroSection from "@/app/components/HeroSection";
 import DiagnosticGrid from "@/app/components/DiagnosticGrid";
 import styles from "@/styles/landing.module.css";
@@ -85,7 +85,7 @@ export default function FreeLocalSEOAuditPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
 
-      <SiteNav />
+      <SiteNavMinimal />
 
       <main className={styles.mainContent}>
         <HeroSection />
@@ -183,7 +183,7 @@ export default function FreeLocalSEOAuditPage() {
         </a>
       </section>
 
-      <SiteFooter />
+      <SiteFooterMinimal />
     </>
   );
 }
