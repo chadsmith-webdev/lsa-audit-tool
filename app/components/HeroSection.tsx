@@ -39,7 +39,8 @@ export default function HeroSection() {
         </motion.h1>
 
         <motion.p variants={fadeUp} className={styles.heroSubCentered}>
-          Not in the Map Pack? You&apos;re invisible to customers searching right now.
+          Not in the Map Pack? You&apos;re invisible to customers searching right now.{" "}
+          This audit shows you exactly why — and what to fix first.
         </motion.p>
 
         <div className={styles.heroToolCentered}>

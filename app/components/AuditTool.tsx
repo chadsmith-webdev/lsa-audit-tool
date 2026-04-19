@@ -419,6 +419,10 @@ function AuditForm({
           <button type='submit' className={styles.submitBtn}>
             Run My Free Audit →
           </button>
+          <p className={styles.formTrust}>
+            Checks your actual Google listing, reviews, and citations — not estimates.
+            Built by Chad Smith, NWA local SEO specialist.
+          </p>
         </form>
       </div>
     </motion.div>
