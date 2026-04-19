@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import SiteNav from "@/app/components/SiteNav";
-import SiteFooter from "@/app/components/SiteFooter";
+import SiteNavMinimal from "@/app/components/SiteNavMinimal";
+import SiteFooterMinimal from "@/app/components/SiteFooterMinimal";
 import HeroSection from "@/app/components/HeroSection";
 import DiagnosticGrid from "@/app/components/DiagnosticGrid";
+import TrustBar from "@/app/components/TrustBar";
+import HowItWorksSection from "@/app/components/HowItWorksSection";
+import TestimonialsSection from "@/app/components/TestimonialsSection";
+import FinalCtaSection from "@/app/components/FinalCtaSection";
 import styles from "@/styles/landing.module.css";
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
@@ -85,10 +89,17 @@ export default function FreeLocalSEOAuditPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
 
-      <SiteNav />
+      <SiteNavMinimal />
 
       <main className={styles.mainContent}>
+        {/* Hero — form is the CTA */}
         <HeroSection />
+
+        {/* Trust bar — stats + featured testimonial immediately below the hero */}
+        <TrustBar />
+
+        {/* How it works — orient cold ad traffic before they hit the detail */}
+        <HowItWorksSection />
 
         {/* What the audit checks */}
         <section className={styles.section} aria-labelledby='checks-heading'>
@@ -106,6 +117,9 @@ export default function FreeLocalSEOAuditPage() {
           </p>
           <DiagnosticGrid />
         </section>
+
+        {/* Testimonials — social proof after content builds conviction */}
+        <TestimonialsSection />
 
         {/* Why contractors use it */}
         <section className={styles.section} aria-labelledby='why-heading'>
@@ -153,8 +167,8 @@ export default function FreeLocalSEOAuditPage() {
           </ul>
         </section>
 
-        {/* FAQ */}
-        <section className={styles.section} aria-labelledby='faq-heading'>
+        {/* FAQ — handle final objections before the last CTA */}
+        <section className={styles.sectionWide} aria-labelledby='faq-heading'>
           <p className={styles.sectionLabel}>FAQ · COMMON QUESTIONS</p>
           <h2 className={styles.sectionTitle} id='faq-heading'>
             Questions I hear before people run the audit
@@ -168,29 +182,17 @@ export default function FreeLocalSEOAuditPage() {
             ))}
           </div>
         </section>
+
+        {/* Final CTA — repeat the conversion action before footer */}
+        <FinalCtaSection />
       </main>
 
-      {/* CTA section */}
-      <section className={styles.footerCta} aria-labelledby='cta-heading'>
-        <p className={styles.footerCtaTitle} id='cta-heading'>
-          The best contractor in town shouldn&rsquo;t be the hardest to find.
-        </p>
-        <p className={styles.footerCtaSub}>
-          Free. No email to start. Results in 90 seconds.
-        </p>
-        <a href='#top' className={styles.ctaBtn}>
-          Run My Free Audit →
-        </a>
-      </section>
-
-      <SiteFooter />
+      <SiteFooterMinimal />
     </>
   );
 }
 
 // ─── Content ──────────────────────────────────────────────────────────────────
-
-// AUDIT_CHECKS data moved to app/components/DiagnosticGrid.tsx
 
 const REASONS = [
   {
@@ -260,7 +262,7 @@ const FAQS = [
   },
   {
     q: "What if I don't have a website yet?",
-    a: "Check the \"No website yet\" box on the form. The audit will focus on your GBP, reviews, and citations — and it'll show you exactly what you're missing by not having a site.",
+    a: 'Check the "No website yet" box on the form. The audit will focus on your GBP, reviews, and citations — and it\'ll show you exactly what you\'re missing by not having a site.',
   },
   {
     q: "How long does it take?",
@@ -277,5 +279,9 @@ const FAQS = [
   {
     q: "I already have good reviews. Why would I need this?",
     a: "Reviews are one of 7 factors. Contractors with great reviews still lose Map Pack spots because of weak citations, missing schema markup, or a GBP with outdated info. The audit shows you the full picture.",
+  },
+  {
+    q: "Will you try to sell me something after?",
+    a: "No pitch, no follow-up call unless you ask for one. You'll get your results, a shareable link, and a PDF if you enter your email. That's it. If you want to talk about fixing what the audit finds, there's a link to book a free call — but it's there if you want it, not pushed on you.",
   },
 ];

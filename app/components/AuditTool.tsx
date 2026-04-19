@@ -313,6 +313,8 @@ function AuditForm({
     >
       <div className={styles.formCard}>
         <form onSubmit={onSubmit} noValidate className={styles.form}>
+          {/* Field order: Business Name → Trade → City → Website
+              Progressive commitment: start easy, increase effort gradually */}
           <div className={styles.fieldGroup}>
             <label className={styles.label} htmlFor='businessName'>
               Business Name
@@ -419,6 +421,10 @@ function AuditForm({
           <button type='submit' className={styles.submitBtn}>
             Run My Free Audit →
           </button>
+          <p className={styles.formTrust}>
+            Checks your actual Google listing, reviews, and citations — not estimates.
+            Built by Chad Smith, NWA local SEO specialist.
+          </p>
         </form>
       </div>
     </motion.div>
