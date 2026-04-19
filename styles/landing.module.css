@@ -10,18 +10,84 @@
 
 /* ─── Hero row (copy + tool side by side) ───────────────────────────────── */
 
-.heroRow {
+.heroRowCentered {
   position: relative;
   overflow: hidden;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  max-width: 1200px;
+  justify-content: center;
+  max-width: 700px;
   min-height: 100vh;
   margin: 0 auto;
-  padding: 72px var(--page-gutter);
+  padding: 40px var(--page-gutter);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
+}
+
+.heroCopyCentered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  position: relative;
+  z-index: 1;
+}
+
+.heroTitleCentered em {
+  font-style: normal;
+  color: var(--carolina);
+}
+
+.heroTitleCentered {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  text-align: center;
+}
+
+.heroAccentCentered {
+  color: var(--carolina);
+}
+
+.heroSubCentered {
+  font-family: var(--font-ui);
+  font-size: clamp(0.9rem, 1.2vw, 1rem);
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.heroPillsCentered {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.eyebrowCentered {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--carolina);
+  justify-content: center;
+}
+
+.heroToolCentered {
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 /* Radial glow — top right quadrant */

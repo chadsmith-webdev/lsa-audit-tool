@@ -22,41 +22,36 @@ const fadeUp: Variants = {
 
 export default function HeroSection() {
   return (
-    <header className={styles.heroRow} id='top'>
+    <header className={styles.heroRowCentered} id='top'>
       <motion.div
-        className={styles.heroCopy}
+        className={styles.heroCopyCentered}
         variants={container}
         initial='hidden'
         animate='visible'
       >
-        <motion.span variants={fadeUp} className={styles.eyebrow}>
+        <motion.span variants={fadeUp} className={styles.eyebrowCentered}>
           VISIBILITY SCAN · LOCAL SEARCH ALLY
         </motion.span>
 
-        <motion.h1 variants={fadeUp} className={styles.heroTitle}>
-          Free Local SEO Audit -
-          <br />
-          <span className={styles.heroAccent}>
-            See Why Google Isn't Showing Your Business
-          </span>
+        <motion.h1 variants={fadeUp} className={styles.heroTitleCentered}>
+          Free Local SEO Audit —{" "}
+          <em>See Why Google Isn&apos;t Showing You</em>
         </motion.h1>
 
-        <motion.p variants={fadeUp} className={styles.heroSub}>
-          If you&rsquo;re not in the Google Map Pack, you&rsquo;re invisible to
-          customers searching right now. See exactly where you stand — free, in
-          90 seconds.
+        <motion.p variants={fadeUp} className={styles.heroSubCentered}>
+          Not in the Map Pack? You&apos;re invisible to customers searching right now.
         </motion.p>
 
-        <motion.div variants={fadeUp} className={styles.heroPills}>
+        <div className={styles.heroToolCentered}>
+          <AuditTool />
+        </div>
+
+        <motion.div variants={fadeUp} className={styles.heroPillsCentered}>
           <span className={styles.heroPill}>Free</span>
           <span className={styles.heroPill}>Results in 90 Seconds</span>
-          <span className={styles.heroPill}>No email to start </span>
+          <span className={styles.heroPill}>No email to start</span>
         </motion.div>
       </motion.div>
-
-      <div className={styles.heroTool}>
-        <AuditTool />
-      </div>
     </header>
   );
 }
