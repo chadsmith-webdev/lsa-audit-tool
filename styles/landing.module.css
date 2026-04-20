@@ -1104,6 +1104,7 @@ details[open] > .faqA {
 /* ─── How it works card visuals ────────────────────────────────────────── */
 
 .stepVisualWrap {
+  position: relative;
   width: 100%;
   aspect-ratio: 3 / 2;
   margin-bottom: 24px;

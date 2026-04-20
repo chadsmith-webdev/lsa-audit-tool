@@ -40,10 +40,8 @@ export default function HowItWorksSection() {
               <Image
                 src={step.img}
                 alt={step.title}
-                width={300}
-                height={200}
+                fill
                 className={styles.stepVisual}
-                style={{ width: "100%", height: "auto" }}
               />
             </div>
             <div className={styles.stepNum} aria-hidden="true">
