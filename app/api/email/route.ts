@@ -367,7 +367,7 @@ function buildEmailHtml({
           <tr>
             <td style="padding-top:32px;border-top:1px solid rgba(255,255,255,0.06);">
               <p style="margin:0;font-size:12px;color:rgba(255,255,255,0.2);line-height:1.6;">
-                Local Search Ally · NWA Local SEO for Contractors · Bentonville, AR 72712<br/>
+                Local Search Ally · 707 West Jillian Street, Siloam Springs AR 72761<br/>
                 You received this because you ran a free audit at localsearchally.com.<br/>
                 <a href="${unsubscribeUrl}" style="color:rgba(255,255,255,0.3);text-decoration:underline;">Unsubscribe</a>
               </p>
@@ -405,7 +405,7 @@ function emailShell(bodyHtml: string, unsubscribeUrl: string): string {
           <tr>
             <td style="padding-top:32px;border-top:1px solid rgba(255,255,255,0.06);">
               <p style="margin:0;font-size:12px;color:rgba(255,255,255,0.2);line-height:1.6;">
-                Local Search Ally · NWA Local SEO for Contractors · Bentonville, AR 72712<br/>
+                Local Search Ally · 707 West Jillian Street, Siloam Springs AR 72761<br/>
                 You received this because you ran a free audit at localsearchally.com.<br/>
                 <a href="${unsubscribeUrl}" style="color:rgba(255,255,255,0.3);text-decoration:underline;">Unsubscribe</a>
               </p>
