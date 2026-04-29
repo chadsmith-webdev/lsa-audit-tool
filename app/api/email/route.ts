@@ -127,6 +127,8 @@ export async function POST(req: Request) {
     }
   }
 
+  const unsubscribeMailto = `mailto:unsubscribe@localsearchally.com?subject=Unsubscribe&body=${encodeURIComponent(email)}`;
+
   // ── Send confirmation email ──────────────────────────────────────────────
   const { error: sendError } = await resend.emails.send({
     from: "Local Search Ally <audits@localsearchally.com>",
@@ -141,7 +143,12 @@ export async function POST(req: Request) {
       lowestLabel,
       auditUrl,
       calendlyUrl,
+      unsubscribeUrl: unsubscribeMailto,
     }),
+    headers: {
+      "List-Unsubscribe": `<${unsubscribeMailto}>`,
+      "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+    },
     ...(pdfAttachment ? { attachments: [pdfAttachment] } : {}),
   });
 
@@ -189,17 +196,31 @@ export async function POST(req: Request) {
     {
       daysOut: 2,
       subject: `One thing to fix first — ${businessName}`,
-      html: buildDripDay2Html({ businessName, lowestLabel, calendlyUrl }),
+      html: buildDripDay2Html({
+        businessName,
+        lowestLabel,
+        calendlyUrl,
+        unsubscribeUrl: unsubscribeMailto,
+      }),
     },
     {
       daysOut: 5,
       subject: `What ${trade} contractors in the Map Pack do differently`,
-      html: buildDripDay5Html({ businessName, trade, calendlyUrl }),
+      html: buildDripDay5Html({
+        businessName,
+        trade,
+        calendlyUrl,
+        unsubscribeUrl: unsubscribeMailto,
+      }),
     },
     {
       daysOut: 10,
       subject: `Last note from Local Search Ally`,
-      html: buildDripDay10Html({ businessName, calendlyUrl }),
+      html: buildDripDay10Html({
+        businessName,
+        calendlyUrl,
+        unsubscribeUrl: unsubscribeMailto,
+      }),
     },
   ];
 
@@ -214,6 +235,10 @@ export async function POST(req: Request) {
         subject: drip.subject,
         html: drip.html,
         scheduledAt,
+        headers: {
+          "List-Unsubscribe": `<${unsubscribeMailto}>`,
+          "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+        },
       })
       .catch((err) =>
         console.error(`Drip day-${drip.daysOut} schedule failed:`, err),
@@ -234,6 +259,7 @@ function buildEmailHtml({
   lowestLabel,
   auditUrl,
   calendlyUrl,
+  unsubscribeUrl,
 }: {
   businessName: string;
   trade: string;
@@ -243,6 +269,7 @@ function buildEmailHtml({
   lowestLabel: string;
   auditUrl: string;
   calendlyUrl: string;
+  unsubscribeUrl: string;
 }): string {
   const scoreColor =
     overallScore >= 8 ? "#22c55e" : overallScore >= 5 ? "#eab308" : "#ef4444";
@@ -338,10 +365,11 @@ function buildEmailHtml({
 
           <!-- Footer -->
           <tr>
-            <td style="padding-top:32px;">
+            <td style="padding-top:32px;border-top:1px solid rgba(255,255,255,0.06);">
               <p style="margin:0;font-size:12px;color:rgba(255,255,255,0.2);line-height:1.6;">
-                Local Search Ally · NWA Local SEO for Contractors<br/>
-                You received this because you ran a free audit at localsearchally.com.
+                Local Search Ally · NWA Local SEO for Contractors · Bentonville, AR 72712<br/>
+                You received this because you ran a free audit at localsearchally.com.<br/>
+                <a href="${unsubscribeUrl}" style="color:rgba(255,255,255,0.3);text-decoration:underline;">Unsubscribe</a>
               </p>
             </td>
           </tr>
@@ -356,7 +384,7 @@ function buildEmailHtml({
 
 // ─── Shared email shell ────────────────────────────────────────────────────────
 
-function emailShell(bodyHtml: string): string {
+function emailShell(bodyHtml: string, unsubscribeUrl: string): string {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -377,8 +405,9 @@ function emailShell(bodyHtml: string): string {
           <tr>
             <td style="padding-top:32px;border-top:1px solid rgba(255,255,255,0.06);">
               <p style="margin:0;font-size:12px;color:rgba(255,255,255,0.2);line-height:1.6;">
-                Local Search Ally · NWA Local SEO for Contractors<br/>
-                You received this because you ran a free audit at localsearchally.com.
+                Local Search Ally · NWA Local SEO for Contractors · Bentonville, AR 72712<br/>
+                You received this because you ran a free audit at localsearchally.com.<br/>
+                <a href="${unsubscribeUrl}" style="color:rgba(255,255,255,0.3);text-decoration:underline;">Unsubscribe</a>
               </p>
             </td>
           </tr>
@@ -396,12 +425,15 @@ function buildDripDay2Html({
   businessName,
   lowestLabel,
   calendlyUrl,
+  unsubscribeUrl,
 }: {
   businessName: string;
   lowestLabel: string;
   calendlyUrl: string;
+  unsubscribeUrl: string;
 }): string {
-  return emailShell(`
+  return emailShell(
+    `
     <tr>
       <td style="padding-bottom:24px;">
         <p style="margin:0 0 20px;font-size:16px;line-height:1.7;color:rgba(255,255,255,0.8);">
@@ -421,7 +453,9 @@ function buildDripDay2Html({
         </a>
       </td>
     </tr>
-  `);
+  `,
+    unsubscribeUrl,
+  );
 }
 
 // ─── Day 5: Industry data ──────────────────────────────────────────────────────
@@ -448,13 +482,16 @@ function buildDripDay5Html({
   businessName,
   trade,
   calendlyUrl,
+  unsubscribeUrl,
 }: {
   businessName: string;
   trade: string;
   calendlyUrl: string;
+  unsubscribeUrl: string;
 }): string {
   const stat = TRADE_STATS[trade] ?? TRADE_STATS["Other"];
-  return emailShell(`
+  return emailShell(
+    `
     <tr>
       <td style="padding-bottom:24px;">
         <p style="margin:0 0 20px;font-size:16px;line-height:1.7;color:rgba(255,255,255,0.8);">
@@ -483,7 +520,9 @@ function buildDripDay5Html({
         </a>
       </td>
     </tr>
-  `);
+  `,
+    unsubscribeUrl,
+  );
 }
 
 // ─── Day 10: Last touch ────────────────────────────────────────────────────────
@@ -491,11 +530,14 @@ function buildDripDay5Html({
 function buildDripDay10Html({
   businessName,
   calendlyUrl,
+  unsubscribeUrl,
 }: {
   businessName: string;
   calendlyUrl: string;
+  unsubscribeUrl: string;
 }): string {
-  return emailShell(`
+  return emailShell(
+    `
     <tr>
       <td style="padding-bottom:24px;">
         <p style="margin:0 0 16px;font-size:16px;line-height:1.7;color:rgba(255,255,255,0.8);">
@@ -515,5 +557,7 @@ function buildDripDay10Html({
         </a>
       </td>
     </tr>
-  `);
+  `,
+    unsubscribeUrl,
+  );
 }
