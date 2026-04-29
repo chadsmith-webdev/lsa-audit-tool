@@ -27,9 +27,9 @@ const steps = [
 
 export default function HowItWorksSection() {
   return (
-    <section className={styles.section} aria-labelledby="how-it-works-title">
+    <section className={styles.section} aria-labelledby='how-it-works-title'>
       <p className={styles.sectionLabel}>How it works</p>
-      <h2 id="how-it-works-title" className={styles.sectionTitle}>
+      <h2 id='how-it-works-title' className={styles.sectionTitle}>
         From form to full report in under two minutes
       </h2>
 
@@ -41,11 +41,11 @@ export default function HowItWorksSection() {
                 src={step.img}
                 alt={step.title}
                 fill
-                sizes="(max-width: 768px) 100vw, 33vw"
+                sizes='(max-width: 768px) 100vw, 33vw'
                 className={styles.stepVisual}
               />
             </div>
-            <div className={styles.stepNum} aria-hidden="true">
+            <div className={styles.stepNum} aria-hidden='true'>
               {step.num}
             </div>
             <h3 className={styles.stepTitle}>{step.title}</h3>
@@ -57,5 +57,3 @@ export default function HowItWorksSection() {
     </section>
   );
 }
-
-
