@@ -16,7 +16,7 @@
 
 .card {
   width: 100%;
-  max-width: 600px;
+  max-width: 760px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -81,34 +81,11 @@
   margin: 0;
 }
 
-.calendlyBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.875rem 2rem;
-  border-radius: 8px;
-  background: var(--gradient-cta);
-  color: #fff;
-  font-weight: 600;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-  transition:
-    opacity 0.18s ease,
-    transform 0.18s ease;
+.calendlyWidget {
   width: 100%;
-  justify-content: center;
-  max-width: 400px;
-}
-
-.calendlyBtn:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-
-.calendlyBtn:active {
-  transform: translateY(0);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
 }
 
 .auditLink {

@@ -1,34 +1,44 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
+import Script from "next/script";
 import SiteNavMinimal from "@/app/components/SiteNavMinimal";
 import SiteFooterMinimal from "@/app/components/SiteFooterMinimal";
 import styles from "@/styles/thankYou.module.css";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://audit.localsearchally.com";
-const CALENDLY_URL =
-  process.env.NEXT_PUBLIC_CALENDLY_URL ?? process.env.CALENDLY_URL ?? "";
+
+const CALENDLY_URL = "https://calendly.com/smithchadlamont";
 
 function ThankYouContent() {
   const params = useSearchParams();
   const auditId = params.get("auditId");
   const auditUrl = auditId ? `${SITE_URL}/audit/${auditId}` : null;
 
-  function handleCalendlyClick() {
-    if (
-      typeof window !== "undefined" &&
-      typeof (window as { gtag?: (...args: unknown[]) => void }).gtag ===
-        "function"
-    ) {
-      (window as { gtag: (...args: unknown[]) => void }).gtag(
-        "event",
-        "calendly_click",
-        { event_category: "engagement" },
-      );
+  // Fire calendly_click GA4 event when the user schedules via the widget
+  useEffect(() => {
+    function handleMessage(e: MessageEvent) {
+      if (
+        e.origin === "https://calendly.com" &&
+        e.data?.event === "calendly.event_scheduled"
+      ) {
+        if (
+          typeof (window as { gtag?: (...args: unknown[]) => void }).gtag ===
+          "function"
+        ) {
+          (window as { gtag: (...args: unknown[]) => void }).gtag(
+            "event",
+            "calendly_click",
+            { event_category: "engagement" },
+          );
+        }
+      }
     }
-  }
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, []);
 
   return (
     <div className={styles.card}>
@@ -81,28 +91,14 @@ function ThankYouContent() {
       <div className={styles.divider} />
 
       <div className={styles.calendlySection}>
-        <p className={styles.calendlyLabel}>Want faster results?</p>
-        {CALENDLY_URL ? (
-          <a
-            href={CALENDLY_URL}
-            target='_blank'
-            rel='noopener noreferrer'
-            className={styles.calendlyBtn}
-            onClick={handleCalendlyClick}
-          >
-            Book a Free 15-Minute Strategy Call →
-          </a>
-        ) : (
-          <a
-            href='https://localsearchally.com/contact'
-            target='_blank'
-            rel='noopener noreferrer'
-            className={styles.calendlyBtn}
-            onClick={handleCalendlyClick}
-          >
-            Book a Free 15-Minute Strategy Call →
-          </a>
-        )}
+        <p className={styles.calendlyLabel}>
+          Book a free 15-minute strategy call
+        </p>
+        <div
+          className={`calendly-inline-widget ${styles.calendlyWidget}`}
+          data-url={CALENDLY_URL}
+          style={{ minWidth: "320px", height: "700px" }}
+        />
       </div>
 
       {auditUrl && (
@@ -124,6 +120,10 @@ export default function ThankYouPage() {
         </Suspense>
       </main>
       <SiteFooterMinimal />
+      <Script
+        src='https://assets.calendly.com/assets/external/widget.js'
+        strategy='lazyOnload'
+      />
     </div>
   );
 }
