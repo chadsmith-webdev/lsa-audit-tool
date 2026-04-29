@@ -12,9 +12,9 @@ function getRatelimiter() {
 
   return new Ratelimit({
     redis: new Redis({ url, token }),
-    limiter: Ratelimit.slidingWindow(5, "24 h"),
+    limiter: Ratelimit.slidingWindow(10, "30 d"),
     analytics: false,
-    prefix: "lsa:audit",
+    prefix: "lsa:audit-v2",
   });
 }
 
@@ -37,7 +37,7 @@ export async function proxy(req: NextRequest) {
     return NextResponse.json(
       {
         error:
-          "You've run 5 audits today. Come back tomorrow for another free audit.",
+          "You've already run all your free audits this month. Come back in 30 days.",
       },
       {
         status: 429,
