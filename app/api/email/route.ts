@@ -25,10 +25,36 @@ const SECTION_LABELS: Record<string, string> = {
   competitors: "Competitor Comparison",
 };
 
+// ─── Input sanitization ───────────────────────────────────────────────────────
+
+function sanitizeString(value: unknown, maxLen: number): string {
+  if (typeof value !== "string") return "";
+  return value
+    .replace(/<[^>]*>/g, "")
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "")
+    .trim()
+    .slice(0, maxLen);
+}
+
 export async function POST(req: Request) {
   let body: EmailPayload;
   try {
-    body = await req.json();
+    const raw = await req.json();
+    body = {
+      email:
+        typeof raw.email === "string" ? raw.email.trim().slice(0, 254) : "",
+      auditId:
+        typeof raw.auditId === "string" ? raw.auditId.slice(0, 36) : null,
+      businessName: sanitizeString(raw.businessName, 100),
+      trade: sanitizeString(raw.trade, 50),
+      city: sanitizeString(raw.city, 100),
+      scoreBucket: sanitizeString(raw.scoreBucket, 20),
+      overallScore:
+        typeof raw.overallScore === "number"
+          ? Math.min(Math.max(Math.round(raw.overallScore), 1), 10)
+          : 5,
+      lowestSection: sanitizeString(raw.lowestSection, 30),
+    };
   } catch {
     return Response.json({ error: "Invalid JSON" }, { status: 400 });
   }

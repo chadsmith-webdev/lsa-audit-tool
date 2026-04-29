@@ -23,6 +23,32 @@ import { ratelimit } from "@/lib/ratelimit";
 
 export const maxDuration = 120;
 
+// ─── Input sanitization ───────────────────────────────────────────────────────
+
+function sanitizeString(value: unknown, maxLen: number): string {
+  if (typeof value !== "string") return "";
+  return value
+    .replace(/<[^>]*>/g, "") // strip HTML tags
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "") // strip control chars
+    .trim()
+    .slice(0, maxLen);
+}
+
+function sanitizeUrl(value: unknown): string {
+  if (typeof value !== "string") return "";
+  const raw = value.trim().slice(0, 300);
+  if (!raw) return "";
+  try {
+    const withProtocol = /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
+    const parsed = new URL(withProtocol);
+    // Only allow http/https — reject javascript:, data:, etc.
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return "";
+    return parsed.toString();
+  } catch {
+    return "";
+  }
+}
+
 export type AuditInput = {
   businessName: string;
   websiteUrl: string;
@@ -263,7 +289,14 @@ async function notifySlack(
 export async function POST(req: Request) {
   let input: AuditInput;
   try {
-    input = await req.json();
+    const raw = await req.json();
+    input = {
+      businessName: sanitizeString(raw.businessName, 100),
+      websiteUrl: sanitizeUrl(raw.websiteUrl),
+      primaryTrade: sanitizeString(raw.primaryTrade, 50),
+      serviceCity: sanitizeString(raw.serviceCity, 100),
+      noWebsite: Boolean(raw.noWebsite),
+    };
   } catch {
     return Response.json({ error: "Invalid JSON" }, { status: 400 });
   }
