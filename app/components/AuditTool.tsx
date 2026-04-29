@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import styles from "@/styles/audit.module.css";
 
@@ -846,7 +845,6 @@ function EmailGate({
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -902,7 +900,8 @@ function EmailGate({
     }
     const params = new URLSearchParams();
     if (auditId) params.set("auditId", auditId);
-    router.push(`/thank-you${params.size > 0 ? `?${params.toString()}` : ""}`);
+    const qs = params.has("auditId") ? `?${params.toString()}` : "";
+    window.location.href = `/thank-you${qs}`;
   }
 
   return (
