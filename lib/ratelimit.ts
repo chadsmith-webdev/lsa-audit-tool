@@ -5,5 +5,5 @@ export const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
   limiter: Ratelimit.slidingWindow(10, "30 d"),
   analytics: true,
-  prefix: "lsa-audit",
+  prefix: "lsa-audit-v2",
 });
