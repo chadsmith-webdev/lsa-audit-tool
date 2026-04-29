@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import styles from "@/styles/audit.module.css";
 
@@ -422,8 +423,8 @@ function AuditForm({
             Run My Free Audit →
           </button>
           <p className={styles.formTrust}>
-            Checks your actual Google listing, reviews, and citations — not estimates.
-            Built by Chad Smith, NWA local SEO specialist.
+            Checks your actual Google listing, reviews, and citations — not
+            estimates. Built by Chad Smith, NWA local SEO specialist.
           </p>
         </form>
       </div>
@@ -845,6 +846,7 @@ function EmailGate({
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -886,15 +888,22 @@ function EmailGate({
     setLoading(false);
     if (
       typeof window !== "undefined" &&
-      typeof (window as any).gtag === "function"
+      typeof (window as { gtag?: (...args: unknown[]) => void }).gtag ===
+        "function"
     ) {
-      (window as any).gtag("event", "conversion", {
-        send_to: "AW-18091036166/R9z0CNyoqpwcEIacvbJD",
-        value: 1.0,
-        currency: "USD",
-      });
+      (window as { gtag: (...args: unknown[]) => void }).gtag(
+        "event",
+        "conversion",
+        {
+          send_to: "AW-18091036166/R9z0CNyoqpwcEIacvbJD",
+          value: 1.0,
+          currency: "USD",
+        },
+      );
     }
-    onSubmit();
+    const params = new URLSearchParams();
+    if (auditId) params.set("auditId", auditId);
+    router.push(`/thank-you${params.size > 0 ? `?${params.toString()}` : ""}`);
   }
 
   return (
