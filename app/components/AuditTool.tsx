@@ -888,10 +888,9 @@ function EmailGate({
     setLoading(false);
     if (
       typeof window !== "undefined" &&
-      typeof (window as { gtag?: (...args: unknown[]) => void }).gtag ===
-        "function"
+      typeof (window as unknown as { gtag?: unknown }).gtag === "function"
     ) {
-      (window as { gtag: (...args: unknown[]) => void }).gtag(
+      (window as unknown as { gtag: (...args: unknown[]) => void }).gtag(
         "event",
         "conversion",
         {
