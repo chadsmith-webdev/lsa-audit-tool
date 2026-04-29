@@ -41,6 +41,7 @@ export default function HowItWorksSection() {
                 src={step.img}
                 alt={step.title}
                 fill
+                sizes="(max-width: 768px) 100vw, 33vw"
                 className={styles.stepVisual}
               />
             </div>
