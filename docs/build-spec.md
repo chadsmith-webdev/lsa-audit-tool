@@ -575,10 +575,11 @@ The Supabase service role key (`SUPABASE_SERVICE_KEY`) bypasses Row Level Securi
 - [x] SoftwareApplication schema markup on landing page
 - [x] Open Graph + Twitter Card meta on landing page
 - [x] Resend audience contact tagging (`RESEND_AUDIENCE_ID`)
+- [x] Google Ads tag (`AW-18091036166`) + GA4 (`G-11HLEEF2CQ`) in `app/layout.tsx`
 
 ### **Not yet built**
 
-- [ ] Analytics events (Plausible/GA4) — measure audit completions, email capture rate, and time-to-complete
+- [ ] GA4 custom events — audit_complete, email_captured, calendly_click (pageview already tracked)
 - [ ] Error monitoring (Sentry or Vercel log alerts for API route failures)
 - [ ] Input sanitization hardening (HTML stripping, server-side length caps, strict URL validation)
 - [ ] CAN-SPAM footer (unsubscribe link + mailing address in all email templates)

@@ -60,14 +60,15 @@ export default function RootLayout({
       <body className='min-h-full flex flex-col'>
         {children}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-18091036166"
-          strategy="afterInteractive"
+          src='https://www.googletagmanager.com/gtag/js?id=G-11HLEEF2CQ'
+          strategy='afterInteractive'
         />
-        <Script id="gtag-init" strategy="afterInteractive">
+        <Script id='gtag-init' strategy='afterInteractive'>
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
+            gtag('config', 'G-11HLEEF2CQ');
             gtag('config', 'AW-18091036166');
           `}
         </Script>
