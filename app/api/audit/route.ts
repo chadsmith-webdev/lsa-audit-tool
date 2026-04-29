@@ -315,7 +315,7 @@ export async function POST(req: Request) {
     return Response.json(
       {
         error:
-          "You've already run a free audit this month. Come back in 30 days.",
+          "You've already run all your free audits this month. Come back in 30 days.",
       },
       { status: 429 },
     );
