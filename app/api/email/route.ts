@@ -133,12 +133,6 @@ export async function POST(req: Request) {
 
   // ── Send confirmation email ──────────────────────────────────────────────
   try {
-    // Check if recipient is suppressed before sending
-    const suppressions = await resend.suppressions.get({ email });
-    if (suppressions) {
-      console.warn("Email suppressed by Resend:", email, suppressions);
-    }
-
     const sendResult = await resend.emails.send({
       from: "Local Search Ally <audits@localsearchally.com>",
       to: email,
