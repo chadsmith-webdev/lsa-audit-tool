@@ -133,7 +133,13 @@ export async function POST(req: Request) {
 
   // ── Send confirmation email ──────────────────────────────────────────────
   try {
-    await resend.emails.send({
+    // Check if recipient is suppressed before sending
+    const suppressions = await resend.suppressions.get({ email });
+    if (suppressions) {
+      console.warn("Email suppressed by Resend:", email, suppressions);
+    }
+
+    const sendResult = await resend.emails.send({
       from: "Local Search Ally <audits@localsearchally.com>",
       to: email,
       subject: `Your Local SEO Audit — ${businessName}`,
@@ -154,9 +160,10 @@ export async function POST(req: Request) {
       },
       ...(pdfAttachment ? { attachments: [pdfAttachment] } : {}),
     });
+    console.log("Resend send result:", sendResult);
   } catch (err: any) {
-    console.error("Resend error:", err);
-    return Response.json({ error: "Failed to send email" }, { status: 500 });
+    console.error("Resend error:", err.message || err);
+    return Response.json({ error: "Failed to send email: " + (err.message || "Unknown error") }, { status: 500 });
   }
 
   // ── Slack notification ───────────────────────────────────────────────────
