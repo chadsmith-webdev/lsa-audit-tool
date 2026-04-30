@@ -132,30 +132,30 @@ export async function POST(req: Request) {
   const unsubscribeMailto = `mailto:unsubscribe@localsearchally.com?subject=Unsubscribe&body=${encodeURIComponent(email)}`;
 
   // ── Send confirmation email ──────────────────────────────────────────────
-  const { error: sendError } = await resend.emails.send({
-    from: "Local Search Ally <audits@localsearchally.com>",
-    to: email,
-    subject: `Your Local SEO Audit — ${businessName}`,
-    html: buildEmailHtml({
-      businessName,
-      trade,
-      city,
-      scoreBucket,
-      overallScore,
-      lowestLabel,
-      auditUrl,
-      calendlyUrl,
-      unsubscribeUrl: unsubscribeMailto,
-    }),
-    headers: {
-      "List-Unsubscribe": `<${unsubscribeMailto}>`,
-      "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
-    },
-    ...(pdfAttachment ? { attachments: [pdfAttachment] } : {}),
-  });
-
-  if (sendError) {
-    console.error("Resend error:", sendError);
+  try {
+    await resend.emails.send({
+      from: "Local Search Ally <audits@localsearchally.com>",
+      to: email,
+      subject: `Your Local SEO Audit — ${businessName}`,
+      html: buildEmailHtml({
+        businessName,
+        trade,
+        city,
+        scoreBucket,
+        overallScore,
+        lowestLabel,
+        auditUrl,
+        calendlyUrl,
+        unsubscribeUrl: unsubscribeMailto,
+      }),
+      headers: {
+        "List-Unsubscribe": `<${unsubscribeMailto}>`,
+        "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+      },
+      ...(pdfAttachment ? { attachments: [pdfAttachment] } : {}),
+    });
+  } catch (err: any) {
+    console.error("Resend error:", err);
     return Response.json({ error: "Failed to send email" }, { status: 500 });
   }
 
