@@ -130,7 +130,7 @@ export async function fetchPageSpeedData(
 
 export function formatGBPBlock(gbp: GBPData): string {
   if (!gbp.found) {
-    return "GBP_EXISTS: NO — no Google Business Profile found for this business name and city. Score the gbp section as red (1–3).";
+    return "GBP_EXISTS: UNCONFIRMED — the Google Places API returned no match for this business name and city. This may be a name mismatch, not a missing profile. Use web search to verify. If you find the business in Google Maps or the local pack, score gbp based on what you find and note the discrepancy. Only score as red if web search also confirms no profile exists.";
   }
 
   const photoAtCap = (gbp as any).photoAtCap;

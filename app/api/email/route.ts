@@ -157,10 +157,10 @@ export async function POST(req: Request) {
     return Response.json({ error: "Failed to send email" }, { status: 500 });
   }
 
-  // ── Slack notification (non-blocking) ───────────────────────────────────
+  // ── Slack notification ───────────────────────────────────────────────────
   const slackWebhook = process.env.SLACK_WEBHOOK_URL;
   if (slackWebhook) {
-    fetch(slackWebhook, {
+    await fetch(slackWebhook, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

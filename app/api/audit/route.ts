@@ -100,7 +100,7 @@ SCORING:
 - 1–4  → status: "red"
 
 PRE-FETCHED DATA: The audit prompt will contain a PRE-FETCHED DATA block with authoritative data pulled directly from Google APIs and the business website. You MUST use these values verbatim — do not contradict or override them with web search findings.
-- GBP_EXISTS: NO → score gbp as red regardless of what search shows
+- GBP_EXISTS: UNCONFIRMED → the Places API didn't find a match (often a name variation, not a missing profile). Use web search to verify before scoring. If search confirms the business is in the local pack or Maps, score based on that. Only score red if search also finds nothing.
 - ONPAGE_DATA → use verbatim for onpage and the schema/HTTPS/sitemap parts of technical
 - PAGESPEED → use verbatim for Core Web Vitals part of technical
 - BACKLINKS → use verbatim for backlinks section
@@ -434,9 +434,9 @@ export async function POST(req: Request) {
 
         send("complete", { ...result, auditId });
 
-        // --- Slack notification (non-blocking) ---
+        // --- Slack notification ---
         if (auditId) {
-          notifySlack(result, input, auditId).catch((e) =>
+          await notifySlack(result, input, auditId).catch((e) =>
             console.error("Slack notify failed:", e),
           );
         }
