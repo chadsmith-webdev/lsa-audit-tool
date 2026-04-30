@@ -163,7 +163,10 @@ export async function POST(req: Request) {
     console.log("Resend send result:", sendResult);
   } catch (err: any) {
     console.error("Resend error:", err.message || err);
-    return Response.json({ error: "Failed to send email: " + (err.message || "Unknown error") }, { status: 500 });
+    return Response.json(
+      { error: "Failed to send email: " + (err.message || "Unknown error") },
+      { status: 500 },
+    );
   }
 
   // ── Slack notification ───────────────────────────────────────────────────
@@ -225,7 +228,7 @@ export async function POST(req: Request) {
   const drips = [
     {
       daysOut: 2,
-      subject: `One thing to fix first — ${businessName}`,
+      subject: `What to fix first at ${businessName}`,
       html: buildDripDay2Html({
         businessName,
         lowestLabel,
@@ -235,7 +238,7 @@ export async function POST(req: Request) {
     },
     {
       daysOut: 5,
-      subject: `What ${trade} contractors in the Map Pack do differently`,
+      subject: `Why ${trade} contractors in the Map Pack pull 3× more calls`,
       html: buildDripDay5Html({
         businessName,
         trade,
@@ -244,10 +247,31 @@ export async function POST(req: Request) {
       }),
     },
     {
-      daysOut: 10,
-      subject: `Last note from Local Search Ally`,
-      html: buildDripDay10Html({
+      daysOut: 9,
+      subject: `How a ${trade.toLowerCase()} contractor climbed into the Map Pack`,
+      html: buildDripDay9Html({
         businessName,
+        trade,
+        calendlyUrl,
+        unsubscribeUrl: unsubscribeMailto,
+      }),
+    },
+    {
+      daysOut: 14,
+      subject: `"I tried SEO before and it didn't work"`,
+      html: buildDripDay14Html({
+        businessName,
+        trade,
+        calendlyUrl,
+        unsubscribeUrl: unsubscribeMailto,
+      }),
+    },
+    {
+      daysOut: 21,
+      subject: `Last note from Local Search Ally`,
+      html: buildDripDay21Html({
+        businessName,
+        trade,
         calendlyUrl,
         unsubscribeUrl: unsubscribeMailto,
       }),
@@ -355,13 +379,14 @@ function buildEmailHtml({
           <tr>
             <td style="padding:32px 0 24px;">
               <p style="margin:0 0 16px;font-size:16px;line-height:1.65;color:rgba(255,255,255,0.75);">
-                Your full audit is ready. The biggest gap I found was in
-                <strong style="color:#ffffff;">${lowestLabel}</strong> — that's
-                worth fixing first.
+                I went through every section — GBP, reviews, citations, backlinks,
+                and your on-page setup. The area holding you back the most right now
+                is <strong style="color:#ffffff;">${lowestLabel}</strong>.
+                That's where I'd start.
               </p>
               <p style="margin:0;font-size:15px;line-height:1.65;color:rgba(255,255,255,0.55);">
-                Click below to see the complete breakdown with every section score,
-                finding, and a specific next step for each one.
+                Your full breakdown is below — every section scored, every gap
+                identified, with a specific next step for each one.
               </p>
             </td>
           </tr>
@@ -383,12 +408,12 @@ function buildEmailHtml({
                 Want to walk through it together?
               </p>
               <p style="margin:0 0 16px;font-size:14px;line-height:1.6;color:rgba(255,255,255,0.5);">
-                I'll show you exactly what to fix first and what to skip.
-                Takes about 20 minutes.
+                I'll show you exactly what to fix first and what to skip — no pitch,
+                just the plan. Takes about 20 minutes.
               </p>
               <a href="${calendlyUrl}"
                 style="display:inline-block;background:transparent;color:#7bafd4;font-size:14px;font-weight:600;text-decoration:none;border:1px solid rgba(123,175,212,0.35);border-radius:6px;padding:10px 20px;">
-                Book a Free Call →
+                Book a Free 20-Min Call →
               </a>
             </td>
           </tr>
@@ -449,7 +474,7 @@ function emailShell(bodyHtml: string, unsubscribeUrl: string): string {
 </html>`;
 }
 
-// ─── Day 2: Specific finding ───────────────────────────────────────────────────
+// ─── Day 2: Quick win ─────────────────────────────────────────────────────────
 
 function buildDripDay2Html({
   businessName,
@@ -467,15 +492,21 @@ function buildDripDay2Html({
     <tr>
       <td style="padding-bottom:24px;">
         <p style="margin:0 0 20px;font-size:16px;line-height:1.7;color:rgba(255,255,255,0.8);">
-          Wanted to follow up on your audit for <strong style="color:#ffffff;">${businessName}</strong>.
+          Quick follow-up on the audit for <strong style="color:#ffffff;">${businessName}</strong>.
         </p>
         <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
-          The biggest gap I flagged was in <strong style="color:#ffffff;">${lowestLabel}</strong>.
-          That's the one issue that, if fixed, will have the most immediate impact on
-          how often you show up when someone in your area searches for what you do.
+          The section that scored lowest was <strong style="color:#ffffff;">${lowestLabel}</strong>.
+          Of everything in your audit, fixing that one thing will have the most
+          immediate impact on how often you show up when someone searches for what
+          you do in your area.
+        </p>
+        <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
+          The fix itself isn't complicated — but it does need to be done right, not
+          just checked off a list. I can walk you through exactly what to do (and
+          what not to do) in about 20 minutes.
         </p>
         <p style="margin:0 0 28px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
-          Takes about 20 minutes to fix. Want to do it together?
+          No pitch. Just the fix.
         </p>
         <a href="${calendlyUrl}"
           style="display:inline-block;background:#7bafd4;color:#020203;font-size:15px;font-weight:600;text-decoration:none;border-radius:8px;padding:14px 28px;">
@@ -488,7 +519,7 @@ function buildDripDay2Html({
   );
 }
 
-// ─── Day 5: Industry data ──────────────────────────────────────────────────────
+// ─── Day 5: Why the Map Pack matters ─────────────────────────────────────────
 
 const TRADE_STATS: Record<string, string> = {
   HVAC: "HVAC contractors in the Google Map Pack receive 3× more calls than those ranking below it — BrightLocal, 2024.",
@@ -525,7 +556,7 @@ function buildDripDay5Html({
     <tr>
       <td style="padding-bottom:24px;">
         <p style="margin:0 0 20px;font-size:16px;line-height:1.7;color:rgba(255,255,255,0.8);">
-          One stat I keep coming back to when I work with ${trade.toLowerCase()} contractors:
+          Here's a stat I share with almost every ${trade.toLowerCase()} contractor I work with:
         </p>
         <table cellpadding="0" cellspacing="0" style="width:100%;margin-bottom:24px;">
           <tr>
@@ -537,12 +568,17 @@ function buildDripDay5Html({
           </tr>
         </table>
         <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
-          The audit I ran for <strong style="color:#ffffff;">${businessName}</strong> shows
-          exactly what's keeping you out of that top 3. The fixes aren't complicated —
-          they're just specific.
+          That gap between Map Pack and page 2 isn't luck. The contractors at the top
+          did a few specific things right — and most of them aren't things you'd
+          figure out on your own.
+        </p>
+        <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
+          The audit I ran for <strong style="color:#ffffff;">${businessName}</strong>
+          shows exactly what's keeping you out of that top 3. The fixes are specific
+          to your listing — not a generic checklist.
         </p>
         <p style="margin:0 0 28px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
-          If you want to talk through what to prioritize, I have time this week.
+          If you want to talk through what to prioritize, I've got time this week.
         </p>
         <a href="${calendlyUrl}"
           style="display:inline-block;background:#7bafd4;color:#020203;font-size:15px;font-weight:600;text-decoration:none;border-radius:8px;padding:14px 28px;">
@@ -555,14 +591,116 @@ function buildDripDay5Html({
   );
 }
 
-// ─── Day 10: Last touch ────────────────────────────────────────────────────────
+// ─── Day 9: Social proof ──────────────────────────────────────────────────────
 
-function buildDripDay10Html({
+function buildDripDay9Html({
   businessName,
+  trade,
   calendlyUrl,
   unsubscribeUrl,
 }: {
   businessName: string;
+  trade: string;
+  calendlyUrl: string;
+  unsubscribeUrl: string;
+}): string {
+  return emailShell(
+    `
+    <tr>
+      <td style="padding-bottom:24px;">
+        <p style="margin:0 0 20px;font-size:16px;line-height:1.7;color:rgba(255,255,255,0.8);">
+          A story worth sharing.
+        </p>
+        <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
+          A ${trade.toLowerCase()} contractor came to me a while back with an audit
+          score a lot like yours. They were showing up on page 2, sometimes page 3.
+          Calls were inconsistent. They couldn't figure out why competitors were
+          ranking above them despite having more reviews.
+        </p>
+        <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
+          After we fixed three specific things — their GBP setup, citation
+          consistency, and a couple of on-page issues — they were in the Map Pack for
+          their top keyword within six weeks.
+        </p>
+        <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
+          That's not a promise — every market is different. But the playbook is
+          consistent: find the gaps, fix them in the right order, let the algorithm
+          catch up.
+        </p>
+        <p style="margin:0 0 28px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
+          The audit I ran for <strong style="color:#ffffff;">${businessName}</strong>
+          already shows the gaps. The rest is execution.
+        </p>
+        <a href="${calendlyUrl}"
+          style="display:inline-block;background:#7bafd4;color:#020203;font-size:15px;font-weight:600;text-decoration:none;border-radius:8px;padding:14px 28px;">
+          Book a Free Call to Talk Through It →
+        </a>
+      </td>
+    </tr>
+  `,
+    unsubscribeUrl,
+  );
+}
+
+// ─── Day 14: Objection handler ────────────────────────────────────────────────
+
+function buildDripDay14Html({
+  businessName,
+  trade,
+  calendlyUrl,
+  unsubscribeUrl,
+}: {
+  businessName: string;
+  trade: string;
+  calendlyUrl: string;
+  unsubscribeUrl: string;
+}): string {
+  return emailShell(
+    `
+    <tr>
+      <td style="padding-bottom:24px;">
+        <p style="margin:0 0 20px;font-size:16px;line-height:1.7;color:rgba(255,255,255,0.8);">
+          I hear this from ${trade.toLowerCase()} contractors a lot: <em style="color:#ffffff;">"I've tried
+          SEO before and it didn't work."</em>
+        </p>
+        <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
+          That's almost always because the agency was optimizing for the wrong thing.
+          Most SEO shops focus on general search rankings — blog posts, keyword pages,
+          link building. Those things matter for national brands. They're largely
+          irrelevant for a local contractor trying to get more calls.
+        </p>
+        <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
+          Local SEO for service contractors is a different discipline. It's your
+          Google Business Profile, citation consistency, review signals, and
+          hyperlocal on-page signals. That's where Map Pack rankings come from.
+          That's what we work on.
+        </p>
+        <p style="margin:0 0 28px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
+          If you've been burned before and want to understand what's actually
+          different — 20 minutes on a call will make it clear.
+          No commitment, just clarity.
+        </p>
+        <a href="${calendlyUrl}"
+          style="display:inline-block;background:#7bafd4;color:#020203;font-size:15px;font-weight:600;text-decoration:none;border-radius:8px;padding:14px 28px;">
+          Book a Free Call →
+        </a>
+      </td>
+    </tr>
+  `,
+    unsubscribeUrl,
+  );
+}
+
+// ─── Day 21: Last touch ───────────────────────────────────────────────────────
+
+function buildDripDay21Html({
+  businessName,
+  trade,
+  calendlyUrl,
+  unsubscribeUrl,
+}: {
+  businessName: string;
+  trade: string;
   calendlyUrl: string;
   unsubscribeUrl: string;
 }): string {
@@ -571,19 +709,24 @@ function buildDripDay10Html({
     <tr>
       <td style="padding-bottom:24px;">
         <p style="margin:0 0 16px;font-size:16px;line-height:1.7;color:rgba(255,255,255,0.8);">
-          Last note — I promise.
+          Last one from me — I mean it this time.
         </p>
         <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
-          If now's not the right time for <strong style="color:#ffffff;">${businessName}</strong>,
-          no worries at all. Local SEO isn't going anywhere — whenever you're ready,
-          the audit will still be there.
+          Running a ${trade.toLowerCase()} business doesn't leave a lot of room for
+          marketing projects. I get it. If the timing hasn't been right,
+          no explanation needed.
+        </p>
+        <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
+          What I will say: the audit results for
+          <strong style="color:#ffffff;">${businessName}</strong> don't expire.
+          When you're ready to act on them, I'm here.
         </p>
         <p style="margin:0 0 28px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
-          And if you do want to talk through it: I'm easy to reach.
+          And if you'd rather I leave you alone — unsubscribe below, no hard feelings.
         </p>
         <a href="${calendlyUrl}"
           style="display:inline-block;background:transparent;color:#7bafd4;font-size:15px;font-weight:600;text-decoration:none;border:1px solid rgba(123,175,212,0.35);border-radius:8px;padding:13px 28px;">
-          ${calendlyUrl.replace("https://", "")} →
+          Book a Call Whenever You're Ready →
         </a>
       </td>
     </tr>
