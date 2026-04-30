@@ -219,8 +219,25 @@ export default function AuditTool() {
               setActiveSectionId(SECTION_ORDER[idx + 1]);
             }
           } else if (eventType === "complete") {
-            setResult(data as AuditResult);
+            const auditResult = data as AuditResult;
+            setResult(auditResult);
             setPhase("results");
+
+            // GA4 Custom Event: audit_complete
+            if (
+              typeof window !== "undefined" &&
+              typeof (window as unknown as { gtag?: unknown }).gtag === "function"
+            ) {
+              (window as unknown as { gtag: (...args: unknown[]) => void }).gtag(
+                "event",
+                "audit_complete",
+                {
+                  business_name: auditResult.business_name,
+                  overall_score: auditResult.overall_score,
+                  score_bucket: auditResult.score_bucket,
+                },
+              );
+            }
           } else if (eventType === "error") {
             setAuditError(
               (data as { message?: string }).message ?? "Something went wrong",
@@ -888,15 +905,21 @@ function EmailGate({
       typeof window !== "undefined" &&
       typeof (window as unknown as { gtag?: unknown }).gtag === "function"
     ) {
-      (window as unknown as { gtag: (...args: unknown[]) => void }).gtag(
-        "event",
-        "conversion",
-        {
-          send_to: "AW-18091036166/R9z0CNyoqpwcEIacvbJD",
-          value: 1.0,
-          currency: "USD",
-        },
-      );
+      const g = (window as unknown as { gtag: (...args: unknown[]) => void })
+        .gtag;
+      // Google Ads conversion
+      g("event", "conversion", {
+        send_to: "AW-18091036166/R9z0CNyoqpwcEIacvbJD",
+        value: 1.0,
+        currency: "USD",
+      });
+      // GA4 custom event
+      g("event", "email_captured", {
+        business_name: businessName,
+        trade: trade,
+        city: city,
+        overall_score: overallScore,
+      });
     }
     const params = new URLSearchParams();
     if (auditId) params.set("auditId", auditId);
