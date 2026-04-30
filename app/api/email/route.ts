@@ -4,6 +4,8 @@ import { createElement } from "react";
 import { AuditPdf } from "@/lib/AuditPdf";
 import { getSupabase } from "@/lib/supabase";
 
+export const maxDuration = 60;
+
 export type EmailPayload = {
   email: string;
   auditId: string | null;
@@ -160,22 +162,30 @@ export async function POST(req: Request) {
   // ── Slack notification ───────────────────────────────────────────────────
   const slackWebhook = process.env.SLACK_WEBHOOK_URL;
   if (slackWebhook) {
-    await fetch(slackWebhook, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        text: "🔔 New audit lead",
-        blocks: [
-          {
-            type: "section",
-            text: {
-              type: "mrkdwn",
-              text: `*${businessName}* — ${trade} in ${city}\nScore: *${overallScore}/10* (${scoreBucket})\nEmail: ${email}\n<${auditUrl}|View audit>`,
+    try {
+      const slackRes = await fetch(slackWebhook, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text: "🔔 New audit lead",
+          blocks: [
+            {
+              type: "section",
+              text: {
+                type: "mrkdwn",
+                text: `*${businessName}* — ${trade} in ${city}\nScore: *${overallScore}/10* (${scoreBucket})\nEmail: ${email}\n<${auditUrl}|View audit>`,
+              },
             },
-          },
-        ],
-      }),
-    }).catch((err) => console.error("Slack notify failed:", err));
+          ],
+        }),
+      });
+      if (!slackRes.ok) {
+        const body = await slackRes.text();
+        console.error("Slack notify failed:", slackRes.status, body);
+      }
+    } catch (err) {
+      console.error("Slack notify error:", err);
+    }
   }
 
   // ── Resend audience tagging (non-blocking) ──────────────────────────────
