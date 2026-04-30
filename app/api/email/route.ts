@@ -188,6 +188,19 @@ export async function POST(req: Request) {
     }
   }
 
+  // ── Internal lead notification ───────────────────────────────────────────
+  resend.emails
+    .send({
+      from: "Local Search Ally <audits@localsearchally.com>",
+      to: "chad@localsearchally.com",
+      subject: `🔔 New audit lead — ${businessName}`,
+      html: `<p><strong>${businessName}</strong> — ${trade} in ${city}</p>
+<p>Score: <strong>${overallScore}/10</strong> (${scoreBucket})</p>
+<p>Email: ${email}</p>
+<p><a href="${auditUrl}">View audit</a></p>`,
+    })
+    .catch((err) => console.error("Internal notify failed:", err));
+
   // ── Resend audience tagging (non-blocking) ──────────────────────────────
   const audienceId = process.env.RESEND_AUDIENCE_ID;
   if (audienceId) {
