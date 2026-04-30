@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 import SharedAuditView from "./SharedAuditView";
 import type { Metadata } from "next";
 
@@ -8,7 +8,7 @@ type Props = {
 };
 
 async function getAudit(id: string) {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabase()
     .from("audits")
     .select("*")
     .eq("id", id)

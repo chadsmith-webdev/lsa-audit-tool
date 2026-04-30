@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 import {
   fetchBacklinksData,
   fetchGBPData,
@@ -260,12 +260,15 @@ async function callClaude(
 async function notifySlack(
   result: AuditResult,
   input: AuditInput,
-  auditId: string,
+  auditId: string | null,
 ): Promise<void> {
   const webhookUrl = process.env.SLACK_WEBHOOK_URL;
   if (!webhookUrl) return;
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://localsearchally.com";
+  const auditLink = auditId
+    ? `<${siteUrl}/audit/${auditId}|View audit>`
+    : siteUrl;
   const res = await fetch(webhookUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -276,7 +279,7 @@ async function notifySlack(
           type: "section",
           text: {
             type: "mrkdwn",
-            text: `*${input.businessName}* — ${input.primaryTrade} in ${input.serviceCity}\nScore: *${result.overall_score}/10* (${result.score_bucket})\n<${siteUrl}/audit/${auditId}|View audit>`,
+            text: `*${input.businessName}* — ${input.primaryTrade} in ${input.serviceCity}\nScore: *${result.overall_score}/10* (${result.score_bucket})\n${auditLink}`,
           },
         },
       ],
@@ -344,7 +347,7 @@ export async function POST(req: Request) {
       try {
         // --- 24-hour cache check ---
         if (!input.noWebsite && input.websiteUrl) {
-          const { data: cached } = await supabase
+          const { data: cached } = await getSupabase()
             .from("audits")
             .select("*")
             .eq("input->>websiteUrl", input.websiteUrl)
@@ -414,7 +417,7 @@ export async function POST(req: Request) {
         // --- Persist to Supabase ---
         let auditId: string | null = null;
         try {
-          const { data: row } = await supabase
+          const { data: row } = await getSupabase()
             .from("audits")
             .insert({
               business_name: result.business_name,
@@ -432,14 +435,12 @@ export async function POST(req: Request) {
           console.error("Supabase insert failed:", dbErr);
         }
 
-        send("complete", { ...result, auditId });
+        // --- Slack notification (before complete so it fires before client can navigate away) ---
+        await notifySlack(result, input, auditId).catch((e) =>
+          console.error("Slack notify failed:", e),
+        );
 
-        // --- Slack notification ---
-        if (auditId) {
-          await notifySlack(result, input, auditId).catch((e) =>
-            console.error("Slack notify failed:", e),
-          );
-        }
+        send("complete", { ...result, auditId });
       } catch (err: any) {
         clearTimeout(timer);
         if (err.name === "AbortError") {

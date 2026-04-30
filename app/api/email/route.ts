@@ -2,7 +2,7 @@ import { Resend } from "resend";
 import { renderToBuffer } from "@react-pdf/renderer";
 import { createElement } from "react";
 import { AuditPdf } from "@/lib/AuditPdf";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 
 export type EmailPayload = {
   email: string;
@@ -100,7 +100,7 @@ export async function POST(req: Request) {
 
   if (auditId) {
     try {
-      const { data: auditRow } = await supabase
+      const { data: auditRow } = await getSupabase()
         .from("audits")
         .select("result, input")
         .eq("id", auditId)
