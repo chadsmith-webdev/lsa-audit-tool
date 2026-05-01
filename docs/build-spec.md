@@ -1,6 +1,6 @@
 # **LSA Free Audit Tool — Build Spec**
 
-**Local Search Ally | AI-Powered Local SEO Auditor for Contractors**
+**Local Visibility Scan | AI-Powered Local SEO Auditor for Contractors**
 
 ---
 
@@ -577,14 +577,14 @@ The Supabase service role key (`SUPABASE_SERVICE_KEY`) bypasses Row Level Securi
 - [x] Resend audience contact tagging (`RESEND_AUDIENCE_ID`)
 - [x] Google Ads tag (`AW-18091036166`) + GA4 (`G-11HLEEF2CQ`) in `app/layout.tsx`
 - [x] GA4 custom events — audit_complete, email_captured, calendly_click
-
-### **Not yet built**
-
 - [x] Error monitoring (Sentry or Vercel log alerts for API route failures)
 - [x] Input sanitization hardening (HTML stripping, server-side length caps, strict URL validation)
 - [x] CAN-SPAM footer (unsubscribe link + mailing address in all email templates)
-- [ ] Re-audit CTA / reminder
 - [x] Copy link button on live results (share button present but links to audit page)
+
+### **Not yet built**
+
+- [ ] Re-audit reminder
 
 ---
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { motion, type Variants } from "framer-motion";
 import AuditTool from "@/app/components/AuditTool";
 import styles from "@/styles/landing.module.css";
@@ -34,8 +35,7 @@ export default function HeroSection() {
         </motion.span>
 
         <motion.h1 variants={fadeUp} className={styles.heroTitleCentered}>
-          Free Local SEO Audit —{" "}
-          <em>See Why Google Isn&apos;t Showing You</em>
+          Free Local SEO Audit — <em>See Why Google Isn&apos;t Showing You</em>
         </motion.h1>
 
         <motion.p variants={fadeUp} className={styles.heroSubCentered}>
@@ -44,7 +44,9 @@ export default function HeroSection() {
         </motion.p>
 
         <div className={styles.heroToolCentered}>
-          <AuditTool />
+          <Suspense fallback={null}>
+            <AuditTool />
+          </Suspense>
         </div>
 
         <motion.div variants={fadeUp} className={styles.heroPillsCentered}>

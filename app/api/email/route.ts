@@ -270,6 +270,18 @@ export async function POST(req: Request) {
         unsubscribeUrl: unsubscribeMailto,
       }),
     },
+    {
+      daysOut: 28,
+      subject: `Your free audit refresh is ready — run it again for ${businessName}`,
+      html: buildReauditReminderHtml({
+        businessName,
+        trade,
+        city,
+        siteUrl,
+        calendlyUrl,
+        unsubscribeUrl: unsubscribeMailto,
+      }),
+    },
   ];
 
   for (const drip of drips) {
@@ -722,6 +734,53 @@ function buildDripDay21Html({
           style="display:inline-block;background:transparent;color:#7bafd4;font-size:15px;font-weight:600;text-decoration:none;border:1px solid rgba(123,175,212,0.35);border-radius:8px;padding:13px 28px;">
           Book a Call Whenever You're Ready →
         </a>
+      </td>
+    </tr>
+  `,
+    unsubscribeUrl,
+  );
+}
+
+function buildReauditReminderHtml({
+  businessName,
+  trade,
+  city,
+  siteUrl,
+  calendlyUrl,
+  unsubscribeUrl,
+}: {
+  businessName: string;
+  trade: string;
+  city: string;
+  siteUrl: string;
+  calendlyUrl: string;
+  unsubscribeUrl: string;
+}): string {
+  const auditToolUrl = `${siteUrl}/?business=${encodeURIComponent(businessName)}&city=${encodeURIComponent(city)}&trade=${encodeURIComponent(trade)}`;
+  return emailShell(
+    `
+    <tr>
+      <td style="padding-bottom:24px;">
+        <p style="margin:0 0 16px;font-size:16px;line-height:1.7;color:rgba(255,255,255,0.8);">
+          It's been 30 days since we ran your free local SEO audit for
+          <strong style="color:#ffffff;">${businessName}</strong>.
+        </p>
+        <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
+          A month is enough time for things to shift — Google updates profiles,
+          competitors move, and any work you've done on citations or reviews
+          should show up in a new score. Your free audit refreshes today.
+        </p>
+        <p style="margin:0 0 28px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
+          Run it again and see what changed. It only takes 90 seconds.
+        </p>
+        <a href="${auditToolUrl}"
+          style="display:inline-block;background:#7bafd4;color:#020203;font-size:15px;font-weight:700;text-decoration:none;border-radius:8px;padding:14px 32px;">
+          Re-Run My Free Audit →
+        </a>
+        <p style="margin:28px 0 0;font-size:13px;line-height:1.7;color:rgba(255,255,255,0.35);">
+          Prefer to skip straight to a strategy call?
+          <a href="${calendlyUrl}" style="color:#7bafd4;text-decoration:none;">Book a time with Chad</a> instead.
+        </p>
       </td>
     </tr>
   `,

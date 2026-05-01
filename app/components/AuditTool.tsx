@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import styles from "@/styles/audit.module.css";
 
@@ -105,13 +106,20 @@ const SECTION_LABELS: Record<string, string> = {
 type Phase = "form" | "loading" | "results";
 
 export default function AuditTool() {
+  const searchParams = useSearchParams();
   const [phase, setPhase] = useState<Phase>("form");
-  const [form, setForm] = useState<AuditInput>({
-    businessName: "",
-    websiteUrl: "",
-    primaryTrade: "",
-    serviceCity: "",
-    noWebsite: false,
+  const [form, setForm] = useState<AuditInput>(() => {
+    const business = searchParams?.get("business") ?? "";
+    const city = searchParams?.get("city") ?? "";
+    const trade = searchParams?.get("trade") ?? "";
+    const validTrade = TRADES.includes(trade) ? trade : "";
+    return {
+      businessName: business.slice(0, 100),
+      websiteUrl: "",
+      primaryTrade: validTrade,
+      serviceCity: city.slice(0, 100),
+      noWebsite: false,
+    };
   });
   const [errors, setErrors] = useState<
     Partial<Record<keyof AuditInput, string>>
@@ -226,17 +234,16 @@ export default function AuditTool() {
             // GA4 Custom Event: audit_complete
             if (
               typeof window !== "undefined" &&
-              typeof (window as unknown as { gtag?: unknown }).gtag === "function"
+              typeof (window as unknown as { gtag?: unknown }).gtag ===
+                "function"
             ) {
-              (window as unknown as { gtag: (...args: unknown[]) => void }).gtag(
-                "event",
-                "audit_complete",
-                {
-                  business_name: auditResult.business_name,
-                  overall_score: auditResult.overall_score,
-                  score_bucket: auditResult.score_bucket,
-                },
-              );
+              (
+                window as unknown as { gtag: (...args: unknown[]) => void }
+              ).gtag("event", "audit_complete", {
+                business_name: auditResult.business_name,
+                overall_score: auditResult.overall_score,
+                score_bucket: auditResult.score_bucket,
+              });
             }
           } else if (eventType === "error") {
             setAuditError(
