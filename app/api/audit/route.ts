@@ -135,7 +135,7 @@ AUDIT SECTIONS (score each 1–10):
    sub_signals must include: grounding ("strong"|"partial"|"weak"), review_density ("strong"|"partial"|"weak"), photo_freshness ("strong"|"weak"|"unknown")
 
    VOICE: Frame entirely around AI visibility. The villain is "an AI that can't verify you skips you."
-   Plain English only. Never say "grounding score" or "semantic density" to the business owner — translate to plain consequences.
+   Plain English only. NEVER use technical terms like "grounding score", "grounding consistency", "semantic density", or "sub-signal" in any customer-facing text — translate everything to plain business consequences (e.g. "conflicting info between your GBP and website" instead of "grounding score of 50%").
 
 NO-WEBSITE HANDLING: If the business has no website, score onpage, technical, and backlinks as 1 each. Set headline to "No website — invisible to every search that doesn't start on Google Maps." Skip URL-based checks for those sections only.
 
