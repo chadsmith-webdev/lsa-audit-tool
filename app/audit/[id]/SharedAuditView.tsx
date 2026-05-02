@@ -268,7 +268,7 @@ function AICitabilityCard({ section }: { section: AICitabilitySection }) {
         </div>
         {section.priority_action && (
           <div className={styles.priorityAction}>
-            <span className={styles.priorityLabel}>Next step:</span>
+            <span className={styles.priorityLabel}>Next step: </span>
             <span>{section.priority_action}</span>
           </div>
         )}
@@ -302,7 +302,7 @@ function SectionCard({
         <p className={styles.finding}>{section.finding}</p>
         {section.priority_action && (
           <div className={styles.priorityAction}>
-            <span className={styles.priorityLabel}>Next step:</span>
+            <span className={styles.priorityLabel}>Next step: </span>
             <span>{section.priority_action}</span>
           </div>
         )}
