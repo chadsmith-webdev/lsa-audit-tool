@@ -1,4 +1,5 @@
 import { getSupabase } from "@/lib/supabase";
+import { Resend } from "resend";
 import {
   fetchBacklinksData,
   fetchGBPData,
@@ -357,38 +358,34 @@ async function callClaude(
   }
 }
 
-async function notifySlack(
+async function notifyEmail(
   result: AuditResult,
   input: AuditInput,
   auditId: string | null,
 ): Promise<void> {
-  const webhookUrl = process.env.SLACK_WEBHOOK_URL;
-  if (!webhookUrl) return;
+  const apiKey = process.env.RESEND_API_KEY;
+  const toEmail = process.env.NOTIFY_EMAIL;
+  if (!apiKey || !toEmail) return;
+
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://localsearchally.com";
-  const auditLink = auditId
-    ? `<${siteUrl}/audit/${auditId}|View audit>`
-    : siteUrl;
-  const res = await fetch(webhookUrl, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      text: "🔔 New audit completed",
-      blocks: [
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: `*${input.businessName}* — ${input.primaryTrade} in ${input.serviceCity}\nScore: *${result.overall_score}/10* (${result.score_bucket})\n${auditLink}`,
-          },
-        },
-      ],
-    }),
+  const auditLink = auditId ? `${siteUrl}/audit/${auditId}` : siteUrl;
+
+  const resend = new Resend(apiKey);
+  const { error } = await resend.emails.send({
+    from: "Local Search Ally <noreply@localsearchally.com>",
+    to: toEmail,
+    subject: `New audit: ${input.businessName} — ${result.overall_score}/10 (${result.score_bucket})`,
+    text: [
+      `Business: ${input.businessName}`,
+      `Trade: ${input.primaryTrade}`,
+      `City: ${input.serviceCity}`,
+      `Score: ${result.overall_score}/10 — ${result.score_bucket}`,
+      ``,
+      `View audit: ${auditLink}`,
+    ].join("\n"),
   });
-  if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    throw new Error(`Slack webhook ${res.status}: ${body}`);
-  }
+  if (error) throw new Error(`Resend error: ${JSON.stringify(error)}`);
 }
 
 export async function POST(req: Request) {
@@ -571,7 +568,7 @@ export async function POST(req: Request) {
         }
 
         // --- Slack notification (before complete so it fires before client can navigate away) ---
-        await notifySlack(result, input, auditId).catch((e) =>
+        await notifyEmail(result, input, auditId).catch((e) =>
           console.error("Slack notify failed:", e),
         );
 
