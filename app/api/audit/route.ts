@@ -454,7 +454,7 @@ export async function POST(req: Request) {
             .gte("created_at", new Date(Date.now() - 86_400_000).toISOString())
             .maybeSingle();
 
-          if (cached) {
+          if (cached && cached.result?.ai_citability_section) {
             const cachedResult: AuditResult = cached.result;
             for (const section of cachedResult.sections) {
               send("section", section);
@@ -558,6 +558,8 @@ export async function POST(req: Request) {
               score_bucket: result.score_bucket,
               trade: input.primaryTrade,
               city: input.serviceCity,
+              ai_citability_score: result.ai_citability_score ?? null,
+              ai_citability_section: result.ai_citability_section ?? null,
               result,
               input,
             })
