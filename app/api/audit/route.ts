@@ -157,8 +157,11 @@ function buildAuditPrompt(
     website: WebsiteData | null;
     backlinks: BacklinksData | null;
     reviews: ReviewsData;
+    failedBlocks?: Set<string>;
   },
 ): string {
+  const failed = prefetch.failedBlocks ?? new Set<string>();
+
   const websiteLine = input.noWebsite
     ? "Website: NONE — this business has no website"
     : `Website: ${input.websiteUrl}`;
@@ -167,14 +170,46 @@ function buildAuditPrompt(
     ? "\nNOTE: No website. Score onpage, technical, backlinks as 1. Focus on GBP, reviews, citations, competitors."
     : "";
 
+  const pagespeedBlock = input.noWebsite
+    ? "PAGESPEED: Skipped — no website."
+    : failed.has("pagespeed")
+      ? "PAGESPEED: DATA UNAVAILABLE — API error during pre-fetch. Use web search for performance signals if possible, or note data unavailable."
+      : formatPageSpeedBlock(prefetch.pagespeed);
+
+  const onpageBlock =
+    input.noWebsite || !prefetch.website
+      ? failed.has("website")
+        ? "ONPAGE_DATA: DATA UNAVAILABLE — website fetch failed (timeout or unreachable). Score onpage and schema portions of technical conservatively and note the fetch failure."
+        : "ONPAGE_DATA: Skipped — no website."
+      : formatWebsiteBlock(prefetch.website);
+
+  const backlinksBlock =
+    input.noWebsite || !prefetch.backlinks
+      ? failed.has("backlinks")
+        ? "BACKLINKS: DATA UNAVAILABLE — API error during pre-fetch. Use web search for domain authority signals, or note data unavailable."
+        : "BACKLINKS: Skipped — no website."
+      : formatBacklinksBlock(prefetch.backlinks);
+
+  const reviewsBlock = failed.has("reviews")
+    ? "REVIEWS_DATA: DATA UNAVAILABLE — API error during pre-fetch. Use web search to find review count and recency, or note data unavailable."
+    : formatReviewsBlock(prefetch.reviews);
+
+  const serperBlock = failed.has("serper")
+    ? "MAP_PACK: DATA UNAVAILABLE — search API error during pre-fetch. Use web search for local pack competitors, or note data unavailable."
+    : formatSerperBlock(prefetch.serper);
+
+  const gbpBlock = failed.has("gbp")
+    ? "GBP_EXISTS: DATA UNAVAILABLE — Places API error during pre-fetch. Use web search to verify GBP presence and completeness."
+    : formatGBPBlock(prefetch.gbp);
+
   const prefetchBlock = `
 PRE-FETCHED DATA (authoritative — do not contradict):
-${formatGBPBlock(prefetch.gbp)}
-${input.noWebsite ? "PAGESPEED: Skipped — no website." : formatPageSpeedBlock(prefetch.pagespeed)}
-${input.noWebsite || !prefetch.website ? "ONPAGE_DATA: Skipped — no website." : formatWebsiteBlock(prefetch.website)}
-${input.noWebsite || !prefetch.backlinks ? "BACKLINKS: Skipped — no website." : formatBacklinksBlock(prefetch.backlinks)}
-${formatReviewsBlock(prefetch.reviews)}
-${formatSerperBlock(prefetch.serper)}`;
+${gbpBlock}
+${pagespeedBlock}
+${onpageBlock}
+${backlinksBlock}
+${reviewsBlock}
+${serperBlock}`;
 
   return `Audit this contractor's local SEO:
 
@@ -206,6 +241,7 @@ async function callClaude(
     website: WebsiteData | null;
     backlinks: BacklinksData | null;
     reviews: ReviewsData;
+    failedBlocks?: Set<string>;
   },
   signal: AbortSignal,
 ): Promise<AuditResult> {
@@ -370,7 +406,17 @@ export async function POST(req: Request) {
           }
         }
 
-        // --- Pre-fetch all signals in parallel ---
+        // --- Pre-fetch all signals in parallel (failures degrade per-block) ---
+        const failedBlocks = new Set<string>();
+        const tag =
+          <T>(key: string, fallback: T) =>
+          (p: Promise<T>): Promise<T> =>
+            p.catch((err) => {
+              console.error(`Pre-fetch failed [${key}]:`, err);
+              failedBlocks.add(key);
+              return fallback;
+            });
+
         const [
           gbpData,
           pagespeedData,
@@ -379,18 +425,26 @@ export async function POST(req: Request) {
           backlinksData,
           reviewsData,
         ] = await Promise.all([
-          fetchGBPData(input.businessName, input.serviceCity),
+          tag("gbp", { found: false } as GBPData)(
+            fetchGBPData(input.businessName, input.serviceCity),
+          ),
           input.noWebsite || !input.websiteUrl
             ? Promise.resolve<PageSpeedData>({})
-            : fetchPageSpeedData(input.websiteUrl),
-          fetchSerperData(input.primaryTrade, input.serviceCity),
+            : tag("pagespeed", {
+                fetchError: "pre-fetch failed",
+              } as PageSpeedData)(fetchPageSpeedData(input.websiteUrl)),
+          tag("serper", { results: [] } as SerperData)(
+            fetchSerperData(input.primaryTrade, input.serviceCity),
+          ),
           input.noWebsite || !input.websiteUrl
             ? Promise.resolve(null)
-            : fetchWebsiteData(input.websiteUrl),
+            : tag("website", null)(fetchWebsiteData(input.websiteUrl)),
           input.noWebsite || !input.websiteUrl
             ? Promise.resolve(null)
-            : fetchBacklinksData(input.websiteUrl),
-          fetchReviewsData(input.businessName, input.serviceCity),
+            : tag("backlinks", null)(fetchBacklinksData(input.websiteUrl)),
+          tag("reviews", { reviews: [] } as ReviewsData)(
+            fetchReviewsData(input.businessName, input.serviceCity),
+          ),
         ]);
 
         // --- Run Claude audit ---
@@ -403,6 +457,7 @@ export async function POST(req: Request) {
             website: websiteData,
             backlinks: backlinksData,
             reviews: reviewsData,
+            failedBlocks,
           },
           abortController.signal,
         );

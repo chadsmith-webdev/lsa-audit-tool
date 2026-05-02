@@ -1,0 +1,347 @@
+{
+  "communities": {
+    "0": [
+      "app_layout",
+      "app_page",
+      "diagnostic_grid",
+      "faq_section",
+      "final_cta",
+      "free_local_seo_page",
+      "globals_css",
+      "hero_section",
+      "how_it_works",
+      "landing_module_css",
+      "next_config",
+      "report_preview",
+      "site_footer_minimal",
+      "site_footer_minimal_module_css",
+      "site_nav_minimal",
+      "site_nav_module_css",
+      "testimonials",
+      "thank_you_module_css",
+      "thank_you_page",
+      "trust_bar",
+      "what_we_check"
+    ],
+    "1": [
+      "agents_md",
+      "api_audit_route",
+      "api_email_route",
+      "audit_page",
+      "build_spec",
+      "img_audit_preview",
+      "img_map_pack",
+      "img_visibility",
+      "lib_audit_pdf",
+      "lib_prefetch",
+      "lib_ratelimit",
+      "lib_supabase",
+      "shared_audit_view",
+      "svc_anthropic",
+      "svc_dataforseo",
+      "svc_google_places",
+      "svc_pagespeed",
+      "svc_resend",
+      "svc_serper",
+      "svc_supabase",
+      "svc_upstash"
+    ],
+    "2": [
+      "audit_route_buildauditprompt",
+      "lib_prefetch_extractjsonldblocks",
+      "lib_prefetch_fetchbacklinksdata",
+      "lib_prefetch_fetchgbpdata",
+      "lib_prefetch_fetchpagespeeddata",
+      "lib_prefetch_fetchreviewsdata",
+      "lib_prefetch_fetchserperdata",
+      "lib_prefetch_fetchwebsitedata",
+      "lib_prefetch_formatbacklinksblock",
+      "lib_prefetch_formatgbpblock",
+      "lib_prefetch_formatpagespeedblock",
+      "lib_prefetch_formatreviewsblock",
+      "lib_prefetch_formatserperblock",
+      "lib_prefetch_formatwebsiteblock",
+      "lib_prefetch_striptags",
+      "lib_prefetch_ts"
+    ],
+    "3": [
+      "app_components_audittool_tsx",
+      "app_components_diagnosticgrid_tsx",
+      "app_components_herosection_tsx",
+      "audit_module_css",
+      "audit_tool",
+      "components_audittool_handlecopy",
+      "components_audittool_handlesubmit",
+      "components_audittool_sectioncard",
+      "components_audittool_validate",
+      "components_herosection_herosection",
+      "framer_motion"
+    ],
+    "4": [
+      "app_api_email_route_ts",
+      "email_route_builddripday14html",
+      "email_route_builddripday21html",
+      "email_route_builddripday2html",
+      "email_route_builddripday5html",
+      "email_route_builddripday9html",
+      "email_route_buildemailhtml",
+      "email_route_buildreauditreminderhtml",
+      "email_route_emailshell",
+      "email_route_post",
+      "email_route_sanitizestring"
+    ],
+    "5": [
+      "app_api_audit_route_ts",
+      "audit_route_callclaude",
+      "audit_route_notifyslack",
+      "audit_route_parseauditresult",
+      "audit_route_post",
+      "audit_route_sanitizestring",
+      "audit_route_sanitizeurl"
+    ],
+    "6": [
+      "app_audit_id_page_tsx",
+      "id_page_auditpage",
+      "id_page_generatemetadata",
+      "id_page_getaudit",
+      "lib_supabase_getsupabase",
+      "lib_supabase_ts"
+    ],
+    "7": [
+      "lsa_audit_tool_proxy_getratelimiter",
+      "lsa_audit_tool_proxy_proxy",
+      "proxy_ts",
+      "upstash_ratelimit",
+      "upstash_redis"
+    ],
+    "8": [
+      "lib_auditpdf_formatdate",
+      "lib_auditpdf_statuscolor",
+      "lib_auditpdf_tsx"
+    ],
+    "9": [
+      "app_layout_rootlayout",
+      "app_layout_tsx"
+    ],
+    "10": [
+      "app_page_home",
+      "app_page_tsx"
+    ],
+    "11": [
+      "app_thank_you_page_tsx",
+      "thank_you_page_handlemessage"
+    ],
+    "12": [
+      "app_components_sitefooter_tsx",
+      "components_sitefooter_sitefooter"
+    ],
+    "13": [
+      "app_components_trustbar_tsx",
+      "components_trustbar_trustbar"
+    ],
+    "14": [
+      "app_components_howitworkssection_tsx",
+      "components_howitworkssection_howitworkssection"
+    ],
+    "15": [
+      "app_components_reportpreviewsection_tsx",
+      "components_reportpreviewsection_reportpreviewsection"
+    ],
+    "16": [
+      "app_components_faqsection_tsx",
+      "components_faqsection_faqsection"
+    ],
+    "17": [
+      "app_components_finalctasection_tsx",
+      "components_finalctasection_finalctasection"
+    ],
+    "18": [
+      "app_components_sitefooterminimal_tsx",
+      "components_sitefooterminimal_sitefooterminimal"
+    ],
+    "19": [
+      "app_components_testimonialssection_tsx",
+      "components_testimonialssection_testimonialssection"
+    ],
+    "20": [
+      "app_components_sitenavminimal_tsx",
+      "components_sitenavminimal_onscroll"
+    ],
+    "21": [
+      "app_components_sitenav_tsx",
+      "components_sitenav_onscroll"
+    ],
+    "22": [
+      "app_audit_id_sharedauditview_tsx",
+      "id_sharedauditview_handlecopy"
+    ],
+    "23": [
+      "postcss_config",
+      "tailwindcss"
+    ],
+    "24": [
+      "eslint_config",
+      "next_env_dts"
+    ],
+    "25": [
+      "site_footer",
+      "site_footer_module_css"
+    ],
+    "26": [
+      "site_nav",
+      "svc_localsearchally"
+    ],
+    "27": [
+      "postcss_config_mjs"
+    ],
+    "28": [
+      "next_env_d_ts"
+    ],
+    "29": [
+      "eslint_config_mjs"
+    ],
+    "30": [
+      "next_config_ts"
+    ],
+    "31": [
+      "app_free_local_seo_audit_page_tsx"
+    ],
+    "32": [
+      "app_components_whatwechecksection_tsx"
+    ],
+    "33": [
+      "lib_ratelimit_ts"
+    ],
+    "34": [
+      "readme"
+    ],
+    "35": [
+      "img_step1"
+    ],
+    "36": [
+      "img_step2"
+    ],
+    "37": [
+      "img_step3"
+    ],
+    "38": [
+      "img_testimonials"
+    ],
+    "39": [
+      "img_og"
+    ],
+    "40": [
+      "img_how_it_works"
+    ]
+  },
+  "cohesion": {},
+  "god_nodes": [
+    {
+      "id": "email_route_post",
+      "label": "POST()",
+      "degree": 10
+    },
+    {
+      "id": "audit_route_buildauditprompt",
+      "label": "buildAuditPrompt()",
+      "degree": 8
+    },
+    {
+      "id": "email_route_emailshell",
+      "label": "emailShell()",
+      "degree": 7
+    },
+    {
+      "id": "proxy_ts",
+      "label": "Rate-Limit Proxy Middleware",
+      "degree": 5
+    },
+    {
+      "id": "id_page_getaudit",
+      "label": "getAudit()",
+      "degree": 4
+    },
+    {
+      "id": "audit_route_post",
+      "label": "POST()",
+      "degree": 3
+    },
+    {
+      "id": "email_route_builddripday2html",
+      "label": "buildDripDay2Html()",
+      "degree": 3
+    },
+    {
+      "id": "email_route_builddripday5html",
+      "label": "buildDripDay5Html()",
+      "degree": 3
+    },
+    {
+      "id": "email_route_builddripday9html",
+      "label": "buildDripDay9Html()",
+      "degree": 3
+    },
+    {
+      "id": "email_route_builddripday14html",
+      "label": "buildDripDay14Html()",
+      "degree": 3
+    }
+  ],
+  "surprises": [
+    {
+      "source": "buildAuditPrompt()",
+      "target": "formatGBPBlock()",
+      "source_files": [
+        "app/api/audit/route.ts",
+        "lib/prefetch.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `formatGBPBlock()` unexpectedly reaches hub `buildAuditPrompt()`"
+    },
+    {
+      "source": "buildAuditPrompt()",
+      "target": "formatPageSpeedBlock()",
+      "source_files": [
+        "app/api/audit/route.ts",
+        "lib/prefetch.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `formatPageSpeedBlock()` unexpectedly reaches hub `buildAuditPrompt()`"
+    },
+    {
+      "source": "buildAuditPrompt()",
+      "target": "formatWebsiteBlock()",
+      "source_files": [
+        "app/api/audit/route.ts",
+        "lib/prefetch.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `formatWebsiteBlock()` unexpectedly reaches hub `buildAuditPrompt()`"
+    },
+    {
+      "source": "buildAuditPrompt()",
+      "target": "formatBacklinksBlock()",
+      "source_files": [
+        "app/api/audit/route.ts",
+        "lib/prefetch.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `formatBacklinksBlock()` unexpectedly reaches hub `buildAuditPrompt()`"
+    },
+    {
+      "source": "buildAuditPrompt()",
+      "target": "formatReviewsBlock()",
+      "source_files": [
+        "app/api/audit/route.ts",
+        "lib/prefetch.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `formatReviewsBlock()` unexpectedly reaches hub `buildAuditPrompt()`"
+    }
+  ]
+}

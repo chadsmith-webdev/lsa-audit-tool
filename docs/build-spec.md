@@ -581,10 +581,7 @@ The Supabase service role key (`SUPABASE_SERVICE_KEY`) bypasses Row Level Securi
 - [x] Input sanitization hardening (HTML stripping, server-side length caps, strict URL validation)
 - [x] CAN-SPAM footer (unsubscribe link + mailing address in all email templates)
 - [x] Copy link button on live results (share button present but links to audit page)
-
-### **Not yet built**
-
-- [ ] Re-audit reminder
+- [x] Re-audit reminder
 
 ---
 
