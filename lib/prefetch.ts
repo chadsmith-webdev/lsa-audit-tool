@@ -53,7 +53,42 @@ export async function fetchGBPData(
 
     if (!res.ok) return { found: false };
     const data = await res.json();
-    const place = data.places?.[0];
+    let place = data.places?.[0];
+
+    // Fallback for service-area businesses (SABs) that hide their address —
+    // retry with just the business name + state when city-scoped search misses.
+    if (!place) {
+      const res2 = await fetch(
+        "https://places.googleapis.com/v1/places:searchText",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Goog-Api-Key": apiKey,
+            "X-Goog-FieldMask": [
+              "places.id",
+              "places.displayName",
+              "places.rating",
+              "places.userRatingCount",
+              "places.regularOpeningHours",
+              "places.photos",
+              "places.nationalPhoneNumber",
+              "places.formattedAddress",
+            ].join(","),
+          },
+          body: JSON.stringify({
+            textQuery: `${businessName} Arkansas`,
+            maxResultCount: 1,
+          }),
+          signal: AbortSignal.timeout(10_000),
+        },
+      );
+      if (res2.ok) {
+        const data2 = await res2.json();
+        place = data2.places?.[0];
+      }
+    }
+
     if (!place) return { found: false };
 
     const rawPhotoCount = place.photos?.length ?? 0;
