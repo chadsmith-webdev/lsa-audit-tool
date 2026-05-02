@@ -370,20 +370,102 @@ async function notifyEmail(
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://localsearchally.com";
   const auditLink = auditId ? `${siteUrl}/audit/${auditId}` : siteUrl;
+  const scoreColor =
+    result.overall_score >= 8
+      ? "#00ff88"
+      : result.overall_score >= 5
+        ? "#ffcc00"
+        : "#ff4d4d";
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Audit — ${input.businessName}</title>
+</head>
+<body style="margin:0;padding:0;background:#020203;font-family:'Helvetica Neue',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#020203;">
+    <tr>
+      <td align="center" style="padding:40px 16px;">
+        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+
+          <!-- Header -->
+          <tr>
+            <td style="padding-bottom:24px;">
+              <p style="margin:0;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#7bafd4;font-weight:600;">
+                Local Search Ally · New Audit Lead
+              </p>
+            </td>
+          </tr>
+
+          <!-- Score block -->
+          <tr>
+            <td style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-top:2px solid #7bafd4;border-radius:12px;padding:28px 32px;">
+              <p style="margin:0 0 4px;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);">
+                ${input.primaryTrade} · ${input.serviceCity}
+              </p>
+              <h1 style="margin:0 0 20px;font-size:24px;font-weight:700;color:#ffffff;line-height:1.2;">
+                ${input.businessName}
+              </h1>
+              <table cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding-right:20px;">
+                    <p style="margin:0;font-size:48px;font-weight:700;color:${scoreColor};font-family:'Courier New',monospace;line-height:1;">
+                      ${result.overall_score}<span style="font-size:20px;color:rgba(255,255,255,0.3)">/10</span>
+                    </p>
+                  </td>
+                  <td style="vertical-align:middle;">
+                    <p style="margin:0 0 2px;font-size:16px;font-weight:600;color:#ffffff;">${result.score_bucket}</p>
+                    <p style="margin:0;font-size:13px;color:rgba(255,255,255,0.4);">Overall SEO Score</p>
+                  </td>
+                </tr>
+              </table>
+              ${input.websiteUrl ? `<p style="margin:16px 0 0;font-size:13px;color:rgba(255,255,255,0.35);">Website: ${input.websiteUrl}</p>` : `<p style="margin:16px 0 0;font-size:13px;color:rgba(255,255,255,0.35);">No website listed</p>`}
+            </td>
+          </tr>
+
+          <!-- Summary -->
+          <tr>
+            <td style="padding:24px 0;">
+              <p style="margin:0;font-size:15px;line-height:1.65;color:rgba(255,255,255,0.6);">
+                ${result.summary}
+              </p>
+            </td>
+          </tr>
+
+          <!-- CTA -->
+          <tr>
+            <td style="padding-bottom:32px;">
+              <a href="${auditLink}"
+                style="display:inline-block;background:#7bafd4;color:#020203;font-size:15px;font-weight:600;text-decoration:none;border-radius:8px;padding:13px 26px;">
+                View Full Audit →
+              </a>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding-top:24px;border-top:1px solid rgba(255,255,255,0.06);">
+              <p style="margin:0;font-size:12px;color:rgba(255,255,255,0.2);line-height:1.6;">
+                Local Search Ally · Internal notification
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
 
   const resend = new Resend(apiKey);
   const { error } = await resend.emails.send({
     from: "Local Search Ally <noreply@localsearchally.com>",
     to: toEmail,
     subject: `New audit: ${input.businessName} — ${result.overall_score}/10 (${result.score_bucket})`,
-    text: [
-      `Business: ${input.businessName}`,
-      `Trade: ${input.primaryTrade}`,
-      `City: ${input.serviceCity}`,
-      `Score: ${result.overall_score}/10 — ${result.score_bucket}`,
-      ``,
-      `View audit: ${auditLink}`,
-    ].join("\n"),
+    html,
   });
   if (error) throw new Error(`Resend error: ${JSON.stringify(error)}`);
 }
