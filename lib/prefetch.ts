@@ -163,20 +163,37 @@ export interface WebsiteData {
 }
 
 const LOCAL_BUSINESS_TYPES = new Set([
-  "LocalBusiness", "Plumber", "HVACBusiness", "Electrician",
-  "RoofingContractor", "GeneralContractor", "HomeAndConstructionBusiness",
-  "LandscapingBusiness", "ProfessionalService",
+  "LocalBusiness",
+  "Plumber",
+  "HVACBusiness",
+  "Electrician",
+  "RoofingContractor",
+  "GeneralContractor",
+  "HomeAndConstructionBusiness",
+  "LandscapingBusiness",
+  "ProfessionalService",
 ]);
 
-const SCHEMA_FIELDS = ["name", "address", "telephone", "serviceArea", "openingHours", "areaServed"];
+const SCHEMA_FIELDS = [
+  "name",
+  "address",
+  "telephone",
+  "serviceArea",
+  "openingHours",
+  "areaServed",
+];
 
 function stripTags(html: string): string {
-  return html.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+  return html
+    .replace(/<[^>]+>/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function extractJsonLdBlocks(html: string): any[] {
   const blocks: any[] = [];
-  const re = /<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+  const re =
+    /<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
   let match: RegExpExecArray | null;
   while ((match = re.exec(html)) !== null) {
     try {
@@ -184,12 +201,16 @@ function extractJsonLdBlocks(html: string): any[] {
       if (Array.isArray(parsed)) blocks.push(...parsed);
       else if (parsed["@graph"]) blocks.push(...parsed["@graph"]);
       else blocks.push(parsed);
-    } catch { /* skip malformed */ }
+    } catch {
+      /* skip malformed */
+    }
   }
   return blocks;
 }
 
-export async function fetchWebsiteData(websiteUrl: string): Promise<WebsiteData> {
+export async function fetchWebsiteData(
+  websiteUrl: string,
+): Promise<WebsiteData> {
   const isHttps = websiteUrl.startsWith("https://");
 
   let html = "";
@@ -201,18 +222,28 @@ export async function fetchWebsiteData(websiteUrl: string): Promise<WebsiteData>
     });
     if (!res.ok) {
       return {
-        h2s: [], hasLocalBusinessSchema: false, schemaTypes: [],
-        schemaPresentFields: [], schemaMissingFields: SCHEMA_FIELDS,
-        isHttps, hasSitemap: false, fetchError: `HTTP ${res.status}`,
+        h2s: [],
+        hasLocalBusinessSchema: false,
+        schemaTypes: [],
+        schemaPresentFields: [],
+        schemaMissingFields: SCHEMA_FIELDS,
+        isHttps,
+        hasSitemap: false,
+        fetchError: `HTTP ${res.status}`,
       };
     }
     const full = await res.text();
     html = full.slice(0, 250_000); // 250KB covers <head> on any real site
   } catch (err: any) {
     return {
-      h2s: [], hasLocalBusinessSchema: false, schemaTypes: [],
-      schemaPresentFields: [], schemaMissingFields: SCHEMA_FIELDS,
-      isHttps, hasSitemap: false, fetchError: err.message,
+      h2s: [],
+      hasLocalBusinessSchema: false,
+      schemaTypes: [],
+      schemaPresentFields: [],
+      schemaMissingFields: SCHEMA_FIELDS,
+      isHttps,
+      hasSitemap: false,
+      fetchError: err.message,
     };
   }
 
@@ -222,8 +253,12 @@ export async function fetchWebsiteData(websiteUrl: string): Promise<WebsiteData>
 
   // Meta description
   const metaMatch =
-    html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i) ??
-    html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+name=["']description["']/i);
+    html.match(
+      /<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i,
+    ) ??
+    html.match(
+      /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']description["']/i,
+    );
   const metaDescription = metaMatch ? metaMatch[1].trim() : undefined;
 
   // H1
@@ -241,7 +276,9 @@ export async function fetchWebsiteData(websiteUrl: string): Promise<WebsiteData>
 
   // JSON-LD schema
   const blocks = extractJsonLdBlocks(html);
-  const localBizBlocks = blocks.filter((b) => LOCAL_BUSINESS_TYPES.has(b["@type"]));
+  const localBizBlocks = blocks.filter((b) =>
+    LOCAL_BUSINESS_TYPES.has(b["@type"]),
+  );
   const hasLocalBusinessSchema = localBizBlocks.length > 0;
   const schemaTypes = [...new Set(localBizBlocks.map((b) => b["@type"]))];
 
@@ -266,12 +303,21 @@ export async function fetchWebsiteData(websiteUrl: string): Promise<WebsiteData>
       redirect: "follow",
     });
     hasSitemap = sitemapRes.ok;
-  } catch { /* ignore */ }
+  } catch {
+    /* ignore */
+  }
 
   return {
-    title, metaDescription, h1, h2s,
-    hasLocalBusinessSchema, schemaTypes, schemaPresentFields, schemaMissingFields,
-    isHttps, hasSitemap,
+    title,
+    metaDescription,
+    h1,
+    h2s,
+    hasLocalBusinessSchema,
+    schemaTypes,
+    schemaPresentFields,
+    schemaMissingFields,
+    isHttps,
+    hasSitemap,
   };
 }
 
@@ -362,7 +408,10 @@ export function formatSerperBlock(serper: SerperData): string {
 
   const lines = serper.results.map((r, i) => {
     const rating = r.rating !== undefined ? `${r.rating}/5` : "no rating";
-    const reviews = r.ratingCount !== undefined ? `${r.ratingCount} reviews` : "no review count";
+    const reviews =
+      r.ratingCount !== undefined
+        ? `${r.ratingCount} reviews`
+        : "no review count";
     const site = r.website ? "has website" : "no website";
     return `  ${i + 1}. ${r.title} — ${rating}, ${reviews}, ${site}${r.address ? `, ${r.address}` : ""}`;
   });
@@ -377,7 +426,9 @@ export interface BacklinksData {
   fetchError?: string;
 }
 
-export async function fetchBacklinksData(websiteUrl: string): Promise<BacklinksData> {
+export async function fetchBacklinksData(
+  websiteUrl: string,
+): Promise<BacklinksData> {
   const apiKey = process.env.DATAFORSEO_API_KEY;
   if (!apiKey) return { fetchError: "No API key" };
 
@@ -389,15 +440,18 @@ export async function fetchBacklinksData(websiteUrl: string): Promise<BacklinksD
   }
 
   try {
-    const res = await fetch("https://api.dataforseo.com/v3/backlinks/summary/live", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${apiKey}`,
+    const res = await fetch(
+      "https://api.dataforseo.com/v3/backlinks/summary/live",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${apiKey}`,
+        },
+        body: JSON.stringify([{ target: hostname, include_subdomains: true }]),
+        signal: AbortSignal.timeout(15_000),
       },
-      body: JSON.stringify([{ target: hostname, include_subdomains: true }]),
-      signal: AbortSignal.timeout(15_000),
-    });
+    );
 
     if (!res.ok) return { fetchError: `HTTP ${res.status}` };
     const data = await res.json();
@@ -419,14 +473,21 @@ export function formatBacklinksBlock(bl: BacklinksData): string {
     return `BACKLINKS: Could not fetch (${bl.fetchError}) — use web search to estimate domain authority.`;
   }
   const rank = bl.domainRank !== undefined ? `${bl.domainRank}/100` : "unknown";
-  const domains = bl.referringDomains !== undefined ? bl.referringDomains.toLocaleString() : "unknown";
-  const links = bl.backlinks !== undefined ? bl.backlinks.toLocaleString() : "unknown";
+  const domains =
+    bl.referringDomains !== undefined
+      ? bl.referringDomains.toLocaleString()
+      : "unknown";
+  const links =
+    bl.backlinks !== undefined ? bl.backlinks.toLocaleString() : "unknown";
 
   const rankNote =
-    bl.domainRank === undefined ? "" :
-    bl.domainRank >= 40 ? " — solid" :
-    bl.domainRank >= 20 ? " — weak" :
-    " — CRITICAL: very low authority";
+    bl.domainRank === undefined
+      ? ""
+      : bl.domainRank >= 40
+        ? " — solid"
+        : bl.domainRank >= 20
+          ? " — weak"
+          : " — CRITICAL: very low authority";
 
   return `BACKLINKS (DataForSEO):
   Domain rank: ${rank}${rankNote}
@@ -504,15 +565,196 @@ export function formatReviewsBlock(rv: ReviewsData): string {
   const avgRating =
     rv.reviews.reduce((sum, r) => sum + (r.rating ?? 0), 0) / rv.reviews.length;
 
-  const recencyNote =
-    rv.reviews[0]?.date
-      ? ` (most recent: ${rv.reviews[0].date})`
-      : "";
+  const recencyNote = rv.reviews[0]?.date
+    ? ` (most recent: ${rv.reviews[0].date})`
+    : "";
 
   return `REVIEWS_DATA (last ${rv.reviews.length} Google reviews, newest first):
   Most recent review: ${mostRecent}
   Avg rating (sample): ${avgRating.toFixed(1)}/5
   Owner response rate: ${responseRate}% (${withResponse} of ${rv.reviews.length} answered)${responseRate === 0 ? " — CRITICAL: no responses" : ""}`;
+}
+
+// ─── AI Citability ────────────────────────────────────────────────────────────
+
+export interface AICitabilitySignals {
+  groundingScore: number; // 0–100 consistency %
+  groundingMismatches: string[]; // specific gaps found
+  photoFreshnessPulse: "strong" | "weak" | "unknown";
+  reviewTexts: string[]; // raw review texts for Claude semantic analysis
+}
+
+/** Normalise a phone string to digits only for comparison */
+function normalisePhone(raw: string | undefined): string {
+  return (raw ?? "").replace(/\D/g, "");
+}
+
+/**
+ * Extract single-word service keywords from a GBP business name.
+ * Strips common stop words and short tokens so we compare meaningful nouns.
+ */
+function extractServiceKeywords(name: string | undefined): string[] {
+  if (!name) return [];
+  const stops = new Set([
+    "the",
+    "and",
+    "of",
+    "in",
+    "at",
+    "by",
+    "for",
+    "a",
+    "an",
+    "&",
+    "llc",
+    "inc",
+    "co",
+    "company",
+    "services",
+    "service",
+    "solutions",
+    "group",
+    "team",
+    "pros",
+    "pro",
+    "home",
+    "local",
+  ]);
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]/g, " ")
+    .split(/\s+/)
+    .filter((w) => w.length > 2 && !stops.has(w));
+}
+
+/**
+ * Pure function — no I/O. Takes already-fetched data and produces structured
+ * signals for the AI_CITABILITY pre-fetch block.
+ */
+export function computeAICitabilitySignals(
+  gbp: GBPData,
+  website: WebsiteData | null,
+  reviews: ReviewsData,
+): AICitabilitySignals {
+  const mismatches: string[] = [];
+  let checksTotal = 0;
+  let checksPassed = 0;
+
+  // ── Grounding: phone match ──────────────────────────────────────────────
+  if (gbp.found && gbp.phone) {
+    checksTotal++;
+    const gbpPhone = normalisePhone(gbp.phone);
+    const siteText = [
+      website?.title ?? "",
+      website?.metaDescription ?? "",
+      website?.h1 ?? "",
+      ...(website?.h2s ?? []),
+    ].join(" ");
+    const sitePhone = normalisePhone(siteText.match(/[\d\s\-().+]{10,}/)?.[0]);
+    if (gbpPhone && sitePhone && gbpPhone === sitePhone) {
+      checksPassed++;
+    } else if (gbp.found && website) {
+      mismatches.push(
+        `Phone mismatch: GBP shows ${gbp.phone}, not confirmed on website`,
+      );
+    }
+  }
+
+  // ── Grounding: service keyword presence on website ──────────────────────
+  const keywords = extractServiceKeywords(gbp.name);
+  if (keywords.length > 0 && website) {
+    const webText = [
+      website.title ?? "",
+      website.h1 ?? "",
+      ...(website.h2s ?? []),
+    ]
+      .join(" ")
+      .toLowerCase();
+
+    for (const kw of keywords) {
+      checksTotal++;
+      if (webText.includes(kw)) {
+        checksPassed++;
+      } else {
+        mismatches.push(
+          `Service keyword "${kw}" from GBP name not found in website title/H1/H2s`,
+        );
+      }
+    }
+  } else if (keywords.length > 0 && !website) {
+    // No website — every keyword is a mismatch
+    for (const kw of keywords) {
+      checksTotal++;
+      mismatches.push(`No website to verify GBP keyword "${kw}"`);
+    }
+  }
+
+  if (checksTotal === 0) {
+    // GBP not found and no website — nothing to compare
+    mismatches.push(
+      "GBP not found and no website — no grounding signals available",
+    );
+  }
+
+  const groundingScore =
+    checksTotal > 0 ? Math.round((checksPassed / checksTotal) * 100) : 0;
+
+  // ── Photo freshness pulse ───────────────────────────────────────────────
+  const photoAtCap = (gbp as any).photoAtCap as boolean | undefined;
+  const photoCount = gbp.photoCount ?? 0;
+  const photoFreshnessPulse: AICitabilitySignals["photoFreshnessPulse"] =
+    !gbp.found
+      ? "unknown"
+      : photoAtCap || photoCount >= 10
+        ? "strong"
+        : photoCount < 5
+          ? "weak"
+          : "unknown";
+
+  // ── Review texts for Claude semantic analysis ───────────────────────────
+  // We only have structured review metadata (rating, date, hasOwnerResponse)
+  // not the raw text — pass a summary note for Claude to work from review count/recency.
+  // If a future API integration provides full text, swap this array.
+  const reviewTexts = reviews.reviews.slice(0, 10).map((r) => {
+    const parts: string[] = [];
+    if (r.rating !== undefined) parts.push(`${r.rating} stars`);
+    if (r.date) parts.push(`on ${r.date}`);
+    if (r.hasOwnerResponse) parts.push("owner responded");
+    return parts.join(", ") || "review (no detail)";
+  });
+
+  return {
+    groundingScore,
+    groundingMismatches: mismatches,
+    photoFreshnessPulse,
+    reviewTexts,
+  };
+}
+
+export function formatAICitabilityBlock(
+  signals: AICitabilitySignals,
+  noWebsite: boolean,
+): string {
+  const mismatchStr =
+    signals.groundingMismatches.length > 0
+      ? signals.groundingMismatches.join(" | ")
+      : "none detected";
+
+  const reviewSummary =
+    signals.reviewTexts.length > 0
+      ? signals.reviewTexts.map((r) => `  - ${r}`).join("\n")
+      : "  (no reviews available)";
+
+  const noWebsiteNote = noWebsite
+    ? "\n  NOTE: No website — grounding score is 0, max section score is 5."
+    : "";
+
+  return `AI_CITABILITY:${noWebsiteNote}
+  Grounding score: ${signals.groundingScore}% consistency
+  Mismatches: ${mismatchStr}
+  Photo freshness: ${signals.photoFreshnessPulse}
+  Reviews for semantic density analysis (${signals.reviewTexts.length} reviews):
+${reviewSummary}`;
 }
 
 export function formatPageSpeedBlock(ps: PageSpeedData): string {

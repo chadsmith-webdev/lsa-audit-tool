@@ -35,12 +35,15 @@ export default function HeroSection() {
         </motion.span>
 
         <motion.h1 variants={fadeUp} className={styles.heroTitleCentered}>
-          Free Local SEO Audit — <em>See Why Google Isn&apos;t Showing You</em>
+          Free Local SEO Audit —{" "}
+          <em>See Why Google&apos;s Algorithm and AI Are Skipping You</em>
         </motion.h1>
 
         <motion.p variants={fadeUp} className={styles.heroSubCentered}>
-          You&apos;re invisible to customers searching right now — this free
-          audit reveals exactly why, in 90 seconds flat.
+          Most audits were built before AI search existed. This one scores both
+          — your Google Map Pack visibility <em>and</em> whether AI tools like
+          ChatGPT and Google&apos;s AI Overviews can verify and cite your
+          business. 90 seconds, free.
         </motion.p>
 
         <div className={styles.heroToolCentered}>

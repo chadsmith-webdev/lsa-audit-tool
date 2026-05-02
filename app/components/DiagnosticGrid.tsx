@@ -148,6 +148,26 @@ const AUDIT_CHECKS = [
     name: "Competitors",
     desc: "I find the top 3 businesses ranking above you in the Map Pack right now and show you exactly where the gap is.",
   },
+  {
+    icon: (
+      <svg
+        width='20'
+        height='20'
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke='currentColor'
+        strokeWidth='1.75'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        aria-hidden='true'
+      >
+        <circle cx='12' cy='12' r='10' />
+        <path d='M12 8v4l3 3' />
+      </svg>
+    ),
+    name: "AI Citability",
+    desc: "I check whether AI search tools — Google's AI Overviews, ChatGPT, and Perplexity — can verify and cite your business. An AI that can't confirm your info skips you entirely.",
+  },
 ];
 
 // ─── Motion variants ──────────────────────────────────────────────────────────

@@ -12,6 +12,9 @@ import {
   formatReviewsBlock,
   formatSerperBlock,
   formatWebsiteBlock,
+  computeAICitabilitySignals,
+  formatAICitabilityBlock,
+  type AICitabilitySignals,
   type BacklinksData,
   type GBPData,
   type PageSpeedData,
@@ -67,6 +70,19 @@ export interface AuditSection {
   priority_action: string;
 }
 
+export interface AICitabilitySection {
+  score: number;
+  status: "green" | "yellow" | "red";
+  headline: string;
+  finding: string;
+  priority_action: string;
+  sub_signals: {
+    grounding: "strong" | "partial" | "weak";
+    review_density: "strong" | "partial" | "weak";
+    photo_freshness: "strong" | "weak" | "unknown";
+  };
+}
+
 export interface AuditResult {
   business_name: string;
   overall_score: number;
@@ -77,6 +93,8 @@ export interface AuditResult {
   sections: AuditSection[];
   top_3_actions: string[];
   competitor_names: string[];
+  ai_citability_score?: number;
+  ai_citability_section?: AICitabilitySection;
 }
 
 const SYSTEM_PROMPT = `You are a local SEO specialist auditing a contractor's online presence for Local Search Ally. Research the business using web search and produce an honest, scored audit across 7 sections. Return ONLY valid JSON — no preamble, no markdown.
@@ -91,6 +109,32 @@ AUDIT SECTIONS (score each 1–10):
 5. citations — NAP consistency across Google, Yelp, BBB, Angi, HomeAdvisor.
 6. backlinks — Use BACKLINKS block from PRE-FETCHED DATA for domain rank and referring domains. Domain rank under 20 = red, 20–39 = yellow, 40+ = green.
 7. competitors — Use the MAP_PACK block from PRE-FETCHED DATA. These are the real Google Local Pack results for [trade] [city] AR. Compare this business against those competitors on reviews, GBP completeness, and web presence.
+8. ai_citability — AI Citability & Trust Score (BONUS SECTION — does NOT affect overall_score or overall_label)
+   Use the AI_CITABILITY block from PRE-FETCHED DATA.
+
+   GROUNDING: groundingScore ≥ 80 = strong, 50–79 = partial, < 50 = weak.
+   List mismatches from the Mismatches field verbatim in your finding.
+
+   REVIEW DENSITY: The reviews listed show rating/date/response metadata only, not full text.
+   Evaluate review density from: total review count (from GBP data), recency, and owner response rate.
+   If the business has ≥ 20 reviews with recent activity and owner responses = strong.
+   10–19 reviews or sparse responses = partial.
+   Fewer than 10 reviews or no owner responses = weak.
+
+   PHOTO FRESHNESS: Use the Photo freshness field verbatim — do not override.
+   strong = active photo presence, weak = sparse photos, unknown = insufficient data.
+
+   SCORING:
+   - All three sub-signals strong → 8–10, status: "green"
+   - Any one sub-signal weak → 5–7, status: "yellow"
+   - Grounding weak OR (review_density weak AND photo_freshness weak) → 1–4, status: "red"
+   - No website → cap score at 5 maximum
+
+   REQUIRED FIELDS in ai_citability_section: score, status, headline, finding, priority_action, sub_signals
+   sub_signals must include: grounding ("strong"|"partial"|"weak"), review_density ("strong"|"partial"|"weak"), photo_freshness ("strong"|"weak"|"unknown")
+
+   VOICE: Frame entirely around AI visibility. The villain is "an AI that can't verify you skips you."
+   Plain English only. Never say "grounding score" or "semantic density" to the business owner — translate to plain consequences.
 
 NO-WEBSITE HANDLING: If the business has no website, score onpage, technical, and backlinks as 1 each. Set headline to "No website — invisible to every search that doesn't start on Google Maps." Skip URL-based checks for those sections only.
 
@@ -114,7 +158,7 @@ SEARCH STRATEGY:
 REQUIRED JSON:
 {
   "business_name": string,
-  "overall_score": number (average of 7 sections, rounded),
+  "overall_score": number (average of 7 core sections only, rounded),
   "overall_label": "Strong" | "Solid" | "Needs Work" | "Critical",
   "summary": string (1 sentence, plain English, specific),
   "has_website": boolean,
@@ -129,7 +173,20 @@ REQUIRED JSON:
     "priority_action": string (specific next step)
   }],
   "top_3_actions": string[],
-  "competitor_names": string[]
+  "competitor_names": string[],
+  "ai_citability_score": number (1–10, bonus section score),
+  "ai_citability_section": {
+    "score": number (1–10),
+    "status": "green" | "yellow" | "red",
+    "headline": string,
+    "finding": string (2–3 sentences),
+    "priority_action": string,
+    "sub_signals": {
+      "grounding": "strong" | "partial" | "weak",
+      "review_density": "strong" | "partial" | "weak",
+      "photo_freshness": "strong" | "weak" | "unknown"
+    }
+  }
 }
 
 SUMMARY: 1–2 sentences. Frame around the score:
@@ -158,6 +215,7 @@ function buildAuditPrompt(
     backlinks: BacklinksData | null;
     reviews: ReviewsData;
     failedBlocks?: Set<string>;
+    aiCitabilitySignals?: AICitabilitySignals;
   },
 ): string {
   const failed = prefetch.failedBlocks ?? new Set<string>();
@@ -202,6 +260,10 @@ function buildAuditPrompt(
     ? "GBP_EXISTS: DATA UNAVAILABLE — Places API error during pre-fetch. Use web search to verify GBP presence and completeness."
     : formatGBPBlock(prefetch.gbp);
 
+  const aiCitabilityBlock = prefetch.aiCitabilitySignals
+    ? formatAICitabilityBlock(prefetch.aiCitabilitySignals, input.noWebsite)
+    : "AI_CITABILITY: DATA UNAVAILABLE — signals could not be computed.";
+
   const prefetchBlock = `
 PRE-FETCHED DATA (authoritative — do not contradict):
 ${gbpBlock}
@@ -209,7 +271,8 @@ ${pagespeedBlock}
 ${onpageBlock}
 ${backlinksBlock}
 ${reviewsBlock}
-${serperBlock}`;
+${serperBlock}
+${aiCitabilityBlock}`;
 
   return `Audit this contractor's local SEO:
 
@@ -220,7 +283,7 @@ Service City: ${input.serviceCity}
 ${noWebsiteNote}
 ${prefetchBlock}
 
-Use the PRE-FETCHED DATA above for gbp, technical, onpage, backlinks, reviews, and competitors sections. Use web search only for citations. Return the JSON audit result only.`.trim();
+Use the PRE-FETCHED DATA above for gbp, technical, onpage, backlinks, reviews, competitors, and ai_citability sections. Use web search only for citations. Return the JSON audit result only.`.trim();
 }
 
 function parseAuditResult(rawText: string): AuditResult {
@@ -242,6 +305,7 @@ async function callClaude(
     backlinks: BacklinksData | null;
     reviews: ReviewsData;
     failedBlocks?: Set<string>;
+    aiCitabilitySignals?: AICitabilitySignals;
   },
   signal: AbortSignal,
 ): Promise<AuditResult> {
@@ -438,14 +502,27 @@ export async function POST(req: Request) {
           ),
           input.noWebsite || !input.websiteUrl
             ? Promise.resolve(null)
-            : tag("website", null)(fetchWebsiteData(input.websiteUrl)),
+            : tag<WebsiteData | null>(
+                "website",
+                null,
+              )(fetchWebsiteData(input.websiteUrl)),
           input.noWebsite || !input.websiteUrl
             ? Promise.resolve(null)
-            : tag("backlinks", null)(fetchBacklinksData(input.websiteUrl)),
+            : tag<BacklinksData | null>(
+                "backlinks",
+                null,
+              )(fetchBacklinksData(input.websiteUrl)),
           tag("reviews", { reviews: [] } as ReviewsData)(
             fetchReviewsData(input.businessName, input.serviceCity),
           ),
         ]);
+
+        // --- Compute AI Citability signals (pure, no I/O) ---
+        const aiCitabilitySignals = computeAICitabilitySignals(
+          gbpData,
+          websiteData,
+          reviewsData,
+        );
 
         // --- Run Claude audit ---
         const result = await callClaude(
@@ -458,6 +535,7 @@ export async function POST(req: Request) {
             backlinks: backlinksData,
             reviews: reviewsData,
             failedBlocks,
+            aiCitabilitySignals,
           },
           abortController.signal,
         );

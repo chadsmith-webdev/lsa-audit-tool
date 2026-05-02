@@ -13,6 +13,19 @@ type AuditSection = {
   priority_action: string;
 };
 
+type AICitabilitySection = {
+  score: number;
+  status: "green" | "yellow" | "red";
+  headline: string;
+  finding: string;
+  priority_action: string;
+  sub_signals: {
+    grounding: "strong" | "partial" | "weak";
+    review_density: "strong" | "partial" | "weak";
+    photo_freshness: "strong" | "weak" | "unknown";
+  };
+};
+
 type AuditResult = {
   business_name: string;
   overall_score: number;
@@ -23,6 +36,8 @@ type AuditResult = {
   sections: AuditSection[];
   top_3_actions: string[];
   competitor_names: string[];
+  ai_citability_score?: number;
+  ai_citability_section?: AICitabilitySection;
 };
 
 type AuditRow = {
@@ -94,6 +109,16 @@ export default function SharedAuditView({ audit }: { audit: AuditRow }) {
             <SectionCard key={section.id} section={section} index={i} />
           ))}
         </div>
+
+        {/* AI Citability bonus section */}
+        {result.ai_citability_section && (
+          <div className={styles.bonusSectionWrap}>
+            <div className={styles.bonusSeparator}>
+              <span className={styles.bonusSeparatorLabel}>Bonus Analysis</span>
+            </div>
+            <AICitabilityCard section={result.ai_citability_section} />
+          </div>
+        )}
 
         {/* CTA */}
         <div className={styles.sharedCta}>
@@ -195,7 +220,62 @@ function ScoreGauge({ score, label }: { score: number; label: string }) {
   );
 }
 
-// ─── SectionCard ──────────────────────────────────────────────────────────────
+// ─── AICitabilityCard ────────────────────────────────────────────────────────
+
+const SUB_SIGNAL_LABELS: Record<string, string> = {
+  grounding: "GBP Consistency",
+  review_density: "Review Signals",
+  photo_freshness: "Photo Activity",
+};
+
+const SUB_SIGNAL_STATUS: Record<string, "green" | "yellow" | "red"> = {
+  strong: "green",
+  partial: "yellow",
+  weak: "red",
+  unknown: "yellow",
+};
+
+function AICitabilityCard({ section }: { section: AICitabilitySection }) {
+  return (
+    <article className={styles.aiCitabilityCard} data-status={section.status}>
+      <div className={styles.cardHead}>
+        <span className={styles.sectionScore}>{section.score}</span>
+        <div className={styles.cardHeadText}>
+          <span className={styles.sectionName}>
+            AI Citability &amp; Trust Score
+          </span>
+          <span className={styles.sectionHeadline}>{section.headline}</span>
+        </div>
+        <span className={styles.statusDot} aria-label={section.status} />
+      </div>
+      <div className={styles.cardBody}>
+        <p className={styles.finding}>{section.finding}</p>
+        <div className={styles.subSignals}>
+          {(
+            Object.entries(section.sub_signals) as [
+              keyof AICitabilitySection["sub_signals"],
+              string,
+            ][]
+          ).map(([key, value]) => (
+            <span
+              key={key}
+              className={styles.subSignalBadge}
+              data-status={SUB_SIGNAL_STATUS[value] ?? "yellow"}
+            >
+              {SUB_SIGNAL_LABELS[key] ?? key}
+            </span>
+          ))}
+        </div>
+        {section.priority_action && (
+          <div className={styles.priorityAction}>
+            <span className={styles.priorityLabel}>Next step:</span>
+            <span>{section.priority_action}</span>
+          </div>
+        )}
+      </div>
+    </article>
+  );
+}
 
 function SectionCard({
   section,

@@ -1021,3 +1021,96 @@
     text-align: center;
   }
 }
+
+/* ─── AI Citability Bonus Section ──────────────────────────────────────────── */
+
+.bonusSectionWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bonusSeparator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: var(--carolina-dim);
+}
+
+.bonusSeparator::before,
+.bonusSeparator::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(123, 175, 212, 0.2);
+}
+
+.bonusSeparatorLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--carolina);
+  white-space: nowrap;
+}
+
+/* AI Citability card — same structure as sectionCard, carolina accent instead of status colors */
+.aiCitabilityCard {
+  border: 1px solid rgba(123, 175, 212, 0.18);
+  border-radius: 12px;
+  background: rgba(123, 175, 212, 0.03);
+  overflow: hidden;
+  position: relative;
+}
+
+.aiCitabilityCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--carolina), transparent);
+  opacity: 0.6;
+}
+
+/* Sub-signal badges */
+.subSignals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+
+.subSignalBadge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+}
+
+.subSignalBadge[data-status="green"] {
+  color: var(--status-green);
+  border-color: rgba(0, 255, 136, 0.25);
+  background: rgba(0, 255, 136, 0.07);
+}
+
+.subSignalBadge[data-status="yellow"] {
+  color: var(--status-yellow);
+  border-color: rgba(255, 204, 0, 0.25);
+  background: rgba(255, 204, 0, 0.07);
+}
+
+.subSignalBadge[data-status="red"] {
+  color: var(--status-red);
+  border-color: rgba(255, 77, 77, 0.25);
+  background: rgba(255, 77, 77, 0.07);
+}
