@@ -341,10 +341,10 @@ function buildEmailHtml({
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Your Local SEO Audit — ${businessName}</title>
 </head>
-<body style="margin:0;padding:0;background:#020203;font-family:'Helvetica Neue',Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#020203;">
+<body bgcolor="#020203" style="margin:0;padding:0;background:#020203;font-family:'Helvetica Neue',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" bgcolor="#020203" style="background:#020203;">
     <tr>
-      <td align="center" style="padding:40px 16px;">
+      <td align="center" bgcolor="#020203" style="padding:40px 16px;background:#020203;">
         <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
 
           <!-- Header -->
@@ -452,10 +452,10 @@ function emailShell(bodyHtml: string, unsubscribeUrl: string): string {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
-<body style="margin:0;padding:0;background:#020203;font-family:'Helvetica Neue',Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#020203;">
+<body bgcolor="#020203" style="margin:0;padding:0;background:#020203;font-family:'Helvetica Neue',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" bgcolor="#020203" style="background:#020203;">
     <tr>
-      <td align="center" style="padding:40px 16px;">
+      <td align="center" bgcolor="#020203" style="padding:40px 16px;background:#020203;">
         <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
           <tr>
             <td style="padding-bottom:28px;">
