@@ -35,8 +35,8 @@ export default function HeroSection() {
         </motion.h1>
 
         <motion.p variants={fadeUp} className={styles.heroSub}>
-          Free local SEO audit — Google Maps, reviews, and local search. 90
-          seconds, no email.
+          Free local SEO audit — Google Maps, reviews, and local search. Results
+          in 90 seconds.
         </motion.p>
 
         <motion.div variants={fadeUp} className={styles.heroForm}>

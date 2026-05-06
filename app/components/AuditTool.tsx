@@ -578,7 +578,7 @@ function AuditResults({
               key={section.id}
               section={section}
               index={i}
-              locked={i >= 4 && !emailSubmitted}
+              locked={false}
             />
           ))}
         </div>
@@ -907,21 +907,16 @@ function EmailGate({
   return (
     <div className={styles.emailGate}>
       <div className={styles.emailGateInner}>
-        <span className={styles.lockIcon} aria-hidden='true'>
-          🔒
-        </span>
         <h3 className={styles.emailGateTitle}>
-          Stop the leak. Claim your full action plan.
+          Want a copy to keep?
         </h3>
         <p className={styles.emailGateSub}>
-          I&rsquo;ve ranked every fix for <strong>{businessName}</strong> by
-          impact — so you can move from a <strong>{overallScore}/10</strong> to
-          a 10/10 as fast as possible. Enter your email to unlock the full
-          technical recon
+          I&rsquo;ll email you the full report for <strong>{businessName}</strong> — every finding, your{" "}
+          <strong>{overallScore}/10</strong> score breakdown, and the priority action list
           {competitorNames.length > 0
-            ? `, the exact gaps ${competitorNames.slice(0, 2).join(" and ")} are using to outrank you,`
-            : ","}{" "}
-          and my step-by-step roadmap ranked by what moves the needle first.
+            ? ` including the gaps ${competitorNames.slice(0, 2).join(" and ")} are using to outrank you`
+            : ""}
+          . No fluff, just the audit.
         </p>
         <form onSubmit={handleSubmit} className={styles.emailForm} noValidate>
           <input
@@ -937,7 +932,7 @@ function EmailGate({
             aria-invalid={!!error}
           />
           <button type='submit' className={styles.emailBtn} disabled={loading}>
-            {loading ? "Sending…" : "Unlock My Full Audit →"}
+            {loading ? "Sending…" : "Email Me the Report →"}
           </button>
         </form>
         {error && (
