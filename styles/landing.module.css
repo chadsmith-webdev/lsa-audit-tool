@@ -2,10 +2,58 @@
    All values via CSS vars — no hardcoded hex or font names.
 ────────────────────────────────────────────────────────────────────────────── */
 
-/* ─── Main content — offset for fixed nav (72px) ────────────────────────── */
+/* ─── Main content — offset for fixed nav (60px) ────────────────────────── */
 
 .mainContent {
-  padding-top: 72px;
+  padding-top: 60px;
+}
+
+/* ─── Hero ───────────────────────────────────────────────────────────────── */
+
+.hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: calc(100vh - 60px);
+  padding: clamp(2rem, 4vw, 3.5rem) var(--page-gutter) clamp(2rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--border);
+}
+
+.heroInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 640px;
+  width: 100%;
+  text-align: center;
+}
+
+.heroTitle {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  color: var(--text);
+}
+
+.heroTitle em {
+  font-style: normal;
+  color: var(--carolina);
+}
+
+.heroSub {
+  font-family: var(--font-ui);
+  font-size: clamp(0.875rem, 1.1vw, 1rem);
+  color: var(--muted);
+  line-height: 1.5;
+  max-width: 420px;
+}
+
+.heroForm {
+  width: 100%;
+  max-width: 460px;
 }
 
 /* ─── Hero row (copy + tool side by side) ───────────────────────────────── */
@@ -542,7 +590,7 @@
   border-right: none;
 }
 
-.faqItem:nth-last-child(-n+2):not(.faqItem:nth-child(2n-1):last-child) {
+.faqItem:nth-last-child(-n + 2):not(.faqItem:nth-child(2n-1):last-child) {
   border-bottom: none;
 }
 
@@ -920,8 +968,16 @@ details[open] > .faqA {
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 70% 60% at 50% 100%, rgba(123, 175, 212, 0.07) 0%, transparent 100%),
-    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(123, 175, 212, 0.04) 0%, transparent 100%);
+    radial-gradient(
+      ellipse 70% 60% at 50% 100%,
+      rgba(123, 175, 212, 0.07) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 40% 40% at 50% 50%,
+      rgba(123, 175, 212, 0.04) 0%,
+      transparent 100%
+    );
 }
 
 .finalCta::before {
@@ -979,7 +1035,9 @@ details[open] > .faqA {
   text-decoration: none;
   border-radius: 8px;
   padding: 16px 36px;
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
   cursor: pointer;
   border: none;
 }
@@ -1000,6 +1058,54 @@ details[open] > .faqA {
   justify-content: center;
   margin-top: 20px;
   flex-wrap: wrap;
+}
+
+/* ─── Nav ────────────────────────────────────────────────────────────────── */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+  height: 60px;
+}
+
+.navScrolled {
+  background: rgba(10, 10, 10, 0.95);
+  border-bottom-color: var(--border);
+}
+
+.navLogo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.navLogoIcon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.navLogoText {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.navLogoText span {
+  color: var(--carolina);
 }
 
 /* ─── Minimal nav CTA ───────────────────────────────────────────────────── */
@@ -1026,11 +1132,11 @@ details[open] > .faqA {
 .navInnerMinimal {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 var(--page-gutter);
-  height: 72px;
+  height: 60px;
 }
 
 /* ─── Map Pack visual ────────────────────────────────────────────────────── */
@@ -1142,5 +1248,3 @@ details[open] > .faqA {
   border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
 }
-
-

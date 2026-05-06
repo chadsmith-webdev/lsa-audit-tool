@@ -34,7 +34,6 @@ type AuditInput = {
   websiteUrl: string;
   primaryTrade: string;
   serviceCity: string;
-  noWebsite: boolean;
 };
 
 type AuditSection = {
@@ -118,7 +117,6 @@ export default function AuditTool() {
       websiteUrl: "",
       primaryTrade: validTrade,
       serviceCity: city.slice(0, 100),
-      noWebsite: false,
     };
   });
   const [errors, setErrors] = useState<
@@ -136,11 +134,7 @@ export default function AuditTool() {
     const e: Partial<Record<keyof AuditInput, string>> = {};
     if (!form.businessName || form.businessName.trim().length < 2)
       e.businessName = "Business name required (min 2 characters)";
-    if (
-      !form.noWebsite &&
-      (!form.websiteUrl || form.websiteUrl.trim().length < 3)
-    )
-      e.websiteUrl = "Website URL is required";
+
     if (!form.primaryTrade) e.primaryTrade = "Select a trade";
     if (!form.serviceCity || form.serviceCity.trim().length < 2)
       e.serviceCity = "Service city required";
@@ -153,11 +147,7 @@ export default function AuditTool() {
     if (!validate()) return;
 
     let input = { ...form };
-    if (
-      !input.noWebsite &&
-      input.websiteUrl &&
-      !/^https?:\/\//.test(input.websiteUrl)
-    ) {
+    if (input.websiteUrl && !/^https?:\/\//.test(input.websiteUrl)) {
       input.websiteUrl = "https://" + input.websiteUrl;
     }
 
@@ -330,7 +320,7 @@ function AuditForm({
 }) {
   return (
     <motion.div
-      className={`flex flex-col items-center px-4 py-4 ${styles.formWrap}`}
+      className={styles.formWrap}
       variants={fadeUp}
       initial='hidden'
       animate='visible'
@@ -399,40 +389,20 @@ function AuditForm({
           </div>
 
           <div className={styles.fieldGroup}>
-            <div className={styles.checkboxRow}>
-              <input
-                id='noWebsite'
-                type='checkbox'
-                className={styles.checkbox}
-                checked={form.noWebsite}
-                onChange={(e) => onChange("noWebsite", e.target.checked)}
-              />
-              <label htmlFor='noWebsite' className={styles.checkboxLabel}>
-                No website yet
-              </label>
-            </div>
-
-            {form.noWebsite ? (
-              <p className={styles.noWebsiteNotice}>
-                No website = invisible in Google search. We&rsquo;ll show you
-                what to do about it.
-              </p>
-            ) : (
-              <>
-                <input
-                  id='websiteUrl'
-                  type='url'
-                  className={styles.input}
-                  placeholder='rogershvacpro.com'
-                  value={form.websiteUrl}
-                  onChange={(e) => onChange("websiteUrl", e.target.value)}
-                  aria-invalid={!!errors.websiteUrl}
-                  aria-label='Website URL'
-                />
-                {errors.websiteUrl && (
-                  <span className={styles.fieldError}>{errors.websiteUrl}</span>
-                )}
-              </>
+            <label className={styles.label} htmlFor='websiteUrl'>
+              Website <span className={styles.labelOptional}>(optional)</span>
+            </label>
+            <input
+              id='websiteUrl'
+              type='url'
+              className={styles.input}
+              placeholder='rogershvacpro.com'
+              value={form.websiteUrl}
+              onChange={(e) => onChange("websiteUrl", e.target.value)}
+              aria-invalid={!!errors.websiteUrl}
+            />
+            {errors.websiteUrl && (
+              <span className={styles.fieldError}>{errors.websiteUrl}</span>
             )}
           </div>
 
