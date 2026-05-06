@@ -907,12 +907,12 @@ function EmailGate({
   return (
     <div className={styles.emailGate}>
       <div className={styles.emailGateInner}>
-        <h3 className={styles.emailGateTitle}>
-          Want a copy to keep?
-        </h3>
+        <h3 className={styles.emailGateTitle}>Want a copy to keep?</h3>
         <p className={styles.emailGateSub}>
-          I&rsquo;ll email you the full report for <strong>{businessName}</strong> — every finding, your{" "}
-          <strong>{overallScore}/10</strong> score breakdown, and the priority action list
+          I&rsquo;ll email you the full report for{" "}
+          <strong>{businessName}</strong> — every finding, your{" "}
+          <strong>{overallScore}/10</strong> score breakdown, and the priority
+          action list
           {competitorNames.length > 0
             ? ` including the gaps ${competitorNames.slice(0, 2).join(" and ")} are using to outrank you`
             : ""}
