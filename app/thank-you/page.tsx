@@ -54,38 +54,46 @@ function ThankYouContent() {
         </svg>
       </div>
 
-      <h1 className={styles.heading}>Your report is on its way</h1>
+      <h1 className={styles.heading}>Your PDF copy is on its way</h1>
 
       <p className={styles.subheading}>
-        Check your inbox — the full PDF audit plan is headed there now. In the
-        meantime, if you want to talk through the findings, grab a free
-        15-minute call below.
+        Check your inbox — a PDF version of the report is headed there now. You
+        can also view the live report anytime at the link below. If you want to
+        talk through the findings, grab a free 15-minute slot.
       </p>
 
       <div className={styles.steps}>
-        <p className={styles.stepsTitle}>What happens next</p>
+        <p className={styles.stepsTitle}>Where to start</p>
         <div className={styles.step}>
           <span className={styles.stepNum}>1</span>
           <span>
-            <strong>PDF in your inbox</strong> — full section-by-section
-            breakdown with ranked action items.
+            <strong>Find your lowest-scoring section</strong> — that&rsquo;s
+            your highest-leverage fix. Start there, not at the top.
           </span>
         </div>
         <div className={styles.step}>
           <span className={styles.stepNum}>2</span>
           <span>
-            <strong>Day 2 follow-up</strong> — one quick fix focused on your
-            lowest-scoring area.
+            <strong>Pick one priority action and do it this week</strong> — each
+            section lists the single most impactful change. Block an hour and
+            ship it.
           </span>
         </div>
         <div className={styles.step}>
           <span className={styles.stepNum}>3</span>
           <span>
-            <strong>Day 5 &amp; 10</strong> — what Map Pack leaders in your
-            trade do that most contractors skip.
+            <strong>Book a free 15-minute call</strong> — if you want someone to
+            walk through the findings with you, or you&rsquo;re not sure where
+            to start, grab a slot below.
           </span>
         </div>
       </div>
+
+      {auditUrl && (
+        <a href={auditUrl} className={styles.auditLink}>
+          View your live audit report →
+        </a>
+      )}
 
       <div className={styles.divider} />
 
@@ -99,12 +107,6 @@ function ThankYouContent() {
           style={{ minWidth: "320px", height: "700px" }}
         />
       </div>
-
-      {auditUrl && (
-        <a href={auditUrl} className={styles.auditLink}>
-          View your full audit report →
-        </a>
-      )}
     </div>
   );
 }
