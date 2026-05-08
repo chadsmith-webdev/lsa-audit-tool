@@ -86,6 +86,7 @@ export default function AuditTool() {
       websiteUrl: "",
       primaryTrade: validTrade,
       serviceCity: city.slice(0, 100),
+      noWebsite: false,
     };
   });
   const [errors, setErrors] = useState<
