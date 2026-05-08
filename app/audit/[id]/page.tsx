@@ -1,13 +1,23 @@
 import { notFound } from "next/navigation";
+import { cache } from "react";
 import { getSupabase } from "@/lib/supabase";
 import SharedAuditView from "./SharedAuditView";
 import type { Metadata } from "next";
+
+// ─── Public audit view ────────────────────────────────────────────────────────
+// Any UUID at /audit/[id] resolves to the matching audit row — no auth check.
+// This is intentional: the shareable URL IS the access mechanism. Audits are
+// non-sensitive (trade + score), and this is a lead-gen tool — we want them
+// shared freely. UUIDs are unguessable; no enumeration attack is practical.
+// Do NOT add an auth check here without a clear product reason.
 
 type Props = {
   params: Promise<{ id: string }>;
 };
 
-async function getAudit(id: string) {
+// cache() deduplicates — generateMetadata and the page component both call
+// getAudit(id), but Next.js only makes one Supabase round-trip per render.
+const getAudit = cache(async (id: string) => {
   const { data, error } = await getSupabase()
     .from("audits")
     .select("*")
@@ -16,7 +26,7 @@ async function getAudit(id: string) {
 
   if (error || !data) return null;
   return data;
-}
+});
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;

@@ -4,6 +4,7 @@ import { createElement } from "react";
 import { AuditPdf } from "@/lib/AuditPdf";
 import { getSupabase } from "@/lib/supabase";
 import { ratelimit } from "@/lib/ratelimit";
+import { SECTION_LABELS } from "@/lib/types";
 
 export const maxDuration = 60;
 
@@ -18,15 +19,7 @@ export type EmailPayload = {
   lowestSection: string;
 };
 
-const SECTION_LABELS: Record<string, string> = {
-  gbp: "Google Business Profile",
-  reviews: "Reviews",
-  onpage: "On-Page SEO",
-  technical: "Technical SEO",
-  citations: "Citations",
-  backlinks: "Backlinks",
-  competitors: "Competitor Comparison",
-};
+// SECTION_LABELS imported from @/lib/types — single source of truth
 
 // ─── Input sanitization ───────────────────────────────────────────────────────
 

@@ -52,6 +52,17 @@ export default function GeoGrid({ businessName = "", recentScans = [] }: Props) 
         `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(locationInput)}&format=json&limit=1`,
         { headers: { "Accept-Language": "en" } }
       );
+      if (!geoRes.ok) {
+        // Nominatim rate-limits at ~1 req/sec. A 429 here means too many
+        // geocoding requests from this browser in quick succession.
+        if (geoRes.status === 429) {
+          setError("Geocoding rate limit hit — wait a few seconds and try again.");
+        } else {
+          setError(`Geocoding service error (${geoRes.status}). Try again shortly.`);
+        }
+        setLoading(false);
+        return;
+      }
       const geoData = await geoRes.json();
       if (!geoData || geoData.length === 0) {
         setError("Couldn't find that location. Try a more specific address or city name.");

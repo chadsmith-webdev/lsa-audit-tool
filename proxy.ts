@@ -14,7 +14,7 @@ function getRatelimiter() {
 
   return new Ratelimit({
     redis: new Redis({ url, token }),
-    limiter: Ratelimit.slidingWindow(30, "30 d"),
+    limiter: Ratelimit.slidingWindow(3, "30 d"),
     analytics: false,
     prefix: "lsa:audit-v2",
   });

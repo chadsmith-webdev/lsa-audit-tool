@@ -2,12 +2,25 @@
 // Single source of truth for types used across the API route, UI components,
 // and shared audit view. Import from here — never redefine locally.
 
+// ─── Section label map ────────────────────────────────────────────────────────
+// Single source of truth. Import this anywhere section IDs need display names.
+// If you add a new section key to the audit, add it here — nowhere else.
+export const SECTION_LABELS: Record<string, string> = {
+  gbp: "Google Business Profile",
+  reviews: "Reviews",
+  onpage: "On-Page SEO",
+  technical: "Technical SEO",
+  citations: "Citations",
+  backlinks: "Backlinks",
+  competitors: "Competitor Comparison",
+  ai_citability: "AI Citability",
+};
+
 export type AuditInput = {
   businessName: string;
   websiteUrl: string;
   primaryTrade: string;
   serviceCity: string;
-  noWebsite: boolean;
 };
 
 export interface AuditSection {
