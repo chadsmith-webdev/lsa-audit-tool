@@ -18,23 +18,24 @@ export default async function LoginPage({
   const supabase = createServerClient(cookieStore);
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (user) {
-    redirect("/dashboard");
-  }
+  if (user) redirect("/dashboard");
 
   const { error } = await searchParams;
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-4">
-      <div className="w-full max-w-sm">
+    <main style={{
+      minHeight: "100vh",
+      background: "var(--bg)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "var(--space-6) var(--page-gutter)",
+    }}>
+      <div style={{ width: "100%", maxWidth: "400px" }}>
+
         {/* Logo */}
-        <div className="flex items-center gap-2 justify-center mb-8">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 100 100"
-            className="w-7 h-7 flex-shrink-0"
-            aria-hidden="true"
-          >
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "var(--space-3)", marginBottom: "var(--space-8)" }}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" style={{ width: "28px", height: "28px", flexShrink: 0 }} aria-hidden="true">
             <defs>
               <linearGradient id="needleGrad" x1="0" x2="1" gradientUnits="objectBoundingBox">
                 <stop offset="0" stopColor="white" stopOpacity="0.5" />
@@ -52,35 +53,44 @@ export default async function LoginPage({
               <circle cx="49.5" cy="30.5" r="10.1" fill="#7bafd4" />
             </g>
           </svg>
-          <span className="font-serif text-[#f0f0f0] font-bold text-lg tracking-tight">
-            Local Search <span className="text-[#7bafd4]">Ally</span>
+          <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--text-lg)", color: "var(--text)", letterSpacing: "-0.02em" }}>
+            Local Search <span style={{ color: "var(--carolina)" }}>Ally</span>
           </span>
         </div>
 
         {/* Card */}
-        <div className="bg-[#141414] border border-[#1e1e1e] rounded-2xl p-8">
-          <h1 className="text-[#f0f0f0] font-serif font-bold text-xl mb-1">
+        <div className="card card-default" style={{ padding: "var(--space-8)" }}>
+          <h1 className="heading-3" style={{ marginBottom: "var(--space-2)" }}>
             Sign in to your dashboard
           </h1>
-          <p className="text-[#888888] text-sm mb-6">
+          <p className="text-small" style={{ marginBottom: "var(--space-6)" }}>
             Enter your email and we'll send you a sign-in link — no password needed.
           </p>
 
           {error === "auth_failed" && (
-            <p className="text-red-400 text-sm mb-4 bg-red-400/10 rounded-lg px-3 py-2">
-              That link has expired or already been used. Request a new one below.
-            </p>
+            <div style={{
+              padding: "var(--space-3) var(--space-4)",
+              background: "rgba(255,77,77,0.08)",
+              border: "1px solid rgba(255,77,77,0.2)",
+              borderRadius: "var(--radius-md)",
+              marginBottom: "var(--space-5)",
+            }}>
+              <p style={{ fontSize: "var(--text-sm)", color: "var(--status-red)" }}>
+                That link has expired or already been used. Request a new one below.
+              </p>
+            </div>
           )}
 
           <LoginForm />
         </div>
 
-        <p className="text-[#888888] text-xs text-center mt-6">
+        <p className="text-small" style={{ textAlign: "center", marginTop: "var(--space-6)" }}>
           Don't have an account?{" "}
-          <a href="/" className="text-[#7bafd4] hover:underline">
+          <a href="/" style={{ color: "var(--carolina)" }}>
             Run a free audit first
           </a>
         </p>
+
       </div>
     </main>
   );

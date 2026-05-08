@@ -22,9 +22,7 @@ export default function LoginForm() {
 
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: {
-        emailRedirectTo: redirectTo,
-      },
+      options: { emailRedirectTo: redirectTo },
     });
 
     setLoading(false);
@@ -39,10 +37,13 @@ export default function LoginForm() {
 
   if (submitted) {
     return (
-      <div className="text-center">
-        <p className="text-[#f0f0f0] text-lg mb-2">Check your email.</p>
-        <p className="text-[#888888] text-sm">
-          We sent a sign-in link to <span className="text-[#7bafd4]">{email}</span>.
+      <div style={{ textAlign: "center", padding: "var(--space-4) 0" }}>
+        <p style={{ fontSize: "var(--text-md)", fontWeight: 600, color: "var(--text)", marginBottom: "var(--space-2)" }}>
+          Check your email.
+        </p>
+        <p className="text-small">
+          We sent a sign-in link to{" "}
+          <span style={{ color: "var(--carolina)" }}>{email}</span>.
           Click it to access your dashboard.
         </p>
       </div>
@@ -50,12 +51,10 @@ export default function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <div className="flex flex-col gap-1">
-        <label
-          htmlFor="email"
-          className="text-[#888888] text-xs uppercase tracking-widest font-semibold"
-        >
+    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
+        <label htmlFor="email" className="label">
           Email address
         </label>
         <input
@@ -65,25 +64,35 @@ export default function LoginForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
-          className="bg-[#1e1e1e] border border-[#2e2e2e] rounded-lg px-4 py-3 text-[#f0f0f0] text-sm placeholder:text-[#444] focus:outline-none focus:border-[#7bafd4] transition-colors"
+          disabled={loading}
+          className="form-input"
         />
       </div>
 
       {error && (
-        <p className="text-red-400 text-sm">{error}</p>
+        <div style={{
+          padding: "var(--space-3) var(--space-4)",
+          background: "rgba(255,77,77,0.08)",
+          border: "1px solid rgba(255,77,77,0.2)",
+          borderRadius: "var(--radius-md)",
+        }}>
+          <p style={{ fontSize: "var(--text-sm)", color: "var(--status-red)" }}>{error}</p>
+        </div>
       )}
 
       <button
         type="submit"
         disabled={loading}
-        className="bg-[#7bafd4] hover:bg-[#4A6B8A] disabled:opacity-50 disabled:cursor-not-allowed text-[#0a0a0a] font-semibold rounded-lg px-4 py-3 text-sm transition-colors"
+        className="btn btn-primary"
+        style={{ width: "100%" }}
       >
         {loading ? "Sending…" : "Send me a sign-in link"}
       </button>
 
-      <p className="text-[#888888] text-xs text-center">
+      <p className="text-small" style={{ textAlign: "center" }}>
         No password. No account setup. Just click the link in your email.
       </p>
+
     </form>
   );
 }
