@@ -44,6 +44,41 @@ export default function GeoGrid({ businessName = "", trade = "", city = "", rece
   const [results, setResults] = useState<GridResult[] | null>(null);
   const [scan, setScan] = useState<ScanMeta | null>(null);
   const [hovered, setHovered] = useState<GridResult | null>(null);
+  // deltas: point_index → positive = improved (rank number went down), negative = worsened, 0 = no change, null = no previous data
+  const [deltas, setDeltas] = useState<Record<number, number | null>>({});
+
+  // Find the previous scan for the same keyword+business and compute per-point rank deltas.
+  // delta > 0 means rank improved (number dropped), delta < 0 means rank worsened.
+  async function computeDeltas(currentResults: GridResult[], currentScanId: string, kw: string, biz: string) {
+    const prev = recentScans.find(
+      (s) =>
+        s.id !== currentScanId &&
+        s.keyword.toLowerCase() === kw.toLowerCase() &&
+        s.business_name.toLowerCase() === biz.toLowerCase()
+    );
+    if (!prev) {
+      setDeltas({});
+      return;
+    }
+    try {
+      const res = await fetch(`/api/grid?scanId=${prev.id}`);
+      if (!res.ok) { setDeltas({}); return; }
+      const data = await res.json();
+      const prevResults: GridResult[] = data.results ?? [];
+      const map: Record<number, number | null> = {};
+      for (const cur of currentResults) {
+        const old = prevResults.find((r) => r.point_index === cur.point_index);
+        if (!old) { map[cur.point_index] = null; continue; }
+        if (cur.rank === null && old.rank === null) { map[cur.point_index] = 0; continue; }
+        if (cur.rank === null) { map[cur.point_index] = -1; continue; } // dropped out
+        if (old.rank === null) { map[cur.point_index] = 1; continue; }  // newly appeared
+        map[cur.point_index] = old.rank - cur.rank; // positive = improved
+      }
+      setDeltas(map);
+    } catch {
+      setDeltas({});
+    }
+  }
 
   async function runScan() {
     if (!keyword.trim() || !businessNameInput.trim() || !locationInput.trim()) return;
@@ -115,6 +150,7 @@ export default function GeoGrid({ businessName = "", trade = "", city = "", rece
         grid_size: 5,
         created_at: new Date().toISOString(),
       });
+      computeDeltas(data.results as GridResult[], data.scanId, keyword.trim(), businessNameInput.trim());
     } catch {
       setError("Something went wrong. Try again.");
     } finally {
@@ -136,6 +172,7 @@ export default function GeoGrid({ businessName = "", trade = "", city = "", rece
       }
       setResults(data.results as GridResult[]);
       setScan(data.scan as ScanMeta);
+      computeDeltas(data.results as GridResult[], scanId, data.scan.keyword, data.scan.business_name);
     } catch {
       setError("Something went wrong loading that scan.");
     } finally {
@@ -302,6 +339,16 @@ export default function GeoGrid({ businessName = "", trade = "", city = "", rece
               const color = rankColor(point.rank);
               const label = rankLabel(point.rank);
               const isHovered = hovered?.point_index === point.point_index;
+              const delta = deltas[point.point_index] ?? null;
+              const deltaLabel =
+                delta === null ? null
+                : delta > 0 ? `↑${delta}`
+                : delta < 0 ? `↓${Math.abs(delta)}`
+                : null; // 0 = no change, show nothing
+              const deltaColor =
+                delta !== null && delta > 0 ? "#4ade80"
+                : delta !== null && delta < 0 ? "#f87171"
+                : "var(--muted)";
 
               return (
                 <div
@@ -313,6 +360,7 @@ export default function GeoGrid({ businessName = "", trade = "", city = "", rece
                     background: color,
                     borderRadius: "var(--radius-md)",
                     display: "flex",
+                    flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
                     cursor: "default",
@@ -325,9 +373,22 @@ export default function GeoGrid({ businessName = "", trade = "", city = "", rece
                       : "2px solid transparent",
                     transition: "border-color var(--duration-fast) var(--ease-out)",
                     userSelect: "none",
+                    gap: "1px",
                   }}
                 >
                   {label}
+                  {deltaLabel && (
+                    <span style={{
+                      fontSize: "0.6rem",
+                      fontWeight: 700,
+                      color: deltaColor,
+                      lineHeight: 1,
+                      // slightly transparent so it doesn't overpower the rank number
+                      opacity: 0.9,
+                    }}>
+                      {deltaLabel}
+                    </span>
+                  )}
                 </div>
               );
             })}
@@ -355,7 +416,16 @@ export default function GeoGrid({ businessName = "", trade = "", city = "", rece
               {hovered.rank !== null ? (
                 <p style={{ fontSize: "var(--text-sm)", color: "var(--text)", marginBottom: "var(--space-3)" }}>
                   <strong style={{ color: rankColor(hovered.rank) }}>#{hovered.rank}</strong>
-                  {" "}— {scan.business_name}
+                  {" \u2014 "}{scan.business_name}
+                  {(() => {
+                    const d = deltas[hovered.point_index] ?? null;
+                    if (d === null || d === 0) return null;
+                    return (
+                      <span style={{ marginLeft: 8, fontSize: "0.75rem", fontWeight: 700, color: d > 0 ? "#4ade80" : "#f87171" }}>
+                        {d > 0 ? `↑${d} since last scan` : `↓${Math.abs(d)} since last scan`}
+                      </span>
+                    );
+                  })()}
                 </p>
               ) : (
                 <p style={{ fontSize: "var(--text-sm)", color: "var(--muted)", marginBottom: "var(--space-3)" }}>
