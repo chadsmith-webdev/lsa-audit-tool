@@ -22,7 +22,7 @@ function getRatelimiter() {
 
 // ─── Proxy (formerly middleware) ──────────────────────────────────────────────
 
-export async function proxy(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // --- Rate limit audit API POST requests ---
