@@ -2,6 +2,7 @@ import { type Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { Suspense } from "react";
 import { createServerClient } from "@/lib/supabase";
 import { getSupabase } from "@/lib/supabase";
 import type { AuditRow } from "@/lib/types";
@@ -54,6 +55,8 @@ export default async function DashboardPage() {
     created_at: string;
   }[];
   const latestBusiness = rows[0]?.business_name ?? "";
+  const latestTrade = rows[0]?.trade ?? "";
+  const latestCity = rows[0]?.city ?? "";
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)" }}>
@@ -128,7 +131,9 @@ export default async function DashboardPage() {
 
           {/* Geo-Grid — full width first */}
           <section>
-            <GeoGrid businessName={latestBusiness} recentScans={recentScans} />
+            <Suspense fallback={<div className="card card-default" style={{ minHeight: 200 }} />}>
+              <GeoGrid businessName={latestBusiness} trade={latestTrade} city={latestCity} recentScans={recentScans} />
+            </Suspense>
           </section>
 
           {/* Audit history */}

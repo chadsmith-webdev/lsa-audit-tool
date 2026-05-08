@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { rankColor, rankLabel } from "@/lib/grid";
+import { getSuggestedKeywords } from "@/lib/keywords";
 
 interface GridResult {
   point_index: number;
@@ -24,11 +26,17 @@ interface ScanMeta {
 
 interface Props {
   businessName?: string;
+  trade?: string;
+  city?: string;
   recentScans?: ScanMeta[];
 }
 
-export default function GeoGrid({ businessName = "", recentScans = [] }: Props) {
-  const [keyword, setKeyword] = useState("");
+export default function GeoGrid({ businessName = "", trade = "", city = "", recentScans = [] }: Props) {
+  const searchParams = useSearchParams();
+  const suggestedKeywords = getSuggestedKeywords(trade, city);
+  const [keyword, setKeyword] = useState(
+    searchParams.get("keyword") ?? suggestedKeywords[0] ?? ""
+  );
   const [businessNameInput, setBusinessNameInput] = useState(businessName);
   const [locationInput, setLocationInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -170,6 +178,32 @@ export default function GeoGrid({ businessName = "", recentScans = [] }: Props) 
           disabled={loading}
           className="form-input"
         />
+        {suggestedKeywords.length > 0 && (
+          <div>
+            <p className="text-small" style={{ marginBottom: "var(--space-2)", color: "var(--muted)" }}>
+              Suggested keywords
+            </p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-2)" }}>
+              {suggestedKeywords.map((kw) => (
+                <button
+                  key={kw}
+                  onClick={() => setKeyword(kw)}
+                  disabled={loading}
+                  className="btn btn-ghost btn-sm"
+                  style={{
+                    border: keyword === kw ? "1px solid var(--carolina)" : "1px solid var(--surface2)",
+                    color: keyword === kw ? "var(--carolina)" : "var(--muted)",
+                    borderRadius: "var(--radius-full)",
+                    fontSize: "0.75rem",
+                  }}
+                >
+                  {kw}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div style={{ display: "flex", gap: "var(--space-3)" }}>
           <input
             type="text"

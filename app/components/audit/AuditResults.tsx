@@ -98,6 +98,8 @@ export function AuditResults({
               key={section.id}
               section={section}
               index={i}
+              trade={input.primaryTrade}
+              city={input.serviceCity}
             />
           ))}
         </div>

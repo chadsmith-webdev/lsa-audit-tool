@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import styles from "@/styles/audit.module.css";
 import type { AuditSection } from "@/lib/types";
 import { cardIn } from "./motionVariants";
+import { getSuggestedKeywords } from "@/lib/keywords";
 
 // ─── CopyLinkButton ───────────────────────────────────────────────────────────
 
@@ -133,9 +134,13 @@ const STATUS_LABELS: Record<AuditSection["status"], string> = {
 export function SectionCard({
   section,
   index,
+  trade = "",
+  city = "",
 }: {
   section: AuditSection;
   index: number;
+  trade?: string;
+  city?: string;
 }) {
   const num = String(index + 1).padStart(2, "0");
   const barWidth = `${(section.score / 10) * 100}%`;
@@ -186,6 +191,68 @@ export function SectionCard({
           </div>
         )}
       </div>
+
+      {/* Keyword suggestions + geo-grid next step — onpage section only */}
+      {section.id === "onpage" && (() => {
+        const keywords = getSuggestedKeywords(trade, city);
+        if (!keywords.length) return null;
+        const encoded = encodeURIComponent(keywords[0]);
+        return (
+          <div style={{
+            marginTop: "var(--space-5)",
+            paddingTop: "var(--space-5)",
+            borderTop: "1px solid var(--surface2)",
+          }}>
+            <span className={styles.colLabel} style={{ display: "block", marginBottom: "var(--space-3)" }}>
+              Keywords Worth Ranking For
+            </span>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-2)", marginBottom: "var(--space-4)" }}>
+              {keywords.map((kw) => (
+                <span
+                  key={kw}
+                  style={{
+                    padding: "3px 10px",
+                    borderRadius: "var(--radius-full)",
+                    border: "1px solid var(--surface2)",
+                    color: "var(--muted)",
+                    fontSize: "0.75rem",
+                    fontFamily: "var(--font-mono)",
+                  }}
+                >
+                  {kw}
+                </span>
+              ))}
+            </div>
+            <div style={{
+              padding: "var(--space-4)",
+              background: "rgba(123,175,212,0.06)",
+              border: "1px solid rgba(123,175,212,0.18)",
+              borderRadius: "var(--radius-md)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: "var(--space-3)",
+            }}>
+              <div>
+                <p className="text-small" style={{ color: "var(--text)", marginBottom: "2px", fontWeight: 600 }}>
+                  Next Step: See where you actually rank
+                </p>
+                <p className="text-small" style={{ color: "var(--muted)" }}>
+                  Run the geo-grid on any of these keywords to see your map pack position across your service area.
+                </p>
+              </div>
+              <a
+                href={`/dashboard?keyword=${encoded}`}
+                className="btn btn-primary btn-sm"
+                style={{ whiteSpace: "nowrap", flexShrink: 0 }}
+              >
+                Open Geo-Grid →
+              </a>
+            </div>
+          </div>
+        );
+      })()}
     </motion.article>
   );
 }
