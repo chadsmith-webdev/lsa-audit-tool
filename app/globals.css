@@ -1,75 +1,168 @@
 @import "tailwindcss";
 
-/* ─── Brand tokens — matches localsearchally.com globals.css ─────────────────
-   Single source of truth. Never hardcode hex values or font names elsewhere.
-────────────────────────────────────────────────────────────────────────────── */
+/* ============================================================
+   LOCAL SEARCH ALLY — Design System v2
+   Built for: NWA contractor audience
+   Aesthetic: Editorial industrial — credible, direct, minimal
+   
+   STRUCTURE
+   1.  Fonts
+   2.  Color tokens
+   3.  Type scale
+   4.  Spacing & layout tokens
+   5.  Border & radius tokens
+   6.  Animation tokens
+   7.  Base resets
+   8.  Focus & accessibility
+   9.  Type styles (headings, body, prose)
+   10. Buttons
+   11. Cards
+   12. Form elements
+   13. Navigation
+   14. Layout utilities
+   15. Glass (floating layers only)
+   16. Prose (blog)
+   17. Animations
+   18. Tailwind @theme bridge
+   ============================================================ */
+
+/* ─── 1. FONTS ───────────────────────────────────────────────────────────── */
+
+/* ─── 2. COLOR TOKENS ────────────────────────────────────────────────────── */
+
 :root {
-  /* Fonts — --font-heading / --font-ui / --font-mono are injected on <html>
-     by Next.js font loader. Only alias here, never self-reference. */
-  --font-display: var(--font-heading);
+  --font-display: "Bricolage Grotesque", serif; /* headings, display text */
+  --font-ui: "Space Grotesk", sans-serif; /* body, UI, buttons      */
+  --font-mono: "JetBrains Mono", monospace; /* code, labels, tags     */
 
-  /* Brand colors */
-  --carolina: #7bafd4;
-  --carolina-dark: #4d8cb9;
-  --carolina-dim: rgba(123, 175, 212, 0.08);
-  --slate: #1a222e;
-  --steel: #3a5570;
+  /* --- Brand --- */
+  --carolina: #7bafd4; /* primary accent — links, CTAs, highlights    */
+  --carolina-dark: #4d8cb9; /* hover/active state of carolina               */
+  --carolina-dim: rgba(123, 175, 212, 0.08); /* subtle bg tint             */
+  --carolina-mid: rgba(123, 175, 212, 0.15); /* slightly more visible tint */
+  --slate: #1a222e; /* deep brand dark — used in glass backgrounds  */
+  --steel: #3a5570; /* mid brand — borders, dividers                */
 
-  /* Aliases used across the audit tool */
-  --ink: #020203;
-  --white: #f8f9fa;
-  --accent: var(--carolina);
+  /* --- Surface hierarchy (darkest → lightest) ---
+     Think of these like elevation layers on a table:
+     bg = the table surface, surface = a sheet of paper,
+     surface2 = a sticky note on top of that paper       */
+  --bg: #0a0a0a; /* page background — never use on components       */
+  --surface: #141414; /* default card / component background              */
+  --surface2: #1e1e1e; /* elevated component, input background             */
+  --surface3: #252525; /* highest elevation — active states, hover fills   */
 
-  /* Deep dark palette */
-  --bg: #0a0a0a;
-  --surface: #141414;
-  --surface2: #1e1e1e;
-  --text: #f8f9fa;
-  --muted: #6c757d;
+  /* --- Text ---
+     Use --text for anything a user must read.
+     Use --text-secondary for supporting context (timestamps, captions).
+     Never use --muted for anything interactive.                             */
+  --text: #f8f9fa; /* primary — all body copy, headings          */
+  --text-secondary: #b0b8c1; /* supporting text — passes 4.5:1 on --bg    */
+  --muted: #7a838d; /* metadata only — dates, labels, captions    */
+  /* contrast ~3.8:1 — never for body text      */
 
-  /* Score status colors */
-  --status-green: #00ff88;
-  --status-yellow: #ffcc00;
-  --status-red: #ff4d4d;
+  /* --- Borders ---
+     border = default divider (very subtle)
+     border-strong = visible edge (cards, inputs)
+     border-accent = brand-colored edge (focus, highlights)                  */
+  --border: rgba(255, 255, 255, 0.07);
+  --border-strong: rgba(255, 255, 255, 0.13);
+  --border-accent: rgba(123, 175, 212, 0.4);
 
-  /* Borders */
-  --border: rgba(255, 255, 255, 0.06);
-  --border-strong: rgba(255, 255, 255, 0.12);
+  /* --- Status ---
+     Text-on-dark use only. Never use as background colors with dark text.   */
+  --status-green: #00c96b; /* success — 5.1:1 on --bg                    */
+  --status-yellow: #f5c000; /* warning — 8.9:1 on --bg                    */
+  --status-red: #ff4d4d; /* error   — 4.6:1 on --bg                    */
 
-  /* Spacing */
-  --page-gutter: clamp(1.5rem, 6vw, 5rem);
-  --section-spacing: clamp(4rem, 8vw, 10rem);
-
-  /* Gradients */
+  /* --- Gradient ---
+     Use for primary CTA buttons only. Not for backgrounds or decorative use. */
   --gradient-cta: linear-gradient(135deg, #7bafd4 0%, #3a5570 100%);
-  --gradient-cyber: linear-gradient(
-    90deg,
-    transparent,
-    var(--carolina),
-    transparent
-  );
+
+  /* ─── 3. TYPE SCALE ───────────────────────────────────────────────────────
+     Major Third ratio (1.25×) anchored at 1rem (16px).
+     
+     Use the named step, never hardcode font-size in components.
+     
+     --text-xs    10px   mono labels, legal footnotes
+     --text-sm    13px   captions, metadata, secondary UI
+     --text-base  16px   body copy (default)
+     --text-md    20px   large body, intro paragraphs
+     --text-lg    25px   small headings, card titles
+     --text-xl    31px   section subheadings
+     --text-2xl   39px   section headings
+     --text-3xl   49px   hero subheadings
+     --text-4xl   61px   hero display                                        */
+
+  --text-xs: 0.64rem; /* ~10px */
+  --text-sm: 0.8rem; /* ~13px */
+  --text-base: 1rem; /* 16px  */
+  --text-md: 1.25rem; /* 20px  */
+  --text-lg: 1.563rem; /* 25px  */
+  --text-xl: 1.953rem; /* 31px  */
+  --text-2xl: 2.441rem; /* 39px  */
+  --text-3xl: 3.052rem; /* 49px  */
+  --text-4xl: 3.815rem; /* 61px  */
+
+  /* Fluid display sizes — use for h1/hero only */
+  --text-display: clamp(2.441rem, 5vw, 3.815rem); /* h1 hero      */
+  --text-heading: clamp(1.953rem, 3.5vw, 2.441rem); /* h2 section   */
+  --text-subheading: clamp(1.563rem, 2.5vw, 1.953rem); /* h3           */
+
+  /* ─── 4. SPACING & LAYOUT ─────────────────────────────────────────────────
+     Spacing follows an 8px base grid.
+     
+     Use --space-* for component-internal gaps (padding, small margins).
+     Use --page-gutter for horizontal page breathing room.
+     Use --section-gap for vertical section rhythm.                          */
+
+  --space-1: 0.25rem; /* 4px  */
+  --space-2: 0.5rem; /* 8px  */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem; /* 48px */
+  --space-16: 4rem; /* 64px */
+
+  --page-gutter: clamp(1.25rem, 5vw, 4rem);
+  --section-gap: clamp(4rem, 8vw, 9rem);
+  --card-padding: clamp(1.25rem, 3vw, 2rem);
+
+  /* ─── 5. BORDER & RADIUS ──────────────────────────────────────────────────
+     Use the smallest radius that feels right for the component's scale.
+     
+     xs / sm  → inline elements (badges, code, tags)
+     md       → inputs, small buttons, chips
+     lg       → cards, panels
+     xl       → modals, large containers
+     pill     → pill buttons, status badges
+     full     → avatars, icon buttons                                        */
+
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 100px;
+  --radius-full: 50%;
+
+  /* ─── 6. ANIMATION ────────────────────────────────────────────────────────
+     Use these easing and duration values for all transitions.
+     Never define transition timing inline — reference these tokens.         */
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
 }
 
-/* ─── Tailwind theme bridge ──────────────────────────────────────────────── */
-@theme {
-  --color-carolina: #7bafd4;
-  --color-carolina-dark: #4d8cb9;
-  --color-slate: #1a222e;
-  --color-steel: #3a5570;
-  --color-surface: #080a0d;
-  --color-surface-2: #0e1217;
-  --color-bg: #020203;
-  --color-text: #f8f9fa;
-  --color-muted: #6c757d;
-  --color-ink: #020203;
-  --color-white: #f8f9fa;
-  --color-accent: #7bafd4;
-  --font-family-serif: var(--font-heading);
-  --font-family-sans: var(--font-ui);
-  --font-family-mono: var(--font-mono);
-}
+/* ─── 7. BASE RESETS ─────────────────────────────────────────────────────── */
 
-/* ─── Base resets ────────────────────────────────────────────────────────── */
 *,
 *::before,
 *::after {
@@ -80,61 +173,696 @@
 
 html {
   scroll-behavior: smooth;
-  height: 100%;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  height: 100%;
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--text);
   font-family: var(--font-ui);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  letter-spacing: -0.01em;
-  line-height: 1.6;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-heading);
+img,
+video,
+svg {
+  display: block;
+  max-width: 100%;
 }
 
 input,
 select,
-textarea {
+textarea,
+button {
   font-family: var(--font-ui);
+  font-size: inherit;
 }
 
-/* ─── Focus / selection / scrollbar ─────────────────────────────────────── */
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
+/* ─── 8. FOCUS & ACCESSIBILITY ───────────────────────────────────────────── */
+
+/* Global focus ring — full opacity, passes 3:1 for UI components */
 :focus-visible {
-  outline: 2px solid rgba(123, 175, 212, 0.5);
-  outline-offset: 2px;
+  outline: 2px solid var(--carolina);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
 }
 
+/* Skip-to-content — keyboard only */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: 9999;
+  padding: var(--space-3) var(--space-5);
+  background: var(--carolina);
+  color: var(--bg);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: top var(--duration-fast) var(--ease-out);
+}
+
+.skip-link:focus {
+  top: var(--space-4);
+}
+
+/* Reduced motion — kill all animations and transitions */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Text selection */
 ::selection {
   background: rgba(123, 175, 212, 0.2);
+  color: var(--text);
 }
 
+/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--surface2);
-  border-radius: 3px;
+  border-radius: var(--radius-xs);
 }
 
-/* ─── Container utilities ────────────────────────────────────────────────── */
+/* ─── 9. TYPE STYLES ─────────────────────────────────────────────────────── */
 
-.container,
-.container-cinematic {
+/* --- Headings ---
+   Display headings use --font-display (Bricolage Grotesque).
+   All other text uses --font-ui (Space Grotesk).
+   Do not set font-family on headings inside components —
+   use these classes instead.                                                 */
+
+.heading-display {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.heading-1 {
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--text);
+}
+
+.heading-2 {
+  font-family: var(--font-display);
+  font-size: var(--text-subheading);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.heading-3 {
+  font-family: var(--font-ui);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+
+/* --- Labels (mono, uppercase) ---
+   Use for section eyebrows, stat captions, UI tags.
+   Not for body copy or interactive labels.                                   */
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--carolina);
+  opacity: 0.8;
+}
+
+/* --- Body variants --- */
+
+.text-lead {
+  font-size: var(--text-md);
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.text-body {
+  font-size: var(--text-base);
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.text-small {
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* --- Italic accent ---
+   Use inside headings for the italic brand voice ("Home Service *Contractors*") */
+em.accent {
+  font-style: italic;
+  color: var(--carolina);
+}
+
+/* ─── 10. BUTTONS ─────────────────────────────────────────────────────────
+   Canonical button styles. Compose these classes in JSX.
+   Only add layout overrides (width, margin) at the call site.
+   Never redefine padding, font-size, or color on a per-component basis.    */
+
+/* --- Shared button base --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.8125rem 1.625rem; /* 13px 26px */
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    filter var(--duration-base) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out),
+    background var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out),
+    opacity var(--duration-base) var(--ease-out);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--carolina);
+  outline-offset: 3px;
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.38;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* --- Primary: gradient fill, single most important action per view --- */
+.btn-primary {
+  background: var(--gradient-cta);
+  color: var(--bg);
+  box-shadow: 0 0 24px rgba(123, 175, 212, 0.2);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 0 40px rgba(123, 175, 212, 0.35);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+  filter: brightness(0.96);
+}
+
+/* --- Secondary: outline, supporting actions --- */
+.btn-secondary {
+  background: transparent;
+  color: var(--carolina);
+  border: 1px solid var(--border-accent);
+}
+
+.btn-secondary:hover {
+  background: var(--carolina-dim);
+  border-color: var(--carolina);
+  color: var(--text);
+}
+
+.btn-secondary:active {
+  transform: scale(0.98);
+  background: var(--carolina-mid);
+}
+
+/* --- Ghost: minimal, inline actions, tertiary CTAs --- */
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+.btn-ghost:hover {
+  background: var(--surface2);
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.btn-ghost:active {
+  transform: scale(0.98);
+}
+
+/* --- Size modifiers --- */
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: var(--text-sm);
+}
+
+.btn-lg {
+  padding: 1rem 2rem;
+  font-size: var(--text-md);
+}
+
+/* ─── 11. CARDS ────────────────────────────────────────────────────────────
+   Three card variants covering all current use cases.
+   Cards never define their own width — let the grid control that.          */
+
+/* --- Base card shared properties --- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: var(--card-padding);
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    background var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
+}
+
+/* --- Default card: service cards, content blocks ---
+   Lifts slightly on hover to signal interactivity.                         */
+.card-default {
+  cursor: default;
+}
+
+.card-default:is(a, button),
+a.card-default,
+button.card-default {
+  cursor: pointer;
+}
+
+.card-default:is(a, button):hover,
+a.card-default:hover,
+button.card-default:hover {
+  border-color: var(--border-accent);
+  background: var(--surface2);
+  transform: translateY(-2px);
+}
+
+/* --- Stat card: KPI blocks, metrics, proof points ---
+   Has a top accent line using --carolina.                                  */
+.card-stat {
+  position: relative;
+  padding-top: calc(var(--card-padding) + var(--space-3));
+}
+
+.card-stat::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--card-padding);
+  right: var(--card-padding);
+  height: 2px;
+  background: var(--gradient-cta);
+  border-radius: 0 0 var(--radius-xs) var(--radius-xs);
+}
+
+.card-stat-number {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--text);
+  margin-bottom: var(--space-2);
+}
+
+.card-stat-label {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.card-stat-source {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--muted);
+  opacity: 0.6;
+  margin-top: var(--space-3);
+}
+
+/* --- FAQ card: expandable Q&A ---
+   Minimal — open/close state managed by JS, style managed here.           */
+.card-faq {
+  border-radius: var(--radius-md);
+  padding: 0;
+  overflow: hidden;
+}
+
+.card-faq-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text);
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.card-faq-trigger:hover {
+  background: var(--surface2);
+}
+
+.card-faq-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--carolina);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.card-faq[aria-expanded="true"] .card-faq-icon {
+  transform: rotate(45deg);
+}
+
+.card-faq-body {
+  padding: 0 var(--space-6) var(--space-5);
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  line-height: 1.75;
+  display: none;
+}
+
+.card-faq[aria-expanded="true"] .card-faq-body {
+  display: block;
+}
+
+/* ─── 12. FORM ELEMENTS ────────────────────────────────────────────────────
+   All form elements share a consistent height, border, and focus state.
+   Do not restyle individual form elements inside components.               */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.form-label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.01em;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  background: var(--surface2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  padding: 0.75rem 1rem;
+  width: 100%;
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--muted);
+}
+
+.form-input:hover,
+.form-select:hover,
+.form-textarea:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--carolina);
+  background: var(--surface3);
+  box-shadow: 0 0 0 3px rgba(123, 175, 212, 0.12);
+}
+
+.form-input[aria-invalid="true"],
+.form-textarea[aria-invalid="true"] {
+  border-color: var(--status-red);
+  box-shadow: 0 0 0 3px rgba(255, 77, 77, 0.12);
+}
+
+.form-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-hint {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.form-error {
+  font-size: var(--text-sm);
+  color: var(--status-red);
+}
+
+/* ─── 13. NAVIGATION ───────────────────────────────────────────────────────
+   Nav structure:
+   .nav-root            → outermost wrapper (position: fixed or sticky)
+   .nav-inner           → max-width container with flex layout
+   .nav-logo            → brand mark
+   .nav-links           → desktop link list
+   .nav-link            → individual nav link
+   .nav-link-active     → current page indicator
+   .nav-actions         → CTA + phone number cluster
+   .nav-mobile-toggle   → hamburger (mobile only)
+   
+   Mobile nav uses .glass-panel (see section 15).                           */
+
+.nav-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--border);
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background var(--duration-base) var(--ease-out);
+}
+
+.nav-root.is-scrolled {
+  background: rgba(10, 10, 10, 0.96);
+  border-bottom-color: var(--border-strong);
+}
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--page-gutter);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8);
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+
+.nav-links {
+  display: none;
+  align-items: center;
+  gap: var(--space-1);
+  list-style: none;
+}
+
+@media (min-width: 900px) {
+  .nav-links {
+    display: flex;
+  }
+}
+
+.nav-link {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) var(--ease-out);
+}
+
+.nav-link:hover {
+  color: var(--text);
+  background: var(--surface2);
+}
+
+.nav-link-active {
+  color: var(--carolina);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.nav-phone {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.nav-phone:hover {
+  color: var(--text);
+}
+
+@media (min-width: 1024px) {
+  .nav-phone {
+    display: block;
+  }
+}
+
+.nav-mobile-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.nav-mobile-toggle:hover {
+  background: var(--surface2);
+  border-color: var(--border-accent);
+  color: var(--text);
+}
+
+@media (min-width: 900px) {
+  .nav-mobile-toggle {
+    display: none;
+  }
+}
+
+/* Mobile nav drawer — uses glass-panel (section 15) */
+.nav-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  display: none;
+  flex-direction: column;
+  padding: 80px var(--page-gutter) var(--space-8);
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.nav-drawer.is-open {
+  display: flex;
+}
+
+.nav-drawer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.nav-drawer-link {
+  font-size: var(--text-xl);
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--text-secondary);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.nav-drawer-link:hover,
+.nav-drawer-link:focus {
+  color: var(--text);
+}
+
+/* ─── 14. LAYOUT UTILITIES ─────────────────────────────────────────────────
+   Use these classes in JSX. Do not reach for Tailwind layout utilities
+   for page structure — use these instead for consistency.                  */
+
+/* Full-width section wrapper — handles vertical rhythm */
+.section {
+  width: 100%;
+  padding-top: var(--section-gap);
+  padding-bottom: var(--section-gap);
+}
+
+.section-sm {
+  padding-top: calc(var(--section-gap) * 0.5);
+  padding-bottom: calc(var(--section-gap) * 0.5);
+}
+
+/* Standard content container */
+.container {
   max-width: 1200px;
   width: 100%;
   margin-left: auto;
@@ -143,8 +871,9 @@ textarea {
   padding-right: var(--page-gutter);
 }
 
+/* Narrow container for text-heavy sections */
 .container-narrow {
-  max-width: 800px;
+  max-width: 760px;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -152,199 +881,266 @@ textarea {
   padding-right: var(--page-gutter);
 }
 
-/* ─── Glass utilities ────────────────────────────────────────────────────── */
-
-.glass {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-}
-
-.glass-strong {
-  background: rgba(8, 10, 13, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-}
-
-.glass-premium {
-  background: linear-gradient(
-    135deg,
-    rgba(123, 175, 212, 0.08) 0%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(123, 175, 212, 0.2);
-  box-shadow:
-    0 20px 60px -12px rgba(0, 0, 0, 0.7),
-    inset 0 0 0 1px rgba(123, 175, 212, 0.1);
-  transition:
-    border-color 0.4s ease,
-    box-shadow 0.4s ease,
-    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.glass-premium:hover {
-  border-color: rgba(123, 175, 212, 0.4);
-  box-shadow:
-    0 30px 80px -10px rgba(123, 175, 212, 0.2),
-    0 20px 60px -12px rgba(0, 0, 0, 0.8);
-  transform: translateY(-4px) scale(1.01);
-}
-
-/* ─── Cyber-industrial effects ───────────────────────────────────────────── */
-
-.tech-grid {
-  position: relative;
-  background-image:
-    radial-gradient(circle, rgba(123, 175, 212, 0.12) 1px, transparent 1px),
-    linear-gradient(to right, rgba(123, 175, 212, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(123, 175, 212, 0.04) 1px, transparent 1px);
-  background-size:
-    32px 32px,
-    128px 128px,
-    128px 128px;
-  background-position: center center;
-}
-
-.noise {
-  position: relative;
-}
-.noise::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  pointer-events: none;
-  opacity: 0.015;
-  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-  filter: contrast(120%) brightness(120%);
-}
-
-.scan-line {
-  position: fixed;
-  left: 0;
+/* Divider line */
+.divider {
   width: 100%;
-  height: 200px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgba(123, 175, 212, 0.03) 50%,
-    transparent
-  );
-  opacity: 0.3;
-  pointer-events: none;
-  z-index: 10;
-  animation: scan 12s linear infinite;
-}
-
-.scanning-line {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--carolina), transparent);
-  top: -2px;
-  border-radius: 1px;
-  opacity: 0.4;
-  will-change: transform;
-  animation: scanning 3s linear infinite;
-}
-
-.tech-line {
-  position: absolute;
   height: 1px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--carolina) 0 4px,
-    transparent 4px 8px
-  );
-  opacity: 0.15;
-  pointer-events: none;
+  background: var(--border);
 }
 
-.pulsing-node {
-  width: 4px;
-  height: 4px;
-  background: var(--carolina);
-  border-radius: 50%;
-  box-shadow: 0 0 8px var(--carolina);
-  animation: pulse-node 2s ease-in-out infinite;
+/* Vertical stack with consistent gap */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
-/* ─── HUD frame brackets ─────────────────────────────────────────────────── */
-
-.hud-frame {
-  position: relative;
-  overflow: hidden;
+.stack-sm {
+  gap: var(--space-2);
 }
-.hud-frame::before,
-.hud-frame::after {
-  content: "";
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  border: 1px solid var(--carolina);
-  opacity: 0.4;
-  z-index: 20;
-  pointer-events: none;
-}
-.hud-frame::before {
-  top: 0;
-  left: 0;
-  border-right: 0;
-  border-bottom: 0;
-}
-.hud-frame::after {
-  top: 0;
-  right: 0;
-  border-left: 0;
-  border-bottom: 0;
-}
-.hud-frame .bracket-bottom {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 16px;
-  height: 16px;
-  border: 1px solid var(--carolina);
-  border-right: 0;
-  border-top: 0;
-  opacity: 0.4;
-  z-index: 20;
-  pointer-events: none;
-}
-.hud-frame .bracket-right {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 16px;
-  height: 16px;
-  border: 1px solid var(--carolina);
-  border-left: 0;
-  border-top: 0;
-  opacity: 0.4;
-  z-index: 20;
-  pointer-events: none;
+.stack-lg {
+  gap: var(--space-8);
 }
 
-/* ─── Animations ─────────────────────────────────────────────────────────── */
+/* Grid systems */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-6);
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-5);
+}
+
+/* FAQ two-column layout */
+.grid-faq {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-12);
+}
+
+@media (min-width: 1024px) {
+  .grid-faq {
+    grid-template-columns: 0.8fr 1.2fr;
   }
 }
 
-@keyframes pulse {
+/* Blog index layout */
+.grid-blog {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .grid-blog {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-blog {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ─── 15. GLASS (FLOATING LAYERS ONLY) ────────────────────────────────────
+   .glass-panel is ONLY for elements that float above page content:
+   modals, tooltips, dropdowns, the mobile nav overlay.
+   
+   Do NOT apply to inline cards, stat blocks, or service panels.
+   Inline content uses var(--surface) and var(--border-strong).
+   
+   The backdrop-filter creates a new stacking context — any child with
+   position: fixed will behave unexpectedly inside a glass-panel.           */
+
+.glass-panel {
+  background: rgba(26, 34, 46, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-accent);
+}
+
+/* Glass header label — mono uppercase, used inside modals/panels */
+.glass-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--carolina);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+/* ─── 16. PROSE (BLOG CONTENT) ─────────────────────────────────────────────
+   Applied to the blog post container (.prose wrapper in JSX).
+   These styles reset for readability and don't bleed into UI components.   */
+
+.prose {
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  line-height: 1.8;
+  max-width: 680px;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 2.5rem 0 1rem;
+  color: var(--text);
+}
+
+.prose h1 {
+  font-size: var(--text-subheading);
+}
+.prose h2 {
+  font-size: var(--text-xl);
+}
+.prose h3 {
+  font-size: var(--text-lg);
+}
+.prose h4 {
+  font-size: var(--text-md);
+}
+
+.prose p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.prose ul,
+.prose ol {
+  margin: 0 0 1.5rem 1.5rem;
+  color: var(--text-secondary);
+}
+
+.prose li {
+  margin-bottom: 0.5rem;
+}
+
+.prose a {
+  color: var(--carolina);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.prose a:hover {
+  color: var(--carolina-dark);
+}
+
+.prose strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.prose em {
+  color: var(--text-secondary);
+}
+
+.prose blockquote {
+  border-left: 2px solid var(--carolina);
+  padding: var(--space-2) 0 var(--space-2) var(--space-6);
+  margin: var(--space-6) 0;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--surface2);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-xs);
+  color: var(--carolina);
+  border: 1px solid var(--border);
+}
+
+.prose pre {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  overflow-x: auto;
+  margin: var(--space-6) 0;
+}
+
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+  font-size: var(--text-sm);
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: var(--space-10) 0;
+}
+
+.prose img {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong);
+  margin: var(--space-6) 0;
+}
+
+/* Blog intro block — server-rendered above blog list */
+.blog-intro {
+  width: 100%;
+  padding: clamp(3rem, 6vw, 5rem) var(--page-gutter) clamp(2rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--border);
+}
+
+.blog-intro-inner {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* ─── 17. ANIMATIONS ─────────────────────────────────────────────────────── */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-dot {
   0%,
   100% {
     opacity: 0.3;
-    transform: scale(0.8);
+    transform: scale(0.85);
   }
   50% {
     opacity: 1;
@@ -352,54 +1148,92 @@ textarea {
   }
 }
 
-@keyframes pulse-node {
-  0%,
-  100% {
-    opacity: 0.3;
-    transform: scale(0.8);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.3);
-  }
+/* Utility classes for entrance animations */
+.animate-fade-up {
+  animation: fadeUp var(--duration-slow) var(--ease-out) both;
 }
 
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.animate-fade-in {
+  animation: fadeIn var(--duration-slow) var(--ease-out) both;
 }
 
-@keyframes scan {
-  from {
-    transform: translateY(-100vh);
-  }
-  to {
-    transform: translateY(100vh);
-  }
+/* Stagger helpers — add to children in a list */
+.stagger-1 {
+  animation-delay: 80ms;
+}
+.stagger-2 {
+  animation-delay: 160ms;
+}
+.stagger-3 {
+  animation-delay: 240ms;
+}
+.stagger-4 {
+  animation-delay: 320ms;
 }
 
-@keyframes scanning {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(500px);
-  }
+/* Pulsing status dot (online indicator, live badge) */
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--status-green);
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 6px var(--status-green);
+  animation: pulse-dot 2s var(--ease-in-out) infinite;
 }
 
-/* ─── Reduced motion ─────────────────────────────────────────────────────── */
+/* ─── 18. TAILWIND @THEME BRIDGE ──────────────────────────────────────────
+   Registers brand values as Tailwind v4 utilities.
+   Keeping this in sync with :root is automatic via the var() references.   */
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
+@theme {
+  /* Colors */
+  --color-carolina: #7bafd4;
+  --color-carolina-dark: #4d8cb9;
+  --color-slate: #1a222e;
+  --color-steel: #3a5570;
+  --color-bg: #0a0a0a;
+  --color-surface: #141414;
+  --color-surface-2: #1e1e1e;
+  --color-surface-3: #252525;
+  --color-text: #f8f9fa;
+  --color-text-secondary: #b0b8c1;
+  --color-muted: #7a838d;
+  --color-status-green: #00c96b;
+  --color-status-yellow: #f5c000;
+  --color-status-red: #ff4d4d;
+
+  /* Typography */
+  --font-family-serif: "Bricolage Grotesque", serif;
+  --font-family-sans: "Space Grotesk", sans-serif;
+  --font-family-mono: "JetBrains Mono", monospace;
+
+  /* Type scale */
+  --font-size-xs: 0.64rem;
+  --font-size-sm: 0.8rem;
+  --font-size-base: 1rem;
+  --font-size-md: 1.25rem;
+  --font-size-lg: 1.563rem;
+  --font-size-xl: 1.953rem;
+  --font-size-2xl: 2.441rem;
+  --font-size-3xl: 3.052rem;
+  --font-size-4xl: 3.815rem;
+
+  /* Border radius */
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* Spacing */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
 }

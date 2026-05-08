@@ -283,7 +283,15 @@
   font-size: 28px;
   font-weight: 600;
   color: var(--white);
-  margin: 0 0 36px;
+  margin: 0 0 12px;
+}
+
+.loadingStatus {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0 0 28px;
+  min-height: 1.4em;
+  transition: opacity 0.3s ease;
 }
 
 .sectionList {
@@ -710,18 +718,6 @@
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.cardBodyLocked {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0 20px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  filter: blur(5px);
-  pointer-events: none;
-  user-select: none;
-  opacity: 0.45;
-}
-
 .findingCol,
 .actionCol {
   display: flex;
@@ -761,8 +757,7 @@
 }
 
 @media (max-width: 520px) {
-  .cardBodyGrid,
-  .cardBodyLocked {
+  .cardBodyGrid {
     grid-template-columns: 1fr;
   }
   .actionCol {

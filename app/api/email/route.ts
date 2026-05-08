@@ -3,6 +3,7 @@ import { renderToBuffer } from "@react-pdf/renderer";
 import { createElement } from "react";
 import { AuditPdf } from "@/lib/AuditPdf";
 import { getSupabase } from "@/lib/supabase";
+import { ratelimit } from "@/lib/ratelimit";
 
 export const maxDuration = 60;
 
@@ -72,6 +73,22 @@ export async function POST(req: Request) {
     lowestSection,
   } = body;
 
+  // Rate limit by IP — prevents email spam abuse
+  const ip =
+    (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() ||
+    "anonymous";
+  try {
+    const { success } = await ratelimit.limit(`email:${ip}`);
+    if (!success) {
+      return Response.json(
+        { error: "Too many requests. Please try again later." },
+        { status: 429 },
+      );
+    }
+  } catch (err) {
+    console.error("Ratelimit error on /api/email (failing open):", err);
+  }
+
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return Response.json({ error: "Invalid email address" }, { status: 400 });
   }
@@ -88,7 +105,7 @@ export async function POST(req: Request) {
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://localsearchally.com";
   const calendlyUrl =
     process.env.CALENDLY_URL ??
-    process.env.CALENDY_URL ??
+    process.env.NEXT_PUBLIC_CALENDLY_URL ??
     "https://calendly.com/localsearchally";
   const auditUrl = auditId ? `${siteUrl}/audit/${auditId}` : siteUrl;
   const lowestLabel = SECTION_LABELS[lowestSection] ?? lowestSection;

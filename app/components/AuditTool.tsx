@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import styles from "@/styles/audit.module.css";
+import type { AuditInput, AuditSection, AuditResult } from "@/lib/types";
 
 // ─── Shared motion variants ───────────────────────────────────────────────────
 
@@ -25,38 +26,6 @@ const cardIn: Variants = {
     y: 0,
     transition: { duration: 0.45, ease: "easeOut", delay: i * 0.07 },
   }),
-};
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-type AuditInput = {
-  businessName: string;
-  websiteUrl: string;
-  primaryTrade: string;
-  serviceCity: string;
-};
-
-type AuditSection = {
-  id: string;
-  name: string;
-  score: number;
-  status: "green" | "yellow" | "red";
-  headline: string;
-  finding: string;
-  priority_action: string;
-};
-
-type AuditResult = {
-  business_name: string;
-  overall_score: number;
-  overall_label: "Strong" | "Solid" | "Needs Work" | "Critical";
-  summary: string;
-  has_website: boolean;
-  score_bucket: "Critical" | "Needs Work" | "Solid" | "Strong";
-  sections: AuditSection[];
-  top_3_actions: string[];
-  competitor_names: string[];
-  auditId?: string | null;
 };
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -129,6 +98,7 @@ export default function AuditTool() {
   );
   const [result, setResult] = useState<AuditResult | null>(null);
   const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<string>("Connecting…");
 
   function validate(): boolean {
     const e: Partial<Record<keyof AuditInput, string>> = {};
@@ -155,6 +125,7 @@ export default function AuditTool() {
     setDoneSections([]);
     setActiveSectionId(SECTION_ORDER[0]);
     setAuditError(null);
+    setStatusMessage("Connecting…");
 
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 120_000);
@@ -210,6 +181,7 @@ export default function AuditTool() {
           }
 
           if (eventType === "section") {
+            setStatusMessage("Scoring your results…");
             const id = (data as AuditSection).id;
             setDoneSections((prev) => [...prev, id]);
             const idx = SECTION_ORDER.indexOf(id);
@@ -235,6 +207,8 @@ export default function AuditTool() {
                 score_bucket: auditResult.score_bucket,
               });
             }
+          } else if (eventType === "status") {
+            setStatusMessage((data as { message: string }).message);
           } else if (eventType === "error") {
             setAuditError(
               (data as { message?: string }).message ?? "Something went wrong",
@@ -279,6 +253,7 @@ export default function AuditTool() {
         businessName={form.businessName}
         doneSections={doneSections}
         activeSectionId={activeSectionId}
+        statusMessage={statusMessage}
       />
     );
   }
@@ -431,10 +406,12 @@ function AuditLoading({
   businessName,
   doneSections,
   activeSectionId,
+  statusMessage,
 }: {
   businessName: string;
   doneSections: string[];
   activeSectionId: string;
+  statusMessage: string;
 }) {
   return (
     <motion.div
@@ -446,6 +423,7 @@ function AuditLoading({
       <div className={styles.loadingCard}>
         <p className={styles.loadingEyebrow}>Running reconnaissance on</p>
         <h2 className={styles.loadingTitle}>{businessName}</h2>
+        <p className={styles.loadingStatus} aria-live='polite'>{statusMessage}</p>
         <ul className={styles.sectionList} aria-label='Audit progress'>
           {SECTION_ORDER.map((id) => {
             const done = doneSections.includes(id);
@@ -578,7 +556,6 @@ function AuditResults({
               key={section.id}
               section={section}
               index={i}
-              locked={false}
             />
           ))}
         </div>
@@ -618,7 +595,7 @@ function AuditResults({
             Run this again in 30 days to track your progress.
           </p>
           <button onClick={onRunAgain} className={styles.reauditBtn}>
-            Scan Another Business
+            Start a New Audit
           </button>
         </motion.div>
       </div>
@@ -753,11 +730,9 @@ const STATUS_LABELS: Record<AuditSection["status"], string> = {
 function SectionCard({
   section,
   index,
-  locked,
 }: {
   section: AuditSection;
   index: number;
-  locked: boolean;
 }) {
   const num = String(index + 1).padStart(2, "0");
   const barWidth = `${(section.score / 10) * 100}%`;
@@ -766,7 +741,6 @@ function SectionCard({
     <motion.article
       className={styles.sectionCard}
       data-status={section.status}
-      data-locked={locked ? "true" : undefined}
       custom={index}
       variants={cardIn}
       initial='hidden'
@@ -797,7 +771,7 @@ function SectionCard({
         <span className={styles.scoreValue}>{section.score}/10</span>
       </div>
 
-      <div className={locked ? styles.cardBodyLocked : styles.cardBodyGrid}>
+      <div className={styles.cardBodyGrid}>
         <div className={styles.findingCol}>
           <span className={styles.colLabel}>Finding</span>
           <p className={styles.finding}>{section.finding}</p>

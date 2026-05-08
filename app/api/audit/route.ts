@@ -1,4 +1,5 @@
 import { getSupabase } from "@/lib/supabase";
+import { createServerClient } from "@supabase/ssr";
 import { Resend } from "resend";
 import {
   fetchBacklinksData,
@@ -24,6 +25,12 @@ import {
   type WebsiteData,
 } from "@/lib/prefetch";
 import { ratelimit } from "@/lib/ratelimit";
+import type {
+  AuditInput,
+  AuditResult,
+  AuditSection,
+  AICitabilitySection,
+} from "@/lib/types";
 
 export const maxDuration = 120;
 
@@ -53,50 +60,7 @@ function sanitizeUrl(value: unknown): string {
   }
 }
 
-export type AuditInput = {
-  businessName: string;
-  websiteUrl: string;
-  primaryTrade: string;
-  serviceCity: string;
-  noWebsite: boolean;
-};
 
-export interface AuditSection {
-  id: string;
-  name: string;
-  score: number;
-  status: "green" | "yellow" | "red";
-  headline: string;
-  finding: string;
-  priority_action: string;
-}
-
-export interface AICitabilitySection {
-  score: number;
-  status: "green" | "yellow" | "red";
-  headline: string;
-  finding: string;
-  priority_action: string;
-  sub_signals: {
-    grounding: "strong" | "partial" | "weak";
-    review_density: "strong" | "partial" | "weak";
-    photo_freshness: "strong" | "weak" | "unknown";
-  };
-}
-
-export interface AuditResult {
-  business_name: string;
-  overall_score: number;
-  overall_label: "Strong" | "Solid" | "Needs Work" | "Critical";
-  summary: string;
-  has_website: boolean;
-  score_bucket: "Critical" | "Needs Work" | "Solid" | "Strong";
-  sections: AuditSection[];
-  top_3_actions: string[];
-  competitor_names: string[];
-  ai_citability_score?: number;
-  ai_citability_section?: AICitabilitySection;
-}
 
 const SYSTEM_PROMPT = `You are a local SEO specialist auditing a contractor's online presence for Local Search Ally. Research the business using web search and produce an honest, scored audit across 7 sections. Return ONLY valid JSON — no preamble, no markdown.
 
@@ -288,11 +252,20 @@ Use the PRE-FETCHED DATA above for gbp, technical, onpage, backlinks, reviews, c
 }
 
 function parseAuditResult(rawText: string): AuditResult {
-  // Strip any accidental markdown code fences
-  const cleaned = rawText
+  // 1. Strip markdown code fences if present
+  let cleaned = rawText
     .replace(/^```(?:json)?\n?/, "")
     .replace(/\n?```$/, "")
     .trim();
+
+  // 2. Extract the outermost JSON object — handles prose preamble/postamble
+  //    e.g. "Here is the audit: {...} Let me know if..." → "{...}"
+  const start = cleaned.indexOf("{");
+  const end = cleaned.lastIndexOf("}");
+  if (start !== -1 && end !== -1 && end > start) {
+    cleaned = cleaned.slice(start, end + 1);
+  }
+
   return JSON.parse(cleaned);
 }
 
@@ -337,9 +310,10 @@ async function callClaude(
     }
 
     const data = await response.json();
-    const textBlock = (data.content as any[]).findLast(
+    const textBlocks = (data.content as any[]).filter(
       (b: any) => b.type === "text",
     );
+    const textBlock = textBlocks[textBlocks.length - 1];
     if (!textBlock) throw new Error("No text block in Anthropic response");
     return parseAuditResult(textBlock.text);
   }
@@ -366,6 +340,17 @@ async function notifyEmail(
   const apiKey = process.env.RESEND_API_KEY;
   const toEmail = process.env.NOTIFY_EMAIL;
   if (!apiKey || !toEmail) return;
+
+  // Skip notification for obvious test/spam submissions
+  const SPAM_PATTERNS = /\b(test|testing|asdf|qwerty|foo|bar|baz|example|sample|lorem|dummy|fake)\b/i;
+  if (
+    SPAM_PATTERNS.test(input.businessName) ||
+    SPAM_PATTERNS.test(input.serviceCity) ||
+    input.businessName.trim().length < 4
+  ) {
+    console.log("Skipping notify email — looks like a test submission:", input.businessName);
+    return;
+  }
 
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://localsearchally.com";
@@ -485,7 +470,9 @@ export async function POST(req: Request) {
     return Response.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const ip = req.headers.get("x-forwarded-for") ?? "anonymous";
+  const ip =
+    (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() ||
+    "anonymous";
   let rateLimited = false;
   try {
     const { success } = await ratelimit.limit(ip);
@@ -526,12 +513,14 @@ export async function POST(req: Request) {
       try {
         // --- 24-hour cache check ---
         if (!input.noWebsite && input.websiteUrl) {
-          const { data: cached } = await getSupabase()
+          const { data: cached, error: cacheErr } = await getSupabase()
             .from("audits")
             .select("*")
             .eq("input->>websiteUrl", input.websiteUrl)
+            .eq("input->>businessName", input.businessName)
             .gte("created_at", new Date(Date.now() - 86_400_000).toISOString())
             .maybeSingle();
+          if (cacheErr) console.error("Supabase cache lookup failed:", cacheErr);
 
           if (cached && cached.result?.ai_citability_section) {
             const cachedResult: AuditResult = cached.result;
@@ -550,6 +539,7 @@ export async function POST(req: Request) {
         }
 
         // --- Pre-fetch all signals in parallel (failures degrade per-block) ---
+        send("status", { message: "Pulling your Google listing, reviews, and site data…" });
         const failedBlocks = new Set<string>();
         const tag =
           <T>(key: string, fallback: T) =>
@@ -603,6 +593,8 @@ export async function POST(req: Request) {
           reviewsData,
         );
 
+        send("status", { message: "Data collected — running AI analysis…" });
+
         // --- Run Claude audit ---
         const result = await callClaude(
           input,
@@ -627,9 +619,36 @@ export async function POST(req: Request) {
         }
 
         // --- Persist to Supabase ---
+        // Attempt to read the session from request cookies to attach user_id.
+        let userId: string | null = null;
+        try {
+          const anonClient = createServerClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            {
+              cookies: {
+                getAll() {
+                  return req.headers
+                    .get("cookie")
+                    ?.split(";")
+                    .map((c) => {
+                      const [name, ...rest] = c.trim().split("=");
+                      return { name: name.trim(), value: rest.join("=") };
+                    }) ?? [];
+                },
+                setAll() {},
+              },
+            },
+          );
+          const { data: { user: sessionUser } } = await anonClient.auth.getUser();
+          userId = sessionUser?.id ?? null;
+        } catch {
+          // Session read failed — proceed without user_id.
+        }
+
         let auditId: string | null = null;
         try {
-          const { data: row } = await getSupabase()
+          const { data: row, error: dbErr } = await getSupabase()
             .from("audits")
             .insert({
               business_name: result.business_name,
@@ -641,12 +660,14 @@ export async function POST(req: Request) {
               ai_citability_section: result.ai_citability_section ?? null,
               result,
               input,
+              user_id: userId,
             })
             .select("id")
             .single();
+          if (dbErr) console.error("Supabase insert failed:", dbErr);
           auditId = row?.id ?? null;
-        } catch (dbErr) {
-          console.error("Supabase insert failed:", dbErr);
+        } catch (dbEx) {
+          console.error("Supabase insert exception:", dbEx);
         }
 
         // --- Slack notification (before complete so it fires before client can navigate away) ---

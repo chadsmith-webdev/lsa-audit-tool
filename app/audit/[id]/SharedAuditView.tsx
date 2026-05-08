@@ -2,54 +2,7 @@
 
 import { useState } from "react";
 import styles from "@/styles/audit.module.css";
-
-type AuditSection = {
-  id: string;
-  name: string;
-  score: number;
-  status: "green" | "yellow" | "red";
-  headline: string;
-  finding: string;
-  priority_action: string;
-};
-
-type AICitabilitySection = {
-  score: number;
-  status: "green" | "yellow" | "red";
-  headline: string;
-  finding: string;
-  priority_action: string;
-  sub_signals: {
-    grounding: "strong" | "partial" | "weak";
-    review_density: "strong" | "partial" | "weak";
-    photo_freshness: "strong" | "weak" | "unknown";
-  };
-};
-
-type AuditResult = {
-  business_name: string;
-  overall_score: number;
-  overall_label: "Strong" | "Solid" | "Needs Work" | "Critical";
-  summary: string;
-  has_website: boolean;
-  score_bucket: "Critical" | "Needs Work" | "Solid" | "Strong";
-  sections: AuditSection[];
-  top_3_actions: string[];
-  competitor_names: string[];
-  ai_citability_score?: number;
-  ai_citability_section?: AICitabilitySection;
-};
-
-type AuditRow = {
-  id: string;
-  business_name: string;
-  overall_score: number;
-  score_bucket: string;
-  trade: string;
-  city: string;
-  result: AuditResult;
-  created_at: string;
-};
+import type { AuditSection, AICitabilitySection, AuditResult, AuditRow } from "@/lib/types";
 
 export default function SharedAuditView({ audit }: { audit: AuditRow }) {
   const result = audit.result;

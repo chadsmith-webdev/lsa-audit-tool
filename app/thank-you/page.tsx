@@ -10,7 +10,8 @@ import styles from "@/styles/thankYou.module.css";
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://audit.localsearchally.com";
 
-const CALENDLY_URL = "https://calendly.com/smithchadlamont";
+const CALENDLY_URL =
+  process.env.NEXT_PUBLIC_CALENDLY_URL ?? "https://calendly.com/localsearchally";
 
 function ThankYouContent() {
   const params = useSearchParams();
