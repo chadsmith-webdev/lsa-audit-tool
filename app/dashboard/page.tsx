@@ -24,7 +24,7 @@ export default async function DashboardPage() {
   const db = getSupabase();
   const { data: audits, error } = await db
     .from("audits")
-    .select("id, created_at, input")
+    .select("id, created_at, business_name, trade, city")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
     .limit(50);
@@ -33,10 +33,8 @@ export default async function DashboardPage() {
     console.error("[dashboard] query error:", error.message);
   }
 
-  const rows = (audits ?? []) as Pick<AuditRow, "id" | "created_at" | "input">[];
-  const latestBusiness = rows[0]
-    ? ((rows[0].input as { businessName?: string }).businessName ?? "")
-    : "";
+  const rows = (audits ?? []) as Pick<AuditRow, "id" | "created_at" | "business_name" | "trade" | "city">[];
+  const latestBusiness = rows[0]?.business_name ?? "";
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)" }}>
@@ -135,11 +133,6 @@ export default async function DashboardPage() {
             ) : (
               <ul style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)", listStyle: "none" }}>
                 {rows.map((audit) => {
-                  const input = audit.input as {
-                    businessName?: string;
-                    city?: string;
-                    trade?: string;
-                  };
                   const date = new Date(audit.created_at).toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
@@ -160,10 +153,10 @@ export default async function DashboardPage() {
                       >
                         <div>
                           <p style={{ fontWeight: 600, fontSize: "var(--text-base)", color: "var(--text)" }}>
-                            {input.businessName ?? "Unnamed business"}
+                            {audit.business_name ?? "Unnamed business"}
                           </p>
                           <p className="text-small" style={{ marginTop: "var(--space-1)" }}>
-                            {[input.trade, input.city].filter(Boolean).join(" · ")}
+                            {[audit.trade, audit.city].filter(Boolean).join(" · ")}
                           </p>
                         </div>
                         <span className="text-small" style={{ flexShrink: 0, marginLeft: "var(--space-4)" }}>
