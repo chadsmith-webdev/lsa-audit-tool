@@ -24,9 +24,10 @@ interface ScanMeta {
 
 interface Props {
   businessName?: string;
+  recentScans?: ScanMeta[];
 }
 
-export default function GeoGrid({ businessName = "" }: Props) {
+export default function GeoGrid({ businessName = "", recentScans = [] }: Props) {
   const [keyword, setKeyword] = useState("");
   const [businessNameInput, setBusinessNameInput] = useState(businessName);
   const [locationInput, setLocationInput] = useState("");
@@ -97,6 +98,27 @@ export default function GeoGrid({ businessName = "" }: Props) {
       });
     } catch {
       setError("Something went wrong. Try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function loadScan(scanId: string) {
+    setLoading(true);
+    setError(null);
+    setResults(null);
+    setScan(null);
+    try {
+      const res = await fetch(`/api/grid?scanId=${scanId}`);
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "Failed to load scan.");
+        return;
+      }
+      setResults(data.results as GridResult[]);
+      setScan(data.scan as ScanMeta);
+    } catch {
+      setError("Something went wrong loading that scan.");
     } finally {
       setLoading(false);
     }
@@ -322,6 +344,54 @@ export default function GeoGrid({ businessName = "" }: Props) {
               )}
             </div>
           )}
+        </div>
+      )}
+
+      {/* Scan history */}
+      {recentScans.length > 0 && (
+        <div style={{ marginTop: "var(--space-6)", borderTop: "1px solid var(--border)", paddingTop: "var(--space-5)" }}>
+          <p className="label" style={{ marginBottom: "var(--space-3)" }}>Recent Scans</p>
+          <ul style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)", listStyle: "none" }}>
+            {recentScans.map((s) => {
+              const date = new Date(s.created_at).toLocaleDateString("en-US", {
+                month: "short", day: "numeric", year: "numeric",
+              });
+              const isActive = scan?.id === s.id;
+              return (
+                <li key={s.id}>
+                  <button
+                    onClick={() => loadScan(s.id)}
+                    disabled={loading}
+                    style={{
+                      width: "100%",
+                      textAlign: "left",
+                      background: isActive ? "var(--surface2)" : "transparent",
+                      border: `1px solid ${isActive ? "var(--carolina)" : "var(--border)"}`,
+                      borderRadius: "var(--radius-md)",
+                      padding: "var(--space-3) var(--space-4)",
+                      cursor: loading ? "not-allowed" : "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      gap: "var(--space-3)",
+                    }}
+                  >
+                    <div>
+                      <span style={{ fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text)", display: "block" }}>
+                        {s.business_name}
+                      </span>
+                      <span className="text-small" style={{ color: "var(--muted)" }}>
+                        {s.keyword}
+                      </span>
+                    </div>
+                    <span className="text-small" style={{ flexShrink: 0, color: "var(--muted)" }}>
+                      {date}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       )}
     </div>

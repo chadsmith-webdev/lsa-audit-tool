@@ -22,18 +22,37 @@ export default async function DashboardPage() {
   if (!user) redirect("/login");
 
   const db = getSupabase();
-  const { data: audits, error } = await db
-    .from("audits")
-    .select("id, created_at, business_name, trade, city")
-    .eq("user_id", user.id)
-    .order("created_at", { ascending: false })
-    .limit(50);
+
+  const [{ data: audits, error }, { data: scans }] = await Promise.all([
+    db
+      .from("audits")
+      .select("id, created_at, business_name, trade, city")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(50),
+    db
+      .from("grid_scans")
+      .select("id, business_name, keyword, center_lat, center_lng, radius_miles, grid_size, created_at")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(20),
+  ]);
 
   if (error) {
     console.error("[dashboard] query error:", error.message);
   }
 
   const rows = (audits ?? []) as Pick<AuditRow, "id" | "created_at" | "business_name" | "trade" | "city">[];
+  const recentScans = (scans ?? []) as {
+    id: string;
+    business_name: string;
+    keyword: string;
+    center_lat: number;
+    center_lng: number;
+    radius_miles: number;
+    grid_size: number;
+    created_at: string;
+  }[];
   const latestBusiness = rows[0]?.business_name ?? "";
 
   return (
@@ -109,7 +128,7 @@ export default async function DashboardPage() {
 
           {/* Geo-Grid — full width first */}
           <section>
-            <GeoGrid businessName={latestBusiness} />
+            <GeoGrid businessName={latestBusiness} recentScans={recentScans} />
           </section>
 
           {/* Audit history */}
