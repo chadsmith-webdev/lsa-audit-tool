@@ -63,15 +63,12 @@ export default function SharedAuditView({ audit }: { audit: AuditRow }) {
           ))}
         </div>
 
-        {/* AI Citability bonus section */}
-        {result.ai_citability_section && (
-          <div className={styles.bonusSectionWrap}>
-            <div className={styles.bonusSeparator}>
-              <span className={styles.bonusSeparatorLabel}>Bonus Analysis</span>
-            </div>
+        {/* AI Citability — renders as section 8 via sections.map() above.
+            Fallback: older audits that stored it as a separate top-level field. */}
+        {result.ai_citability_section &&
+          !result.sections?.find((s) => s.id === "ai_citability") && (
             <AICitabilityCard section={result.ai_citability_section} />
-          </div>
-        )}
+          )}
 
         {/* CTA */}
         <div className={styles.sharedCta}>

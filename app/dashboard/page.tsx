@@ -11,6 +11,10 @@ import GBPWidget from "@/app/components/GBPWidget";
 import CitationsWidget from "@/app/components/CitationsWidget";
 import ReviewsWidget from "@/app/components/ReviewsWidget";
 import CompetitorsWidget from "@/app/components/CompetitorsWidget";
+import BacklinksWidget from "@/app/components/BacklinksWidget";
+import OnPageWidget from "@/app/components/OnPageWidget";
+import TechnicalWidget from "@/app/components/TechnicalWidget";
+import AICitabilityWidget from "@/app/components/AICitabilityWidget";
 
 export const metadata: Metadata = {
   title: "Dashboard — Local Search Ally",
@@ -83,6 +87,25 @@ export default async function DashboardPage() {
   const reviewsSection = latestResult?.sections?.find((s) => s.id === "reviews") ?? null;
   const competitorsSection = latestResult?.sections?.find((s) => s.id === "competitors") ?? null;
   const competitorNames = latestResult?.competitor_names ?? [];
+  const backlinksSection = latestResult?.sections?.find((s) => s.id === "backlinks") ?? null;
+  const onpageSection = latestResult?.sections?.find((s) => s.id === "onpage") ?? null;
+  const technicalSection = latestResult?.sections?.find((s) => s.id === "technical") ?? null;
+  const aiCitabilitySection =
+    latestResult?.sections?.find((s) => s.id === "ai_citability") ??
+    (latestResult?.ai_citability_section
+      ? {
+          ...latestResult.ai_citability_section,
+          id: "ai_citability",
+          name: "AI Visibility",
+          sub_signals: latestResult.ai_citability_section.sub_signals
+            ? {
+                ...latestResult.ai_citability_section.sub_signals,
+                schema_markup:
+                  latestResult.ai_citability_section.sub_signals.schema_markup ?? ("weak" as const),
+              }
+            : undefined,
+        }
+      : null);
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)" }}>
@@ -202,6 +225,55 @@ export default async function DashboardPage() {
               <CompetitorsWidget
                 section={competitorsSection}
                 competitorNames={competitorNames}
+                auditDate={latestFull.created_at}
+                businessName={latestFull.business_name}
+              />
+            </section>
+          )}
+
+          {/* Backlinks — full width */}
+          {backlinksSection && latestFull && (
+            <section>
+              <BacklinksWidget
+                section={backlinksSection}
+                auditDate={latestFull.created_at}
+                businessName={latestFull.business_name}
+              />
+            </section>
+          )}
+
+          {/* On-Page + Technical — side by side */}
+          {(onpageSection || technicalSection) && latestFull && (
+            <section>
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                gap: "var(--space-4)",
+                alignItems: "stretch",
+              }}>
+                {onpageSection && (
+                  <OnPageWidget
+                    section={onpageSection}
+                    auditDate={latestFull.created_at}
+                    businessName={latestFull.business_name}
+                  />
+                )}
+                {technicalSection && (
+                  <TechnicalWidget
+                    section={technicalSection}
+                    auditDate={latestFull.created_at}
+                    businessName={latestFull.business_name}
+                  />
+                )}
+              </div>
+            </section>
+          )}
+
+          {/* AI Visibility — full width */}
+          {aiCitabilitySection && latestFull && (
+            <section>
+              <AICitabilityWidget
+                section={aiCitabilitySection}
                 auditDate={latestFull.created_at}
                 businessName={latestFull.business_name}
               />

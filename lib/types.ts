@@ -31,8 +31,16 @@ export interface AuditSection {
   headline: string;
   finding: string;
   priority_action: string;
+  // Only present on the ai_citability section
+  sub_signals?: {
+    grounding: "strong" | "partial" | "weak";
+    review_density: "strong" | "partial" | "weak";
+    photo_freshness: "strong" | "weak" | "unknown";
+    schema_markup: "strong" | "partial" | "weak";
+  };
 }
 
+// Kept for backward compatibility with existing stored audit results
 export interface AICitabilitySection {
   score: number;
   status: "green" | "yellow" | "red";
@@ -43,6 +51,7 @@ export interface AICitabilitySection {
     grounding: "strong" | "partial" | "weak";
     review_density: "strong" | "partial" | "weak";
     photo_freshness: "strong" | "weak" | "unknown";
+    schema_markup?: "strong" | "partial" | "weak";
   };
 }
 
