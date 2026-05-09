@@ -14,6 +14,12 @@ interface Props {
   gbp: GBPSnapshot;
 }
 
+const STATUS_COLOR: Record<string, string> = {
+  good: "var(--status-green)",
+  warn: "var(--status-yellow)",
+  bad: "var(--status-red)",
+};
+
 function StarRating({ rating }: { rating: number }) {
   const full = Math.floor(rating);
   const half = rating - full >= 0.5;
@@ -27,15 +33,15 @@ function StarRating({ rating }: { rating: number }) {
             <defs>
               {isHalf && (
                 <linearGradient id={`half-${i}`} x1="0" x2="1" y1="0" y2="0">
-                  <stop offset="50%" stopColor="#f59e0b" />
+                  <stop offset="50%" stopColor="var(--status-yellow)" />
                   <stop offset="50%" stopColor="var(--surface2)" />
                 </linearGradient>
               )}
             </defs>
             <polygon
               points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-              fill={filled ? "#f59e0b" : isHalf ? `url(#half-${i})` : "var(--surface2)"}
-              stroke="#f59e0b"
+              fill={filled ? "var(--status-yellow)" : isHalf ? `url(#half-${i})` : "var(--surface2)"}
+              stroke="var(--status-yellow)"
               strokeWidth="1.5"
               strokeLinejoin="round"
             />
@@ -57,11 +63,7 @@ function Stat({
   status?: "good" | "warn" | "bad" | "neutral";
   note?: string;
 }) {
-  const statusColor =
-    status === "good" ? "#4ade80"
-    : status === "warn" ? "#fbbf24"
-    : status === "bad" ? "#f87171"
-    : "var(--text)";
+  const color = status && status !== "neutral" ? (STATUS_COLOR[status] ?? "var(--text)") : "var(--text)";
 
   return (
     <div style={{
@@ -76,7 +78,7 @@ function Stat({
     }}>
       <span style={{
         fontFamily: "var(--font-mono)",
-        fontSize: "0.65rem",
+        fontSize: "var(--text-xs)",
         color: "var(--muted)",
         textTransform: "uppercase",
         letterSpacing: "0.1em",
@@ -86,14 +88,14 @@ function Stat({
       <span style={{
         fontSize: "var(--text-lg)",
         fontWeight: 700,
-        color: statusColor,
+        color,
         fontFamily: "var(--font-mono)",
         lineHeight: 1.2,
       }}>
         {value}
       </span>
       {note && (
-        <span style={{ fontSize: "0.65rem", color: "var(--muted)", lineHeight: 1.3 }}>
+        <span style={{ fontSize: "var(--text-xs)", color: "var(--muted)", lineHeight: 1.3 }}>
           {note}
         </span>
       )}
@@ -102,12 +104,6 @@ function Stat({
 }
 
 export default function GBPWidget({ gbp }: Props) {
-  const auditedOn = new Date(gbp.auditDate).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-
   const reviewStatus =
     gbp.reviewCount === null ? "neutral"
     : gbp.reviewCount >= 50 ? "good"
@@ -145,7 +141,6 @@ export default function GBPWidget({ gbp }: Props) {
 
   return (
     <div className="card card-default" style={{ padding: "var(--space-5)" }}>
-      {/* Header */}
       <div style={{
         display: "flex",
         alignItems: "flex-start",
@@ -156,16 +151,9 @@ export default function GBPWidget({ gbp }: Props) {
       }}>
         <div>
           <p className="label" style={{ marginBottom: "var(--space-1)" }}>Google Business Profile</p>
-          <p style={{ fontSize: "var(--text-sm)", color: "var(--muted)" }}>
-            {gbp.businessName}
-          </p>
+          <p style={{ fontSize: "var(--text-sm)", color: "var(--muted)" }}>{gbp.businessName}</p>
         </div>
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "var(--space-2)",
-          flexShrink: 0,
-        }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", flexShrink: 0 }}>
           {gbp.rating !== null && <StarRating rating={gbp.rating} />}
           {gbp.rating !== null && (
             <span style={{
@@ -180,13 +168,7 @@ export default function GBPWidget({ gbp }: Props) {
         </div>
       </div>
 
-      {/* Stats row */}
-      <div style={{
-        display: "flex",
-        gap: "var(--space-2)",
-        flexWrap: "wrap",
-        marginBottom: "var(--space-4)",
-      }}>
+      <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap" }}>
         <Stat
           label="Rating"
           value={gbp.rating !== null ? gbp.rating.toFixed(1) : "—"}
@@ -212,16 +194,6 @@ export default function GBPWidget({ gbp }: Props) {
           note={hoursStatus === "bad" ? "Missing hours hurts ranking" : undefined}
         />
       </div>
-
-      {/* Footer */}
-      <p style={{
-        fontSize: "0.65rem",
-        color: "var(--muted)",
-        fontFamily: "var(--font-mono)",
-        letterSpacing: "0.05em",
-      }}>
-        Snapshot from audit on {auditedOn} · Run a new audit to refresh
-      </p>
     </div>
   );
 }

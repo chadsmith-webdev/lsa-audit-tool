@@ -172,8 +172,16 @@ export default async function DashboardPage() {
 
         {/* Page title */}
         <div style={{ marginBottom: "var(--space-8)" }}>
-          <p className="label" style={{ marginBottom: "var(--space-2)" }}>Dashboard</p>
-          <h1 className="heading-1">Your SEO Overview</h1>
+          <h1 className="heading-1" style={{ marginBottom: latestFull ? "var(--space-2)" : 0 }}>
+            {latestBusiness || "Your Dashboard"}
+          </h1>
+          {latestFull?.created_at && (
+            <p className="text-small" style={{ color: "var(--muted)" }}>
+              Last audited {new Date(latestFull.created_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+              {" · "}
+              <a href="/" style={{ color: "var(--carolina)", textDecoration: "none" }}>Run new audit →</a>
+            </p>
+          )}
         </div>
 
         {/* Two-column layout on wider screens */}

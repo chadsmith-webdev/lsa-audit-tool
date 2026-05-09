@@ -75,6 +75,14 @@
   --status-yellow: #f5c000; /* warning — 8.9:1 on --bg                    */
   --status-red: #ff4d4d; /* error   — 4.6:1 on --bg                    */
 
+  /* Status tint variants — for pill backgrounds and bordered containers */
+  --status-green-dim:    rgba(0, 201, 107, 0.08);
+  --status-green-mid:    rgba(0, 201, 107, 0.25);
+  --status-yellow-dim:   rgba(245, 192, 0, 0.08);
+  --status-yellow-mid:   rgba(245, 192, 0, 0.25);
+  --status-red-dim:      rgba(255, 77, 77, 0.08);
+  --status-red-mid:      rgba(255, 77, 77, 0.25);
+
   /* --- Gradient ---
      Use for primary CTA buttons only. Not for backgrounds or decorative use. */
   --gradient-cta: linear-gradient(135deg, #7bafd4 0%, #3a5570 100%);
@@ -544,6 +552,17 @@ button.card-default:hover {
   border-color: var(--border-accent);
   background: var(--surface2);
   transform: translateY(-2px);
+}
+
+/* --- Interactive card: div cards that behave like links on hover --- */
+.card-interactive {
+  transition: border-color var(--duration-fast) var(--ease-out),
+              background var(--duration-fast) var(--ease-out);
+}
+
+.card-interactive:hover {
+  border-color: var(--border-strong);
+  background: var(--surface2);
 }
 
 /* --- Stat card: KPI blocks, metrics, proof points ---

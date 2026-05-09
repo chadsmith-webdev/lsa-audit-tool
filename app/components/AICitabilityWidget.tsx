@@ -1,6 +1,7 @@
 "use client";
 
 import type { AuditSection } from "@/lib/types";
+import StatusPill from "@/app/components/StatusPill";
 
 interface Props {
   section: AuditSection;
@@ -8,25 +9,25 @@ interface Props {
   businessName: string;
 }
 
-const STATUS_COLORS = {
-  green: "rgba(34,197,94,0.15)",
-  yellow: "rgba(234,179,8,0.15)",
-  red: "rgba(239,68,68,0.15)",
+const STATUS_COLOR: Record<string, string> = {
+  green: "var(--status-green)",
+  yellow: "var(--status-yellow)",
+  red: "var(--status-red)",
 };
 
-const STATUS_BORDER = {
-  green: "rgba(34,197,94,0.4)",
-  yellow: "rgba(234,179,8,0.4)",
-  red: "rgba(239,68,68,0.4)",
+const STATUS_BG: Record<string, string> = {
+  green: "var(--status-green-dim)",
+  yellow: "var(--status-yellow-dim)",
+  red: "var(--status-red-dim)",
 };
 
-const STATUS_TEXT = {
-  green: "rgb(34,197,94)",
-  yellow: "rgb(234,179,8)",
-  red: "rgb(239,68,68)",
+const STATUS_BORDER: Record<string, string> = {
+  green: "var(--status-green-mid)",
+  yellow: "var(--status-yellow-mid)",
+  red: "var(--status-red-mid)",
 };
 
-const STATUS_LABELS = {
+const STATUS_LABELS: Record<string, string> = {
   green: "Strong",
   yellow: "Needs Attention",
   red: "At Risk",
@@ -46,96 +47,43 @@ const SUB_SIGNAL_STATUS: Record<string, "green" | "yellow" | "red"> = {
   unknown: "yellow",
 };
 
-export default function AICitabilityWidget({ section, auditDate, businessName }: Props) {
+export default function AICitabilityWidget({ section, businessName }: Props) {
   const status = section.status as "green" | "yellow" | "red";
-  const date = new Date(auditDate).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+  const statusColor = STATUS_COLOR[status] ?? "var(--text)";
+  const statusBorder = STATUS_BORDER[status] ?? "var(--border)";
+  const statusBg = STATUS_BG[status] ?? "transparent";
 
   return (
-    <div
-      style={{
-        background: "var(--surface2)",
-        border: `1px solid ${STATUS_BORDER[status]}`,
-        borderRadius: "var(--radius-md)",
-        padding: "var(--space-4)",
-        display: "flex",
-        flexDirection: "column",
-        gap: "var(--space-3)",
-      }}
-    >
+    <div className="card card-default" style={{ padding: "var(--space-5)", display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
+
       {/* Header */}
       <div style={{ display: "flex", alignItems: "flex-start", gap: "var(--space-3)" }}>
-        {/* Score badge */}
-        <div
-          style={{
-            background: STATUS_COLORS[status],
-            border: `1px solid ${STATUS_BORDER[status]}`,
-            borderRadius: "var(--radius-md)",
-            minWidth: 52,
-            height: 52,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            flexShrink: 0,
-          }}
-        >
-          <span
-            style={{
-              fontSize: "1.4rem",
-              fontWeight: 700,
-              color: STATUS_TEXT[status],
-              fontFamily: "var(--font-mono)",
-              lineHeight: 1,
-            }}
-          >
+        {/* Score badge — square filled variant for AI widget */}
+        <div style={{
+          background: statusBg,
+          border: `1px solid ${statusBorder}`,
+          borderRadius: "var(--radius-md)",
+          minWidth: 52,
+          height: 52,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          flexShrink: 0,
+        }}>
+          <span style={{ fontSize: "var(--text-md)", fontWeight: 700, color: statusColor, fontFamily: "var(--font-mono)", lineHeight: 1 }}>
             {section.score}
           </span>
-          <span style={{ fontSize: "0.6rem", color: "var(--muted)", lineHeight: 1 }}>/10</span>
+          <span style={{ fontSize: "var(--text-xs)", color: "var(--muted)", lineHeight: 1 }}>/10</span>
         </div>
 
         {/* Title + status */}
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", flexWrap: "wrap" }}>
-            <span
-              style={{
-                fontSize: "0.7rem",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "0.1em",
-                color: "var(--muted)",
-              }}
-            >
-              AI Visibility
-            </span>
-            <span
-              style={{
-                fontSize: "0.65rem",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-                color: STATUS_TEXT[status],
-                background: STATUS_COLORS[status],
-                border: `1px solid ${STATUS_BORDER[status]}`,
-                borderRadius: "var(--radius-full)",
-                padding: "2px 8px",
-              }}
-            >
-              {STATUS_LABELS[status]}
-            </span>
+          <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", flexWrap: "wrap", marginBottom: "var(--space-1)" }}>
+            <p className="label">AI Visibility</p>
+            <StatusPill status={status} label={STATUS_LABELS[status] ?? status} />
           </div>
-          <p
-            style={{
-              margin: "4px 0 0",
-              fontSize: "0.85rem",
-              fontWeight: 600,
-              color: "var(--text)",
-              lineHeight: 1.3,
-            }}
-          >
+          <p style={{ fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text)", lineHeight: 1.3 }}>
             {section.headline}
           </p>
         </div>
@@ -147,76 +95,40 @@ export default function AICitabilityWidget({ section, auditDate, businessName }:
           {(Object.entries(section.sub_signals) as [string, string][]).map(([key, value]) => {
             const s = SUB_SIGNAL_STATUS[value] ?? "yellow";
             return (
-              <span
-                key={key}
-                style={{
-                  fontSize: "0.7rem",
-                  fontWeight: 600,
-                  color: STATUS_TEXT[s],
-                  background: STATUS_COLORS[s],
-                  border: `1px solid ${STATUS_BORDER[s]}`,
-                  borderRadius: "var(--radius-full)",
-                  padding: "3px 10px",
-                }}
-              >
-                {SUB_SIGNAL_LABELS[key] ?? key}
-              </span>
+              <StatusPill key={key} status={s} label={SUB_SIGNAL_LABELS[key] ?? key} />
             );
           })}
         </div>
       )}
 
       {/* Finding */}
-      <p
-        style={{
-          margin: 0,
-          fontSize: "0.8rem",
-          color: "var(--muted)",
-          lineHeight: 1.5,
-        }}
-      >
+      <p style={{ fontSize: "var(--text-sm)", color: "var(--muted)", lineHeight: 1.5 }}>
         {section.finding}
       </p>
 
       {/* Priority action */}
       {section.priority_action && (
-        <div
-          style={{
-            borderLeft: `3px solid ${STATUS_BORDER[status]}`,
-            paddingLeft: "var(--space-3)",
-          }}
-        >
-          <span
-            style={{
-              display: "block",
-              fontSize: "0.65rem",
-              fontWeight: 600,
-              textTransform: "uppercase",
-              letterSpacing: "0.1em",
-              color: "var(--muted)",
-              marginBottom: 4,
-            }}
-          >
+        <div style={{ borderLeft: `3px solid ${statusColor}`, paddingLeft: "var(--space-3)" }}>
+          <p style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "var(--text-xs)",
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: "0.1em",
+            color: "var(--muted)",
+            marginBottom: "var(--space-1)",
+          }}>
             Next step
-          </span>
-          <span style={{ fontSize: "0.8rem", color: "var(--text)", lineHeight: 1.4 }}>
+          </p>
+          <p style={{ fontSize: "var(--text-sm)", color: "var(--text)", lineHeight: 1.4 }}>
             {section.priority_action}
-          </span>
+          </p>
         </div>
       )}
 
       {/* Footer */}
-      <div
-        style={{
-          borderTop: "1px solid var(--surface2)",
-          paddingTop: "var(--space-2)",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <span style={{ fontSize: "0.7rem", color: "var(--muted)" }}>{businessName}</span>
-        <span style={{ fontSize: "0.7rem", color: "var(--muted)" }}>{date}</span>
+      <div style={{ borderTop: "1px solid var(--border)", paddingTop: "var(--space-2)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <span style={{ fontSize: "var(--text-xs)", color: "var(--muted)" }}>{businessName}</span>
       </div>
     </div>
   );
