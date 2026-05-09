@@ -2,11 +2,9 @@ import { type Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Suspense } from "react";
 import { createServerClient } from "@/lib/supabase";
 import { getSupabase } from "@/lib/supabase";
 import type { AuditRow } from "@/lib/types";
-import GeoGrid from "@/app/components/GeoGrid";
 import GBPWidget from "@/app/components/GBPWidget";
 import CitationsWidget from "@/app/components/CitationsWidget";
 import ReviewsWidget from "@/app/components/ReviewsWidget";
@@ -186,11 +184,33 @@ export default async function DashboardPage() {
           className="dashboard-grid"
         >
 
-          {/* Geo-Grid — full width first */}
+          {/* Geo-Grid — summary card */}
           <section>
-            <Suspense fallback={<div className="card card-default" style={{ minHeight: 200 }} />}>
-              <GeoGrid businessName={latestBusiness} trade={latestTrade} city={latestCity} recentScans={recentScans} />
-            </Suspense>
+            <div className="card card-default" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "var(--space-4)" }}>
+              <div>
+                <p className="label" style={{ marginBottom: "var(--space-2)" }}>Geo-Grid Rank Tracker</p>
+                {recentScans.length > 0 ? (
+                  <>
+                    <p style={{ fontSize: "var(--text-base)", fontWeight: 600, color: "var(--text)", marginBottom: "var(--space-1)" }}>
+                      {recentScans[0].keyword}
+                    </p>
+                    <p className="text-small">
+                      Last scan {new Date(recentScans[0].created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                      {" · "}{recentScans[0].business_name}
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-small">No scans yet — run your first geo-grid scan to see local visibility across your service area.</p>
+                )}
+              </div>
+              <Link
+                href="/dashboard/grid"
+                className="btn btn-primary"
+                style={{ flexShrink: 0 }}
+              >
+                {recentScans.length > 0 ? "View Full Grid →" : "Run First Scan →"}
+              </Link>
+            </div>
           </section>
 
           {/* GBP + Reviews — side by side */}
