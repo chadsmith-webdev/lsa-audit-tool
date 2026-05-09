@@ -13,6 +13,7 @@ import BacklinksWidget from "@/app/components/BacklinksWidget";
 import OnPageWidget from "@/app/components/OnPageWidget";
 import TechnicalWidget from "@/app/components/TechnicalWidget";
 import AICitabilityWidget from "@/app/components/AICitabilityWidget";
+import DeleteAuditButton from "@/app/components/DeleteAuditButton";
 
 export const metadata: Metadata = {
   title: "Dashboard — Local Search Ally",
@@ -336,11 +337,12 @@ export default async function DashboardPage() {
                   });
 
                   return (
-                    <li key={audit.id}>
+                    <li key={audit.id} style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
                       <Link
                         href={`/audit/${audit.id}`}
                         className="card card-default"
                         style={{
+                          flex: 1,
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
@@ -359,6 +361,7 @@ export default async function DashboardPage() {
                           {date}
                         </span>
                       </Link>
+                      <DeleteAuditButton auditId={audit.id} />
                     </li>
                   );
                 })}
