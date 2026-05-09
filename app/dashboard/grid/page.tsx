@@ -105,95 +105,11 @@ export default async function GridPage() {
       <main style={{ maxWidth: "1100px", margin: "0 auto", padding: "var(--space-10) var(--page-gutter)" }}>
 
         {/* Page header */}
-        <div style={{ marginBottom: "var(--space-10)" }}>
-          <p className="label" style={{ marginBottom: "var(--space-2)" }}>Tool</p>
-          <h1 className="heading-1" style={{ marginBottom: "var(--space-4)" }}>Geo-Grid Rank Tracker</h1>
-          <p style={{ fontSize: "var(--text-lg)", color: "var(--muted)", maxWidth: "640px", lineHeight: 1.6 }}>
-            See exactly where your business shows up — and where it doesn't — across your entire service area.
+        <div style={{ marginBottom: "var(--space-8)" }}>
+          <h1 className="heading-1" style={{ marginBottom: "var(--space-2)" }}>Geo-Grid Rank Tracker</h1>
+          <p style={{ fontSize: "var(--text-base)", color: "var(--muted)", maxWidth: "560px", lineHeight: 1.6 }}>
+            See where your business ranks across 25 points in your service area — not just one average.
           </p>
-        </div>
-
-        {/* Explainer cards */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-          gap: "var(--space-4)",
-          marginBottom: "var(--space-10)",
-        }}>
-          {[
-            {
-              icon: "⊞",
-              title: "What is the geo-grid?",
-              body: "Google doesn't show every business the same rank everywhere. A 5×5 grid of 25 points is plotted across your service area. Each point checks where your business ranks at that exact location — giving you a real picture of your local visibility, not just one number.",
-            },
-            {
-              icon: "◉",
-              title: "How to read it",
-              body: "Green markers mean you're ranking in the top 3 at that location — prime Map Pack territory. Yellow is rank 4–10, still visible but losing clicks fast. Red is rank 11–20. Gray means you didn't show up at all. The goal is a map full of green.",
-            },
-            {
-              icon: "↑",
-              title: "Tracking changes over time",
-              body: "Run the same keyword scan again after making changes to your GBP, citations, or on-page content. Each marker shows an arrow indicating how your rank moved since the last scan — up is good, down means something needs attention.",
-            },
-          ].map(({ icon, title, body }) => (
-            <div key={title} className="card card-default" style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
-              <span style={{
-                fontSize: "1.5rem",
-                lineHeight: 1,
-                width: "40px",
-                height: "40px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                background: "rgba(123,175,212,0.1)",
-                borderRadius: "var(--radius-md)",
-                border: "1px solid rgba(123,175,212,0.2)",
-                color: "var(--carolina)",
-                flexShrink: 0,
-              }}>
-                {icon}
-              </span>
-              <div>
-                <h3 style={{
-                  fontSize: "var(--text-base)",
-                  fontWeight: 600,
-                  color: "var(--text)",
-                  marginBottom: "var(--space-2)",
-                }}>
-                  {title}
-                </h3>
-                <p className="text-small" style={{ lineHeight: 1.6 }}>
-                  {body}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Tips bar */}
-        <div style={{
-          background: "rgba(123,175,212,0.06)",
-          border: "1px solid rgba(123,175,212,0.15)",
-          borderRadius: "var(--radius-md)",
-          padding: "var(--space-4) var(--space-5)",
-          marginBottom: "var(--space-8)",
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "var(--space-6)",
-        }}>
-          {[
-            { label: "Business name", tip: "Enter it exactly as it appears on your Google Business Profile — spelling, punctuation, and all." },
-            { label: "Service area", tip: "Use the city or neighborhood you want to test. The grid will center on that point and spread outward." },
-            { label: "Keyword", tip: "Use the keyword a real customer would type — trade + location works best (e.g. \"plumber Rogers AR\")." },
-          ].map(({ label, tip }) => (
-            <div key={label} style={{ flex: "1 1 200px" }}>
-              <p style={{ fontSize: "var(--text-xs)", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--carolina)", marginBottom: "var(--space-1)" }}>
-                {label}
-              </p>
-              <p className="text-small" style={{ lineHeight: 1.5 }}>{tip}</p>
-            </div>
-          ))}
         </div>
 
         {/* The tool */}
@@ -207,6 +123,7 @@ export default async function GridPage() {
             trade={latestTrade}
             city={latestCity}
             recentScans={recentScans}
+            showHeader={false}
           />
         </Suspense>
 

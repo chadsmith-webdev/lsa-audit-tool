@@ -460,6 +460,25 @@ em.accent {
   font-size: var(--text-md);
 }
 
+.btn-pill {
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+
+.btn-pill:hover:not(:disabled) {
+  border-color: var(--carolina);
+  color: var(--carolina);
+}
+
+.btn-pill--active {
+  border-color: var(--carolina);
+  color: var(--carolina);
+  background: rgba(123, 175, 212, 0.08);
+}
+
 /* ─── 11. CARDS ────────────────────────────────────────────────────────────
    Three card variants covering all current use cases.
    Cards never define their own width — let the grid control that.          */

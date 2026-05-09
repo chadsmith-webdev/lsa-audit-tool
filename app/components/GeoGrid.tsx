@@ -46,9 +46,10 @@ interface Props {
   trade?: string;
   city?: string;
   recentScans?: ScanMeta[];
+  showHeader?: boolean;
 }
 
-export default function GeoGrid({ businessName = "", trade = "", city = "", recentScans = [] }: Props) {
+export default function GeoGrid({ businessName = "", trade = "", city = "", recentScans = [], showHeader = true }: Props) {
   const searchParams = useSearchParams();
   const suggestedKeywords = getSuggestedKeywords(trade, city);
   const [keyword, setKeyword] = useState(
@@ -205,33 +206,53 @@ export default function GeoGrid({ businessName = "", trade = "", city = "", rece
   return (
     <div className="card card-default">
 
-      {/* Header */}
-      <div style={{ marginBottom: "var(--space-5)" }}>
-        <p className="label" style={{ marginBottom: "var(--space-2)" }}>Geo-Grid Rank Tracker</p>
-        <h2 className="heading-3">Local Visibility Map</h2>
-        <p className="text-small" style={{ marginTop: "var(--space-2)" }}>
-          See where a business ranks across a 5×5 grid of a service area for any keyword.
-        </p>
-      </div>
+      {/* Header — suppressed when embedded under a page-level heading */}
+      {showHeader && (
+        <div style={{ marginBottom: "var(--space-5)" }}>
+          <p className="label" style={{ marginBottom: "var(--space-2)" }}>Geo-Grid Rank Tracker</p>
+          <h2 className="heading-3">Local Visibility Map</h2>
+          <p className="text-small" style={{ marginTop: "var(--space-2)" }}>
+            See where a business ranks across a 5×5 grid of a service area for any keyword.
+          </p>
+        </div>
+      )}
 
       {/* Form */}
       <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)", marginBottom: "var(--space-5)" }}>
-        <input
-          type="text"
-          value={businessNameInput}
-          onChange={(e) => setBusinessNameInput(e.target.value)}
-          placeholder="Business name (as it appears on Google Maps)"
-          disabled={loading}
-          className="form-input"
-        />
-        <input
-          type="text"
-          value={locationInput}
-          onChange={(e) => setLocationInput(e.target.value)}
-          placeholder="Service area center (e.g. Siloam Springs, AR)"
-          disabled={loading}
-          className="form-input"
-        />
+        <label style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
+          <span className="text-small" style={{ color: "var(--muted)", fontWeight: 500 }}>
+            Business name
+            <span style={{ marginLeft: "var(--space-1)", fontSize: "var(--text-xs)", color: "var(--muted)", fontWeight: 400 }}>
+              — exactly as it appears on Google Business Profile
+            </span>
+          </span>
+          <input
+            type="text"
+            value={businessNameInput}
+            onChange={(e) => setBusinessNameInput(e.target.value)}
+            placeholder="e.g. Smith Plumbing & Heating"
+            disabled={loading}
+            className="form-input"
+          />
+        </label>
+
+        <label style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
+          <span className="text-small" style={{ color: "var(--muted)", fontWeight: 500 }}>
+            Service area
+            <span style={{ marginLeft: "var(--space-1)", fontSize: "var(--text-xs)", color: "var(--muted)", fontWeight: 400 }}>
+              — city or neighborhood to center the grid on
+            </span>
+          </span>
+          <input
+            type="text"
+            value={locationInput}
+            onChange={(e) => setLocationInput(e.target.value)}
+            placeholder="e.g. Siloam Springs, AR"
+            disabled={loading}
+            className="form-input"
+          />
+        </label>
+
         {suggestedKeywords.length > 0 && (
           <div>
             <p className="text-small" style={{ marginBottom: "var(--space-2)", color: "var(--muted)" }}>
@@ -243,13 +264,7 @@ export default function GeoGrid({ businessName = "", trade = "", city = "", rece
                   key={kw}
                   onClick={() => setKeyword(kw)}
                   disabled={loading}
-                  className="btn btn-ghost btn-sm"
-                  style={{
-                    border: keyword === kw ? "1px solid var(--carolina)" : "1px solid var(--surface2)",
-                    color: keyword === kw ? "var(--carolina)" : "var(--muted)",
-                    borderRadius: "var(--radius-full)",
-                    fontSize: "0.75rem",
-                  }}
+                  className={`btn btn-pill btn-sm${keyword === kw ? " btn-pill--active" : ""}`}
                 >
                   {kw}
                 </button>
@@ -258,25 +273,33 @@ export default function GeoGrid({ businessName = "", trade = "", city = "", rece
           </div>
         )}
 
-        <div style={{ display: "flex", gap: "var(--space-3)" }}>
-          <input
-            type="text"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && runScan()}
-            placeholder="Keyword (e.g. HVAC repair Siloam Springs AR)"
-            disabled={loading}
-            className="form-input"
-            style={{ flex: 1 }}
-          />
-          <button
-            onClick={runScan}
-            disabled={loading || !keyword.trim() || !businessNameInput.trim() || !locationInput.trim()}
-            className="btn btn-primary"
-          >
-            {loading ? "Scanning…" : "Run Scan"}
-          </button>
-        </div>
+        <label style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
+          <span className="text-small" style={{ color: "var(--muted)", fontWeight: 500 }}>
+            Keyword
+            <span style={{ marginLeft: "var(--space-1)", fontSize: "var(--text-xs)", color: "var(--muted)", fontWeight: 400 }}>
+              — what a real customer would search
+            </span>
+          </span>
+          <div style={{ display: "flex", gap: "var(--space-3)" }}>
+            <input
+              type="text"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && runScan()}
+              placeholder="e.g. HVAC repair Siloam Springs AR"
+              disabled={loading}
+              className="form-input"
+              style={{ flex: 1 }}
+            />
+            <button
+              onClick={runScan}
+              disabled={loading || !keyword.trim() || !businessNameInput.trim() || !locationInput.trim()}
+              className="btn btn-primary"
+            >
+              {loading ? "Scanning…" : "Run Scan"}
+            </button>
+          </div>
+        </label>
       </div>
 
       {/* Error */}
