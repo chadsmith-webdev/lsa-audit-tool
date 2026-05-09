@@ -28,7 +28,8 @@ export default async function AdminClientPage({
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { data: adminProfile } = await supabase
+  const db = getSupabase();
+  const { data: adminProfile } = await db
     .from("profiles")
     .select("is_admin")
     .eq("id", user.id)

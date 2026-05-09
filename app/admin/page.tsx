@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { createServerClient } from "@/lib/supabase";
+import { createServerClient, getSupabase } from "@/lib/supabase";
 import { cookies } from "next/headers";
 
 export default async function AdminPage() {
@@ -9,7 +9,9 @@ export default async function AdminPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { data: profile } = await supabase
+  // Use service role (same as auth callback) so RLS can't cause a false negative
+  const db = getSupabase();
+  const { data: profile, error: profileErr } = await db
     .from("profiles")
     .select("is_admin, email")
     .eq("id", user.id)
