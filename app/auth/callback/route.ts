@@ -9,8 +9,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(`${origin}/login?error=missing_code`);
   }
 
-  // Default destination — will be overridden below if user is admin
-  const response = NextResponse.redirect(`${origin}/dashboard`);
+  // Capture session cookies so we can apply them to the final redirect.
+  // We can't create the redirect response first because mutating its Location
+  // header afterwards is unreliable in Next.js 15.
+  const pendingCookies: { name: string; value: string; options?: object }[] = [];
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -21,14 +23,12 @@ export async function GET(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          // Write cookies onto both the request and the response so the
-          // session is available immediately on the next server render.
+          // Make session readable within this same request
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value),
           );
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options),
-          );
+          // Stash for the final response
+          cookiesToSet.forEach((c) => pendingCookies.push(c));
         },
       },
     },
@@ -41,15 +41,17 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(`${origin}/login?error=auth_failed`);
   }
 
-  // Use service role key to bypass RLS for the admin check
-  const { createClient } = await import("@supabase/supabase-js");
-  const adminDb = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_KEY!,
-  );
+  // Determine destination before creating the response
+  let destination = `${origin}/dashboard`;
 
   const { data: { user } } = await supabase.auth.getUser();
   if (user) {
+    const { createClient } = await import("@supabase/supabase-js");
+    const adminDb = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_KEY!,
+    );
+
     const { data: profile, error: profileErr } = await adminDb
       .from("profiles")
       .select("is_admin")
@@ -59,10 +61,15 @@ export async function GET(request: NextRequest) {
     console.log("[auth/callback] profile lookup:", { profile, profileErr });
 
     if (profile?.is_admin) {
-      // Mutate the existing response so session cookies are preserved
-      response.headers.set("Location", `${origin}/admin`);
+      destination = `${origin}/admin`;
     }
   }
+
+  // Create the redirect with the correct destination, then attach session cookies
+  const response = NextResponse.redirect(destination);
+  pendingCookies.forEach(({ name, value, options }) =>
+    response.cookies.set(name, value, options ?? {}),
+  );
 
   return response;
 }

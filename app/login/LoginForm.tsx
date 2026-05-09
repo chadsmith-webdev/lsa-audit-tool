@@ -14,25 +14,24 @@ export default function LoginForm() {
     setLoading(true);
     setError(null);
 
-    const supabase = createBrowserClient();
-
-    // Check invite list before sending OTP
-    const { data: invite, error: inviteErr } = await supabase
-      .from("invited_emails")
-      .select("email")
-      .eq("email", email.toLowerCase().trim())
-      .maybeSingle();
-
-    console.log("[invite check]", { invite, inviteErr });
-
-    if (inviteErr) {
-      // Query failed — don't block login, log the error and proceed
-      console.error("[invite check] query error:", inviteErr.message);
-    } else if (!invite) {
-      setError("This email isn't on the access list. Contact Chad to request access.");
-      setLoading(false);
-      return;
+    // Check invite list server-side (service key bypasses RLS)
+    try {
+      const res = await fetch("/api/auth/check-invite", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.toLowerCase().trim() }),
+      });
+      const { allowed } = await res.json();
+      if (!allowed) {
+        setError("This email isn't on the access list. Contact Chad to request access.");
+        setLoading(false);
+        return;
+      }
+    } catch {
+      // Network error — proceed and let Supabase handle it
     }
+
+    const supabase = createBrowserClient();
 
     const redirectTo =
       process.env.NEXT_PUBLIC_SITE_URL
