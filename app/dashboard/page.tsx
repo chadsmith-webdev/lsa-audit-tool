@@ -8,6 +8,7 @@ import { getSupabase } from "@/lib/supabase";
 import type { AuditRow } from "@/lib/types";
 import GeoGrid from "@/app/components/GeoGrid";
 import GBPWidget from "@/app/components/GBPWidget";
+import CitationsWidget from "@/app/components/CitationsWidget";
 
 export const metadata: Metadata = {
   title: "Dashboard — Local Search Ally",
@@ -25,7 +26,7 @@ export default async function DashboardPage() {
 
   const db = getSupabase();
 
-  const [{ data: audits, error }, { data: scans }] = await Promise.all([
+  const [{ data: audits, error }, { data: scans }, { data: latestFull }] = await Promise.all([
     db
       .from("audits")
       .select("id, created_at, business_name, trade, city, gbp_found, gbp_rating, gbp_review_count, gbp_photo_count, gbp_has_hours")
@@ -38,6 +39,13 @@ export default async function DashboardPage() {
       .eq("user_id", user.id)
       .order("created_at", { ascending: false })
       .limit(20),
+    db
+      .from("audits")
+      .select("result, created_at, business_name")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single(),
   ]);
 
   if (error) {
@@ -67,6 +75,9 @@ export default async function DashboardPage() {
     auditDate: rows[0].created_at,
     businessName: rows[0].business_name,
   } : null;
+
+  const latestResult = latestFull?.result as import("@/lib/types").AuditResult | undefined;
+  const citationsSection = latestResult?.sections?.find((s) => s.id === "citations") ?? null;
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)" }}>
@@ -150,6 +161,17 @@ export default async function DashboardPage() {
           {latestGBP && (
             <section>
               <GBPWidget gbp={latestGBP} />
+            </section>
+          )}
+
+          {/* Citations Widget */}
+          {citationsSection && latestFull && (
+            <section>
+              <CitationsWidget
+                section={citationsSection}
+                auditDate={latestFull.created_at}
+                businessName={latestFull.business_name}
+              />
             </section>
           )}
 
