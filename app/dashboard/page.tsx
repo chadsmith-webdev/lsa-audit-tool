@@ -110,7 +110,7 @@ export default async function DashboardPage() {
     <div className="min-h-screen" style={{ background: "var(--bg)" }}>
 
       {/* Nav */}
-      <header style={{
+      <header role="banner" style={{
         background: "var(--surface)",
         borderBottom: "1px solid var(--border-strong)",
       }}>
@@ -171,7 +171,7 @@ export default async function DashboardPage() {
       }}>
 
         {/* Page title */}
-        <div style={{ marginBottom: "var(--space-8)" }}>
+        <div className="animate-fade-up" style={{ marginBottom: "var(--space-8)" }}>
           <h1 className="heading-1" style={{ marginBottom: latestFull ? "var(--space-2)" : 0 }}>
             {latestBusiness || "Your Dashboard"}
           </h1>
@@ -194,7 +194,7 @@ export default async function DashboardPage() {
         >
 
           {/* Geo-Grid — summary card */}
-          <section>
+          <section className="animate-fade-up stagger-1">
             <div className="card card-default" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "var(--space-4)" }}>
               <div>
                 <p className="label" style={{ marginBottom: "var(--space-2)" }}>Geo-Grid Rank Tracker</p>
@@ -224,7 +224,7 @@ export default async function DashboardPage() {
 
           {/* GBP + Reviews — side by side */}
           {(latestGBP || reviewsSection) && (
-            <section>
+            <section className="animate-fade-up stagger-2">
               <div
                 style={{
                   display: "grid",
@@ -247,7 +247,7 @@ export default async function DashboardPage() {
 
           {/* Citations — full width */}
           {citationsSection && latestFull && (
-            <section>
+            <section className="animate-fade-up stagger-3">
               <CitationsWidget
                 section={citationsSection}
                 auditDate={latestFull.created_at}
@@ -258,7 +258,7 @@ export default async function DashboardPage() {
 
           {/* Competitors — full width */}
           {competitorsSection && latestFull && (
-            <section>
+            <section className="animate-fade-up stagger-4">
               <CompetitorsWidget
                 section={competitorsSection}
                 competitorNames={competitorNames}
@@ -270,7 +270,7 @@ export default async function DashboardPage() {
 
           {/* Backlinks — full width */}
           {backlinksSection && latestFull && (
-            <section>
+            <section className="animate-fade-up stagger-4">
               <BacklinksWidget
                 section={backlinksSection}
                 auditDate={latestFull.created_at}
@@ -281,7 +281,7 @@ export default async function DashboardPage() {
 
           {/* On-Page + Technical — side by side */}
           {(onpageSection || technicalSection) && latestFull && (
-            <section>
+            <section className="animate-fade-up stagger-4">
               <div style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
@@ -308,7 +308,7 @@ export default async function DashboardPage() {
 
           {/* AI Visibility — full width */}
           {aiCitabilitySection && latestFull && (
-            <section>
+            <section className="animate-fade-up stagger-4">
               <AICitabilityWidget
                 section={aiCitabilitySection}
                 auditDate={latestFull.created_at}
@@ -318,7 +318,7 @@ export default async function DashboardPage() {
           )}
 
           {/* Audit history */}
-          <section>
+          <section className="animate-fade-up stagger-4">
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "var(--space-4)" }}>
               <h2 className="heading-3">Audit History</h2>
               <Link href="/" className="btn btn-ghost btn-sm">

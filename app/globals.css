@@ -544,6 +544,9 @@ em.accent {
 a.card-default,
 button.card-default {
   cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-out),
+              background var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out);
 }
 
 .card-default:is(a, button):hover,
