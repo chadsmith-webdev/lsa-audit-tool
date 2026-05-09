@@ -126,7 +126,7 @@ export default function GeoGridMap({
             html: `<div style="
               font-size:9px;
               font-weight:800;
-              color:${delta > 0 ? "#4ade80" : "#f87171"};
+              color:${delta > 0 ? "#00c96b" : "#ff4d4d"};
               pointer-events:none;
               white-space:nowrap;
               text-shadow:0 0 3px rgba(0,0,0,0.8);
