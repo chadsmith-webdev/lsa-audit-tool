@@ -41,5 +41,19 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(`${origin}/login?error=auth_failed`);
   }
 
+  // Check if user is admin — admins go to /admin, clients go to /dashboard
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("is_admin")
+      .eq("id", user.id)
+      .single();
+
+    if (profile?.is_admin) {
+      return NextResponse.redirect(`${origin}/admin`);
+    }
+  }
+
   return response;
 }

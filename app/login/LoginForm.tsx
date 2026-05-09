@@ -15,6 +15,20 @@ export default function LoginForm() {
     setError(null);
 
     const supabase = createBrowserClient();
+
+    // Check invite list before sending OTP
+    const { data: invite, error: inviteErr } = await supabase
+      .from("invited_emails")
+      .select("email")
+      .eq("email", email.toLowerCase().trim())
+      .maybeSingle();
+
+    if (inviteErr || !invite) {
+      setError("This email isn't on the access list. Contact Chad to request access.");
+      setLoading(false);
+      return;
+    }
+
     const redirectTo =
       process.env.NEXT_PUBLIC_SITE_URL
         ? `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`
