@@ -105,7 +105,7 @@ export default async function GridPage() {
       <main style={{ maxWidth: "1100px", margin: "0 auto", padding: "var(--space-10) var(--page-gutter)" }}>
 
         {/* Page header */}
-        <div style={{ marginBottom: "var(--space-8)" }}>
+        <div className="animate-fade-up" style={{ marginBottom: "var(--space-8)" }}>
           <h1 className="heading-1" style={{ marginBottom: "var(--space-2)" }}>Geo-Grid Rank Tracker</h1>
           <p style={{ fontSize: "var(--text-base)", color: "var(--muted)", maxWidth: "560px", lineHeight: 1.6 }}>
             See where your business ranks across 25 points in your service area — not just one average.

@@ -350,9 +350,9 @@ export default function GeoGrid({ businessName = "", trade = "", city = "", rece
             flexWrap: "wrap",
           }}>
             {[
-              { color: "#00c96b", label: "Rank 1–3" },
-              { color: "#f5c000", label: "Rank 4–10" },
-              { color: "#ff4d4d", label: "Rank 11–20" },
+              { color: "var(--status-green)", label: "Rank 1–3" },
+              { color: "var(--status-yellow)", label: "Rank 4–10" },
+              { color: "var(--status-red)", label: "Rank 11–20" },
               { color: "var(--surface2)", label: "Not found" },
             ].map(({ color, label }) => (
               <div key={label} style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
@@ -407,7 +407,7 @@ export default function GeoGrid({ businessName = "", trade = "", city = "", rece
                     const d = deltas[hovered.point_index] ?? null;
                     if (d === null || d === 0) return null;
                     return (
-                      <span style={{ marginLeft: 8, fontSize: "0.75rem", fontWeight: 700, color: d > 0 ? "#4ade80" : "#f87171" }}>
+                      <span style={{ marginLeft: 8, fontSize: "0.75rem", fontWeight: 700, color: d > 0 ? "var(--status-green)" : "var(--status-red)" }}>
                         {d > 0 ? `↑${d} since last scan` : `↓${Math.abs(d)} since last scan`}
                       </span>
                     );
@@ -463,19 +463,7 @@ export default function GeoGrid({ businessName = "", trade = "", city = "", rece
                   <button
                     onClick={() => loadScan(s.id)}
                     disabled={loading}
-                    style={{
-                      width: "100%",
-                      textAlign: "left",
-                      background: isActive ? "var(--surface2)" : "transparent",
-                      border: `1px solid ${isActive ? "var(--carolina)" : "var(--border)"}`,
-                      borderRadius: "var(--radius-md)",
-                      padding: "var(--space-3) var(--space-4)",
-                      cursor: loading ? "not-allowed" : "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      gap: "var(--space-3)",
-                    }}
+                    className={`scan-item${isActive ? " scan-item--active" : ""}`}
                   >
                     <div>
                       <span style={{ fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--text)", display: "block" }}>

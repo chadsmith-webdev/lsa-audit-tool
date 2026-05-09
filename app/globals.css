@@ -479,6 +479,37 @@ em.accent {
   background: rgba(123, 175, 212, 0.08);
 }
 
+/* Scan history list items — full-width card-style buttons */
+.scan-item {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.scan-item:hover:not(:disabled) {
+  border-color: var(--border-strong);
+  background: var(--surface2);
+}
+
+.scan-item:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.scan-item--active {
+  background: var(--surface2);
+  border-color: var(--carolina);
+}
+
 /* ─── 11. CARDS ────────────────────────────────────────────────────────────
    Three card variants covering all current use cases.
    Cards never define their own width — let the grid control that.          */
