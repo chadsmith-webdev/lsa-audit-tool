@@ -218,7 +218,7 @@ export default function GeoGrid({ businessName = "", trade = "", city = "", rece
       )}
 
       {/* Form */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)", marginBottom: "var(--space-5)" }}>
+      <div aria-busy={loading} style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)", marginBottom: "var(--space-5)" }}>
         <label style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
           <span className="text-small" style={{ color: "var(--muted)", fontWeight: 500 }}>
             Business name
@@ -264,6 +264,7 @@ export default function GeoGrid({ businessName = "", trade = "", city = "", rece
                   key={kw}
                   onClick={() => setKeyword(kw)}
                   disabled={loading}
+                  aria-pressed={keyword === kw}
                   className={`btn btn-pill btn-sm${keyword === kw ? " btn-pill--active" : ""}`}
                 >
                   {kw}
@@ -304,23 +305,32 @@ export default function GeoGrid({ businessName = "", trade = "", city = "", rece
 
       {/* Error */}
       {error && (
-        <p style={{
-          padding: "var(--space-3) var(--space-4)",
-          background: "rgba(255,77,77,0.08)",
-          border: "1px solid rgba(255,77,77,0.2)",
-          borderRadius: "var(--radius-md)",
-          color: "var(--status-red)",
-          fontSize: "var(--text-sm)",
-          marginBottom: "var(--space-5)",
-        }}>
+        <p
+          role="alert"
+          aria-live="polite"
+          style={{
+            padding: "var(--space-3) var(--space-4)",
+            background: "rgba(255,77,77,0.08)",
+            border: "1px solid rgba(255,77,77,0.2)",
+            borderRadius: "var(--radius-md)",
+            color: "var(--status-red)",
+            fontSize: "var(--text-sm)",
+            marginBottom: "var(--space-5)",
+          }}
+        >
           {error}
         </p>
       )}
 
       {/* Loading state */}
       {loading && (
-        <div style={{ textAlign: "center", padding: "var(--space-10) 0" }}>
-          <p className="text-small">Checking 25 grid points… this takes ~30 seconds.</p>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "var(--space-3)", padding: "var(--space-10) 0" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+            <span className="pulse-dot" />
+            <span className="pulse-dot" style={{ animationDelay: "0.33s" }} />
+            <span className="pulse-dot" style={{ animationDelay: "0.66s" }} />
+          </div>
+          <p className="text-small">Checking 25 grid points — about 30 seconds.</p>
         </div>
       )}
 
@@ -463,6 +473,7 @@ export default function GeoGrid({ businessName = "", trade = "", city = "", rece
                   <button
                     onClick={() => loadScan(s.id)}
                     disabled={loading}
+                    aria-current={isActive ? "true" : undefined}
                     className={`scan-item${isActive ? " scan-item--active" : ""}`}
                   >
                     <div>

@@ -113,6 +113,7 @@ export default async function GridPage() {
         </div>
 
         {/* The tool */}
+        <div className="animate-fade-up stagger-2">
         <Suspense fallback={
           <div className="card card-default" style={{ minHeight: 300, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <p className="text-small">Loading…</p>
@@ -126,6 +127,7 @@ export default async function GridPage() {
             showHeader={false}
           />
         </Suspense>
+        </div>
 
       </main>
     </div>
