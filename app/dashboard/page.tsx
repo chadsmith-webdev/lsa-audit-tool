@@ -10,6 +10,7 @@ import GeoGrid from "@/app/components/GeoGrid";
 import GBPWidget from "@/app/components/GBPWidget";
 import CitationsWidget from "@/app/components/CitationsWidget";
 import ReviewsWidget from "@/app/components/ReviewsWidget";
+import CompetitorsWidget from "@/app/components/CompetitorsWidget";
 
 export const metadata: Metadata = {
   title: "Dashboard — Local Search Ally",
@@ -80,6 +81,8 @@ export default async function DashboardPage() {
   const latestResult = latestFull?.result as import("@/lib/types").AuditResult | undefined;
   const citationsSection = latestResult?.sections?.find((s) => s.id === "citations") ?? null;
   const reviewsSection = latestResult?.sections?.find((s) => s.id === "reviews") ?? null;
+  const competitorsSection = latestResult?.sections?.find((s) => s.id === "competitors") ?? null;
+  const competitorNames = latestResult?.competitor_names ?? [];
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)" }}>
@@ -182,11 +185,23 @@ export default async function DashboardPage() {
             </section>
           )}
 
-          {/* Citations — full width below */}
+          {/* Citations — full width */}
           {citationsSection && latestFull && (
             <section>
               <CitationsWidget
                 section={citationsSection}
+                auditDate={latestFull.created_at}
+                businessName={latestFull.business_name}
+              />
+            </section>
+          )}
+
+          {/* Competitors — full width */}
+          {competitorsSection && latestFull && (
+            <section>
+              <CompetitorsWidget
+                section={competitorsSection}
+                competitorNames={competitorNames}
                 auditDate={latestFull.created_at}
                 businessName={latestFull.business_name}
               />
