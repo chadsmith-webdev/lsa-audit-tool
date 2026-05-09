@@ -1,9 +1,26 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import { rankColor, rankLabel } from "@/lib/grid";
 import { getSuggestedKeywords } from "@/lib/keywords";
+
+const GeoGridMap = dynamic(() => import("./GeoGridMap"), {
+  ssr: false,
+  loading: () => (
+    <div style={{
+      height: 380,
+      background: "var(--surface2)",
+      borderRadius: "var(--radius-md)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }}>
+      <p style={{ color: "var(--muted)", fontSize: "var(--text-sm)" }}>Loading map…</p>
+    </div>
+  ),
+});
 
 interface GridResult {
   point_index: number;
@@ -392,6 +409,18 @@ export default function GeoGrid({ businessName = "", trade = "", city = "", rece
                 </div>
               );
             })}
+          </div>
+
+          {/* Map overlay */}
+          <div style={{ marginBottom: "var(--space-4)" }}>
+            <GeoGridMap
+              results={sorted}
+              scan={scan}
+              hovered={hovered}
+              deltas={deltas}
+              onHover={setHovered}
+              height={380}
+            />
           </div>
 
           {/* Tooltip panel */}
