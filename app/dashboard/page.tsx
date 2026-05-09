@@ -9,6 +9,7 @@ import type { AuditRow } from "@/lib/types";
 import GeoGrid from "@/app/components/GeoGrid";
 import GBPWidget from "@/app/components/GBPWidget";
 import CitationsWidget from "@/app/components/CitationsWidget";
+import ReviewsWidget from "@/app/components/ReviewsWidget";
 
 export const metadata: Metadata = {
   title: "Dashboard — Local Search Ally",
@@ -78,6 +79,7 @@ export default async function DashboardPage() {
 
   const latestResult = latestFull?.result as import("@/lib/types").AuditResult | undefined;
   const citationsSection = latestResult?.sections?.find((s) => s.id === "citations") ?? null;
+  const reviewsSection = latestResult?.sections?.find((s) => s.id === "reviews") ?? null;
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)" }}>
@@ -157,14 +159,30 @@ export default async function DashboardPage() {
             </Suspense>
           </section>
 
-          {/* GBP Snapshot Widget */}
-          {latestGBP && (
+          {/* GBP + Reviews — side by side */}
+          {(latestGBP || reviewsSection) && (
             <section>
-              <GBPWidget gbp={latestGBP} />
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                  gap: "var(--space-4)",
+                  alignItems: "stretch",
+                }}
+              >
+                {latestGBP && <GBPWidget gbp={latestGBP} />}
+                {reviewsSection && latestFull && (
+                  <ReviewsWidget
+                    section={reviewsSection}
+                    auditDate={latestFull.created_at}
+                    businessName={latestFull.business_name}
+                  />
+                )}
+              </div>
             </section>
           )}
 
-          {/* Citations Widget */}
+          {/* Citations — full width below */}
           {citationsSection && latestFull && (
             <section>
               <CitationsWidget
