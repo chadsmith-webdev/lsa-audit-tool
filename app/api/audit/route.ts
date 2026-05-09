@@ -372,6 +372,12 @@ export async function POST(req: Request) {
               result,
               input,
               user_id: userId,
+              // Raw GBP snapshot — stored separately for dashboard widgets
+              gbp_rating: gbpData.found ? (gbpData.rating ?? null) : null,
+              gbp_review_count: gbpData.found ? (gbpData.reviewCount ?? null) : null,
+              gbp_photo_count: gbpData.found ? (gbpData.photoCount ?? null) : null,
+              gbp_has_hours: gbpData.found ? (gbpData.hasHours ?? null) : null,
+              gbp_found: gbpData.found,
             })
             .select("id")
             .single();

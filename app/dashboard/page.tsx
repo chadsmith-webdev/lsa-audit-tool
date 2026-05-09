@@ -7,6 +7,7 @@ import { createServerClient } from "@/lib/supabase";
 import { getSupabase } from "@/lib/supabase";
 import type { AuditRow } from "@/lib/types";
 import GeoGrid from "@/app/components/GeoGrid";
+import GBPWidget from "@/app/components/GBPWidget";
 
 export const metadata: Metadata = {
   title: "Dashboard — Local Search Ally",
@@ -27,7 +28,7 @@ export default async function DashboardPage() {
   const [{ data: audits, error }, { data: scans }] = await Promise.all([
     db
       .from("audits")
-      .select("id, created_at, business_name, trade, city")
+      .select("id, created_at, business_name, trade, city, gbp_found, gbp_rating, gbp_review_count, gbp_photo_count, gbp_has_hours")
       .eq("user_id", user.id)
       .order("created_at", { ascending: false })
       .limit(50),
@@ -43,7 +44,7 @@ export default async function DashboardPage() {
     console.error("[dashboard] query error:", error.message);
   }
 
-  const rows = (audits ?? []) as Pick<AuditRow, "id" | "created_at" | "business_name" | "trade" | "city">[];
+  const rows = (audits ?? []) as Pick<AuditRow, "id" | "created_at" | "business_name" | "trade" | "city" | "gbp_found" | "gbp_rating" | "gbp_review_count" | "gbp_photo_count" | "gbp_has_hours">[];
   const recentScans = (scans ?? []) as {
     id: string;
     business_name: string;
@@ -57,6 +58,15 @@ export default async function DashboardPage() {
   const latestBusiness = rows[0]?.business_name ?? "";
   const latestTrade = rows[0]?.trade ?? "";
   const latestCity = rows[0]?.city ?? "";
+  const latestGBP = rows[0] ? {
+    found: rows[0].gbp_found ?? false,
+    rating: rows[0].gbp_rating ?? null,
+    reviewCount: rows[0].gbp_review_count ?? null,
+    photoCount: rows[0].gbp_photo_count ?? null,
+    hasHours: rows[0].gbp_has_hours ?? null,
+    auditDate: rows[0].created_at,
+    businessName: rows[0].business_name,
+  } : null;
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)" }}>
@@ -135,6 +145,13 @@ export default async function DashboardPage() {
               <GeoGrid businessName={latestBusiness} trade={latestTrade} city={latestCity} recentScans={recentScans} />
             </Suspense>
           </section>
+
+          {/* GBP Snapshot Widget */}
+          {latestGBP && (
+            <section>
+              <GBPWidget gbp={latestGBP} />
+            </section>
+          )}
 
           {/* Audit history */}
           <section>

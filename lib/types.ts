@@ -72,4 +72,10 @@ export type AuditRow = {
   city: string;
   result: AuditResult;
   created_at: string;
+  // GBP snapshot columns — added in migration v2
+  gbp_found?: boolean | null;
+  gbp_rating?: number | null;
+  gbp_review_count?: number | null;
+  gbp_photo_count?: number | null;
+  gbp_has_hours?: boolean | null;
 };
