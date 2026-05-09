@@ -148,11 +148,19 @@ export default async function DashboardPage() {
             </span>
           </div>
 
-          <form action="/auth/signout" method="POST">
-            <button type="submit" className="btn btn-ghost btn-sm">
-              Sign out
-            </button>
-          </form>
+          <div style={{ display: "flex", alignItems: "center", gap: "var(--space-4)" }}>
+            <Link
+              href="/dashboard/grid"
+              style={{ fontSize: "var(--text-sm)", color: "var(--carolina)", textDecoration: "none" }}
+            >
+              Geo-Grid
+            </Link>
+            <form action="/auth/signout" method="POST">
+              <button type="submit" className="btn btn-ghost btn-sm">
+                Sign out
+              </button>
+            </form>
+          </div>
         </div>
       </header>
 
