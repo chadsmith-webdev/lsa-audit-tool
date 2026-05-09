@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(`${origin}/login?error=missing_code`);
   }
 
-  // Build the redirect response first so we can set cookies on it.
+  // Default destination — will be overridden below if user is admin
   const response = NextResponse.redirect(`${origin}/dashboard`);
 
   const supabase = createServerClient(
@@ -41,17 +41,26 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(`${origin}/login?error=auth_failed`);
   }
 
-  // Check if user is admin — admins go to /admin, clients go to /dashboard
+  // Use service role key to bypass RLS for the admin check
+  const { createClient } = await import("@supabase/supabase-js");
+  const adminDb = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_KEY!,
+  );
+
   const { data: { user } } = await supabase.auth.getUser();
   if (user) {
-    const { data: profile } = await supabase
+    const { data: profile, error: profileErr } = await adminDb
       .from("profiles")
       .select("is_admin")
       .eq("id", user.id)
       .single();
 
+    console.log("[auth/callback] profile lookup:", { profile, profileErr });
+
     if (profile?.is_admin) {
-      return NextResponse.redirect(`${origin}/admin`);
+      // Mutate the existing response so session cookies are preserved
+      response.headers.set("Location", `${origin}/admin`);
     }
   }
 

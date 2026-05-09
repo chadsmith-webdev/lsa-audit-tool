@@ -63,8 +63,8 @@ export async function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // --- Auth protection for /dashboard ---
-  if (pathname.startsWith("/dashboard")) {
+  // --- Auth protection for /dashboard and /admin ---
+  if (pathname.startsWith("/dashboard") || pathname.startsWith("/admin")) {
     let response = NextResponse.next({ request: req });
 
     const supabase = createServerClient(
@@ -143,5 +143,5 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/audit", "/dashboard/:path*", "/login"],
+  matcher: ["/api/audit", "/dashboard/:path*", "/admin/:path*", "/login"],
 };

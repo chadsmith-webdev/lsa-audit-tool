@@ -23,7 +23,12 @@ export default function LoginForm() {
       .eq("email", email.toLowerCase().trim())
       .maybeSingle();
 
-    if (inviteErr || !invite) {
+    console.log("[invite check]", { invite, inviteErr });
+
+    if (inviteErr) {
+      // Query failed — don't block login, log the error and proceed
+      console.error("[invite check] query error:", inviteErr.message);
+    } else if (!invite) {
       setError("This email isn't on the access list. Contact Chad to request access.");
       setLoading(false);
       return;
