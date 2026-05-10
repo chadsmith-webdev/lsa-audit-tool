@@ -9,6 +9,7 @@ import {
   sortFixes,
 } from "@/lib/tools/gbp-optimizer";
 import GbpFixList from "./GbpFixList";
+import DescriptionRewriter from "./DescriptionRewriter";
 
 export const metadata: Metadata = {
   title: "GBP Optimizer — Local Search Ally",
@@ -150,6 +151,8 @@ export default async function GbpToolPage() {
         ) : (
           <GbpFixList fixes={fixes} auditId={latest.id} />
         )}
+
+        <DescriptionRewriter auditId={latest.id} />
       </main>
     </div>
   );
