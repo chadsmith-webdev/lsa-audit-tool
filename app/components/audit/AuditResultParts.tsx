@@ -230,6 +230,77 @@ export function SectionCard({
   );
 }
 
+// ─── GroupedSections ──────────────────────────────────────────────────────────
+// Splits the flat sections array into 3 thematic groups with eyebrow headers,
+// preserving the original index so card numbering (01..08) stays continuous.
+
+const SECTION_CATEGORIES: {
+  key: string;
+  label: string;
+  ids: ReadonlyArray<string>;
+}[] = [
+  {
+    key: "foundation",
+    label: "Foundation",
+    ids: ["gbp", "reviews", "citations"],
+  },
+  {
+    key: "visibility",
+    label: "Visibility",
+    ids: ["backlinks", "competitors", "ai_citability"],
+  },
+  { key: "site-health", label: "Site Health", ids: ["onpage", "technical"] },
+];
+
+export function GroupedSections({
+  sections,
+  trade = "",
+  city = "",
+}: {
+  sections: AuditSection[];
+  trade?: string;
+  city?: string;
+}) {
+  const indexed = sections.map((section, index) => ({ section, index }));
+  const groups = SECTION_CATEGORIES.map((cat) => ({
+    ...cat,
+    items: indexed.filter(({ section }) => cat.ids.includes(section.id)),
+  })).filter((g) => g.items.length > 0);
+
+  // Catch-all for any unknown section ids so nothing silently disappears.
+  const known = new Set(SECTION_CATEGORIES.flatMap((c) => c.ids));
+  const unknown = indexed.filter(({ section }) => !known.has(section.id));
+  if (unknown.length) {
+    groups.push({
+      key: "other",
+      label: "Other",
+      ids: unknown.map((u) => u.section.id),
+      items: unknown,
+    });
+  }
+
+  return (
+    <>
+      {groups.map((group) => (
+        <section key={group.key} className={styles.sectionGroup}>
+          <h3 className={styles.sectionGroupEyebrow}>{group.label}</h3>
+          <div className={styles.sectionsGrid}>
+            {group.items.map(({ section, index }) => (
+              <SectionCard
+                key={section.id}
+                section={section}
+                index={index}
+                trade={trade}
+                city={city}
+              />
+            ))}
+          </div>
+        </section>
+      ))}
+    </>
+  );
+}
+
 // ─── AICitabilityCard ─────────────────────────────────────────────────────────
 // Renders the standalone AI Citability section. Used for older audits whose
 // payload stored ai_citability_section as a separate top-level field instead

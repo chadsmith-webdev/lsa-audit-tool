@@ -6,8 +6,8 @@ import {
   AICitabilityCard,
   CopyLinkButton,
   EmailCopyCard,
+  GroupedSections,
   ScoreGauge,
-  SectionCard,
 } from "@/app/components/audit/AuditResultParts";
 
 export default function SharedAuditView({ audit }: { audit: AuditRow }) {
@@ -64,18 +64,8 @@ export default function SharedAuditView({ audit }: { audit: AuditRow }) {
           </div>
         )}
 
-        {/* All sections — fully unlocked on shared view */}
-        <div className={styles.sectionsGrid}>
-          {result.sections.map((section, i) => (
-            <SectionCard
-              key={section.id}
-              section={section}
-              index={i}
-              trade={trade}
-              city={city}
-            />
-          ))}
-        </div>
+        {/* All sections — fully unlocked on shared view, grouped by category */}
+        <GroupedSections sections={result.sections} trade={trade} city={city} />
 
         {/* AI Citability — renders as section 8 via sections.map() above.
             Fallback: older audits that stored it as a separate top-level field. */}

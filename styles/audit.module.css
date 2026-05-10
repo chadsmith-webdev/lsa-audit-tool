@@ -513,6 +513,27 @@
   gap: 12px;
 }
 
+/* Category-grouped sections (Foundation / Visibility / Site Health) */
+.sectionGroup {
+  margin-top: 28px;
+}
+
+.sectionGroup:first-of-type {
+  margin-top: 0;
+}
+
+.sectionGroupEyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
 .sectionCard {
   border: 1px solid var(--border);
   border-radius: 12px;

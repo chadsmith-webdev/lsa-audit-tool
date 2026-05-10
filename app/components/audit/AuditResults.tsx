@@ -7,7 +7,7 @@ import { fadeUp, stagger } from "./motionVariants";
 import {
   CopyLinkButton,
   ScoreGauge,
-  SectionCard,
+  GroupedSections,
   EmailCopyCard,
 } from "./AuditResultParts";
 
@@ -92,18 +92,12 @@ export function AuditResults({
           </div>
         )}
 
-        {/* Section cards */}
-        <div className={styles.sectionsGrid}>
-          {result.sections.map((section, i) => (
-            <SectionCard
-              key={section.id}
-              section={section}
-              index={i}
-              trade={input.primaryTrade}
-              city={input.serviceCity}
-            />
-          ))}
-        </div>
+        {/* Section cards, grouped by category */}
+        <GroupedSections
+          sections={result.sections}
+          trade={input.primaryTrade}
+          city={input.serviceCity}
+        />
 
         {/* Email copy — soft opt-in, not a gate */}
         <motion.div
