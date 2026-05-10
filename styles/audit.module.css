@@ -351,13 +351,13 @@
 .gauge {
   position: relative;
   flex-shrink: 0;
-  width: 144px;
-  height: 144px;
+  width: clamp(112px, 28vw, 144px);
+  height: clamp(112px, 28vw, 144px);
 }
 
 .gaugeSvg {
-  width: 144px;
-  height: 144px;
+  width: 100%;
+  height: 100%;
 }
 
 .gaugeTrack {
@@ -1042,4 +1042,58 @@
   color: var(--status-red);
   border-color: var(--status-red-mid);
   background: var(--status-red-dim);
+}
+
+/* ─── Print ────────────────────────────────────────────────────────────────── */
+
+@media print {
+  .resultsWrap {
+    padding: 0;
+    background: #fff;
+    color: #111;
+  }
+
+  /* Hide interactive chrome that has no value on paper */
+  .shareRow,
+  .reauditCard,
+  .emailCard,
+  .sharedCta,
+  .topActions,
+  .geoGridCta {
+    display: none !important;
+  }
+
+  /* Force cards onto white with crisp borders */
+  .sectionCard,
+  .aiCitabilityCard {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    background: #fff !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    color: #111 !important;
+  }
+
+  .sectionCard *,
+  .aiCitabilityCard * {
+    color: #111 !important;
+  }
+
+  .scoreBarWrap,
+  .scoreBarFill {
+    background: #ddd !important;
+  }
+
+  .gauge {
+    /* Lock to the largest size for print legibility */
+    width: 144px;
+    height: 144px;
+  }
+
+  /* Avoid orphaned headings */
+  .sectionGroupEyebrow,
+  .scoreHeader {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
 }
