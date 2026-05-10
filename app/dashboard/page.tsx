@@ -347,18 +347,34 @@ export default async function DashboardPage() {
                 }}
               >
                 {latestGBP && (
-                  <div>
-                    <GBPWidget gbp={latestGBP} />
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "var(--space-2)",
+                    }}
+                  >
+                    <div style={{ flex: 1 }}>
+                      <GBPWidget gbp={latestGBP} />
+                    </div>
                     <UpgradeSlot tool='gbp' />
                   </div>
                 )}
                 {reviewsSection && latestFull && (
-                  <div>
-                    <ReviewsWidget
-                      section={reviewsSection}
-                      auditDate={latestFull.created_at}
-                      businessName={latestFull.business_name}
-                    />
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "var(--space-2)",
+                    }}
+                  >
+                    <div style={{ flex: 1 }}>
+                      <ReviewsWidget
+                        section={reviewsSection}
+                        auditDate={latestFull.created_at}
+                        businessName={latestFull.business_name}
+                      />
+                    </div>
                     <UpgradeSlot tool='reviews' />
                   </div>
                 )}
