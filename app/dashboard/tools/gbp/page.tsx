@@ -11,6 +11,7 @@ import {
 import GbpFixList from "./GbpFixList";
 import DescriptionRewriter from "./DescriptionRewriter";
 import WeeklyPosts from "./WeeklyPosts";
+import ReviewToolkit from "./ReviewToolkit";
 
 export const metadata: Metadata = {
   title: "GBP Optimizer — Local Search Ally",
@@ -155,6 +156,7 @@ export default async function GbpToolPage() {
 
         <DescriptionRewriter auditId={latest.id} />
         <WeeklyPosts auditId={latest.id} />
+        <ReviewToolkit auditId={latest.id} />
       </main>
     </div>
   );
