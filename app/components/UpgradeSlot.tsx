@@ -65,8 +65,10 @@ const TOOL_CATALOG: Record<ToolSlug, ToolEntry> = {
   },
   onpage: {
     name: "On-Page Fixer",
-    blurb: "AI-rewritten titles, metas, and headings ready to paste in.",
-    status: "soon",
+    blurb:
+      "AI-rewritten titles, meta descriptions, and H1s ready to paste in your CMS.",
+    status: "available",
+    href: "/dashboard/tools/onpage",
   },
   technical: {
     name: "Technical Monitor",
