@@ -5,6 +5,7 @@ import {
   getAccessTokenForUser,
   getConnection,
   updateDescription,
+  GbpApiError,
 } from "@/lib/gbp-api";
 
 const GBP_LIMIT = 750;
@@ -65,6 +66,12 @@ export async function POST(req: Request) {
     );
     return NextResponse.json({ ok: true, description: result.description });
   } catch (err) {
+    if (err instanceof GbpApiError) {
+      return NextResponse.json(
+        { error: err.message, code: err.status },
+        { status: err.status === 429 ? 429 : 502 },
+      );
+    }
     const message = err instanceof Error ? err.message : "Update failed";
     return NextResponse.json({ error: message }, { status: 502 });
   }
