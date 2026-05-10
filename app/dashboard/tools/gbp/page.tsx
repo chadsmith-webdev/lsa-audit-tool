@@ -12,6 +12,7 @@ import GbpFixList from "./GbpFixList";
 import DescriptionRewriter from "./DescriptionRewriter";
 import WeeklyPosts from "./WeeklyPosts";
 import ReviewToolkit from "./ReviewToolkit";
+import GbpConnection from "./GbpConnection";
 
 export const metadata: Metadata = {
   title: "GBP Optimizer — Local Search Ally",
@@ -19,7 +20,11 @@ export const metadata: Metadata = {
     "Auto-detect missing hours, photos, reviews, and posts on your Google Business Profile.",
 };
 
-export default async function GbpToolPage() {
+export default async function GbpToolPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ gbp?: string }>;
+}) {
   const cookieStore = await cookies();
   const supabase = createServerClient(cookieStore);
   const {
@@ -27,18 +32,27 @@ export default async function GbpToolPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
+  const { gbp: gbpStatus } = await searchParams;
+
   // TODO: paid-tier gate. For now any signed-in user can access.
 
   const db = getSupabase();
-  const { data: latest } = await db
-    .from("audits")
-    .select(
-      "id, created_at, business_name, trade, city, gbp_found, gbp_rating, gbp_review_count, gbp_photo_count, gbp_has_hours",
-    )
-    .eq("user_id", user.id)
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .single();
+  const [{ data: latest }, { data: connection }] = await Promise.all([
+    db
+      .from("audits")
+      .select(
+        "id, created_at, business_name, trade, city, gbp_found, gbp_rating, gbp_review_count, gbp_photo_count, gbp_has_hours",
+      )
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single(),
+    db
+      .from("gbp_connections")
+      .select("google_email")
+      .eq("user_id", user.id)
+      .maybeSingle(),
+  ]);
 
   if (!latest) {
     return (
@@ -133,6 +147,12 @@ export default async function GbpToolPage() {
             </Link>
           </p>
         </header>
+
+        <GbpConnection
+          connected={Boolean(connection)}
+          googleEmail={connection?.google_email ?? null}
+          status={gbpStatus ?? null}
+        />
 
         {fixes.length === 0 ? (
           <div
