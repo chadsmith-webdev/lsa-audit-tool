@@ -386,7 +386,11 @@ export default async function DashboardPage() {
           {citationsSection && latestFull && (
             <section
               className='animate-fade-up stagger-3'
-              style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "var(--space-2)",
+              }}
             >
               <CitationsWidget
                 section={citationsSection}
@@ -401,7 +405,11 @@ export default async function DashboardPage() {
           {competitorsSection && latestFull && (
             <section
               className='animate-fade-up stagger-4'
-              style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "var(--space-2)",
+              }}
             >
               <CompetitorsWidget
                 section={competitorsSection}
@@ -417,7 +425,11 @@ export default async function DashboardPage() {
           {backlinksSection && latestFull && (
             <section
               className='animate-fade-up stagger-4'
-              style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "var(--space-2)",
+              }}
             >
               <BacklinksWidget
                 section={backlinksSection}
@@ -483,7 +495,11 @@ export default async function DashboardPage() {
           {aiCitabilitySection && latestFull && (
             <section
               className='animate-fade-up stagger-4'
-              style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "var(--space-2)",
+              }}
             >
               <AICitabilityWidget
                 section={aiCitabilitySection}
