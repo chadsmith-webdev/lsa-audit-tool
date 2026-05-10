@@ -80,7 +80,8 @@ const TOOL_CATALOG: Record<ToolSlug, ToolEntry> = {
     name: "AI Citability Booster",
     blurb:
       "Schema, FAQ, and entity signals tuned for ChatGPT + Perplexity citations.",
-    status: "soon",
+    status: "available",
+    href: "/dashboard/tools/ai-citability",
   },
 };
 
