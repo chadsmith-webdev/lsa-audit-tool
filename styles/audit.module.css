@@ -506,6 +506,61 @@
   padding-top: 1px;
 }
 
+/* Body wrapper inside each top-action row (action text + impact tags) */
+.actionBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.actionTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.actionImpactTag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+}
+
+.actionImpactTag[data-status="green"] {
+  color: var(--status-green);
+  background: var(--status-green-dim);
+  border-color: var(--status-green-mid);
+}
+.actionImpactTag[data-status="yellow"] {
+  color: var(--status-yellow);
+  background: var(--status-yellow-dim);
+  border-color: var(--status-yellow-mid);
+}
+.actionImpactTag[data-status="red"] {
+  color: var(--status-red);
+  background: var(--status-red-dim);
+  border-color: var(--status-red-mid);
+}
+
+.actionLiftTag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+  color: var(--carolina);
+  background: var(--carolina-dim);
+  border: 1px solid var(--carolina-mid);
+}
+
 /* Section cards */
 .sectionsGrid {
   display: flex;

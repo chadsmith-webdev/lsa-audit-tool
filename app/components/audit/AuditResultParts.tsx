@@ -230,6 +230,104 @@ export function SectionCard({
   );
 }
 
+// ─── TopActions ───────────────────────────────────────────────────────────────
+// Renders the "Top 3 High-Impact Fixes" list. Each action gets an impact tag
+// showing which section it improves and the potential point lift (10 - score).
+// We match each action string to its best-fit section by token overlap with
+// section.priority_action; falls back to section name if no overlap.
+
+const SECTION_KEYWORDS: Record<string, string[]> = {
+  gbp: ["gbp", "google business", "profile", "photos", "hours", "categories"],
+  reviews: ["review", "reviews", "rating", "stars"],
+  citations: ["citation", "directory", "directories", "yelp", "bbb", "nap"],
+  backlinks: ["backlink", "links", "domain authority", "referring"],
+  competitors: ["competitor", "competition", "rank against"],
+  ai_citability: ["ai", "chatgpt", "perplexity", "gemini", "llm", "citability"],
+  onpage: [
+    "title tag",
+    "meta",
+    "heading",
+    "h1",
+    "schema",
+    "on-page",
+    "content",
+  ],
+  technical: [
+    "site speed",
+    "core web",
+    "mobile",
+    "https",
+    "ssl",
+    "crawl",
+    "robots",
+  ],
+};
+
+function matchActionToSection(
+  action: string,
+  sections: AuditSection[],
+): AuditSection | null {
+  const lower = action.toLowerCase();
+  let best: { section: AuditSection; score: number } | null = null;
+  for (const section of sections) {
+    const keywords = SECTION_KEYWORDS[section.id] ?? [];
+    let score = 0;
+    for (const kw of keywords) if (lower.includes(kw)) score += 2;
+    // Token overlap with the section's priority_action gives a softer signal.
+    const tokens = (section.priority_action ?? "")
+      .toLowerCase()
+      .split(/\W+/)
+      .filter((t) => t.length > 4);
+    for (const t of tokens) if (lower.includes(t)) score += 1;
+    if (score > 0 && (!best || score > best.score)) best = { section, score };
+  }
+  return best?.section ?? null;
+}
+
+export function TopActions({
+  actions,
+  sections,
+}: {
+  actions: string[];
+  sections: AuditSection[];
+}) {
+  if (actions.length === 0) return null;
+  return (
+    <div className={styles.topActions}>
+      <h2 className={styles.topActionsTitle}>Top 3 High-Impact Fixes</h2>
+      <ol className={styles.topActionsList}>
+        {actions.map((action, i) => {
+          const match = matchActionToSection(action, sections);
+          const lift = match ? Math.max(1, 10 - match.score) : null;
+          return (
+            <li key={i} className={styles.topActionItem}>
+              <span className={styles.actionNumber}>{i + 1}</span>
+              <div className={styles.actionBody}>
+                <p className={styles.actionText}>{action}</p>
+                {match && (
+                  <div className={styles.actionTags}>
+                    <span
+                      className={styles.actionImpactTag}
+                      data-status={match.status}
+                    >
+                      {match.name}
+                    </span>
+                    {lift !== null && (
+                      <span className={styles.actionLiftTag}>
+                        +{lift} pts potential
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  );
+}
+
 // ─── GroupedSections ──────────────────────────────────────────────────────────
 // Splits the flat sections array into 3 thematic groups with eyebrow headers,
 // preserving the original index so card numbering (01..08) stays continuous.

@@ -8,6 +8,7 @@ import {
   CopyLinkButton,
   ScoreGauge,
   GroupedSections,
+  TopActions,
   EmailCopyCard,
 } from "./AuditResultParts";
 
@@ -78,19 +79,7 @@ export function AuditResults({
         </motion.div>
 
         {/* Top 3 actions */}
-        {result.top_3_actions.length > 0 && (
-          <div className={styles.topActions}>
-            <h2 className={styles.topActionsTitle}>Top 3 High-Impact Fixes</h2>
-            <ol className={styles.topActionsList}>
-              {result.top_3_actions.map((action, i) => (
-                <li key={i} className={styles.topActionItem}>
-                  <span className={styles.actionNumber}>{i + 1}</span>
-                  <span>{action}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-        )}
+        <TopActions actions={result.top_3_actions} sections={result.sections} />
 
         {/* Section cards, grouped by category */}
         <GroupedSections

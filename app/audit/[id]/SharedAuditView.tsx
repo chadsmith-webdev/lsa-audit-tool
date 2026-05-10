@@ -8,6 +8,7 @@ import {
   EmailCopyCard,
   GroupedSections,
   ScoreGauge,
+  TopActions,
 } from "@/app/components/audit/AuditResultParts";
 
 export default function SharedAuditView({ audit }: { audit: AuditRow }) {
@@ -50,19 +51,7 @@ export default function SharedAuditView({ audit }: { audit: AuditRow }) {
         </div>
 
         {/* Top 3 actions */}
-        {result.top_3_actions.length > 0 && (
-          <div className={styles.topActions}>
-            <h2 className={styles.topActionsTitle}>Top 3 Priorities</h2>
-            <ol className={styles.topActionsList}>
-              {result.top_3_actions.map((action, i) => (
-                <li key={i} className={styles.topActionItem}>
-                  <span className={styles.actionNumber}>{i + 1}</span>
-                  <span>{action}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-        )}
+        <TopActions actions={result.top_3_actions} sections={result.sections} />
 
         {/* All sections — fully unlocked on shared view, grouped by category */}
         <GroupedSections sections={result.sections} trade={trade} city={city} />
