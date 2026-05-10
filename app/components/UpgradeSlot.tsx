@@ -43,8 +43,10 @@ const TOOL_CATALOG: Record<ToolSlug, ToolEntry> = {
   },
   reviews: {
     name: "Review Engine",
-    blurb: "Request reviews via SMS + email with smart follow-ups.",
-    status: "soon",
+    blurb:
+      "AI-drafted review replies and request templates for SMS, email, and post-job follow-up.",
+    status: "available",
+    href: "/dashboard/tools/reviews",
   },
   citations: {
     name: "Citation Builder",

@@ -11,7 +11,6 @@ import {
 import GbpFixList from "./GbpFixList";
 import DescriptionRewriter from "./DescriptionRewriter";
 import WeeklyPosts from "./WeeklyPosts";
-import ReviewToolkit from "./ReviewToolkit";
 import GbpConnection from "./GbpConnection";
 
 export const metadata: Metadata = {
@@ -204,7 +203,6 @@ export default async function GbpToolPage({
           canApplyToGbp={canWriteToGbp}
         />
         <WeeklyPosts auditId={latest.id} canPostToGbp={canWriteToGbp} />
-        <ReviewToolkit auditId={latest.id} />
       </main>
     </div>
   );
