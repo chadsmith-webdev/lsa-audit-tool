@@ -36,7 +36,7 @@ export function CopyLinkButton({ auditId }: { auditId: string }) {
   return (
     <button
       onClick={handleCopy}
-      className={styles.copyLinkBtn}
+      className='btn btn-secondary btn-sm'
       aria-label='Copy shareable link'
     >
       {copied ? (
@@ -594,7 +594,7 @@ export function EmailCopyCard({
               />
               <button
                 type='submit'
-                className={styles.emailBtn}
+                className='btn btn-primary btn-sm'
                 disabled={loading}
               >
                 {loading ? "Sending…" : "Email Me a Copy →"}

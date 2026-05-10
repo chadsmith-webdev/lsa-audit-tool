@@ -118,7 +118,7 @@ export function AuditResults({
           <p className={styles.reauditText}>
             Run this again in 30 days to track your progress.
           </p>
-          <button onClick={onRunAgain} className={styles.reauditBtn}>
+          <button onClick={onRunAgain} className='btn btn-secondary btn-sm'>
             Start a New Audit
           </button>
         </motion.div>
