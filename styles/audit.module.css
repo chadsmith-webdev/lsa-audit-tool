@@ -157,7 +157,7 @@
 .formTrust {
   font-family: var(--font-ui);
   font-size: 11px;
-  color: var(--muted);
+  color: var(--text-secondary);
   text-align: center;
   margin: 0;
   line-height: 1.6;
@@ -241,7 +241,7 @@
 
 .loadingStatus {
   font-size: 13px;
-  color: var(--muted);
+  color: var(--text-secondary);
   margin: 0 0 28px;
   min-height: 1.4em;
   transition: opacity 0.3s ease;
@@ -451,7 +451,7 @@
 .competitors {
   font-family: var(--font-ui);
   font-size: 13px;
-  color: var(--muted);
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -657,7 +657,7 @@
 .scoreValue {
   font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--muted);
+  color: var(--text-secondary);
   flex-shrink: 0;
   white-space: nowrap;
 }
@@ -719,6 +719,69 @@
     border-top: 1px solid var(--border);
     padding-top: 16px;
   }
+}
+
+/* ─── Keyword + geo-grid block (onpage section only) ────────────────────── */
+
+.keywordBlock {
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--surface2);
+}
+
+.keywordLabel {
+  display: block;
+  margin-bottom: var(--space-3);
+}
+
+.keywordChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.keywordChip {
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--surface2);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+}
+
+.geoGridCta {
+  padding: var(--space-4);
+  background: var(--carolina-dim);
+  border: 1px solid var(--carolina-mid);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.geoGridCtaText {
+  color: var(--text);
+  margin-bottom: 2px;
+  font-weight: 600;
+}
+
+.geoGridCtaSub {
+  color: var(--text-secondary);
+}
+
+.geoGridCtaBtn {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Inline icon inside copy-link button */
+.copyLinkIcon {
+  display: inline;
+  vertical-align: middle;
+  margin-right: 6px;
 }
 
 /* ─── Email Copy Card ──────────────────────────────────────────────────────
@@ -810,7 +873,7 @@
 .reauditText {
   font-family: var(--font-ui);
   font-size: 14px;
-  color: var(--muted);
+  color: var(--text-secondary);
   margin: 0;
 }
 

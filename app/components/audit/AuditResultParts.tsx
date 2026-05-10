@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "@/styles/audit.module.css";
-import type { AuditSection } from "@/lib/types";
+import type { AuditSection, AICitabilitySection } from "@/lib/types";
 import { cardIn } from "./motionVariants";
 import { getSuggestedKeywords } from "@/lib/keywords";
 
@@ -53,11 +53,7 @@ export function CopyLinkButton({ auditId }: { auditId: string }) {
             strokeLinecap='round'
             strokeLinejoin='round'
             aria-hidden='true'
-            style={{
-              display: "inline",
-              verticalAlign: "middle",
-              marginRight: 6,
-            }}
+            className={styles.copyLinkIcon}
           >
             <path d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71' />
             <path d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71' />
@@ -199,76 +195,30 @@ export function SectionCard({
           if (!keywords.length) return null;
           const encoded = encodeURIComponent(keywords[0]);
           return (
-            <div
-              style={{
-                marginTop: "var(--space-5)",
-                paddingTop: "var(--space-5)",
-                borderTop: "1px solid var(--surface2)",
-              }}
-            >
-              <span
-                className={styles.colLabel}
-                style={{ display: "block", marginBottom: "var(--space-3)" }}
-              >
+            <div className={styles.keywordBlock}>
+              <span className={`${styles.colLabel} ${styles.keywordLabel}`}>
                 Keywords Worth Ranking For
               </span>
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "var(--space-2)",
-                  marginBottom: "var(--space-4)",
-                }}
-              >
+              <div className={styles.keywordChips}>
                 {keywords.map((kw) => (
-                  <span
-                    key={kw}
-                    style={{
-                      padding: "3px 10px",
-                      borderRadius: "var(--radius-full)",
-                      border: "1px solid var(--surface2)",
-                      color: "var(--muted)",
-                      fontSize: "0.75rem",
-                      fontFamily: "var(--font-mono)",
-                    }}
-                  >
+                  <span key={kw} className={styles.keywordChip}>
                     {kw}
                   </span>
                 ))}
               </div>
-              <div
-                style={{
-                  padding: "var(--space-4)",
-                  background: "rgba(123,175,212,0.06)",
-                  border: "1px solid rgba(123,175,212,0.18)",
-                  borderRadius: "var(--radius-md)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  flexWrap: "wrap",
-                  gap: "var(--space-3)",
-                }}
-              >
+              <div className={styles.geoGridCta}>
                 <div>
-                  <p
-                    className='text-small'
-                    style={{
-                      color: "var(--text)",
-                      marginBottom: "2px",
-                      fontWeight: 600,
-                    }}
-                  >
+                  <p className={`text-small ${styles.geoGridCtaText}`}>
                     Next Step: See where you actually rank
                   </p>
-                  <p className='text-small' style={{ color: "var(--muted)" }}>
+                  <p className={`text-small ${styles.geoGridCtaSub}`}>
                     Run the geo-grid on any of these keywords to see your map
                     pack position across your service area.
                   </p>
                 </div>
                 <a
                   href={`/dashboard?keyword=${encoded}`}
-                  className='btn btn-primary btn-sm'
-                  style={{ whiteSpace: "nowrap", flexShrink: 0 }}
+                  className={`btn btn-primary btn-sm ${styles.geoGridCtaBtn}`}
                 >
                   Open Geo-Grid →
                 </a>
@@ -277,6 +227,70 @@ export function SectionCard({
           );
         })()}
     </motion.article>
+  );
+}
+
+// ─── AICitabilityCard ─────────────────────────────────────────────────────────
+// Renders the standalone AI Citability section. Used for older audits whose
+// payload stored ai_citability_section as a separate top-level field instead
+// of inside the `sections` array.
+
+const SUB_SIGNAL_LABELS: Record<string, string> = {
+  grounding: "GBP Consistency",
+  review_density: "Review Signals",
+  photo_freshness: "Photo Activity",
+};
+
+const SUB_SIGNAL_STATUS: Record<string, "green" | "yellow" | "red"> = {
+  strong: "green",
+  partial: "yellow",
+  weak: "red",
+  unknown: "yellow",
+};
+
+export function AICitabilityCard({
+  section,
+}: {
+  section: AICitabilitySection;
+}) {
+  return (
+    <article className={styles.aiCitabilityCard} data-status={section.status}>
+      <div className={styles.cardHead}>
+        <span className={styles.sectionScore}>{section.score}</span>
+        <div className={styles.cardHeadText}>
+          <span className={styles.sectionName}>
+            AI Citability &amp; Trust Score
+          </span>
+          <span className={styles.sectionHeadline}>{section.headline}</span>
+        </div>
+        <span className={styles.statusDot} aria-label={section.status} />
+      </div>
+      <div className={styles.cardBody}>
+        <p className={styles.finding}>{section.finding}</p>
+        <div className={styles.subSignals}>
+          {(
+            Object.entries(section.sub_signals) as [
+              keyof AICitabilitySection["sub_signals"],
+              string,
+            ][]
+          ).map(([key, value]) => (
+            <span
+              key={key}
+              className={styles.subSignalBadge}
+              data-status={SUB_SIGNAL_STATUS[value] ?? "yellow"}
+            >
+              {SUB_SIGNAL_LABELS[key] ?? key}
+            </span>
+          ))}
+        </div>
+        {section.priority_action && (
+          <div className={styles.priorityAction}>
+            <span className={styles.priorityLabel}>Next step: </span>
+            <span>{section.priority_action}</span>
+          </div>
+        )}
+      </div>
+    </article>
   );
 }
 

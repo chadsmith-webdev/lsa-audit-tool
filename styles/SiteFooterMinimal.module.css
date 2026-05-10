@@ -13,7 +13,7 @@
 .copy {
   font-family: var(--font-ui);
   font-size: 0.8125rem;
-  color: var(--muted);
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -25,7 +25,7 @@
 .legal a {
   font-family: var(--font-ui);
   font-size: 0.8125rem;
-  color: var(--muted);
+  color: var(--text-secondary);
   text-decoration: none;
   transition: color 0.2s ease;
 }
