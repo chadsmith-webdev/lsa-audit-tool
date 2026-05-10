@@ -62,8 +62,10 @@ const TOOL_CATALOG: Record<ToolSlug, ToolEntry> = {
   },
   backlinks: {
     name: "Backlink Outreach",
-    blurb: "Trade-relevant link prospects with templated outreach.",
-    status: "soon",
+    blurb:
+      "Trade-specific link prospects for your city, with ready-to-send outreach emails.",
+    status: "available",
+    href: "/dashboard/tools/backlinks",
   },
   onpage: {
     name: "On-Page Fixer",
