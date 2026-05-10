@@ -91,12 +91,45 @@ export type GbpAccount = {
   type?: string;
 };
 
+/** Typed error so API routes can surface friendly messages + correct HTTP status. */
+export class GbpApiError extends Error {
+  status: number;
+  raw: string;
+  constructor(status: number, raw: string, friendly: string) {
+    super(friendly);
+    this.name = "GbpApiError";
+    this.status = status;
+    this.raw = raw;
+  }
+}
+
+function friendlyFor(status: number, endpoint: string): string {
+  if (status === 429) {
+    return "Google Business Profile API quota is 0 for this project. Request access at https://developers.google.com/my-business/content/prereqs (1-2 business day approval).";
+  }
+  if (status === 403) {
+    return "Permission denied by Google. The connected account may not have access to this resource.";
+  }
+  if (status === 401) {
+    return "Google token rejected. Disconnect and reconnect Google Business Profile.";
+  }
+  if (status === 404) {
+    return "Not found on Google. The account or location may have been removed.";
+  }
+  return `Google API ${endpoint} failed (${status}).`;
+}
+
 export async function listAccounts(accessToken: string): Promise<GbpAccount[]> {
   const res = await fetch(`${ACCT_API}/accounts`, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
   if (!res.ok) {
-    throw new Error(`listAccounts ${res.status}: ${await res.text()}`);
+    const raw = await res.text();
+    throw new GbpApiError(
+      res.status,
+      raw,
+      friendlyFor(res.status, "listAccounts"),
+    );
   }
   const data = (await res.json()) as { accounts?: GbpAccount[] };
   return data.accounts ?? [];
@@ -119,7 +152,12 @@ export async function listLocationsForAccount(
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     if (!res.ok) {
-      throw new Error(`listLocations ${res.status}: ${await res.text()}`);
+      const raw = await res.text();
+      throw new GbpApiError(
+        res.status,
+        raw,
+        friendlyFor(res.status, "listLocations"),
+      );
     }
     const data = (await res.json()) as {
       locations?: GbpLocation[];
@@ -169,7 +207,12 @@ export async function updateDescription(
     body: JSON.stringify({ profile: { description } }),
   });
   if (!res.ok) {
-    throw new Error(`updateDescription ${res.status}: ${await res.text()}`);
+    const raw = await res.text();
+    throw new GbpApiError(
+      res.status,
+      raw,
+      friendlyFor(res.status, "updateDescription"),
+    );
   }
   const data = (await res.json()) as { profile?: { description?: string } };
   return { description: data.profile?.description ?? description };

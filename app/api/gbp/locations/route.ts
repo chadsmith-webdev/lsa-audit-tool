@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createServerClient } from "@/lib/supabase";
-import { getAccessTokenForUser, listAllLocations } from "@/lib/gbp-api";
+import {
+  getAccessTokenForUser,
+  listAllLocations,
+  GbpApiError,
+} from "@/lib/gbp-api";
 
 export async function GET() {
   const cookieStore = await cookies();
@@ -25,6 +29,12 @@ export async function GET() {
     }));
     return NextResponse.json({ locations });
   } catch (err) {
+    if (err instanceof GbpApiError) {
+      return NextResponse.json(
+        { error: err.message, code: err.status },
+        { status: err.status === 429 ? 429 : 502 },
+      );
+    }
     const message =
       err instanceof Error ? err.message : "Failed to list locations";
     return NextResponse.json({ error: message }, { status: 500 });
