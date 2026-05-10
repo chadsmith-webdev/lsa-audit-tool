@@ -57,8 +57,10 @@ const TOOL_CATALOG: Record<ToolSlug, ToolEntry> = {
   },
   competitors: {
     name: "Competitor Watch",
-    blurb: "Weekly alerts when a competitor's score, reviews, or rank changes.",
-    status: "soon",
+    blurb:
+      "Strengths, gaps, and a specific way to beat each business ranking ahead of you.",
+    status: "available",
+    href: "/dashboard/tools/competitors",
   },
   backlinks: {
     name: "Backlink Outreach",
@@ -77,8 +79,9 @@ const TOOL_CATALOG: Record<ToolSlug, ToolEntry> = {
   technical: {
     name: "Technical Monitor",
     blurb:
-      "Daily crawl with alerts for broken pages, slow loads, and indexing issues.",
-    status: "soon",
+      "On-demand technical scan with measured speed, schema, indexability, and AI fix guidance.",
+    status: "available",
+    href: "/dashboard/tools/technical",
   },
   "ai-visibility": {
     name: "AI Citability Booster",
