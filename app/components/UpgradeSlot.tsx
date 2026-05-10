@@ -50,8 +50,10 @@ const TOOL_CATALOG: Record<ToolSlug, ToolEntry> = {
   },
   citations: {
     name: "Citation Builder",
-    blurb: "Push your NAP to 60+ directories and monitor for drift.",
-    status: "soon",
+    blurb:
+      "20 high-value directories with ready-to-paste NAP and descriptions for each.",
+    status: "available",
+    href: "/dashboard/tools/citations",
   },
   competitors: {
     name: "Competitor Watch",
