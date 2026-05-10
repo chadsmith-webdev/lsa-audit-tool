@@ -274,33 +274,6 @@
       "norm_label": "handlecopy()"
     },
     {
-      "label": "ReviewToolkit.tsx",
-      "file_type": "code",
-      "source_file": "app/dashboard/tools/gbp/ReviewToolkit.tsx",
-      "source_location": "L1",
-      "id": "app_dashboard_tools_gbp_reviewtoolkit_tsx",
-      "community": 17,
-      "norm_label": "reviewtoolkit.tsx"
-    },
-    {
-      "label": "handleGenerate()",
-      "file_type": "code",
-      "source_file": "app/dashboard/tools/gbp/ReviewToolkit.tsx",
-      "source_location": "L115",
-      "id": "gbp_reviewtoolkit_handlegenerate",
-      "community": 17,
-      "norm_label": "handlegenerate()"
-    },
-    {
-      "label": "handleCopy()",
-      "file_type": "code",
-      "source_file": "app/dashboard/tools/gbp/ReviewToolkit.tsx",
-      "source_location": "L150",
-      "id": "gbp_reviewtoolkit_handlecopy",
-      "community": 17,
-      "norm_label": "handlecopy()"
-    },
-    {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "app/dashboard/tools/gbp/page.tsx",
@@ -346,12 +319,48 @@
       "norm_label": "handlecopy()"
     },
     {
+      "label": "ReviewToolkit.tsx",
+      "file_type": "code",
+      "source_file": "app/dashboard/tools/reviews/ReviewToolkit.tsx",
+      "source_location": "L1",
+      "id": "app_dashboard_tools_reviews_reviewtoolkit_tsx",
+      "community": 17,
+      "norm_label": "reviewtoolkit.tsx"
+    },
+    {
+      "label": "handleGenerate()",
+      "file_type": "code",
+      "source_file": "app/dashboard/tools/reviews/ReviewToolkit.tsx",
+      "source_location": "L115",
+      "id": "reviews_reviewtoolkit_handlegenerate",
+      "community": 17,
+      "norm_label": "handlegenerate()"
+    },
+    {
+      "label": "handleCopy()",
+      "file_type": "code",
+      "source_file": "app/dashboard/tools/reviews/ReviewToolkit.tsx",
+      "source_location": "L150",
+      "id": "reviews_reviewtoolkit_handlecopy",
+      "community": 17,
+      "norm_label": "handlecopy()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/dashboard/tools/reviews/page.tsx",
+      "source_location": "L1",
+      "id": "app_dashboard_tools_reviews_page_tsx",
+      "community": 42,
+      "norm_label": "page.tsx"
+    },
+    {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "app/dashboard/grid/page.tsx",
       "source_location": "L1",
       "id": "app_dashboard_grid_page_tsx",
-      "community": 42,
+      "community": 43,
       "norm_label": "page.tsx"
     },
     {
@@ -378,7 +387,7 @@
       "source_file": "app/components/GBPWidget.tsx",
       "source_location": "L1",
       "id": "app_components_gbpwidget_tsx",
-      "community": 43,
+      "community": 44,
       "norm_label": "gbpwidget.tsx"
     },
     {
@@ -387,7 +396,7 @@
       "source_file": "app/components/TechnicalWidget.tsx",
       "source_location": "L1",
       "id": "app_components_technicalwidget_tsx",
-      "community": 44,
+      "community": 45,
       "norm_label": "technicalwidget.tsx"
     },
     {
@@ -396,7 +405,7 @@
       "source_file": "app/components/CitationsWidget.tsx",
       "source_location": "L1",
       "id": "app_components_citationswidget_tsx",
-      "community": 45,
+      "community": 46,
       "norm_label": "citationswidget.tsx"
     },
     {
@@ -405,7 +414,7 @@
       "source_file": "app/components/ReviewsWidget.tsx",
       "source_location": "L1",
       "id": "app_components_reviewswidget_tsx",
-      "community": 46,
+      "community": 47,
       "norm_label": "reviewswidget.tsx"
     },
     {
@@ -457,7 +466,7 @@
       "label": "UpgradeSlot()",
       "file_type": "code",
       "source_file": "app/components/UpgradeSlot.tsx",
-      "source_location": "L83",
+      "source_location": "L85",
       "id": "components_upgradeslot_upgradeslot",
       "community": 29,
       "norm_label": "upgradeslot()"
@@ -549,7 +558,7 @@
       "source_file": "app/components/HeroSection.tsx",
       "source_location": "L1",
       "id": "app_components_herosection_tsx",
-      "community": 47,
+      "community": 48,
       "norm_label": "herosection.tsx"
     },
     {
@@ -558,7 +567,7 @@
       "source_file": "app/components/OnPageWidget.tsx",
       "source_location": "L1",
       "id": "app_components_onpagewidget_tsx",
-      "community": 48,
+      "community": 49,
       "norm_label": "onpagewidget.tsx"
     },
     {
@@ -567,7 +576,7 @@
       "source_file": "app/components/CompetitorsWidget.tsx",
       "source_location": "L1",
       "id": "app_components_competitorswidget_tsx",
-      "community": 49,
+      "community": 50,
       "norm_label": "competitorswidget.tsx"
     },
     {
@@ -576,7 +585,7 @@
       "source_file": "app/components/ScoreBadge.tsx",
       "source_location": "L1",
       "id": "app_components_scorebadge_tsx",
-      "community": 50,
+      "community": 51,
       "norm_label": "scorebadge.tsx"
     },
     {
@@ -585,7 +594,7 @@
       "source_file": "app/components/AICitabilityWidget.tsx",
       "source_location": "L1",
       "id": "app_components_aicitabilitywidget_tsx",
-      "community": 51,
+      "community": 52,
       "norm_label": "aicitabilitywidget.tsx"
     },
     {
@@ -594,7 +603,7 @@
       "source_file": "app/components/BacklinksWidget.tsx",
       "source_location": "L1",
       "id": "app_components_backlinkswidget_tsx",
-      "community": 52,
+      "community": 53,
       "norm_label": "backlinkswidget.tsx"
     },
     {
@@ -621,7 +630,7 @@
       "source_file": "app/components/audit/AuditForm.tsx",
       "source_location": "L1",
       "id": "app_components_audit_auditform_tsx",
-      "community": 53,
+      "community": 54,
       "norm_label": "auditform.tsx"
     },
     {
@@ -648,7 +657,7 @@
       "source_file": "app/components/audit/motionVariants.ts",
       "source_location": "L1",
       "id": "app_components_audit_motionvariants_ts",
-      "community": 54,
+      "community": 55,
       "norm_label": "motionvariants.ts"
     },
     {
@@ -657,7 +666,7 @@
       "source_file": "app/components/audit/AuditResults.tsx",
       "source_location": "L1",
       "id": "app_components_audit_auditresults_tsx",
-      "community": 55,
+      "community": 56,
       "norm_label": "auditresults.tsx"
     },
     {
@@ -702,7 +711,7 @@
       "source_file": "app/audit/[id]/SharedAuditView.tsx",
       "source_location": "L1",
       "id": "app_audit_id_sharedauditview_tsx",
-      "community": 56,
+      "community": 57,
       "norm_label": "sharedauditview.tsx"
     },
     {
@@ -1242,7 +1251,7 @@
       "source_file": "app/login/page.tsx",
       "source_location": "L1",
       "id": "app_login_page_tsx",
-      "community": 57,
+      "community": 58,
       "norm_label": "page.tsx"
     },
     {
@@ -1305,7 +1314,7 @@
       "source_file": "lib/prefetch.ts",
       "source_location": "L1",
       "id": "lib_prefetch_ts",
-      "community": 58,
+      "community": 59,
       "norm_label": "prefetch.ts"
     },
     {
@@ -1422,7 +1431,7 @@
       "source_file": "lib/types.ts",
       "source_location": "L1",
       "id": "lib_types_ts",
-      "community": 59,
+      "community": 60,
       "norm_label": "types.ts"
     },
     {
@@ -1431,7 +1440,7 @@
       "source_file": "lib/ratelimit.ts",
       "source_location": "L1",
       "id": "lib_ratelimit_ts",
-      "community": 60,
+      "community": 61,
       "norm_label": "ratelimit.ts"
     },
     {
@@ -1872,20 +1881,20 @@
       "source_file": "lib/prefetch/index.ts",
       "source_location": "L1",
       "id": "lib_prefetch_index_ts",
-      "community": 61,
+      "community": 62,
       "norm_label": "index.ts"
     },
     {
       "label": "README",
       "file_type": "document",
-      "community": 62,
+      "community": 63,
       "norm_label": "readme",
       "id": "readme"
     },
     {
       "label": "AGENTS.md Agent Rules",
       "file_type": "document",
-      "community": 63,
+      "community": 64,
       "norm_label": "agents.md agent rules",
       "id": "agents_md"
     },
@@ -1906,49 +1915,49 @@
     {
       "label": "Step 1 Visual",
       "file_type": "image",
-      "community": 64,
+      "community": 65,
       "norm_label": "step 1 visual",
       "id": "img_step1"
     },
     {
       "label": "Step 2 Visual",
       "file_type": "image",
-      "community": 65,
+      "community": 66,
       "norm_label": "step 2 visual",
       "id": "img_step2"
     },
     {
       "label": "Step 3 Visual",
       "file_type": "image",
-      "community": 66,
+      "community": 67,
       "norm_label": "step 3 visual",
       "id": "img_step3"
     },
     {
       "label": "Testimonial Avatars",
       "file_type": "image",
-      "community": 67,
+      "community": 68,
       "norm_label": "testimonial avatars",
       "id": "img_testimonials"
     },
     {
       "label": "OG Image",
       "file_type": "image",
-      "community": 68,
+      "community": 69,
       "norm_label": "og image",
       "id": "img_og"
     },
     {
       "label": "Audit Report Preview Image",
       "file_type": "image",
-      "community": 69,
+      "community": 70,
       "norm_label": "audit report preview image",
       "id": "img_audit_preview"
     },
     {
       "label": "How It Works Steps Image",
       "file_type": "image",
-      "community": 70,
+      "community": 71,
       "norm_label": "how it works steps image",
       "id": "img_how_it_works"
     },
@@ -1962,7 +1971,7 @@
     {
       "label": "LocalSearchAlly Main Site",
       "file_type": "document",
-      "community": 71,
+      "community": 72,
       "norm_label": "localsearchally main site",
       "id": "svc_localsearchally"
     }
@@ -2247,30 +2256,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/dashboard/tools/gbp/ReviewToolkit.tsx",
-      "source_location": "L271",
-      "weight": 1.0,
-      "_src": "app_dashboard_tools_gbp_reviewtoolkit_tsx",
-      "_tgt": "gbp_reviewtoolkit_handlegenerate",
-      "source": "app_dashboard_tools_gbp_reviewtoolkit_tsx",
-      "target": "gbp_reviewtoolkit_handlegenerate",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/dashboard/tools/gbp/ReviewToolkit.tsx",
-      "source_location": "L296",
-      "weight": 1.0,
-      "_src": "app_dashboard_tools_gbp_reviewtoolkit_tsx",
-      "_tgt": "gbp_reviewtoolkit_handlecopy",
-      "source": "app_dashboard_tools_gbp_reviewtoolkit_tsx",
-      "target": "gbp_reviewtoolkit_handlecopy",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "app/dashboard/tools/gbp/DescriptionRewriter.tsx",
       "source_location": "L40",
       "weight": 1.0,
@@ -2302,6 +2287,30 @@
       "_tgt": "gbp_descriptionrewriter_handlecopy",
       "source": "app_dashboard_tools_gbp_descriptionrewriter_tsx",
       "target": "gbp_descriptionrewriter_handlecopy",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard/tools/reviews/ReviewToolkit.tsx",
+      "source_location": "L271",
+      "weight": 1.0,
+      "_src": "app_dashboard_tools_reviews_reviewtoolkit_tsx",
+      "_tgt": "reviews_reviewtoolkit_handlegenerate",
+      "source": "app_dashboard_tools_reviews_reviewtoolkit_tsx",
+      "target": "reviews_reviewtoolkit_handlegenerate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard/tools/reviews/ReviewToolkit.tsx",
+      "source_location": "L296",
+      "weight": 1.0,
+      "_src": "app_dashboard_tools_reviews_reviewtoolkit_tsx",
+      "_tgt": "reviews_reviewtoolkit_handlecopy",
+      "source": "app_dashboard_tools_reviews_reviewtoolkit_tsx",
+      "target": "reviews_reviewtoolkit_handlecopy",
       "confidence_score": 1.0
     },
     {
@@ -2344,7 +2353,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/components/UpgradeSlot.tsx",
-      "source_location": "L83",
+      "source_location": "L85",
       "weight": 1.0,
       "_src": "app_components_upgradeslot_tsx",
       "_tgt": "components_upgradeslot_upgradeslot",

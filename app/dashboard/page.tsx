@@ -431,22 +431,38 @@ export default async function DashboardPage() {
                 }}
               >
                 {onpageSection && (
-                  <div>
-                    <OnPageWidget
-                      section={onpageSection}
-                      auditDate={latestFull.created_at}
-                      businessName={latestFull.business_name}
-                    />
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "var(--space-2)",
+                    }}
+                  >
+                    <div style={{ flex: 1 }}>
+                      <OnPageWidget
+                        section={onpageSection}
+                        auditDate={latestFull.created_at}
+                        businessName={latestFull.business_name}
+                      />
+                    </div>
                     <UpgradeSlot tool='onpage' />
                   </div>
                 )}
                 {technicalSection && (
-                  <div>
-                    <TechnicalWidget
-                      section={technicalSection}
-                      auditDate={latestFull.created_at}
-                      businessName={latestFull.business_name}
-                    />
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "var(--space-2)",
+                    }}
+                  >
+                    <div style={{ flex: 1 }}>
+                      <TechnicalWidget
+                        section={technicalSection}
+                        auditDate={latestFull.created_at}
+                        businessName={latestFull.business_name}
+                      />
+                    </div>
                     <UpgradeSlot tool='technical' />
                   </div>
                 )}

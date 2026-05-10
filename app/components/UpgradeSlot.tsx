@@ -91,6 +91,8 @@ export default function UpgradeSlot({ tool }: { tool: ToolSlug }) {
       role='note'
       aria-label={`${entry.name} — ${isSoon ? "coming soon" : "available"}`}
       style={{
+        position: "relative",
+        zIndex: 2,
         marginTop: "var(--space-2)",
         padding: "var(--space-3) var(--space-4)",
         border: "1px dashed var(--border-accent)",

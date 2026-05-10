@@ -1,11 +1,11 @@
 # Graph Report - lsa-audit-tool  (2026-05-10)
 
 ## Corpus Check
-- 83 files · ~185,384 words
+- 84 files · ~185,735 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 221 nodes · 228 edges · 26 communities detected
+- 222 nodes · 228 edges · 26 communities detected
 - Extraction: 75% EXTRACTED · 25% INFERRED · 0% AMBIGUOUS · INFERRED: 57 edges (avg confidence: 0.79)
 - Token cost: 0 input · 0 output
 
@@ -26,7 +26,6 @@
 - [[_COMMUNITY_Community 18|Community 18]]
 - [[_COMMUNITY_Community 20|Community 20]]
 - [[_COMMUNITY_Community 22|Community 22]]
-- [[_COMMUNITY_Community 62|Community 62]]
 - [[_COMMUNITY_Community 63|Community 63]]
 - [[_COMMUNITY_Community 64|Community 64]]
 - [[_COMMUNITY_Community 65|Community 65]]
@@ -36,6 +35,7 @@
 - [[_COMMUNITY_Community 69|Community 69]]
 - [[_COMMUNITY_Community 70|Community 70]]
 - [[_COMMUNITY_Community 71|Community 71]]
+- [[_COMMUNITY_Community 72|Community 72]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `createServerClient()` - 17 edges
@@ -127,43 +127,43 @@ Nodes (2): getSuggestedKeywords(), normalizeTrade()
 Cohesion: 0.67
 Nodes (3): Build Spec (docs/build-spec.md), Map Pack Visibility Image, Visibility Transformation Image
 
-### Community 62 - "Community 62"
+### Community 63 - "Community 63"
 Cohesion: 1.0
 Nodes (1): README
 
-### Community 63 - "Community 63"
+### Community 64 - "Community 64"
 Cohesion: 1.0
 Nodes (1): AGENTS.md Agent Rules
 
-### Community 64 - "Community 64"
+### Community 65 - "Community 65"
 Cohesion: 1.0
 Nodes (1): Step 1 Visual
 
-### Community 65 - "Community 65"
+### Community 66 - "Community 66"
 Cohesion: 1.0
 Nodes (1): Step 2 Visual
 
-### Community 66 - "Community 66"
+### Community 67 - "Community 67"
 Cohesion: 1.0
 Nodes (1): Step 3 Visual
 
-### Community 67 - "Community 67"
+### Community 68 - "Community 68"
 Cohesion: 1.0
 Nodes (1): Testimonial Avatars
 
-### Community 68 - "Community 68"
+### Community 69 - "Community 69"
 Cohesion: 1.0
 Nodes (1): OG Image
 
-### Community 69 - "Community 69"
+### Community 70 - "Community 70"
 Cohesion: 1.0
 Nodes (1): Audit Report Preview Image
 
-### Community 70 - "Community 70"
+### Community 71 - "Community 71"
 Cohesion: 1.0
 Nodes (1): How It Works Steps Image
 
-### Community 71 - "Community 71"
+### Community 72 - "Community 72"
 Cohesion: 1.0
 Nodes (1): LocalSearchAlly Main Site
 
@@ -174,36 +174,36 @@ Nodes (1): LocalSearchAlly Main Site
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 20`** (3 nodes): `getSuggestedKeywords()`, `normalizeTrade()`, `keywords.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 62`** (1 nodes): `README`
+- **Thin community `Community 63`** (1 nodes): `README`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 63`** (1 nodes): `AGENTS.md Agent Rules`
+- **Thin community `Community 64`** (1 nodes): `AGENTS.md Agent Rules`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 64`** (1 nodes): `Step 1 Visual`
+- **Thin community `Community 65`** (1 nodes): `Step 1 Visual`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 65`** (1 nodes): `Step 2 Visual`
+- **Thin community `Community 66`** (1 nodes): `Step 2 Visual`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 66`** (1 nodes): `Step 3 Visual`
+- **Thin community `Community 67`** (1 nodes): `Step 3 Visual`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 67`** (1 nodes): `Testimonial Avatars`
+- **Thin community `Community 68`** (1 nodes): `Testimonial Avatars`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 68`** (1 nodes): `OG Image`
+- **Thin community `Community 69`** (1 nodes): `OG Image`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 69`** (1 nodes): `Audit Report Preview Image`
+- **Thin community `Community 70`** (1 nodes): `Audit Report Preview Image`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 70`** (1 nodes): `How It Works Steps Image`
+- **Thin community `Community 71`** (1 nodes): `How It Works Steps Image`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 71`** (1 nodes): `LocalSearchAlly Main Site`
+- **Thin community `Community 72`** (1 nodes): `LocalSearchAlly Main Site`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `createServerClient()` connect `Community 2` to `Community 0`, `Community 3`, `Community 5`, `Community 6`, `Community 8`, `Community 9`, `Community 10`?**
-  _High betweenness centrality (0.177) - this node is a cross-community bridge._
+  _High betweenness centrality (0.175) - this node is a cross-community bridge._
 - **Why does `POST()` connect `Community 6` to `Community 2`?**
-  _High betweenness centrality (0.117) - this node is a cross-community bridge._
+  _High betweenness centrality (0.116) - this node is a cross-community bridge._
 - **Why does `buildAuditPrompt()` connect `Community 1` to `Community 11`, `Community 6`?**
-  _High betweenness centrality (0.107) - this node is a cross-community bridge._
+  _High betweenness centrality (0.106) - this node is a cross-community bridge._
 - **Are the 16 inferred relationships involving `createServerClient()` (e.g. with `proxy()` and `POST()`) actually correct?**
   _`createServerClient()` has 16 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 14 inferred relationships involving `getSupabase()` (e.g. with `deleteAudit()` and `POST()`) actually correct?**
