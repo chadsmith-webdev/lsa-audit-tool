@@ -384,7 +384,10 @@ export default async function DashboardPage() {
 
           {/* Citations — full width */}
           {citationsSection && latestFull && (
-            <section className='animate-fade-up stagger-3'>
+            <section
+              className='animate-fade-up stagger-3'
+              style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}
+            >
               <CitationsWidget
                 section={citationsSection}
                 auditDate={latestFull.created_at}
@@ -396,7 +399,10 @@ export default async function DashboardPage() {
 
           {/* Competitors — full width */}
           {competitorsSection && latestFull && (
-            <section className='animate-fade-up stagger-4'>
+            <section
+              className='animate-fade-up stagger-4'
+              style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}
+            >
               <CompetitorsWidget
                 section={competitorsSection}
                 competitorNames={competitorNames}
@@ -409,7 +415,10 @@ export default async function DashboardPage() {
 
           {/* Backlinks — full width */}
           {backlinksSection && latestFull && (
-            <section className='animate-fade-up stagger-4'>
+            <section
+              className='animate-fade-up stagger-4'
+              style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}
+            >
               <BacklinksWidget
                 section={backlinksSection}
                 auditDate={latestFull.created_at}
@@ -472,7 +481,10 @@ export default async function DashboardPage() {
 
           {/* AI Visibility — full width */}
           {aiCitabilitySection && latestFull && (
-            <section className='animate-fade-up stagger-4'>
+            <section
+              className='animate-fade-up stagger-4'
+              style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}
+            >
               <AICitabilityWidget
                 section={aiCitabilitySection}
                 auditDate={latestFull.created_at}
