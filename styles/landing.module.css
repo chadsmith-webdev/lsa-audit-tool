@@ -280,20 +280,20 @@
 }
 
 .sectionTitle {
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
   font-size: clamp(1.5rem, 3vw, 2.25rem);
   font-weight: 700;
-  color: var(--white);
+  color: var(--text);
   margin: 0 0 16px;
   line-height: 1.2;
   text-align: center;
 }
 
 .sectionTitleSpaced {
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
   font-size: clamp(1.5rem, 3vw, 2.25rem);
   font-weight: 700;
-  color: var(--white);
+  color: var(--text);
   margin: 0 0 32px;
   line-height: 1.2;
   text-align: center;
@@ -334,7 +334,7 @@
 .checkName {
   font-size: 14px;
   font-weight: 600;
-  color: var(--white);
+  color: var(--text);
   margin: 0 0 6px;
 }
 
@@ -403,7 +403,7 @@
 .diagnosticName {
   font-size: 14px;
   font-weight: 600;
-  color: var(--white);
+  color: var(--text);
   margin: 0;
 }
 
@@ -448,7 +448,7 @@
 .reasonTitle {
   font-size: 15px;
   font-weight: 600;
-  color: var(--white);
+  color: var(--text);
   margin: 0 0 4px;
 }
 
@@ -535,7 +535,7 @@
   font-family: var(--font-ui);
   font-size: 14px;
   font-weight: 500;
-  color: var(--white);
+  color: var(--text);
   line-height: 1.4;
 }
 
@@ -602,7 +602,7 @@
 .faqQ {
   font-size: 15px;
   font-weight: 600;
-  color: var(--white);
+  color: var(--text);
   margin: 0;
   cursor: pointer;
   list-style: none;
@@ -649,10 +649,10 @@ details[open] > .faqA {
 }
 
 .footerCtaTitle {
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 700;
-  color: var(--white);
+  color: var(--text);
   margin: 0 0 12px;
 }
 
@@ -665,7 +665,7 @@ details[open] > .faqA {
 .ctaBtn {
   display: inline-block;
   background: var(--carolina);
-  color: var(--ink);
+  color: var(--bg);
   font-size: 16px;
   font-weight: 700;
   text-decoration: none;
@@ -759,7 +759,7 @@ details[open] > .faqA {
 }
 
 .statNum {
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
   font-size: clamp(1.1rem, 2vw, 1.5rem);
   font-weight: 700;
   color: var(--carolina);
@@ -858,10 +858,10 @@ details[open] > .faqA {
 }
 
 .stepTitle {
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
   font-size: 0.9375rem;
   font-weight: 600;
-  color: var(--white);
+  color: var(--text);
   margin: 0 0 6px;
 }
 
@@ -1003,10 +1003,10 @@ details[open] > .faqA {
 }
 
 .finalCtaTitle {
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
   font-size: clamp(1.5rem, 3vw, 2.25rem);
   font-weight: 700;
-  color: var(--white);
+  color: var(--text);
   margin: 0 0 12px;
   line-height: 1.15;
 }
@@ -1028,7 +1028,7 @@ details[open] > .faqA {
   align-items: center;
   gap: 8px;
   background: var(--carolina);
-  color: var(--ink);
+  color: var(--bg);
   font-family: var(--font-ui);
   font-size: 1rem;
   font-weight: 700;
@@ -1116,7 +1116,7 @@ details[open] > .faqA {
   font-family: var(--font-ui);
   font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--ink);
+  color: var(--bg);
   background: var(--carolina);
   text-decoration: none;
   border-radius: 6px;

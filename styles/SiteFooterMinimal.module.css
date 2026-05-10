@@ -31,7 +31,7 @@
 }
 
 .legal a:hover {
-  color: var(--white);
+  color: var(--text);
 }
 
 @media (max-width: 560px) {
