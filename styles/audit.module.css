@@ -522,39 +522,9 @@
   position: relative;
 }
 
-/* Status-colored top accent line */
-.sectionCard::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-}
-
-.sectionCard[data-status="green"] {
-  border-color: var(--status-green-mid);
-}
-.sectionCard[data-status="green"]::before {
-  background: var(--status-green);
-  opacity: 0.6;
-}
-
-.sectionCard[data-status="yellow"] {
-  border-color: var(--status-yellow-mid);
-}
-.sectionCard[data-status="yellow"]::before {
-  background: var(--status-yellow);
-  opacity: 0.6;
-}
-
-.sectionCard[data-status="red"] {
-  border-color: var(--status-red-mid);
-}
-.sectionCard[data-status="red"]::before {
-  background: var(--status-red);
-  opacity: 0.6;
-}
+/* Status is communicated via the score bar fill + status badge.
+   Card border stays neutral to reduce visual noise (was 4 status
+   indicators per card; now 2). */
 
 /* ── Card head: index · name + headline · status badge ── */
 .cardHead {
