@@ -17,13 +17,47 @@ const TONE_OPTIONS: { value: Tone; label: string; hint: string }[] = [
 
 const GBP_LIMIT = 750;
 
-export default function DescriptionRewriter({ auditId }: { auditId: string }) {
+type Props = { auditId: string; canApplyToGbp?: boolean };
+
+type ApplyState =
+  | { status: "idle" }
+  | { status: "applying" }
+  | { status: "applied" }
+  | { status: "error"; message: string };
+
+export default function DescriptionRewriter({
+  auditId,
+  canApplyToGbp = false,
+}: Props) {
   const [current, setCurrent] = useState("");
   const [tone, setTone] = useState<Tone>("professional");
   const [loading, setLoading] = useState(false);
   const [variants, setVariants] = useState<Variant[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
+  const [applyState, setApplyState] = useState<Record<number, ApplyState>>({});
+
+  async function handleApply(idx: number, text: string) {
+    setApplyState((s) => ({ ...s, [idx]: { status: "applying" } }));
+    try {
+      const res = await fetch("/api/gbp/update-description", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ description: text }),
+      });
+      const data = (await res.json()) as { ok?: boolean; error?: string };
+      if (!res.ok || !data.ok) throw new Error(data.error ?? "Update failed");
+      setApplyState((s) => ({ ...s, [idx]: { status: "applied" } }));
+    } catch (err) {
+      setApplyState((s) => ({
+        ...s,
+        [idx]: {
+          status: "error",
+          message: err instanceof Error ? err.message : "Update failed",
+        },
+      }));
+    }
+  }
 
   async function handleGenerate() {
     setLoading(true);
@@ -278,18 +312,81 @@ export default function DescriptionRewriter({ auditId }: { auditId: string }) {
                 >
                   {v.text}
                 </p>
-                <button
-                  type='button'
-                  onClick={() => handleCopy(idx, v.text)}
-                  className='btn btn-secondary btn-sm'
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "var(--space-2)",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                  }}
                 >
-                  {isCopied ? "Copied ✓" : "Copy"}
-                </button>
+                  <button
+                    type='button'
+                    onClick={() => handleCopy(idx, v.text)}
+                    className='btn btn-secondary btn-sm'
+                  >
+                    {isCopied ? "Copied ✓" : "Copy"}
+                  </button>
+                  {canApplyToGbp && !overLimit && (
+                    <ApplyButton
+                      state={applyState[idx] ?? { status: "idle" }}
+                      onApply={() => handleApply(idx, v.text)}
+                    />
+                  )}
+                </div>
               </li>
             );
           })}
         </ul>
       )}
     </section>
+  );
+}
+
+function ApplyButton({
+  state,
+  onApply,
+}: {
+  state:
+    | { status: "idle" }
+    | { status: "applying" }
+    | { status: "applied" }
+    | { status: "error"; message: string };
+  onApply: () => void;
+}) {
+  if (state.status === "applied") {
+    return (
+      <span
+        style={{
+          fontSize: "var(--text-xs)",
+          color: "var(--status-green)",
+          fontWeight: 600,
+        }}
+      >
+        ✓ Applied to GBP
+      </span>
+    );
+  }
+  return (
+    <>
+      <button
+        type='button'
+        onClick={onApply}
+        disabled={state.status === "applying"}
+        className='btn btn-primary btn-sm'
+      >
+        {state.status === "applying" ? "Applying…" : "Apply to GBP"}
+      </button>
+      {state.status === "error" && (
+        <span
+          style={{
+            fontSize: "var(--text-xs)",
+            color: "var(--status-red)",
+          }}
+        >
+          {state.message}
+        </span>
+      )}
+    </>
   );
 }

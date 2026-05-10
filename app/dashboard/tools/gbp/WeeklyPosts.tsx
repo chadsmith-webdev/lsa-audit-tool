@@ -24,12 +24,61 @@ const TYPE_COLOR: Record<Post["type"], string> = {
   Update: "var(--text-secondary)",
 };
 
-export default function WeeklyPosts({ auditId }: { auditId: string }) {
+type Props = { auditId: string; canPostToGbp?: boolean };
+
+type PostState =
+  | { status: "idle" }
+  | { status: "posting" }
+  | { status: "posted" }
+  | { status: "error"; message: string; fallback?: boolean };
+
+export default function WeeklyPosts({ auditId, canPostToGbp = false }: Props) {
   const [theme, setTheme] = useState<Theme>("mixed");
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState<Post[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
+  const [postState, setPostState] = useState<Record<number, PostState>>({});
+
+  async function handlePostToGbp(idx: number, post: Post) {
+    setPostState((s) => ({ ...s, [idx]: { status: "posting" } }));
+    try {
+      const res = await fetch("/api/gbp/post", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          headline: post.headline,
+          body: post.body,
+          ctaLabel: post.ctaLabel,
+        }),
+      });
+      const data = (await res.json()) as {
+        ok?: boolean;
+        error?: string;
+        fallback?: string;
+      };
+      if (!res.ok || !data.ok) {
+        setPostState((s) => ({
+          ...s,
+          [idx]: {
+            status: "error",
+            message: data.error ?? "Post failed",
+            fallback: data.fallback === "manual",
+          },
+        }));
+        return;
+      }
+      setPostState((s) => ({ ...s, [idx]: { status: "posted" } }));
+    } catch (err) {
+      setPostState((s) => ({
+        ...s,
+        [idx]: {
+          status: "error",
+          message: err instanceof Error ? err.message : "Post failed",
+        },
+      }));
+    }
+  }
 
   async function handleGenerate() {
     setLoading(true);
@@ -296,12 +345,86 @@ export default function WeeklyPosts({ auditId }: { auditId: string }) {
                   >
                     {isCopied ? "Copied ✓" : "Copy"}
                   </button>
+                  {canPostToGbp && (
+                    <PostButton
+                      state={postState[idx] ?? { status: "idle" }}
+                      onPost={() => handlePostToGbp(idx, post)}
+                      onCopyForManual={() => handleCopy(idx, post)}
+                    />
+                  )}
                 </div>
+                {(() => {
+                  const ps = postState[idx];
+                  if (!ps || ps.status !== "error") return null;
+                  return (
+                    <p
+                      style={{
+                        marginTop: "var(--space-2)",
+                        fontSize: "var(--text-xs)",
+                        color: "var(--status-red)",
+                      }}
+                    >
+                      {ps.message}
+                    </p>
+                  );
+                })()}
               </li>
             );
           })}
         </ol>
       )}
     </section>
+  );
+}
+
+function PostButton({
+  state,
+  onPost,
+  onCopyForManual,
+}: {
+  state:
+    | { status: "idle" }
+    | { status: "posting" }
+    | { status: "posted" }
+    | { status: "error"; message: string; fallback?: boolean };
+  onPost: () => void;
+  onCopyForManual: () => void;
+}) {
+  if (state.status === "posted") {
+    return (
+      <span
+        style={{
+          fontSize: "var(--text-xs)",
+          color: "var(--status-green)",
+          fontWeight: 600,
+        }}
+      >
+        ✓ Posted to GBP
+      </span>
+    );
+  }
+  if (state.status === "error" && state.fallback) {
+    return (
+      <button
+        type='button'
+        onClick={() => {
+          onCopyForManual();
+          window.open("https://business.google.com/", "_blank", "noopener");
+        }}
+        className='btn btn-secondary btn-sm'
+      >
+        Copy + open GBP
+      </button>
+    );
+  }
+  return (
+    <button
+      type='button'
+      onClick={onPost}
+      disabled={state.status === "posting"}
+      className='btn btn-primary btn-sm'
+    >
+      {state.status === "posting" ? "Posting…" : "Post to GBP"}
+    </button>
   );
 }

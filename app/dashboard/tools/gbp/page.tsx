@@ -49,10 +49,33 @@ export default async function GbpToolPage({
       .single(),
     db
       .from("gbp_connections")
-      .select("google_email")
+      .select("google_email, account_id, location_id")
       .eq("user_id", user.id)
       .maybeSingle(),
   ]);
+
+  // Resolve location title via Google (best-effort, never blocks the page).
+  let locationTitle: string | null = null;
+  if (connection?.location_id) {
+    try {
+      const { getAccessTokenForUser } = await import("@/lib/gbp-api");
+      const token = await getAccessTokenForUser(user.id);
+      const res = await fetch(
+        `https://mybusinessbusinessinformation.googleapis.com/v1/${connection.location_id}?readMask=title`,
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      if (res.ok) {
+        const data = (await res.json()) as { title?: string };
+        locationTitle = data.title ?? null;
+      }
+    } catch {
+      // Ignore — UI just shows the resource name fallback.
+    }
+  }
+
+  const canWriteToGbp = Boolean(
+    connection?.account_id && connection?.location_id,
+  );
 
   if (!latest) {
     return (
@@ -152,6 +175,8 @@ export default async function GbpToolPage({
           connected={Boolean(connection)}
           googleEmail={connection?.google_email ?? null}
           status={gbpStatus ?? null}
+          selectedLocationName={connection?.location_id ?? null}
+          selectedLocationTitle={locationTitle}
         />
 
         {fixes.length === 0 ? (
@@ -174,8 +199,11 @@ export default async function GbpToolPage({
           <GbpFixList fixes={fixes} auditId={latest.id} />
         )}
 
-        <DescriptionRewriter auditId={latest.id} />
-        <WeeklyPosts auditId={latest.id} />
+        <DescriptionRewriter
+          auditId={latest.id}
+          canApplyToGbp={canWriteToGbp}
+        />
+        <WeeklyPosts auditId={latest.id} canPostToGbp={canWriteToGbp} />
         <ReviewToolkit auditId={latest.id} />
       </main>
     </div>
