@@ -193,82 +193,106 @@ export function SectionCard({
       </div>
 
       {/* Keyword suggestions + geo-grid next step — onpage section only */}
-      {section.id === "onpage" && (() => {
-        const keywords = getSuggestedKeywords(trade, city);
-        if (!keywords.length) return null;
-        const encoded = encodeURIComponent(keywords[0]);
-        return (
-          <div style={{
-            marginTop: "var(--space-5)",
-            paddingTop: "var(--space-5)",
-            borderTop: "1px solid var(--surface2)",
-          }}>
-            <span className={styles.colLabel} style={{ display: "block", marginBottom: "var(--space-3)" }}>
-              Keywords Worth Ranking For
-            </span>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-2)", marginBottom: "var(--space-4)" }}>
-              {keywords.map((kw) => (
-                <span
-                  key={kw}
-                  style={{
-                    padding: "3px 10px",
-                    borderRadius: "var(--radius-full)",
-                    border: "1px solid var(--surface2)",
-                    color: "var(--muted)",
-                    fontSize: "0.75rem",
-                    fontFamily: "var(--font-mono)",
-                  }}
-                >
-                  {kw}
-                </span>
-              ))}
-            </div>
-            <div style={{
-              padding: "var(--space-4)",
-              background: "rgba(123,175,212,0.06)",
-              border: "1px solid rgba(123,175,212,0.18)",
-              borderRadius: "var(--radius-md)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
-              gap: "var(--space-3)",
-            }}>
-              <div>
-                <p className="text-small" style={{ color: "var(--text)", marginBottom: "2px", fontWeight: 600 }}>
-                  Next Step: See where you actually rank
-                </p>
-                <p className="text-small" style={{ color: "var(--muted)" }}>
-                  Run the geo-grid on any of these keywords to see your map pack position across your service area.
-                </p>
-              </div>
-              <a
-                href={`/dashboard?keyword=${encoded}`}
-                className="btn btn-primary btn-sm"
-                style={{ whiteSpace: "nowrap", flexShrink: 0 }}
+      {section.id === "onpage" &&
+        (() => {
+          const keywords = getSuggestedKeywords(trade, city);
+          if (!keywords.length) return null;
+          const encoded = encodeURIComponent(keywords[0]);
+          return (
+            <div
+              style={{
+                marginTop: "var(--space-5)",
+                paddingTop: "var(--space-5)",
+                borderTop: "1px solid var(--surface2)",
+              }}
+            >
+              <span
+                className={styles.colLabel}
+                style={{ display: "block", marginBottom: "var(--space-3)" }}
               >
-                Open Geo-Grid →
-              </a>
+                Keywords Worth Ranking For
+              </span>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "var(--space-2)",
+                  marginBottom: "var(--space-4)",
+                }}
+              >
+                {keywords.map((kw) => (
+                  <span
+                    key={kw}
+                    style={{
+                      padding: "3px 10px",
+                      borderRadius: "var(--radius-full)",
+                      border: "1px solid var(--surface2)",
+                      color: "var(--muted)",
+                      fontSize: "0.75rem",
+                      fontFamily: "var(--font-mono)",
+                    }}
+                  >
+                    {kw}
+                  </span>
+                ))}
+              </div>
+              <div
+                style={{
+                  padding: "var(--space-4)",
+                  background: "rgba(123,175,212,0.06)",
+                  border: "1px solid rgba(123,175,212,0.18)",
+                  borderRadius: "var(--radius-md)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  flexWrap: "wrap",
+                  gap: "var(--space-3)",
+                }}
+              >
+                <div>
+                  <p
+                    className='text-small'
+                    style={{
+                      color: "var(--text)",
+                      marginBottom: "2px",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Next Step: See where you actually rank
+                  </p>
+                  <p className='text-small' style={{ color: "var(--muted)" }}>
+                    Run the geo-grid on any of these keywords to see your map
+                    pack position across your service area.
+                  </p>
+                </div>
+                <a
+                  href={`/dashboard?keyword=${encoded}`}
+                  className='btn btn-primary btn-sm'
+                  style={{ whiteSpace: "nowrap", flexShrink: 0 }}
+                >
+                  Open Geo-Grid →
+                </a>
+              </div>
             </div>
-          </div>
-        );
-      })()}
+          );
+        })()}
     </motion.article>
   );
 }
 
-// ─── EmailGate ────────────────────────────────────────────────────────────────
+// ─── EmailCopyCard ────────────────────────────────────────────────────────────
+// NOT a gate. The audit is fully visible above this card. This is a soft
+// opt-in that emails the user a copy of the report they just read so they
+// can share it with their team or reference it later.
 
-export function EmailGate({
+export function EmailCopyCard({
   businessName,
   auditId,
   trade,
   city,
   scoreBucket,
   overallScore,
-  competitorNames,
   lowestSection,
-  onSubmit,
 }: {
   businessName: string;
   auditId: string | null;
@@ -276,13 +300,13 @@ export function EmailGate({
   city: string;
   scoreBucket: string;
   overallScore: number;
-  competitorNames: string[];
   lowestSection: string;
-  onSubmit: () => void;
 }) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [sentTo, setSentTo] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -342,47 +366,63 @@ export function EmailGate({
         overall_score: overallScore,
       });
     }
-    const params = new URLSearchParams();
-    if (auditId) params.set("auditId", auditId);
-    const qs = params.has("auditId") ? `?${params.toString()}` : "";
-    window.location.href = `/thank-you${qs}`;
+    setSentTo(email);
+    setSent(true);
   }
 
   return (
-    <div className={styles.emailGate}>
-      <div className={styles.emailGateInner}>
-        <h3 className={styles.emailGateTitle}>Want a copy to keep?</h3>
-        <p className={styles.emailGateSub}>
-          I&rsquo;ll email you the full report for{" "}
-          <strong>{businessName}</strong> — every finding, your{" "}
-          <strong>{overallScore}/10</strong> score breakdown, and the priority
-          action list
-          {competitorNames.length > 0
-            ? ` including the gaps ${competitorNames.slice(0, 2).join(" and ")} are using to outrank you`
-            : ""}
-          . No fluff, just the audit.
-        </p>
-        <form onSubmit={handleSubmit} className={styles.emailForm} noValidate>
-          <input
-            type='email'
-            className="form-input"
-            placeholder='you@yourcompany.com'
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              setError("");
-            }}
-            aria-label='Email address'
-            aria-invalid={!!error}
-          />
-          <button type='submit' className={styles.emailBtn} disabled={loading}>
-            {loading ? "Sending…" : "Email Me the Report →"}
-          </button>
-        </form>
-        {error && (
-          <span className="form-error" role='alert'>
-            {error}
-          </span>
+    <div className={styles.emailCard}>
+      <div className={styles.emailCardInner}>
+        {sent ? (
+          <>
+            <h3 className={styles.emailCardTitle}>Sent. Check your inbox.</h3>
+            <p className={styles.emailCardSub}>
+              A copy of this audit for <strong>{businessName}</strong> is on its
+              way to <strong>{sentTo}</strong>. If you don&rsquo;t see it in a
+              couple minutes, check your spam folder.
+            </p>
+          </>
+        ) : (
+          <>
+            <h3 className={styles.emailCardTitle}>
+              Want a copy emailed to you?
+            </h3>
+            <p className={styles.emailCardSub}>
+              I&rsquo;ll send a copy of this audit for{" "}
+              <strong>{businessName}</strong> so you can share it with your team
+              or reference it later.
+            </p>
+            <form
+              onSubmit={handleSubmit}
+              className={styles.emailForm}
+              noValidate
+            >
+              <input
+                type='email'
+                className='form-input'
+                placeholder='you@yourcompany.com'
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setError("");
+                }}
+                aria-label='Email address'
+                aria-invalid={!!error}
+              />
+              <button
+                type='submit'
+                className={styles.emailBtn}
+                disabled={loading}
+              >
+                {loading ? "Sending…" : "Email Me a Copy →"}
+              </button>
+            </form>
+            {error && (
+              <span className='form-error' role='alert'>
+                {error}
+              </span>
+            )}
+          </>
         )}
       </div>
     </div>

@@ -4,7 +4,12 @@ import { motion } from "framer-motion";
 import styles from "@/styles/audit.module.css";
 import type { AuditInput, AuditResult } from "@/lib/types";
 import { fadeUp, stagger } from "./motionVariants";
-import { CopyLinkButton, ScoreGauge, SectionCard, EmailGate } from "./AuditResultParts";
+import {
+  CopyLinkButton,
+  ScoreGauge,
+  SectionCard,
+  EmailCopyCard,
+} from "./AuditResultParts";
 
 // Maps API overall_label values to display names shown in the results card
 const SCORE_DISPLAY_LABELS: Record<AuditResult["overall_label"], string> = {
@@ -17,14 +22,10 @@ const SCORE_DISPLAY_LABELS: Record<AuditResult["overall_label"], string> = {
 export function AuditResults({
   result,
   input,
-  emailSubmitted,
-  onEmailSubmit,
   onRunAgain,
 }: {
   result: AuditResult;
   input: AuditInput;
-  emailSubmitted: boolean;
-  onEmailSubmit: () => void;
   onRunAgain: () => void;
 }) {
   return (
@@ -104,29 +105,25 @@ export function AuditResults({
           ))}
         </div>
 
-        {/* Email gate */}
-        {!emailSubmitted && (
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.45, ease: "easeOut" }}
-          >
-            <EmailGate
-              businessName={result.business_name}
-              auditId={result.auditId ?? null}
-              trade={input.primaryTrade}
-              city={input.serviceCity}
-              scoreBucket={result.score_bucket}
-              overallScore={result.overall_score}
-              competitorNames={result.competitor_names}
-              lowestSection={
-                [...result.sections].sort((a, b) => a.score - b.score)[0]?.id ??
-                ""
-              }
-              onSubmit={onEmailSubmit}
-            />
-          </motion.div>
-        )}
+        {/* Email copy — soft opt-in, not a gate */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.45, ease: "easeOut" }}
+        >
+          <EmailCopyCard
+            businessName={result.business_name}
+            auditId={result.auditId ?? null}
+            trade={input.primaryTrade}
+            city={input.serviceCity}
+            scoreBucket={result.score_bucket}
+            overallScore={result.overall_score}
+            lowestSection={
+              [...result.sections].sort((a, b) => a.score - b.score)[0]?.id ??
+              ""
+            }
+          />
+        </motion.div>
 
         {/* Re-audit footer */}
         <motion.div

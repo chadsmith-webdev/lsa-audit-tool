@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import styles from "@/styles/audit.module.css";
-import type { AuditSection, AICitabilitySection, AuditResult, AuditRow } from "@/lib/types";
+import type { AuditSection, AICitabilitySection, AuditRow } from "@/lib/types";
+import { EmailCopyCard } from "@/app/components/audit/AuditResultParts";
 
 export default function SharedAuditView({ audit }: { audit: AuditRow }) {
   const result = audit.result;
@@ -69,6 +70,19 @@ export default function SharedAuditView({ audit }: { audit: AuditRow }) {
           !result.sections?.find((s) => s.id === "ai_citability") && (
             <AICitabilityCard section={result.ai_citability_section} />
           )}
+
+        {/* Email copy — soft opt-in for the shared link viewer */}
+        <EmailCopyCard
+          businessName={result.business_name}
+          auditId={audit.id}
+          trade={audit.trade ?? ""}
+          city={audit.city ?? ""}
+          scoreBucket={result.score_bucket}
+          overallScore={result.overall_score}
+          lowestSection={
+            [...result.sections].sort((a, b) => a.score - b.score)[0]?.id ?? ""
+          }
+        />
 
         {/* CTA */}
         <div className={styles.sharedCta}>

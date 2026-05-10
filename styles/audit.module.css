@@ -721,9 +721,10 @@
   }
 }
 
-/* ─── Email Gate ───────────────────────────────────────────────────────────── */
+/* ─── Email Copy Card ──────────────────────────────────────────────────────
+   Soft opt-in, not a gate. The audit is fully visible above this card. */
 
-.emailGate {
+.emailCard {
   border: 1px solid rgba(123, 175, 212, 0.22);
   border-radius: 16px;
   padding: 40px 32px;
@@ -731,36 +732,30 @@
   text-align: center;
 }
 
-.emailGateInner {
+.emailCardInner {
   max-width: 420px;
   margin: 0 auto;
 }
 
-.lockIcon {
-  font-size: 28px;
-  display: block;
-  margin-bottom: 16px;
-}
-
-.emailGateTitle {
-  font-family: var(--font-heading);
+.emailCardTitle {
+  font-family: var(--font-display);
   font-size: 20px;
   font-weight: 600;
-  color: var(--white);
+  color: var(--text);
   margin: 0 0 12px;
   line-height: 1.3;
 }
 
-.emailGateSub {
+.emailCardSub {
   font-family: var(--font-ui);
   font-size: 14px;
   line-height: 1.65;
-  color: rgba(255, 255, 255, 0.52);
+  color: var(--text-secondary);
   margin: 0 0 24px;
 }
 
-.emailGateSub strong {
-  color: rgba(255, 255, 255, 0.8);
+.emailCardSub strong {
+  color: var(--text);
   font-weight: 600;
 }
 
@@ -780,7 +775,7 @@
   font-family: var(--font-ui);
   font-size: 14px;
   font-weight: 600;
-  color: var(--ink);
+  color: var(--bg);
   background: var(--carolina);
   border: none;
   border-radius: 8px;

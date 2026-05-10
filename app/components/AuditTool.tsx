@@ -58,7 +58,6 @@ export default function AuditTool() {
     SECTION_ORDER[0],
   );
   const [result, setResult] = useState<AuditResult | null>(null);
-  const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [statusMessage, setStatusMessage] = useState<string>("Connecting…");
 
   function validate(): boolean {
@@ -223,13 +222,10 @@ export default function AuditTool() {
       <AuditResults
         result={result}
         input={form}
-        emailSubmitted={emailSubmitted}
-        onEmailSubmit={() => setEmailSubmitted(true)}
         onRunAgain={() => {
           setPhase("form");
           setResult(null);
           setDoneSections([]);
-          setEmailSubmitted(false);
         }}
       />
     );
