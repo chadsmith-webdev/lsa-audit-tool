@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "@/styles/audit.module.css";
 import type { AuditSection, AICitabilitySection } from "@/lib/types";
 import { cardIn } from "./motionVariants";
 import { getSuggestedKeywords } from "@/lib/keywords";
+import { createBrowserClient } from "@/lib/supabase";
 
 // ─── CopyLinkButton ───────────────────────────────────────────────────────────
 
@@ -606,6 +607,156 @@ export function EmailCopyCard({
               </span>
             )}
           </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── SaveAndMonitorCard ───────────────────────────────────────────────────────
+// The conversion CTA at the end of the audit. Replaces the old "email me a PDF"
+// flow. Three modes:
+//   • signed-in    — audit was auto-saved on insert; link to dashboard
+//   • anonymous    — collect email, send magic link, claim audit on callback
+//   • sent         — "check your email" confirmation
+//
+// Auth state is detected client-side after mount so the button can render
+// optimistically. While we don't yet know, we render the anonymous form (the
+// default and most common case) to avoid layout flash.
+
+export function SaveAndMonitorCard({
+  auditId,
+  businessName,
+}: {
+  auditId: string | null;
+  businessName: string;
+}) {
+  const [isAuthed, setIsAuthed] = useState<boolean | null>(null);
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const supabase = createBrowserClient();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (!cancelled) setIsAuthed(!!user);
+      } catch {
+        if (!cancelled) setIsAuthed(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // ── Signed-in: audit is already saved by /api/audit ─────────────────────
+  if (isAuthed) {
+    return (
+      <div className={styles.emailCard}>
+        <div className={styles.emailCardInner}>
+          <h3 className={styles.emailCardTitle}>Saved to your dashboard.</h3>
+          <p className={styles.emailCardSub}>
+            <strong>{businessName}</strong> is now being tracked. Run this audit
+            again in 30 days to see what changed.
+          </p>
+          <a href='/dashboard' className='btn btn-primary'>
+            View Dashboard →
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Anonymous, magic link sent ───────────────────────────────────────────
+  if (sent) {
+    return (
+      <div className={styles.emailCard}>
+        <div className={styles.emailCardInner}>
+          <h3 className={styles.emailCardTitle}>Check your email.</h3>
+          <p className={styles.emailCardSub}>
+            We sent a sign-in link to <strong>{email}</strong>. Click it to open
+            your dashboard — your audit for <strong>{businessName}</strong> will
+            already be there.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Anonymous, default ───────────────────────────────────────────────────
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Enter a valid email address");
+      return;
+    }
+    setError("");
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/save-audit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, auditId }),
+      });
+      const data = (await res.json().catch(() => ({}))) as {
+        error?: string;
+      };
+      if (!res.ok) {
+        setError(data.error ?? "Couldn't send the link. Try again.");
+        setLoading(false);
+        return;
+      }
+    } catch {
+      setError("Couldn't send the link. Try again.");
+      setLoading(false);
+      return;
+    }
+    setLoading(false);
+    setSent(true);
+  }
+
+  return (
+    <div className={styles.emailCard}>
+      <div className={styles.emailCardInner}>
+        <h3 className={styles.emailCardTitle}>
+          Track this score every 30 days.
+        </h3>
+        <p className={styles.emailCardSub}>
+          Save this audit to a free dashboard so you can see what changes —
+          rankings, reviews, citations, AI visibility — over time. No password,
+          just a sign-in link by email.
+        </p>
+        <form onSubmit={handleSubmit} className={styles.emailForm} noValidate>
+          <input
+            type='email'
+            className='form-input'
+            placeholder='you@yourcompany.com'
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setError("");
+            }}
+            aria-label='Email address'
+            aria-invalid={!!error}
+          />
+          <button
+            type='submit'
+            className='btn btn-primary btn-sm'
+            disabled={loading}
+          >
+            {loading ? "Sending…" : "Save & Monitor →"}
+          </button>
+        </form>
+        {error && (
+          <span className='form-error' role='alert'>
+            {error}
+          </span>
         )}
       </div>
     </div>

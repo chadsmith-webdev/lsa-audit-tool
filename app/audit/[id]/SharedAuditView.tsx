@@ -5,7 +5,6 @@ import type { AuditRow } from "@/lib/types";
 import {
   AICitabilityCard,
   CopyLinkButton,
-  EmailCopyCard,
   GroupedSections,
   ScoreGauge,
   TopActions,
@@ -62,19 +61,6 @@ export default function SharedAuditView({ audit }: { audit: AuditRow }) {
           !result.sections?.find((s) => s.id === "ai_citability") && (
             <AICitabilityCard section={result.ai_citability_section} />
           )}
-
-        {/* Email copy — soft opt-in for the shared link viewer */}
-        <EmailCopyCard
-          businessName={result.business_name}
-          auditId={audit.id}
-          trade={trade}
-          city={city}
-          scoreBucket={result.score_bucket}
-          overallScore={result.overall_score}
-          lowestSection={
-            [...result.sections].sort((a, b) => a.score - b.score)[0]?.id ?? ""
-          }
-        />
 
         {/* CTA */}
         <div className={styles.sharedCta}>

@@ -9,7 +9,7 @@ import {
   ScoreGauge,
   GroupedSections,
   TopActions,
-  EmailCopyCard,
+  SaveAndMonitorCard,
 } from "./AuditResultParts";
 
 // Maps API overall_label values to display names shown in the results card
@@ -88,23 +88,16 @@ export function AuditResults({
           city={input.serviceCity}
         />
 
-        {/* Email copy — soft opt-in, not a gate */}
+        {/* Save & Monitor — single conversion CTA. Auth-aware:
+            anonymous → magic-link signup, signed-in → link to dashboard. */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.45, ease: "easeOut" }}
         >
-          <EmailCopyCard
-            businessName={result.business_name}
+          <SaveAndMonitorCard
             auditId={result.auditId ?? null}
-            trade={input.primaryTrade}
-            city={input.serviceCity}
-            scoreBucket={result.score_bucket}
-            overallScore={result.overall_score}
-            lowestSection={
-              [...result.sections].sort((a, b) => a.score - b.score)[0]?.id ??
-              ""
-            }
+            businessName={result.business_name}
           />
         </motion.div>
 
@@ -116,10 +109,10 @@ export function AuditResults({
           transition={{ delay: 0.8, duration: 0.4 }}
         >
           <p className={styles.reauditText}>
-            Run this again in 30 days to track your progress.
+            Want to test a different business or location?
           </p>
           <button onClick={onRunAgain} className='btn btn-secondary btn-sm'>
-            Start a New Audit
+            Run Another Audit
           </button>
         </motion.div>
       </div>
