@@ -17,8 +17,8 @@
 .formCard {
   width: 100%;
   max-width: 460px;
-  background: rgba(123, 175, 212, 0.04);
-  border: 1px solid rgba(123, 175, 212, 0.14);
+  background: var(--carolina-dim);
+  border: 1px solid var(--carolina-mid);
   border-radius: 14px;
   padding: 1.5rem 1.75rem 2rem;
   position: relative;
@@ -29,11 +29,11 @@
 }
 
 .formCard:hover {
-  border-color: rgba(123, 175, 212, 0.3);
+  border-color: var(--border-accent);
   box-shadow:
-    0 0 0 1px rgba(123, 175, 212, 0.08),
-    0 0 32px rgba(123, 175, 212, 0.1),
-    0 0 64px rgba(123, 175, 212, 0.05);
+    0 0 0 1px var(--carolina-dim),
+    0 0 32px var(--carolina-mid),
+    0 0 64px var(--carolina-dim);
 }
 
 .formCard::before {
@@ -78,7 +78,7 @@
 .select {
   appearance: none;
   -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.3)' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='var(--muted)' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 14px center;
   padding-right: 38px;
@@ -108,7 +108,7 @@
 .checkboxLabel {
   font-family: var(--font-ui);
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--text-secondary);
   cursor: pointer;
 }
 
@@ -117,8 +117,8 @@
   font-size: 13px;
   line-height: 1.55;
   color: var(--status-yellow);
-  background: rgba(234, 179, 8, 0.07);
-  border: 1px solid rgba(234, 179, 8, 0.2);
+  background: var(--status-yellow-dim);
+  border: 1px solid var(--status-yellow-mid);
   border-radius: 6px;
   padding: 10px 14px;
   margin: 0;
@@ -129,8 +129,8 @@
   font-size: 13px;
   line-height: 1.5;
   color: var(--status-red);
-  background: rgba(239, 68, 68, 0.07);
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  background: var(--status-red-dim);
+  border: 1px solid var(--status-red-mid);
   border-radius: 6px;
   padding: 10px 14px;
   margin: 0;
@@ -157,7 +157,7 @@
 .formTrust {
   font-family: var(--font-ui);
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--muted);
   text-align: center;
   margin: 0;
   line-height: 1.6;
@@ -192,8 +192,8 @@
   width: 100%;
   max-width: 400px;
   text-align: center;
-  background: rgba(123, 175, 212, 0.04);
-  border: 1px solid rgba(123, 175, 212, 0.12);
+  background: var(--carolina-dim);
+  border: 1px solid var(--carolina-mid);
   border-radius: 12px;
   padding: 2rem;
   position: relative;
@@ -204,11 +204,11 @@
 }
 
 .loadingCard:hover {
-  border-color: rgba(123, 175, 212, 0.3);
+  border-color: var(--border-accent);
   box-shadow:
-    0 0 0 1px rgba(123, 175, 212, 0.08),
-    0 0 32px rgba(123, 175, 212, 0.1),
-    0 0 64px rgba(123, 175, 212, 0.05);
+    0 0 0 1px var(--carolina-dim),
+    0 0 32px var(--carolina-mid),
+    0 0 64px var(--carolina-dim);
 }
 
 .loadingCard::before {
@@ -227,7 +227,7 @@
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--muted);
   margin: 0 0 8px;
 }
 
@@ -270,13 +270,13 @@
 }
 
 .sectionChip[data-done="true"] {
-  background: rgba(34, 197, 94, 0.05);
-  border-color: rgba(34, 197, 94, 0.14);
+  background: var(--status-green-dim);
+  border-color: var(--status-green-dim);
 }
 
 .sectionChip[data-active="true"] {
-  background: rgba(123, 175, 212, 0.07);
-  border-color: rgba(123, 175, 212, 0.18);
+  background: var(--carolina-dim);
+  border-color: var(--carolina-mid);
   animation: chipPulse 1.6s ease-in-out infinite;
 }
 
@@ -309,7 +309,7 @@
   font-size: 15px;
   width: 20px;
   text-align: center;
-  color: rgba(255, 255, 255, 0.25);
+  color: var(--muted);
   flex-shrink: 0;
   transition: color 0.2s;
 }
@@ -339,12 +339,12 @@
   font-family: var(--font-ui);
   font-size: 14px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--muted);
   transition: color 0.2s;
 }
 
 .sectionChip[data-done="true"] .chipLabel {
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--text-secondary);
 }
 
 .sectionChip[data-active="true"] .chipLabel {
@@ -386,7 +386,7 @@
 }
 
 .gaugeTrack {
-  color: rgba(255, 255, 255, 0.07);
+  color: var(--border);
 }
 
 .gaugeFill {
@@ -412,7 +412,7 @@
 .gaugeMax {
   font-family: var(--font-mono);
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--muted);
   margin-top: 1px;
 }
 
@@ -422,7 +422,7 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--muted);
   margin-top: 6px;
 }
 
@@ -444,14 +444,14 @@
   font-family: var(--font-ui);
   font-size: 15px;
   line-height: 1.65;
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--text-secondary);
   margin: 0 0 10px;
 }
 
 .competitors {
   font-family: var(--font-ui);
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.38);
+  color: var(--muted);
   margin: 0;
 }
 
@@ -461,8 +461,8 @@
 
 /* Top 3 actions */
 .topActions {
-  background: rgba(123, 175, 212, 0.04);
-  border: 1px solid rgba(123, 175, 212, 0.14);
+  background: var(--carolina-dim);
+  border: 1px solid var(--carolina-mid);
   border-radius: 12px;
   padding: 24px;
 }
@@ -493,7 +493,7 @@
   font-family: var(--font-ui);
   font-size: 14px;
   line-height: 1.55;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-secondary);
 }
 
 .actionNumber {
@@ -514,10 +514,10 @@
 }
 
 .sectionCard {
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--surface);
   overflow: hidden;
   position: relative;
 }
@@ -533,7 +533,7 @@
 }
 
 .sectionCard[data-status="green"] {
-  border-color: rgba(34, 197, 94, 0.18);
+  border-color: var(--status-green-mid);
 }
 .sectionCard[data-status="green"]::before {
   background: var(--status-green);
@@ -541,7 +541,7 @@
 }
 
 .sectionCard[data-status="yellow"] {
-  border-color: rgba(234, 179, 8, 0.18);
+  border-color: var(--status-yellow-mid);
 }
 .sectionCard[data-status="yellow"]::before {
   background: var(--status-yellow);
@@ -549,7 +549,7 @@
 }
 
 .sectionCard[data-status="red"] {
-  border-color: rgba(239, 68, 68, 0.18);
+  border-color: var(--status-red-mid);
 }
 .sectionCard[data-status="red"]::before {
   background: var(--status-red);
@@ -568,7 +568,7 @@
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.22);
+  color: var(--muted);
   flex-shrink: 0;
   padding-top: 3px;
 }
@@ -611,15 +611,15 @@
 }
 .statusBadge[data-status="green"] {
   color: var(--status-green);
-  background: rgba(34, 197, 94, 0.1);
+  background: var(--status-green-dim);
 }
 .statusBadge[data-status="yellow"] {
   color: var(--status-yellow);
-  background: rgba(234, 179, 8, 0.1);
+  background: var(--status-yellow-dim);
 }
 .statusBadge[data-status="red"] {
   color: var(--status-red);
-  background: rgba(239, 68, 68, 0.1);
+  background: var(--status-red-dim);
 }
 
 /* ── Score bar ── */
@@ -633,7 +633,7 @@
 .scoreTrack {
   flex: 1;
   height: 3px;
-  background: rgba(255, 255, 255, 0.07);
+  background: var(--border);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -657,7 +657,7 @@
 .scoreValue {
   font-family: var(--font-mono);
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--muted);
   flex-shrink: 0;
   white-space: nowrap;
 }
@@ -668,7 +668,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 0 20px;
   padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid var(--border);
 }
 
 .findingCol,
@@ -679,7 +679,7 @@
 }
 
 .actionCol {
-  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  border-left: 1px solid var(--border);
   padding-left: 20px;
 }
 
@@ -697,7 +697,7 @@
   font-family: var(--font-ui);
   font-size: 13px;
   line-height: 1.65;
-  color: rgba(255, 255, 255, 0.58);
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -705,7 +705,7 @@
   font-family: var(--font-ui);
   font-size: 13px;
   line-height: 1.65;
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -716,7 +716,7 @@
   .actionCol {
     border-left: none;
     padding-left: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-top: 1px solid var(--border);
     padding-top: 16px;
   }
 }
@@ -725,10 +725,10 @@
    Soft opt-in, not a gate. The audit is fully visible above this card. */
 
 .emailCard {
-  border: 1px solid rgba(123, 175, 212, 0.22);
+  border: 1px solid var(--border-accent);
   border-radius: 16px;
   padding: 40px 32px;
-  background: rgba(123, 175, 212, 0.03);
+  background: var(--carolina-dim);
   text-align: center;
 }
 
@@ -802,7 +802,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
   border-radius: 12px;
   gap: 16px;
 }
@@ -810,7 +810,7 @@
 .reauditText {
   font-family: var(--font-ui);
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--muted);
   margin: 0;
 }
 
@@ -820,7 +820,7 @@
   font-weight: 600;
   color: var(--carolina);
   background: transparent;
-  border: 1px solid rgba(123, 175, 212, 0.28);
+  border: 1px solid var(--border-accent);
   border-radius: 6px;
   padding: 8px 16px;
   cursor: pointer;
@@ -833,7 +833,7 @@
 
 .reauditBtn:hover {
   border-color: var(--carolina);
-  background: rgba(123, 175, 212, 0.07);
+  background: var(--carolina-dim);
 }
 
 /* ─── Share Row (live results) ─────────────────────────────────────────────── */
@@ -849,7 +849,7 @@
   font-weight: 600;
   color: var(--carolina);
   background: transparent;
-  border: 1px solid rgba(123, 175, 212, 0.28);
+  border: 1px solid var(--border-accent);
   border-radius: 6px;
   padding: 8px 16px;
   cursor: pointer;
@@ -860,7 +860,7 @@
 
 .copyLinkBtn:hover {
   border-color: var(--carolina);
-  background: rgba(123, 175, 212, 0.07);
+  background: var(--carolina-dim);
 }
 
 /* ─── Shared audit view ────────────────────────────────────────────────────── */
@@ -874,7 +874,7 @@
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--muted);
 }
 
 .sharedCta {
@@ -883,16 +883,16 @@
   justify-content: space-between;
   gap: 16px;
   padding: 24px;
-  border: 1px solid rgba(123, 175, 212, 0.18);
+  border: 1px solid var(--carolina-mid);
   border-radius: 12px;
-  background: rgba(123, 175, 212, 0.03);
+  background: var(--carolina-dim);
 }
 
 .sharedCtaText {
   font-family: var(--font-ui);
   font-size: 15px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -973,7 +973,7 @@
   content: "";
   flex: 1;
   height: 1px;
-  background: rgba(123, 175, 212, 0.2);
+  background: var(--border-accent);
 }
 
 .bonusSeparatorLabel {
@@ -988,10 +988,10 @@
 
 /* AI Citability card — same structure as sectionCard, carolina accent instead of status colors */
 .aiCitabilityCard {
-  border: 1px solid rgba(123, 175, 212, 0.18);
+  border: 1px solid var(--carolina-mid);
   border-radius: 12px;
   padding: 20px;
-  background: rgba(123, 175, 212, 0.03);
+  background: var(--carolina-dim);
   overflow: hidden;
   position: relative;
 }
@@ -1029,18 +1029,18 @@
 
 .subSignalBadge[data-status="green"] {
   color: var(--status-green);
-  border-color: rgba(0, 255, 136, 0.25);
-  background: rgba(0, 255, 136, 0.07);
+  border-color: var(--status-green-mid);
+  background: var(--status-green-dim);
 }
 
 .subSignalBadge[data-status="yellow"] {
   color: var(--status-yellow);
-  border-color: rgba(255, 204, 0, 0.25);
-  background: rgba(255, 204, 0, 0.07);
+  border-color: var(--status-yellow-mid);
+  background: var(--status-yellow-dim);
 }
 
 .subSignalBadge[data-status="red"] {
   color: var(--status-red);
-  border-color: rgba(255, 77, 77, 0.25);
-  background: rgba(255, 77, 77, 0.07);
+  border-color: var(--status-red-mid);
+  background: var(--status-red-dim);
 }
