@@ -37,8 +37,9 @@ const TOOL_CATALOG: Record<ToolSlug, ToolEntry> = {
   gbp: {
     name: "GBP Optimizer",
     blurb:
-      "Auto-detect missing hours, photos, and categories — fix in one click.",
-    status: "soon",
+      "Prioritized fix list for hours, photos, reviews, and posts — with the why behind each one.",
+    status: "available",
+    href: "/dashboard/tools/gbp",
   },
   reviews: {
     name: "Review Engine",

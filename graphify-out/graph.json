@@ -1,1057 +1,1390 @@
 {
   "directed": false,
   "multigraph": false,
-  "graph": {
-    "hyperedges": [
-      {
-        "id": "landing_page_components",
-        "label": "Landing Page Component Set",
-        "members": [
-          "hero_section",
-          "trust_bar",
-          "how_it_works",
-          "what_we_check",
-          "report_preview",
-          "testimonials",
-          "faq_section",
-          "final_cta",
-          "diagnostic_grid"
-        ],
-        "relation": "compose_landing_page",
-        "confidence": "EXTRACTED"
-      },
-      {
-        "id": "shared_chrome",
-        "label": "Shared Page Chrome",
-        "members": [
-          "site_nav_minimal",
-          "site_footer_minimal"
-        ],
-        "relation": "appear_on_every_page",
-        "confidence": "EXTRACTED"
-      },
-      {
-        "id": "prefetch_sources",
-        "label": "Pre-Fetch Data Sources",
-        "members": [
-          "svc_google_places",
-          "svc_pagespeed",
-          "svc_serper",
-          "svc_dataforseo"
-        ],
-        "relation": "run in parallel by lib_prefetch before Claude call",
-        "confidence": "EXTRACTED"
-      },
-      {
-        "id": "landing_visuals",
-        "label": "Landing Page Visual Assets",
-        "members": [
-          "img_step1",
-          "img_step2",
-          "img_step3",
-          "img_how_it_works",
-          "img_testimonials",
-          "img_map_pack",
-          "img_visibility",
-          "img_audit_preview"
-        ],
-        "relation": "used as landing page imagery",
-        "confidence": "INFERRED"
-      }
-    ]
-  },
+  "graph": {},
   "nodes": [
     {
       "label": "postcss.config.mjs",
       "file_type": "code",
       "source_file": "postcss.config.mjs",
       "source_location": "L1",
-      "id": "postcss_config_mjs"
+      "id": "postcss_config_mjs",
+      "community": 23,
+      "norm_label": "postcss.config.mjs"
     },
     {
       "label": "next-env.d.ts",
       "file_type": "code",
       "source_file": "next-env.d.ts",
       "source_location": "L1",
-      "id": "next_env_d_ts"
+      "id": "next_env_d_ts",
+      "community": 24,
+      "norm_label": "next-env.d.ts"
     },
     {
-      "label": "Rate-Limit Proxy Middleware",
+      "label": "proxy.ts",
       "file_type": "code",
       "source_file": "proxy.ts",
       "source_location": "L1",
-      "id": "proxy_ts"
+      "id": "proxy_ts",
+      "community": 0,
+      "norm_label": "proxy.ts"
     },
     {
       "label": "getRatelimiter()",
       "file_type": "code",
       "source_file": "proxy.ts",
-      "source_location": "L6",
-      "id": "lsa_audit_tool_proxy_getratelimiter"
+      "source_location": "L8",
+      "id": "lsa_audit_tool_proxy_getratelimiter",
+      "community": 0,
+      "norm_label": "getratelimiter()"
     },
     {
       "label": "proxy()",
       "file_type": "code",
       "source_file": "proxy.ts",
-      "source_location": "L21",
-      "id": "lsa_audit_tool_proxy_proxy"
+      "source_location": "L25",
+      "id": "lsa_audit_tool_proxy_proxy",
+      "community": 0,
+      "norm_label": "proxy()"
     },
     {
       "label": "eslint.config.mjs",
       "file_type": "code",
       "source_file": "eslint.config.mjs",
       "source_location": "L1",
-      "id": "eslint_config_mjs"
+      "id": "eslint_config_mjs",
+      "community": 25,
+      "norm_label": "eslint.config.mjs"
     },
     {
       "label": "next.config.ts",
       "file_type": "code",
       "source_file": "next.config.ts",
       "source_location": "L1",
-      "id": "next_config_ts"
+      "id": "next_config_ts",
+      "community": 26,
+      "norm_label": "next.config.ts"
     },
     {
       "label": "layout.tsx",
       "file_type": "code",
       "source_file": "app/layout.tsx",
       "source_location": "L1",
-      "id": "app_layout_tsx"
+      "id": "app_layout_tsx",
+      "community": 14,
+      "norm_label": "layout.tsx"
     },
     {
       "label": "RootLayout()",
       "file_type": "code",
       "source_file": "app/layout.tsx",
       "source_location": "L51",
-      "id": "app_layout_rootlayout"
+      "id": "app_layout_rootlayout",
+      "community": 14,
+      "norm_label": "rootlayout()"
     },
     {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "app/page.tsx",
       "source_location": "L1",
-      "id": "app_page_tsx"
+      "id": "app_page_tsx",
+      "community": 15,
+      "norm_label": "page.tsx"
     },
     {
       "label": "Home()",
       "file_type": "code",
       "source_file": "app/page.tsx",
-      "source_location": "L12",
-      "id": "app_page_home"
+      "source_location": "L6",
+      "id": "app_page_home",
+      "community": 15,
+      "norm_label": "home()"
     },
     {
-      "label": "page.tsx",
+      "label": "route.ts",
       "file_type": "code",
-      "source_file": "app/thank-you/page.tsx",
+      "source_file": "app/auth/signout/route.ts",
       "source_location": "L1",
-      "id": "app_thank_you_page_tsx"
+      "id": "app_auth_signout_route_ts",
+      "community": 0,
+      "norm_label": "route.ts"
     },
     {
-      "label": "handleMessage()",
+      "label": "POST()",
       "file_type": "code",
-      "source_file": "app/thank-you/page.tsx",
-      "source_location": "L22",
-      "id": "thank_you_page_handlemessage"
+      "source_file": "app/auth/signout/route.ts",
+      "source_location": "L5",
+      "id": "signout_route_post",
+      "community": 0,
+      "norm_label": "post()"
     },
     {
-      "label": "page.tsx",
+      "label": "route.ts",
       "file_type": "code",
-      "source_file": "app/free-local-seo-audit/page.tsx",
+      "source_file": "app/auth/callback/route.ts",
       "source_location": "L1",
-      "id": "app_free_local_seo_audit_page_tsx"
+      "id": "app_auth_callback_route_ts",
+      "community": 0,
+      "norm_label": "route.ts"
     },
     {
-      "label": "SiteFooter.tsx",
+      "label": "GET()",
       "file_type": "code",
-      "source_file": "app/components/SiteFooter.tsx",
-      "source_location": "L1",
-      "id": "app_components_sitefooter_tsx"
-    },
-    {
-      "label": "SiteFooter()",
-      "file_type": "code",
-      "source_file": "app/components/SiteFooter.tsx",
-      "source_location": "L35",
-      "id": "components_sitefooter_sitefooter"
-    },
-    {
-      "label": "DiagnosticGrid.tsx",
-      "file_type": "code",
-      "source_file": "app/components/DiagnosticGrid.tsx",
-      "source_location": "L1",
-      "id": "app_components_diagnosticgrid_tsx"
-    },
-    {
-      "label": "TrustBar.tsx",
-      "file_type": "code",
-      "source_file": "app/components/TrustBar.tsx",
-      "source_location": "L1",
-      "id": "app_components_trustbar_tsx"
-    },
-    {
-      "label": "TrustBar()",
-      "file_type": "code",
-      "source_file": "app/components/TrustBar.tsx",
-      "source_location": "L10",
-      "id": "components_trustbar_trustbar"
-    },
-    {
-      "label": "HowItWorksSection.tsx",
-      "file_type": "code",
-      "source_file": "app/components/HowItWorksSection.tsx",
-      "source_location": "L1",
-      "id": "app_components_howitworkssection_tsx"
-    },
-    {
-      "label": "HowItWorksSection()",
-      "file_type": "code",
-      "source_file": "app/components/HowItWorksSection.tsx",
-      "source_location": "L28",
-      "id": "components_howitworkssection_howitworkssection"
-    },
-    {
-      "label": "WhatWeCheckSection.tsx",
-      "file_type": "code",
-      "source_file": "app/components/WhatWeCheckSection.tsx",
-      "source_location": "L1",
-      "id": "app_components_whatwechecksection_tsx"
-    },
-    {
-      "label": "ReportPreviewSection.tsx",
-      "file_type": "code",
-      "source_file": "app/components/ReportPreviewSection.tsx",
-      "source_location": "L1",
-      "id": "app_components_reportpreviewsection_tsx"
-    },
-    {
-      "label": "ReportPreviewSection()",
-      "file_type": "code",
-      "source_file": "app/components/ReportPreviewSection.tsx",
+      "source_file": "app/auth/callback/route.ts",
       "source_location": "L4",
-      "id": "components_reportpreviewsection_reportpreviewsection"
+      "id": "callback_route_get",
+      "community": 0,
+      "norm_label": "get()"
     },
     {
-      "label": "FaqSection.tsx",
+      "label": "page.tsx",
       "file_type": "code",
-      "source_file": "app/components/FaqSection.tsx",
+      "source_file": "app/admin/page.tsx",
       "source_location": "L1",
-      "id": "app_components_faqsection_tsx"
+      "id": "app_admin_page_tsx",
+      "community": 27,
+      "norm_label": "page.tsx"
     },
     {
-      "label": "FaqSection()",
+      "label": "page.tsx",
       "file_type": "code",
-      "source_file": "app/components/FaqSection.tsx",
+      "source_file": "app/admin/client/[id]/page.tsx",
+      "source_location": "L1",
+      "id": "app_admin_client_id_page_tsx",
+      "community": 28,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "loading.tsx",
+      "file_type": "code",
+      "source_file": "app/dashboard/loading.tsx",
+      "source_location": "L1",
+      "id": "app_dashboard_loading_tsx",
+      "community": 29,
+      "norm_label": "loading.tsx"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L1",
+      "id": "app_dashboard_page_tsx",
+      "community": 30,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/dashboard/grid/page.tsx",
+      "source_location": "L1",
+      "id": "app_dashboard_grid_page_tsx",
+      "community": 31,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "GeoGridMap.tsx",
+      "file_type": "code",
+      "source_file": "app/components/GeoGridMap.tsx",
+      "source_location": "L1",
+      "id": "app_components_geogridmap_tsx",
+      "community": 16,
+      "norm_label": "geogridmap.tsx"
+    },
+    {
+      "label": "GeoGridMap()",
+      "file_type": "code",
+      "source_file": "app/components/GeoGridMap.tsx",
       "source_location": "L30",
-      "id": "components_faqsection_faqsection"
+      "id": "components_geogridmap_geogridmap",
+      "community": 16,
+      "norm_label": "geogridmap()"
     },
     {
-      "label": "FinalCtaSection.tsx",
+      "label": "GBPWidget.tsx",
       "file_type": "code",
-      "source_file": "app/components/FinalCtaSection.tsx",
+      "source_file": "app/components/GBPWidget.tsx",
       "source_location": "L1",
-      "id": "app_components_finalctasection_tsx"
+      "id": "app_components_gbpwidget_tsx",
+      "community": 32,
+      "norm_label": "gbpwidget.tsx"
     },
     {
-      "label": "FinalCtaSection()",
+      "label": "TechnicalWidget.tsx",
       "file_type": "code",
-      "source_file": "app/components/FinalCtaSection.tsx",
-      "source_location": "L3",
-      "id": "components_finalctasection_finalctasection"
+      "source_file": "app/components/TechnicalWidget.tsx",
+      "source_location": "L1",
+      "id": "app_components_technicalwidget_tsx",
+      "community": 33,
+      "norm_label": "technicalwidget.tsx"
+    },
+    {
+      "label": "CitationsWidget.tsx",
+      "file_type": "code",
+      "source_file": "app/components/CitationsWidget.tsx",
+      "source_location": "L1",
+      "id": "app_components_citationswidget_tsx",
+      "community": 34,
+      "norm_label": "citationswidget.tsx"
+    },
+    {
+      "label": "ReviewsWidget.tsx",
+      "file_type": "code",
+      "source_file": "app/components/ReviewsWidget.tsx",
+      "source_location": "L1",
+      "id": "app_components_reviewswidget_tsx",
+      "community": 35,
+      "norm_label": "reviewswidget.tsx"
+    },
+    {
+      "label": "DeleteAuditButton.tsx",
+      "file_type": "code",
+      "source_file": "app/components/DeleteAuditButton.tsx",
+      "source_location": "L1",
+      "id": "app_components_deleteauditbutton_tsx",
+      "community": 17,
+      "norm_label": "deleteauditbutton.tsx"
+    },
+    {
+      "label": "handleClick()",
+      "file_type": "code",
+      "source_file": "app/components/DeleteAuditButton.tsx",
+      "source_location": "L9",
+      "id": "components_deleteauditbutton_handleclick",
+      "community": 17,
+      "norm_label": "handleclick()"
+    },
+    {
+      "label": "StatusPill.tsx",
+      "file_type": "code",
+      "source_file": "app/components/StatusPill.tsx",
+      "source_location": "L1",
+      "id": "app_components_statuspill_tsx",
+      "community": 18,
+      "norm_label": "statuspill.tsx"
+    },
+    {
+      "label": "StatusPill()",
+      "file_type": "code",
+      "source_file": "app/components/StatusPill.tsx",
+      "source_location": "L24",
+      "id": "components_statuspill_statuspill",
+      "community": 18,
+      "norm_label": "statuspill()"
+    },
+    {
+      "label": "UpgradeSlot.tsx",
+      "file_type": "code",
+      "source_file": "app/components/UpgradeSlot.tsx",
+      "source_location": "L1",
+      "id": "app_components_upgradeslot_tsx",
+      "community": 19,
+      "norm_label": "upgradeslot.tsx"
+    },
+    {
+      "label": "UpgradeSlot()",
+      "file_type": "code",
+      "source_file": "app/components/UpgradeSlot.tsx",
+      "source_location": "L82",
+      "id": "components_upgradeslot_upgradeslot",
+      "community": 19,
+      "norm_label": "upgradeslot()"
     },
     {
       "label": "SiteFooterMinimal.tsx",
       "file_type": "code",
       "source_file": "app/components/SiteFooterMinimal.tsx",
       "source_location": "L1",
-      "id": "app_components_sitefooterminimal_tsx"
+      "id": "app_components_sitefooterminimal_tsx",
+      "community": 20,
+      "norm_label": "sitefooterminimal.tsx"
     },
     {
       "label": "SiteFooterMinimal()",
       "file_type": "code",
       "source_file": "app/components/SiteFooterMinimal.tsx",
       "source_location": "L3",
-      "id": "components_sitefooterminimal_sitefooterminimal"
+      "id": "components_sitefooterminimal_sitefooterminimal",
+      "community": 20,
+      "norm_label": "sitefooterminimal()"
     },
     {
-      "label": "TestimonialsSection.tsx",
+      "label": "GeoGrid.tsx",
       "file_type": "code",
-      "source_file": "app/components/TestimonialsSection.tsx",
+      "source_file": "app/components/GeoGrid.tsx",
       "source_location": "L1",
-      "id": "app_components_testimonialssection_tsx"
+      "id": "app_components_geogrid_tsx",
+      "community": 7,
+      "norm_label": "geogrid.tsx"
     },
     {
-      "label": "TestimonialsSection()",
+      "label": "computeDeltas()",
       "file_type": "code",
-      "source_file": "app/components/TestimonialsSection.tsx",
-      "source_location": "L27",
-      "id": "components_testimonialssection_testimonialssection"
+      "source_file": "app/components/GeoGrid.tsx",
+      "source_location": "L70",
+      "id": "components_geogrid_computedeltas",
+      "community": 7,
+      "norm_label": "computedeltas()"
+    },
+    {
+      "label": "runScan()",
+      "file_type": "code",
+      "source_file": "app/components/GeoGrid.tsx",
+      "source_location": "L101",
+      "id": "components_geogrid_runscan",
+      "community": 7,
+      "norm_label": "runscan()"
+    },
+    {
+      "label": "loadScan()",
+      "file_type": "code",
+      "source_file": "app/components/GeoGrid.tsx",
+      "source_location": "L179",
+      "id": "components_geogrid_loadscan",
+      "community": 7,
+      "norm_label": "loadscan()"
     },
     {
       "label": "AuditTool.tsx",
       "file_type": "code",
       "source_file": "app/components/AuditTool.tsx",
       "source_location": "L1",
-      "id": "app_components_audittool_tsx"
+      "id": "app_components_audittool_tsx",
+      "community": 9,
+      "norm_label": "audittool.tsx"
     },
     {
       "label": "validate()",
       "file_type": "code",
       "source_file": "app/components/AuditTool.tsx",
-      "source_location": "L135",
-      "id": "components_audittool_validate"
+      "source_location": "L63",
+      "id": "components_audittool_validate",
+      "community": 9,
+      "norm_label": "validate()"
     },
     {
       "label": "handleSubmit()",
       "file_type": "code",
       "source_file": "app/components/AuditTool.tsx",
-      "source_location": "L151",
-      "id": "components_audittool_handlesubmit"
-    },
-    {
-      "label": "handleCopy()",
-      "file_type": "code",
-      "source_file": "app/components/AuditTool.tsx",
-      "source_location": "L669",
-      "id": "components_audittool_handlecopy"
-    },
-    {
-      "label": "SectionCard()",
-      "file_type": "code",
-      "source_file": "app/components/AuditTool.tsx",
-      "source_location": "L783",
-      "id": "components_audittool_sectioncard"
+      "source_location": "L74",
+      "id": "components_audittool_handlesubmit",
+      "community": 9,
+      "norm_label": "handlesubmit()"
     },
     {
       "label": "HeroSection.tsx",
       "file_type": "code",
       "source_file": "app/components/HeroSection.tsx",
       "source_location": "L1",
-      "id": "app_components_herosection_tsx"
+      "id": "app_components_herosection_tsx",
+      "community": 36,
+      "norm_label": "herosection.tsx"
     },
     {
-      "label": "HeroSection()",
+      "label": "OnPageWidget.tsx",
       "file_type": "code",
-      "source_file": "app/components/HeroSection.tsx",
-      "source_location": "L24",
-      "id": "components_herosection_herosection"
+      "source_file": "app/components/OnPageWidget.tsx",
+      "source_location": "L1",
+      "id": "app_components_onpagewidget_tsx",
+      "community": 37,
+      "norm_label": "onpagewidget.tsx"
+    },
+    {
+      "label": "CompetitorsWidget.tsx",
+      "file_type": "code",
+      "source_file": "app/components/CompetitorsWidget.tsx",
+      "source_location": "L1",
+      "id": "app_components_competitorswidget_tsx",
+      "community": 38,
+      "norm_label": "competitorswidget.tsx"
+    },
+    {
+      "label": "ScoreBadge.tsx",
+      "file_type": "code",
+      "source_file": "app/components/ScoreBadge.tsx",
+      "source_location": "L1",
+      "id": "app_components_scorebadge_tsx",
+      "community": 39,
+      "norm_label": "scorebadge.tsx"
+    },
+    {
+      "label": "AICitabilityWidget.tsx",
+      "file_type": "code",
+      "source_file": "app/components/AICitabilityWidget.tsx",
+      "source_location": "L1",
+      "id": "app_components_aicitabilitywidget_tsx",
+      "community": 40,
+      "norm_label": "aicitabilitywidget.tsx"
+    },
+    {
+      "label": "BacklinksWidget.tsx",
+      "file_type": "code",
+      "source_file": "app/components/BacklinksWidget.tsx",
+      "source_location": "L1",
+      "id": "app_components_backlinkswidget_tsx",
+      "community": 41,
+      "norm_label": "backlinkswidget.tsx"
     },
     {
       "label": "SiteNavMinimal.tsx",
       "file_type": "code",
       "source_file": "app/components/SiteNavMinimal.tsx",
       "source_location": "L1",
-      "id": "app_components_sitenavminimal_tsx"
+      "id": "app_components_sitenavminimal_tsx",
+      "community": 21,
+      "norm_label": "sitenavminimal.tsx"
     },
     {
       "label": "onScroll()",
       "file_type": "code",
       "source_file": "app/components/SiteNavMinimal.tsx",
-      "source_location": "L11",
-      "id": "components_sitenavminimal_onscroll"
+      "source_location": "L10",
+      "id": "components_sitenavminimal_onscroll",
+      "community": 21,
+      "norm_label": "onscroll()"
     },
     {
-      "label": "SiteNav.tsx",
+      "label": "AuditForm.tsx",
       "file_type": "code",
-      "source_file": "app/components/SiteNav.tsx",
+      "source_file": "app/components/audit/AuditForm.tsx",
       "source_location": "L1",
-      "id": "app_components_sitenav_tsx"
+      "id": "app_components_audit_auditform_tsx",
+      "community": 42,
+      "norm_label": "auditform.tsx"
     },
     {
-      "label": "onScroll()",
+      "label": "AuditLoading.tsx",
       "file_type": "code",
-      "source_file": "app/components/SiteNav.tsx",
-      "source_location": "L20",
-      "id": "components_sitenav_onscroll"
+      "source_file": "app/components/audit/AuditLoading.tsx",
+      "source_location": "L1",
+      "id": "app_components_audit_auditloading_tsx",
+      "community": 22,
+      "norm_label": "auditloading.tsx"
+    },
+    {
+      "label": "AuditLoading()",
+      "file_type": "code",
+      "source_file": "app/components/audit/AuditLoading.tsx",
+      "source_location": "L18",
+      "id": "audit_auditloading_auditloading",
+      "community": 22,
+      "norm_label": "auditloading()"
+    },
+    {
+      "label": "motionVariants.ts",
+      "file_type": "code",
+      "source_file": "app/components/audit/motionVariants.ts",
+      "source_location": "L1",
+      "id": "app_components_audit_motionvariants_ts",
+      "community": 43,
+      "norm_label": "motionvariants.ts"
+    },
+    {
+      "label": "AuditResults.tsx",
+      "file_type": "code",
+      "source_file": "app/components/audit/AuditResults.tsx",
+      "source_location": "L1",
+      "id": "app_components_audit_auditresults_tsx",
+      "community": 44,
+      "norm_label": "auditresults.tsx"
+    },
+    {
+      "label": "AuditResultParts.tsx",
+      "file_type": "code",
+      "source_file": "app/components/audit/AuditResultParts.tsx",
+      "source_location": "L1",
+      "id": "app_components_audit_auditresultparts_tsx",
+      "community": 8,
+      "norm_label": "auditresultparts.tsx"
+    },
+    {
+      "label": "CopyLinkButton()",
+      "file_type": "code",
+      "source_file": "app/components/audit/AuditResultParts.tsx",
+      "source_location": "L13",
+      "id": "audit_auditresultparts_copylinkbutton",
+      "community": 8,
+      "norm_label": "copylinkbutton()"
+    },
+    {
+      "label": "matchActionToSection()",
+      "file_type": "code",
+      "source_file": "app/components/audit/AuditResultParts.tsx",
+      "source_location": "L267",
+      "id": "audit_auditresultparts_matchactiontosection",
+      "community": 8,
+      "norm_label": "matchactiontosection()"
+    },
+    {
+      "label": "handleSubmit()",
+      "file_type": "code",
+      "source_file": "app/components/audit/AuditResultParts.tsx",
+      "source_location": "L495",
+      "id": "audit_auditresultparts_handlesubmit",
+      "community": 8,
+      "norm_label": "handlesubmit()"
     },
     {
       "label": "SharedAuditView.tsx",
       "file_type": "code",
       "source_file": "app/audit/[id]/SharedAuditView.tsx",
       "source_location": "L1",
-      "id": "app_audit_id_sharedauditview_tsx"
-    },
-    {
-      "label": "handleCopy()",
-      "file_type": "code",
-      "source_file": "app/audit/[id]/SharedAuditView.tsx",
-      "source_location": "L117",
-      "id": "id_sharedauditview_handlecopy"
+      "id": "app_audit_id_sharedauditview_tsx",
+      "community": 45,
+      "norm_label": "sharedauditview.tsx"
     },
     {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "app/audit/[id]/page.tsx",
       "source_location": "L1",
-      "id": "app_audit_id_page_tsx"
-    },
-    {
-      "label": "getAudit()",
-      "file_type": "code",
-      "source_file": "app/audit/[id]/page.tsx",
-      "source_location": "L10",
-      "id": "id_page_getaudit"
+      "id": "app_audit_id_page_tsx",
+      "community": 10,
+      "norm_label": "page.tsx"
     },
     {
       "label": "generateMetadata()",
       "file_type": "code",
       "source_file": "app/audit/[id]/page.tsx",
-      "source_location": "L21",
-      "id": "id_page_generatemetadata"
+      "source_location": "L31",
+      "id": "id_page_generatemetadata",
+      "community": 10,
+      "norm_label": "generatemetadata()"
     },
     {
       "label": "AuditPage()",
       "file_type": "code",
       "source_file": "app/audit/[id]/page.tsx",
-      "source_location": "L33",
-      "id": "id_page_auditpage"
+      "source_location": "L43",
+      "id": "id_page_auditpage",
+      "community": 10,
+      "norm_label": "auditpage()"
+    },
+    {
+      "label": "deleteAudit.ts",
+      "file_type": "code",
+      "source_file": "app/actions/deleteAudit.ts",
+      "source_location": "L1",
+      "id": "app_actions_deleteaudit_ts",
+      "community": 2,
+      "norm_label": "deleteaudit.ts"
+    },
+    {
+      "label": "deleteAudit()",
+      "file_type": "code",
+      "source_file": "app/actions/deleteAudit.ts",
+      "source_location": "L7",
+      "id": "actions_deleteaudit_deleteaudit",
+      "community": 2,
+      "norm_label": "deleteaudit()"
     },
     {
       "label": "route.ts",
       "file_type": "code",
-      "source_file": "app/api/audit/route.ts",
+      "source_file": "app/api/auth/save-audit/route.ts",
       "source_location": "L1",
-      "id": "app_api_audit_route_ts"
-    },
-    {
-      "label": "sanitizeString()",
-      "file_type": "code",
-      "source_file": "app/api/audit/route.ts",
-      "source_location": "L28",
-      "id": "audit_route_sanitizestring"
-    },
-    {
-      "label": "sanitizeUrl()",
-      "file_type": "code",
-      "source_file": "app/api/audit/route.ts",
-      "source_location": "L37",
-      "id": "audit_route_sanitizeurl"
-    },
-    {
-      "label": "buildAuditPrompt()",
-      "file_type": "code",
-      "source_file": "app/api/audit/route.ts",
-      "source_location": "L151",
-      "id": "audit_route_buildauditprompt"
-    },
-    {
-      "label": "parseAuditResult()",
-      "file_type": "code",
-      "source_file": "app/api/audit/route.ts",
-      "source_location": "L191",
-      "id": "audit_route_parseauditresult"
-    },
-    {
-      "label": "callClaude()",
-      "file_type": "code",
-      "source_file": "app/api/audit/route.ts",
-      "source_location": "L200",
-      "id": "audit_route_callclaude"
-    },
-    {
-      "label": "notifySlack()",
-      "file_type": "code",
-      "source_file": "app/api/audit/route.ts",
-      "source_location": "L260",
-      "id": "audit_route_notifyslack"
+      "id": "app_api_auth_save_audit_route_ts",
+      "community": 2,
+      "norm_label": "route.ts"
     },
     {
       "label": "POST()",
       "file_type": "code",
-      "source_file": "app/api/audit/route.ts",
-      "source_location": "L294",
-      "id": "audit_route_post"
+      "source_file": "app/api/auth/save-audit/route.ts",
+      "source_location": "L15",
+      "id": "save_audit_route_post",
+      "community": 2,
+      "norm_label": "post()"
     },
     {
       "label": "route.ts",
       "file_type": "code",
-      "source_file": "app/api/email/route.ts",
+      "source_file": "app/api/auth/check-invite/route.ts",
       "source_location": "L1",
-      "id": "app_api_email_route_ts"
+      "id": "app_api_auth_check_invite_route_ts",
+      "community": 2,
+      "norm_label": "route.ts"
     },
     {
-      "label": "sanitizeString()",
+      "label": "POST()",
       "file_type": "code",
-      "source_file": "app/api/email/route.ts",
+      "source_file": "app/api/auth/check-invite/route.ts",
+      "source_location": "L4",
+      "id": "check_invite_route_post",
+      "community": 2,
+      "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/audit/route.ts",
+      "source_location": "L1",
+      "id": "app_api_audit_route_ts",
+      "community": 4,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "notifyEmail()",
+      "file_type": "code",
+      "source_file": "app/api/audit/route.ts",
       "source_location": "L32",
-      "id": "email_route_sanitizestring"
+      "id": "audit_route_notifyemail",
+      "community": 4,
+      "norm_label": "notifyemail()"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/audit/route.ts",
+      "source_location": "L155",
+      "id": "audit_route_post",
+      "community": 4,
+      "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/email/route.ts",
+      "source_location": "L1",
+      "id": "app_api_email_route_ts",
+      "community": 3,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "sanitizeString()",
+      "file_type": "code",
+      "source_file": "app/api/email/route.ts",
+      "source_location": "L26",
+      "id": "email_route_sanitizestring",
+      "community": 3,
+      "norm_label": "sanitizestring()"
     },
     {
       "label": "POST()",
       "file_type": "code",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L41",
-      "id": "email_route_post"
+      "source_location": "L35",
+      "id": "email_route_post",
+      "community": 3,
+      "norm_label": "post()"
     },
     {
       "label": "buildEmailHtml()",
       "file_type": "code",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L313",
-      "id": "email_route_buildemailhtml"
+      "source_location": "L323",
+      "id": "email_route_buildemailhtml",
+      "community": 3,
+      "norm_label": "buildemailhtml()"
     },
     {
       "label": "emailShell()",
       "file_type": "code",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L448",
-      "id": "email_route_emailshell"
+      "source_location": "L458",
+      "id": "email_route_emailshell",
+      "community": 3,
+      "norm_label": "emailshell()"
     },
     {
       "label": "buildDripDay2Html()",
       "file_type": "code",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L485",
-      "id": "email_route_builddripday2html"
+      "source_location": "L495",
+      "id": "email_route_builddripday2html",
+      "community": 3,
+      "norm_label": "builddripday2html()"
     },
     {
       "label": "buildDripDay5Html()",
       "file_type": "code",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L548",
-      "id": "email_route_builddripday5html"
+      "source_location": "L558",
+      "id": "email_route_builddripday5html",
+      "community": 3,
+      "norm_label": "builddripday5html()"
     },
     {
       "label": "buildDripDay9Html()",
       "file_type": "code",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L602",
-      "id": "email_route_builddripday9html"
+      "source_location": "L612",
+      "id": "email_route_builddripday9html",
+      "community": 3,
+      "norm_label": "builddripday9html()"
     },
     {
       "label": "buildDripDay14Html()",
       "file_type": "code",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L653",
-      "id": "email_route_builddripday14html"
+      "source_location": "L663",
+      "id": "email_route_builddripday14html",
+      "community": 3,
+      "norm_label": "builddripday14html()"
     },
     {
       "label": "buildDripDay21Html()",
       "file_type": "code",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L702",
-      "id": "email_route_builddripday21html"
+      "source_location": "L712",
+      "id": "email_route_builddripday21html",
+      "community": 3,
+      "norm_label": "builddripday21html()"
     },
     {
       "label": "buildReauditReminderHtml()",
       "file_type": "code",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L744",
-      "id": "email_route_buildreauditreminderhtml"
+      "source_location": "L754",
+      "id": "email_route_buildreauditreminderhtml",
+      "community": 3,
+      "norm_label": "buildreauditreminderhtml()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/grid/route.ts",
+      "source_location": "L1",
+      "id": "app_api_grid_route_ts",
+      "community": 0,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "sleep()",
+      "file_type": "code",
+      "source_file": "app/api/grid/route.ts",
+      "source_location": "L16",
+      "id": "grid_route_sleep",
+      "community": 0,
+      "norm_label": "sleep()"
+    },
+    {
+      "label": "checkRankAtPoint()",
+      "file_type": "code",
+      "source_file": "app/api/grid/route.ts",
+      "source_location": "L20",
+      "id": "grid_route_checkrankatpoint",
+      "community": 0,
+      "norm_label": "checkrankatpoint()"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/grid/route.ts",
+      "source_location": "L71",
+      "id": "grid_route_post",
+      "community": 0,
+      "norm_label": "post()"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/grid/route.ts",
+      "source_location": "L166",
+      "id": "grid_route_get",
+      "community": 0,
+      "norm_label": "get()"
+    },
+    {
+      "label": "LoginForm.tsx",
+      "file_type": "code",
+      "source_file": "app/login/LoginForm.tsx",
+      "source_location": "L1",
+      "id": "app_login_loginform_tsx",
+      "community": 2,
+      "norm_label": "loginform.tsx"
+    },
+    {
+      "label": "handleSubmit()",
+      "file_type": "code",
+      "source_file": "app/login/LoginForm.tsx",
+      "source_location": "L12",
+      "id": "login_loginform_handlesubmit",
+      "community": 2,
+      "norm_label": "handlesubmit()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/login/page.tsx",
+      "source_location": "L1",
+      "id": "app_login_page_tsx",
+      "community": 46,
+      "norm_label": "page.tsx"
     },
     {
       "label": "prefetch.ts",
       "file_type": "code",
       "source_file": "lib/prefetch.ts",
       "source_location": "L1",
-      "id": "lib_prefetch_ts"
+      "id": "lib_prefetch_ts",
+      "community": 47,
+      "norm_label": "prefetch.ts"
     },
     {
-      "label": "fetchGBPData()",
+      "label": "types.ts",
       "file_type": "code",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L20",
-      "id": "lib_prefetch_fetchgbpdata"
-    },
-    {
-      "label": "fetchPageSpeedData()",
-      "file_type": "code",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L80",
-      "id": "lib_prefetch_fetchpagespeeddata"
-    },
-    {
-      "label": "formatGBPBlock()",
-      "file_type": "code",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L131",
-      "id": "lib_prefetch_formatgbpblock"
-    },
-    {
-      "label": "stripTags()",
-      "file_type": "code",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L173",
-      "id": "lib_prefetch_striptags"
-    },
-    {
-      "label": "extractJsonLdBlocks()",
-      "file_type": "code",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L177",
-      "id": "lib_prefetch_extractjsonldblocks"
-    },
-    {
-      "label": "fetchWebsiteData()",
-      "file_type": "code",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L192",
-      "id": "lib_prefetch_fetchwebsitedata"
-    },
-    {
-      "label": "formatWebsiteBlock()",
-      "file_type": "code",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L278",
-      "id": "lib_prefetch_formatwebsiteblock"
-    },
-    {
-      "label": "fetchSerperData()",
-      "file_type": "code",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L312",
-      "id": "lib_prefetch_fetchserperdata"
-    },
-    {
-      "label": "formatSerperBlock()",
-      "file_type": "code",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L355",
-      "id": "lib_prefetch_formatserperblock"
-    },
-    {
-      "label": "fetchBacklinksData()",
-      "file_type": "code",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L380",
-      "id": "lib_prefetch_fetchbacklinksdata"
-    },
-    {
-      "label": "formatBacklinksBlock()",
-      "file_type": "code",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L417",
-      "id": "lib_prefetch_formatbacklinksblock"
-    },
-    {
-      "label": "fetchReviewsData()",
-      "file_type": "code",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L448",
-      "id": "lib_prefetch_fetchreviewsdata"
-    },
-    {
-      "label": "formatReviewsBlock()",
-      "file_type": "code",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L493",
-      "id": "lib_prefetch_formatreviewsblock"
-    },
-    {
-      "label": "formatPageSpeedBlock()",
-      "file_type": "code",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L518",
-      "id": "lib_prefetch_formatpagespeedblock"
+      "source_file": "lib/types.ts",
+      "source_location": "L1",
+      "id": "lib_types_ts",
+      "community": 48,
+      "norm_label": "types.ts"
     },
     {
       "label": "ratelimit.ts",
       "file_type": "code",
       "source_file": "lib/ratelimit.ts",
       "source_location": "L1",
-      "id": "lib_ratelimit_ts"
+      "id": "lib_ratelimit_ts",
+      "community": 49,
+      "norm_label": "ratelimit.ts"
+    },
+    {
+      "label": "keywords.ts",
+      "file_type": "code",
+      "source_file": "lib/keywords.ts",
+      "source_location": "L1",
+      "id": "lib_keywords_ts",
+      "community": 11,
+      "norm_label": "keywords.ts"
+    },
+    {
+      "label": "normalizeTrade()",
+      "file_type": "code",
+      "source_file": "lib/keywords.ts",
+      "source_location": "L82",
+      "id": "lib_keywords_normalizetrade",
+      "community": 11,
+      "norm_label": "normalizetrade()"
+    },
+    {
+      "label": "getSuggestedKeywords()",
+      "file_type": "code",
+      "source_file": "lib/keywords.ts",
+      "source_location": "L94",
+      "id": "lib_keywords_getsuggestedkeywords",
+      "community": 11,
+      "norm_label": "getsuggestedkeywords()"
+    },
+    {
+      "label": "audit-helpers.ts",
+      "file_type": "code",
+      "source_file": "lib/audit-helpers.ts",
+      "source_location": "L1",
+      "id": "lib_audit_helpers_ts",
+      "community": 4,
+      "norm_label": "audit-helpers.ts"
+    },
+    {
+      "label": "sanitizeString()",
+      "file_type": "code",
+      "source_file": "lib/audit-helpers.ts",
+      "source_location": "L23",
+      "id": "lib_audit_helpers_sanitizestring",
+      "community": 4,
+      "norm_label": "sanitizestring()"
+    },
+    {
+      "label": "sanitizeUrl()",
+      "file_type": "code",
+      "source_file": "lib/audit-helpers.ts",
+      "source_location": "L32",
+      "id": "lib_audit_helpers_sanitizeurl",
+      "community": 4,
+      "norm_label": "sanitizeurl()"
+    },
+    {
+      "label": "buildAuditPrompt()",
+      "file_type": "code",
+      "source_file": "lib/audit-helpers.ts",
+      "source_location": "L161",
+      "id": "lib_audit_helpers_buildauditprompt",
+      "community": 1,
+      "norm_label": "buildauditprompt()"
+    },
+    {
+      "label": "parseAuditResult()",
+      "file_type": "code",
+      "source_file": "lib/audit-helpers.ts",
+      "source_location": "L244",
+      "id": "lib_audit_helpers_parseauditresult",
+      "community": 4,
+      "norm_label": "parseauditresult()"
+    },
+    {
+      "label": "claude.ts",
+      "file_type": "code",
+      "source_file": "lib/claude.ts",
+      "source_location": "L1",
+      "id": "lib_claude_ts",
+      "community": 1,
+      "norm_label": "claude.ts"
+    },
+    {
+      "label": "callClaude()",
+      "file_type": "code",
+      "source_file": "lib/claude.ts",
+      "source_location": "L26",
+      "id": "lib_claude_callclaude",
+      "community": 1,
+      "norm_label": "callclaude()"
     },
     {
       "label": "supabase.ts",
       "file_type": "code",
       "source_file": "lib/supabase.ts",
       "source_location": "L1",
-      "id": "lib_supabase_ts"
+      "id": "lib_supabase_ts",
+      "community": 2,
+      "norm_label": "supabase.ts"
     },
     {
       "label": "getSupabase()",
       "file_type": "code",
       "source_file": "lib/supabase.ts",
-      "source_location": "L5",
-      "id": "lib_supabase_getsupabase"
+      "source_location": "L12",
+      "id": "lib_supabase_getsupabase",
+      "community": 2,
+      "norm_label": "getsupabase()"
+    },
+    {
+      "label": "createBrowserClient()",
+      "file_type": "code",
+      "source_file": "lib/supabase.ts",
+      "source_location": "L26",
+      "id": "lib_supabase_createbrowserclient",
+      "community": 2,
+      "norm_label": "createbrowserclient()"
+    },
+    {
+      "label": "createServerClient()",
+      "file_type": "code",
+      "source_file": "lib/supabase.ts",
+      "source_location": "L35",
+      "id": "lib_supabase_createserverclient",
+      "community": 0,
+      "norm_label": "createserverclient()"
+    },
+    {
+      "label": "grid.ts",
+      "file_type": "code",
+      "source_file": "lib/grid.ts",
+      "source_location": "L1",
+      "id": "lib_grid_ts",
+      "community": 0,
+      "norm_label": "grid.ts"
+    },
+    {
+      "label": "buildGrid()",
+      "file_type": "code",
+      "source_file": "lib/grid.ts",
+      "source_location": "L12",
+      "id": "lib_grid_buildgrid",
+      "community": 0,
+      "norm_label": "buildgrid()"
+    },
+    {
+      "label": "rankColor()",
+      "file_type": "code",
+      "source_file": "lib/grid.ts",
+      "source_location": "L46",
+      "id": "lib_grid_rankcolor",
+      "community": 0,
+      "norm_label": "rankcolor()"
+    },
+    {
+      "label": "rankLabel()",
+      "file_type": "code",
+      "source_file": "lib/grid.ts",
+      "source_location": "L53",
+      "id": "lib_grid_ranklabel",
+      "community": 0,
+      "norm_label": "ranklabel()"
     },
     {
       "label": "AuditPdf.tsx",
       "file_type": "code",
       "source_file": "lib/AuditPdf.tsx",
       "source_location": "L1",
-      "id": "lib_auditpdf_tsx"
+      "id": "lib_auditpdf_tsx",
+      "community": 12,
+      "norm_label": "auditpdf.tsx"
     },
     {
       "label": "statusColor()",
       "file_type": "code",
       "source_file": "lib/AuditPdf.tsx",
       "source_location": "L299",
-      "id": "lib_auditpdf_statuscolor"
+      "id": "lib_auditpdf_statuscolor",
+      "community": 12,
+      "norm_label": "statuscolor()"
     },
     {
       "label": "formatDate()",
       "file_type": "code",
       "source_file": "lib/AuditPdf.tsx",
       "source_location": "L303",
-      "id": "lib_auditpdf_formatdate"
+      "id": "lib_auditpdf_formatdate",
+      "community": 12,
+      "norm_label": "formatdate()"
     },
     {
-      "label": "PostCSS Config",
+      "label": "ai-citability.ts",
       "file_type": "code",
-      "id": "postcss_config"
+      "source_file": "lib/prefetch/ai-citability.ts",
+      "source_location": "L1",
+      "id": "lib_prefetch_ai_citability_ts",
+      "community": 5,
+      "norm_label": "ai-citability.ts"
     },
     {
-      "label": "Next.js Type Declarations",
+      "label": "normalisePhone()",
       "file_type": "code",
-      "id": "next_env_dts"
+      "source_file": "lib/prefetch/ai-citability.ts",
+      "source_location": "L15",
+      "id": "prefetch_ai_citability_normalisephone",
+      "community": 5,
+      "norm_label": "normalisephone()"
     },
     {
-      "label": "ESLint Config",
+      "label": "extractServiceKeywords()",
       "file_type": "code",
-      "id": "eslint_config"
+      "source_file": "lib/prefetch/ai-citability.ts",
+      "source_location": "L23",
+      "id": "prefetch_ai_citability_extractservicekeywords",
+      "community": 5,
+      "norm_label": "extractservicekeywords()"
     },
     {
-      "label": "Next.js Config",
+      "label": "computeAICitabilitySignals()",
       "file_type": "code",
-      "id": "next_config"
+      "source_file": "lib/prefetch/ai-citability.ts",
+      "source_location": "L41",
+      "id": "prefetch_ai_citability_computeaicitabilitysignals",
+      "community": 5,
+      "norm_label": "computeaicitabilitysignals()"
     },
     {
-      "label": "Root Layout",
+      "label": "formatAICitabilityBlock()",
       "file_type": "code",
-      "id": "app_layout"
+      "source_file": "lib/prefetch/ai-citability.ts",
+      "source_location": "L132",
+      "id": "prefetch_ai_citability_formataicitabilityblock",
+      "community": 5,
+      "norm_label": "formataicitabilityblock()"
     },
     {
-      "label": "Home Page (/ redirect target)",
+      "label": "gbp.ts",
       "file_type": "code",
-      "id": "app_page"
+      "source_file": "lib/prefetch/gbp.ts",
+      "source_location": "L1",
+      "id": "lib_prefetch_gbp_ts",
+      "community": 1,
+      "norm_label": "gbp.ts"
     },
     {
-      "label": "Thank You Page",
+      "label": "fetchGBPData()",
       "file_type": "code",
-      "id": "thank_you_page"
+      "source_file": "lib/prefetch/gbp.ts",
+      "source_location": "L22",
+      "id": "prefetch_gbp_fetchgbpdata",
+      "community": 1,
+      "norm_label": "fetchgbpdata()"
     },
     {
-      "label": "Free Local SEO Audit Page",
+      "label": "fetchPageSpeedData()",
       "file_type": "code",
-      "id": "free_local_seo_page"
+      "source_file": "lib/prefetch/gbp.ts",
+      "source_location": "L117",
+      "id": "prefetch_gbp_fetchpagespeeddata",
+      "community": 1,
+      "norm_label": "fetchpagespeeddata()"
     },
     {
-      "label": "SiteFooter",
+      "label": "formatGBPBlock()",
       "file_type": "code",
-      "id": "site_footer"
+      "source_file": "lib/prefetch/gbp.ts",
+      "source_location": "L168",
+      "id": "prefetch_gbp_formatgbpblock",
+      "community": 1,
+      "norm_label": "formatgbpblock()"
     },
     {
-      "label": "SiteFooterMinimal",
+      "label": "formatPageSpeedBlock()",
       "file_type": "code",
-      "id": "site_footer_minimal"
+      "source_file": "lib/prefetch/gbp.ts",
+      "source_location": "L188",
+      "id": "prefetch_gbp_formatpagespeedblock",
+      "community": 1,
+      "norm_label": "formatpagespeedblock()"
     },
     {
-      "label": "SiteNavMinimal",
+      "label": "website.ts",
       "file_type": "code",
-      "id": "site_nav_minimal"
+      "source_file": "lib/prefetch/website.ts",
+      "source_location": "L1",
+      "id": "lib_prefetch_website_ts",
+      "community": 6,
+      "norm_label": "website.ts"
     },
     {
-      "label": "HeroSection",
+      "label": "stripTags()",
       "file_type": "code",
-      "id": "hero_section"
+      "source_file": "lib/prefetch/website.ts",
+      "source_location": "L38",
+      "id": "prefetch_website_striptags",
+      "community": 6,
+      "norm_label": "striptags()"
     },
     {
-      "label": "DiagnosticGrid",
+      "label": "extractJsonLdBlocks()",
       "file_type": "code",
-      "id": "diagnostic_grid"
+      "source_file": "lib/prefetch/website.ts",
+      "source_location": "L45",
+      "id": "prefetch_website_extractjsonldblocks",
+      "community": 6,
+      "norm_label": "extractjsonldblocks()"
     },
     {
-      "label": "TrustBar",
+      "label": "fetchWebsiteData()",
       "file_type": "code",
-      "id": "trust_bar"
+      "source_file": "lib/prefetch/website.ts",
+      "source_location": "L63",
+      "id": "prefetch_website_fetchwebsitedata",
+      "community": 6,
+      "norm_label": "fetchwebsitedata()"
     },
     {
-      "label": "HowItWorksSection",
+      "label": "formatWebsiteBlock()",
       "file_type": "code",
-      "id": "how_it_works"
+      "source_file": "lib/prefetch/website.ts",
+      "source_location": "L176",
+      "id": "prefetch_website_formatwebsiteblock",
+      "community": 6,
+      "norm_label": "formatwebsiteblock()"
     },
     {
-      "label": "WhatWeCheckSection",
+      "label": "links-reviews.ts",
       "file_type": "code",
-      "id": "what_we_check"
+      "source_file": "lib/prefetch/links-reviews.ts",
+      "source_location": "L1",
+      "id": "lib_prefetch_links_reviews_ts",
+      "community": 1,
+      "norm_label": "links-reviews.ts"
     },
     {
-      "label": "ReportPreviewSection",
+      "label": "fetchBacklinksData()",
       "file_type": "code",
-      "id": "report_preview"
+      "source_file": "lib/prefetch/links-reviews.ts",
+      "source_location": "L10",
+      "id": "prefetch_links_reviews_fetchbacklinksdata",
+      "community": 1,
+      "norm_label": "fetchbacklinksdata()"
     },
     {
-      "label": "FaqSection",
+      "label": "formatBacklinksBlock()",
       "file_type": "code",
-      "id": "faq_section"
+      "source_file": "lib/prefetch/links-reviews.ts",
+      "source_location": "L52",
+      "id": "prefetch_links_reviews_formatbacklinksblock",
+      "community": 1,
+      "norm_label": "formatbacklinksblock()"
     },
     {
-      "label": "FinalCtaSection",
+      "label": "fetchReviewsData()",
       "file_type": "code",
-      "id": "final_cta"
+      "source_file": "lib/prefetch/links-reviews.ts",
+      "source_location": "L90",
+      "id": "prefetch_links_reviews_fetchreviewsdata",
+      "community": 1,
+      "norm_label": "fetchreviewsdata()"
     },
     {
-      "label": "TestimonialsSection",
+      "label": "formatReviewsBlock()",
       "file_type": "code",
-      "id": "testimonials"
+      "source_file": "lib/prefetch/links-reviews.ts",
+      "source_location": "L135",
+      "id": "prefetch_links_reviews_formatreviewsblock",
+      "community": 1,
+      "norm_label": "formatreviewsblock()"
     },
     {
-      "label": "AuditTool",
+      "label": "serper.ts",
       "file_type": "code",
-      "id": "audit_tool"
+      "source_file": "lib/prefetch/serper.ts",
+      "source_location": "L1",
+      "id": "lib_prefetch_serper_ts",
+      "community": 1,
+      "norm_label": "serper.ts"
     },
     {
-      "label": "audit.module.css",
+      "label": "fetchSerperData()",
       "file_type": "code",
-      "id": "audit_module_css"
+      "source_file": "lib/prefetch/serper.ts",
+      "source_location": "L18",
+      "id": "prefetch_serper_fetchserperdata",
+      "community": 1,
+      "norm_label": "fetchserperdata()"
     },
     {
-      "label": "landing.module.css",
+      "label": "formatSerperBlock()",
       "file_type": "code",
-      "id": "landing_module_css"
+      "source_file": "lib/prefetch/serper.ts",
+      "source_location": "L61",
+      "id": "prefetch_serper_formatserperblock",
+      "community": 1,
+      "norm_label": "formatserperblock()"
     },
     {
-      "label": "SiteFooter.module.css",
+      "label": "index.ts",
       "file_type": "code",
-      "id": "site_footer_module_css"
-    },
-    {
-      "label": "SiteFooterMinimal.module.css",
-      "file_type": "code",
-      "id": "site_footer_minimal_module_css"
-    },
-    {
-      "label": "SiteNav.module.css",
-      "file_type": "code",
-      "id": "site_nav_module_css"
-    },
-    {
-      "label": "thankYou.module.css",
-      "file_type": "code",
-      "id": "thank_you_module_css"
-    },
-    {
-      "label": "globals.css",
-      "file_type": "code",
-      "id": "globals_css"
-    },
-    {
-      "label": "Tailwind CSS (PostCSS plugin)",
-      "file_type": "code",
-      "id": "tailwindcss"
-    },
-    {
-      "label": "Upstash Ratelimit",
-      "file_type": "code",
-      "id": "upstash_ratelimit"
-    },
-    {
-      "label": "Upstash Redis",
-      "file_type": "code",
-      "id": "upstash_redis"
-    },
-    {
-      "label": "Framer Motion",
-      "file_type": "code",
-      "id": "framer_motion"
-    },
-    {
-      "label": "API Route: /api/audit",
-      "file_type": "code",
-      "id": "api_audit_route"
-    },
-    {
-      "label": "SiteNav Component",
-      "file_type": "code",
-      "id": "site_nav"
-    },
-    {
-      "label": "SharedAuditView Component",
-      "file_type": "code",
-      "id": "shared_audit_view"
-    },
-    {
-      "label": "Audit Detail Page",
-      "file_type": "code",
-      "id": "audit_page"
-    },
-    {
-      "label": "POST /api/email Route",
-      "file_type": "code",
-      "id": "api_email_route"
-    },
-    {
-      "label": "Pre-Fetch Pipeline (lib/prefetch.ts)",
-      "file_type": "code",
-      "id": "lib_prefetch"
-    },
-    {
-      "label": "Rate Limiter (lib/ratelimit.ts)",
-      "file_type": "code",
-      "id": "lib_ratelimit"
-    },
-    {
-      "label": "Supabase Client (lib/supabase.ts)",
-      "file_type": "code",
-      "id": "lib_supabase"
-    },
-    {
-      "label": "AuditPdf Component (lib/AuditPdf.tsx)",
-      "file_type": "code",
-      "id": "lib_audit_pdf"
+      "source_file": "lib/prefetch/index.ts",
+      "source_location": "L1",
+      "id": "lib_prefetch_index_ts",
+      "community": 50,
+      "norm_label": "index.ts"
     },
     {
       "label": "README",
       "file_type": "document",
-      "id": "readme"
+      "id": "readme",
+      "community": 51,
+      "norm_label": "readme"
     },
     {
       "label": "AGENTS.md Agent Rules",
       "file_type": "document",
-      "id": "agents_md"
+      "id": "agents_md",
+      "community": 52,
+      "norm_label": "agents.md agent rules"
     },
     {
       "label": "Build Spec (docs/build-spec.md)",
       "file_type": "document",
-      "id": "build_spec"
+      "id": "build_spec",
+      "community": 13,
+      "norm_label": "build spec (docs/build-spec.md)"
     },
     {
       "label": "Map Pack Visibility Image",
       "file_type": "image",
-      "id": "img_map_pack"
+      "id": "img_map_pack",
+      "community": 13,
+      "norm_label": "map pack visibility image"
     },
     {
       "label": "Step 1 Visual",
       "file_type": "image",
-      "id": "img_step1"
+      "id": "img_step1",
+      "community": 53,
+      "norm_label": "step 1 visual"
     },
     {
       "label": "Step 2 Visual",
       "file_type": "image",
-      "id": "img_step2"
+      "id": "img_step2",
+      "community": 54,
+      "norm_label": "step 2 visual"
     },
     {
       "label": "Step 3 Visual",
       "file_type": "image",
-      "id": "img_step3"
+      "id": "img_step3",
+      "community": 55,
+      "norm_label": "step 3 visual"
     },
     {
       "label": "Testimonial Avatars",
       "file_type": "image",
-      "id": "img_testimonials"
+      "id": "img_testimonials",
+      "community": 56,
+      "norm_label": "testimonial avatars"
     },
     {
       "label": "OG Image",
       "file_type": "image",
-      "id": "img_og"
+      "id": "img_og",
+      "community": 57,
+      "norm_label": "og image"
     },
     {
       "label": "Audit Report Preview Image",
       "file_type": "image",
-      "id": "img_audit_preview"
+      "id": "img_audit_preview",
+      "community": 58,
+      "norm_label": "audit report preview image"
     },
     {
       "label": "How It Works Steps Image",
       "file_type": "image",
-      "id": "img_how_it_works"
+      "id": "img_how_it_works",
+      "community": 59,
+      "norm_label": "how it works steps image"
     },
     {
       "label": "Visibility Transformation Image",
       "file_type": "image",
-      "id": "img_visibility"
-    },
-    {
-      "label": "Anthropic Claude API",
-      "file_type": "code",
-      "id": "svc_anthropic"
-    },
-    {
-      "label": "Supabase Database",
-      "file_type": "code",
-      "id": "svc_supabase"
-    },
-    {
-      "label": "Resend Email Service",
-      "file_type": "code",
-      "id": "svc_resend"
-    },
-    {
-      "label": "Upstash Redis (Rate Limiting)",
-      "file_type": "code",
-      "id": "svc_upstash"
-    },
-    {
-      "label": "Google Places API",
-      "file_type": "code",
-      "id": "svc_google_places"
-    },
-    {
-      "label": "PageSpeed Insights API",
-      "file_type": "code",
-      "id": "svc_pagespeed"
-    },
-    {
-      "label": "Serper.dev Search API",
-      "file_type": "code",
-      "id": "svc_serper"
-    },
-    {
-      "label": "DataForSEO API",
-      "file_type": "code",
-      "id": "svc_dataforseo"
+      "id": "img_visibility",
+      "community": 13,
+      "norm_label": "visibility transformation image"
     },
     {
       "label": "LocalSearchAlly Main Site",
       "file_type": "document",
-      "id": "svc_localsearchally"
+      "id": "svc_localsearchally",
+      "community": 60,
+      "norm_label": "localsearchally main site"
     }
   ],
-  "edges": [
+  "links": [
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "proxy.ts",
-      "source_location": "L6",
+      "source_location": "L8",
       "weight": 1.0,
       "_src": "proxy_ts",
       "_tgt": "lsa_audit_tool_proxy_getratelimiter",
       "source": "proxy_ts",
-      "target": "lsa_audit_tool_proxy_getratelimiter"
+      "target": "lsa_audit_tool_proxy_getratelimiter",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "proxy.ts",
-      "source_location": "L21",
+      "source_location": "L25",
       "weight": 1.0,
       "_src": "proxy_ts",
       "_tgt": "lsa_audit_tool_proxy_proxy",
       "source": "proxy_ts",
-      "target": "lsa_audit_tool_proxy_proxy"
-    },
-    {
-      "relation": "uses_for_rate_limiting",
-      "confidence": "EXTRACTED",
-      "_src": "proxy_ts",
-      "_tgt": "upstash_ratelimit",
-      "source": "proxy_ts",
-      "target": "upstash_ratelimit"
-    },
-    {
-      "relation": "connects_to",
-      "confidence": "EXTRACTED",
-      "_src": "proxy_ts",
-      "_tgt": "upstash_redis",
-      "source": "proxy_ts",
-      "target": "upstash_redis"
-    },
-    {
-      "relation": "guards_with_rate_limit",
-      "confidence": "EXTRACTED",
-      "_src": "proxy_ts",
-      "_tgt": "api_audit_route",
-      "source": "proxy_ts",
-      "target": "api_audit_route"
+      "target": "lsa_audit_tool_proxy_proxy",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "proxy.ts",
-      "source_location": "L26",
+      "source_location": "L30",
       "weight": 1.0,
       "_src": "lsa_audit_tool_proxy_proxy",
       "_tgt": "lsa_audit_tool_proxy_getratelimiter",
       "source": "lsa_audit_tool_proxy_getratelimiter",
-      "target": "lsa_audit_tool_proxy_proxy"
+      "target": "lsa_audit_tool_proxy_proxy",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "proxy.ts",
+      "source_location": "L70",
+      "weight": 1.0,
+      "_src": "lsa_audit_tool_proxy_proxy",
+      "_tgt": "lib_supabase_createserverclient",
+      "source": "lsa_audit_tool_proxy_proxy",
+      "target": "lib_supabase_createserverclient"
     },
     {
       "relation": "contains",
@@ -1062,106 +1395,116 @@
       "_src": "app_layout_tsx",
       "_tgt": "app_layout_rootlayout",
       "source": "app_layout_tsx",
-      "target": "app_layout_rootlayout"
+      "target": "app_layout_rootlayout",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/page.tsx",
-      "source_location": "L12",
+      "source_location": "L6",
       "weight": 1.0,
       "_src": "app_page_tsx",
       "_tgt": "app_page_home",
       "source": "app_page_tsx",
-      "target": "app_page_home"
+      "target": "app_page_home",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/thank-you/page.tsx",
-      "source_location": "L22",
+      "source_file": "app/auth/signout/route.ts",
+      "source_location": "L5",
       "weight": 1.0,
-      "_src": "app_thank_you_page_tsx",
-      "_tgt": "thank_you_page_handlemessage",
-      "source": "app_thank_you_page_tsx",
-      "target": "thank_you_page_handlemessage"
+      "_src": "app_auth_signout_route_ts",
+      "_tgt": "signout_route_post",
+      "source": "app_auth_signout_route_ts",
+      "target": "signout_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/auth/signout/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_src": "signout_route_post",
+      "_tgt": "lib_supabase_createserverclient",
+      "source": "signout_route_post",
+      "target": "lib_supabase_createserverclient"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/components/SiteFooter.tsx",
-      "source_location": "L35",
-      "weight": 1.0,
-      "_src": "app_components_sitefooter_tsx",
-      "_tgt": "components_sitefooter_sitefooter",
-      "source": "app_components_sitefooter_tsx",
-      "target": "components_sitefooter_sitefooter"
-    },
-    {
-      "relation": "imports_from",
-      "confidence": "EXTRACTED",
-      "source_file": "app/components/DiagnosticGrid.tsx",
+      "source_file": "app/auth/callback/route.ts",
       "source_location": "L4",
       "weight": 1.0,
-      "_src": "app_components_diagnosticgrid_tsx",
-      "_tgt": "framer_motion",
-      "source": "app_components_diagnosticgrid_tsx",
-      "target": "framer_motion"
+      "_src": "app_auth_callback_route_ts",
+      "_tgt": "callback_route_get",
+      "source": "app_auth_callback_route_ts",
+      "target": "callback_route_get",
+      "confidence_score": 1.0
     },
     {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/components/TrustBar.tsx",
-      "source_location": "L10",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/auth/callback/route.ts",
+      "source_location": "L19",
       "weight": 1.0,
-      "_src": "app_components_trustbar_tsx",
-      "_tgt": "components_trustbar_trustbar",
-      "source": "app_components_trustbar_tsx",
-      "target": "components_trustbar_trustbar"
+      "_src": "callback_route_get",
+      "_tgt": "lib_supabase_createserverclient",
+      "source": "callback_route_get",
+      "target": "lib_supabase_createserverclient"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/components/HowItWorksSection.tsx",
-      "source_location": "L28",
-      "weight": 1.0,
-      "_src": "app_components_howitworkssection_tsx",
-      "_tgt": "components_howitworkssection_howitworkssection",
-      "source": "app_components_howitworkssection_tsx",
-      "target": "components_howitworkssection_howitworkssection"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/components/ReportPreviewSection.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_src": "app_components_reportpreviewsection_tsx",
-      "_tgt": "components_reportpreviewsection_reportpreviewsection",
-      "source": "app_components_reportpreviewsection_tsx",
-      "target": "components_reportpreviewsection_reportpreviewsection"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/components/FaqSection.tsx",
+      "source_file": "app/components/GeoGridMap.tsx",
       "source_location": "L30",
       "weight": 1.0,
-      "_src": "app_components_faqsection_tsx",
-      "_tgt": "components_faqsection_faqsection",
-      "source": "app_components_faqsection_tsx",
-      "target": "components_faqsection_faqsection"
+      "_src": "app_components_geogridmap_tsx",
+      "_tgt": "components_geogridmap_geogridmap",
+      "source": "app_components_geogridmap_tsx",
+      "target": "components_geogridmap_geogridmap",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/components/FinalCtaSection.tsx",
-      "source_location": "L3",
+      "source_file": "app/components/DeleteAuditButton.tsx",
+      "source_location": "L9",
       "weight": 1.0,
-      "_src": "app_components_finalctasection_tsx",
-      "_tgt": "components_finalctasection_finalctasection",
-      "source": "app_components_finalctasection_tsx",
-      "target": "components_finalctasection_finalctasection"
+      "_src": "app_components_deleteauditbutton_tsx",
+      "_tgt": "components_deleteauditbutton_handleclick",
+      "source": "app_components_deleteauditbutton_tsx",
+      "target": "components_deleteauditbutton_handleclick",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/StatusPill.tsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_src": "app_components_statuspill_tsx",
+      "_tgt": "components_statuspill_statuspill",
+      "source": "app_components_statuspill_tsx",
+      "target": "components_statuspill_statuspill",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/UpgradeSlot.tsx",
+      "source_location": "L82",
+      "weight": 1.0,
+      "_src": "app_components_upgradeslot_tsx",
+      "_tgt": "components_upgradeslot_upgradeslot",
+      "source": "app_components_upgradeslot_tsx",
+      "target": "components_upgradeslot_upgradeslot",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -1172,364 +1515,320 @@
       "_src": "app_components_sitefooterminimal_tsx",
       "_tgt": "components_sitefooterminimal_sitefooterminimal",
       "source": "app_components_sitefooterminimal_tsx",
-      "target": "components_sitefooterminimal_sitefooterminimal"
+      "target": "components_sitefooterminimal_sitefooterminimal",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/components/TestimonialsSection.tsx",
-      "source_location": "L27",
+      "source_file": "app/components/GeoGrid.tsx",
+      "source_location": "L70",
       "weight": 1.0,
-      "_src": "app_components_testimonialssection_tsx",
-      "_tgt": "components_testimonialssection_testimonialssection",
-      "source": "app_components_testimonialssection_tsx",
-      "target": "components_testimonialssection_testimonialssection"
+      "_src": "app_components_geogrid_tsx",
+      "_tgt": "components_geogrid_computedeltas",
+      "source": "app_components_geogrid_tsx",
+      "target": "components_geogrid_computedeltas",
+      "confidence_score": 1.0
     },
     {
-      "relation": "imports_from",
+      "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/components/AuditTool.tsx",
-      "source_location": "L5",
+      "source_file": "app/components/GeoGrid.tsx",
+      "source_location": "L101",
       "weight": 1.0,
-      "_src": "app_components_audittool_tsx",
-      "_tgt": "framer_motion",
-      "source": "app_components_audittool_tsx",
-      "target": "framer_motion"
+      "_src": "app_components_geogrid_tsx",
+      "_tgt": "components_geogrid_runscan",
+      "source": "app_components_geogrid_tsx",
+      "target": "components_geogrid_runscan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/GeoGrid.tsx",
+      "source_location": "L179",
+      "weight": 1.0,
+      "_src": "app_components_geogrid_tsx",
+      "_tgt": "components_geogrid_loadscan",
+      "source": "app_components_geogrid_tsx",
+      "target": "components_geogrid_loadscan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/GeoGrid.tsx",
+      "source_location": "L171",
+      "weight": 1.0,
+      "_src": "components_geogrid_runscan",
+      "_tgt": "components_geogrid_computedeltas",
+      "source": "components_geogrid_computedeltas",
+      "target": "components_geogrid_runscan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/GeoGrid.tsx",
+      "source_location": "L193",
+      "weight": 1.0,
+      "_src": "components_geogrid_loadscan",
+      "_tgt": "components_geogrid_computedeltas",
+      "source": "components_geogrid_computedeltas",
+      "target": "components_geogrid_loadscan",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/components/AuditTool.tsx",
-      "source_location": "L135",
+      "source_location": "L63",
       "weight": 1.0,
       "_src": "app_components_audittool_tsx",
       "_tgt": "components_audittool_validate",
       "source": "app_components_audittool_tsx",
-      "target": "components_audittool_validate"
+      "target": "components_audittool_validate",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/components/AuditTool.tsx",
-      "source_location": "L873",
+      "source_location": "L74",
       "weight": 1.0,
       "_src": "app_components_audittool_tsx",
       "_tgt": "components_audittool_handlesubmit",
       "source": "app_components_audittool_tsx",
-      "target": "components_audittool_handlesubmit"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/components/AuditTool.tsx",
-      "source_location": "L669",
-      "weight": 1.0,
-      "_src": "app_components_audittool_tsx",
-      "_tgt": "components_audittool_handlecopy",
-      "source": "app_components_audittool_tsx",
-      "target": "components_audittool_handlecopy"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/components/AuditTool.tsx",
-      "source_location": "L783",
-      "weight": 1.0,
-      "_src": "app_components_audittool_tsx",
-      "_tgt": "components_audittool_sectioncard",
-      "source": "app_components_audittool_tsx",
-      "target": "components_audittool_sectioncard"
+      "target": "components_audittool_handlesubmit",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "app/components/AuditTool.tsx",
-      "source_location": "L153",
+      "source_location": "L76",
       "weight": 1.0,
       "_src": "components_audittool_handlesubmit",
       "_tgt": "components_audittool_validate",
       "source": "components_audittool_validate",
-      "target": "components_audittool_handlesubmit"
-    },
-    {
-      "relation": "imports_from",
-      "confidence": "EXTRACTED",
-      "source_file": "app/components/HeroSection.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "_src": "app_components_herosection_tsx",
-      "_tgt": "framer_motion",
-      "source": "app_components_herosection_tsx",
-      "target": "framer_motion"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/components/HeroSection.tsx",
-      "source_location": "L24",
-      "weight": 1.0,
-      "_src": "app_components_herosection_tsx",
-      "_tgt": "components_herosection_herosection",
-      "source": "app_components_herosection_tsx",
-      "target": "components_herosection_herosection"
+      "target": "components_audittool_handlesubmit",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/components/SiteNavMinimal.tsx",
-      "source_location": "L11",
+      "source_location": "L10",
       "weight": 1.0,
       "_src": "app_components_sitenavminimal_tsx",
       "_tgt": "components_sitenavminimal_onscroll",
       "source": "app_components_sitenavminimal_tsx",
-      "target": "components_sitenavminimal_onscroll"
+      "target": "components_sitenavminimal_onscroll",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/components/SiteNav.tsx",
-      "source_location": "L20",
+      "source_file": "app/components/audit/AuditLoading.tsx",
+      "source_location": "L18",
       "weight": 1.0,
-      "_src": "app_components_sitenav_tsx",
-      "_tgt": "components_sitenav_onscroll",
-      "source": "app_components_sitenav_tsx",
-      "target": "components_sitenav_onscroll"
+      "_src": "app_components_audit_auditloading_tsx",
+      "_tgt": "audit_auditloading_auditloading",
+      "source": "app_components_audit_auditloading_tsx",
+      "target": "audit_auditloading_auditloading",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/audit/[id]/SharedAuditView.tsx",
-      "source_location": "L117",
+      "source_file": "app/components/audit/AuditResultParts.tsx",
+      "source_location": "L13",
       "weight": 1.0,
-      "_src": "app_audit_id_sharedauditview_tsx",
-      "_tgt": "id_sharedauditview_handlecopy",
-      "source": "app_audit_id_sharedauditview_tsx",
-      "target": "id_sharedauditview_handlecopy"
+      "_src": "app_components_audit_auditresultparts_tsx",
+      "_tgt": "audit_auditresultparts_copylinkbutton",
+      "source": "app_components_audit_auditresultparts_tsx",
+      "target": "audit_auditresultparts_copylinkbutton",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/audit/AuditResultParts.tsx",
+      "source_location": "L267",
+      "weight": 1.0,
+      "_src": "app_components_audit_auditresultparts_tsx",
+      "_tgt": "audit_auditresultparts_matchactiontosection",
+      "source": "app_components_audit_auditresultparts_tsx",
+      "target": "audit_auditresultparts_matchactiontosection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/audit/AuditResultParts.tsx",
+      "source_location": "L693",
+      "weight": 1.0,
+      "_src": "app_components_audit_auditresultparts_tsx",
+      "_tgt": "audit_auditresultparts_handlesubmit",
+      "source": "app_components_audit_auditresultparts_tsx",
+      "target": "audit_auditresultparts_handlesubmit",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/audit/[id]/page.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "_src": "app_audit_id_page_tsx",
-      "_tgt": "id_page_getaudit",
-      "source": "app_audit_id_page_tsx",
-      "target": "id_page_getaudit"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/audit/[id]/page.tsx",
-      "source_location": "L21",
+      "source_location": "L31",
       "weight": 1.0,
       "_src": "app_audit_id_page_tsx",
       "_tgt": "id_page_generatemetadata",
       "source": "app_audit_id_page_tsx",
-      "target": "id_page_generatemetadata"
+      "target": "id_page_generatemetadata",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/audit/[id]/page.tsx",
-      "source_location": "L33",
+      "source_location": "L43",
       "weight": 1.0,
       "_src": "app_audit_id_page_tsx",
       "_tgt": "id_page_auditpage",
       "source": "app_audit_id_page_tsx",
-      "target": "id_page_auditpage"
+      "target": "id_page_auditpage",
+      "confidence_score": 1.0
     },
     {
-      "relation": "calls",
+      "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/audit/[id]/page.tsx",
-      "source_location": "L23",
+      "source_file": "app/actions/deleteAudit.ts",
+      "source_location": "L7",
       "weight": 1.0,
-      "_src": "id_page_generatemetadata",
-      "_tgt": "id_page_getaudit",
-      "source": "id_page_getaudit",
-      "target": "id_page_generatemetadata"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "source_file": "app/audit/[id]/page.tsx",
-      "source_location": "L35",
-      "weight": 1.0,
-      "_src": "id_page_auditpage",
-      "_tgt": "id_page_getaudit",
-      "source": "id_page_getaudit",
-      "target": "id_page_auditpage"
+      "_src": "app_actions_deleteaudit_ts",
+      "_tgt": "actions_deleteaudit_deleteaudit",
+      "source": "app_actions_deleteaudit_ts",
+      "target": "actions_deleteaudit_deleteaudit",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "INFERRED",
       "confidence_score": 0.8,
-      "source_file": "app/audit/[id]/page.tsx",
-      "source_location": "L11",
+      "source_file": "app/actions/deleteAudit.ts",
+      "source_location": "L9",
       "weight": 1.0,
-      "_src": "id_page_getaudit",
+      "_src": "actions_deleteaudit_deleteaudit",
+      "_tgt": "lib_supabase_createserverclient",
+      "source": "actions_deleteaudit_deleteaudit",
+      "target": "lib_supabase_createserverclient"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/actions/deleteAudit.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_src": "actions_deleteaudit_deleteaudit",
       "_tgt": "lib_supabase_getsupabase",
-      "source": "id_page_getaudit",
+      "source": "actions_deleteaudit_deleteaudit",
+      "target": "lib_supabase_getsupabase"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/auth/save-audit/route.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_src": "app_api_auth_save_audit_route_ts",
+      "_tgt": "save_audit_route_post",
+      "source": "app_api_auth_save_audit_route_ts",
+      "target": "save_audit_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/api/auth/save-audit/route.ts",
+      "source_location": "L43",
+      "weight": 1.0,
+      "_src": "save_audit_route_post",
+      "_tgt": "lib_supabase_getsupabase",
+      "source": "save_audit_route_post",
+      "target": "lib_supabase_getsupabase"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/auth/check-invite/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_src": "app_api_auth_check_invite_route_ts",
+      "_tgt": "check_invite_route_post",
+      "source": "app_api_auth_check_invite_route_ts",
+      "target": "check_invite_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/api/auth/check-invite/route.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_src": "check_invite_route_post",
+      "_tgt": "lib_supabase_getsupabase",
+      "source": "check_invite_route_post",
       "target": "lib_supabase_getsupabase"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/audit/route.ts",
-      "source_location": "L28",
+      "source_location": "L32",
       "weight": 1.0,
       "_src": "app_api_audit_route_ts",
-      "_tgt": "audit_route_sanitizestring",
+      "_tgt": "audit_route_notifyemail",
       "source": "app_api_audit_route_ts",
-      "target": "audit_route_sanitizestring"
+      "target": "audit_route_notifyemail",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/audit/route.ts",
-      "source_location": "L37",
-      "weight": 1.0,
-      "_src": "app_api_audit_route_ts",
-      "_tgt": "audit_route_sanitizeurl",
-      "source": "app_api_audit_route_ts",
-      "target": "audit_route_sanitizeurl"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/audit/route.ts",
-      "source_location": "L151",
-      "weight": 1.0,
-      "_src": "app_api_audit_route_ts",
-      "_tgt": "audit_route_buildauditprompt",
-      "source": "app_api_audit_route_ts",
-      "target": "audit_route_buildauditprompt"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/audit/route.ts",
-      "source_location": "L191",
-      "weight": 1.0,
-      "_src": "app_api_audit_route_ts",
-      "_tgt": "audit_route_parseauditresult",
-      "source": "app_api_audit_route_ts",
-      "target": "audit_route_parseauditresult"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/audit/route.ts",
-      "source_location": "L200",
-      "weight": 1.0,
-      "_src": "app_api_audit_route_ts",
-      "_tgt": "audit_route_callclaude",
-      "source": "app_api_audit_route_ts",
-      "target": "audit_route_callclaude"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/audit/route.ts",
-      "source_location": "L260",
-      "weight": 1.0,
-      "_src": "app_api_audit_route_ts",
-      "_tgt": "audit_route_notifyslack",
-      "source": "app_api_audit_route_ts",
-      "target": "audit_route_notifyslack"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/audit/route.ts",
-      "source_location": "L294",
+      "source_location": "L155",
       "weight": 1.0,
       "_src": "app_api_audit_route_ts",
       "_tgt": "audit_route_post",
       "source": "app_api_audit_route_ts",
-      "target": "audit_route_post"
+      "target": "audit_route_post",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
-      "confidence": "EXTRACTED",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
       "source_file": "app/api/audit/route.ts",
-      "source_location": "L299",
+      "source_location": "L160",
       "weight": 1.0,
       "_src": "audit_route_post",
-      "_tgt": "audit_route_sanitizestring",
-      "source": "audit_route_sanitizestring",
-      "target": "audit_route_post"
+      "_tgt": "lib_audit_helpers_sanitizestring",
+      "source": "audit_route_post",
+      "target": "lib_audit_helpers_sanitizestring"
     },
     {
       "relation": "calls",
-      "confidence": "EXTRACTED",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
       "source_file": "app/api/audit/route.ts",
-      "source_location": "L300",
+      "source_location": "L161",
       "weight": 1.0,
       "_src": "audit_route_post",
-      "_tgt": "audit_route_sanitizeurl",
-      "source": "audit_route_sanitizeurl",
-      "target": "audit_route_post"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/audit/route.ts",
-      "source_location": "L247",
-      "weight": 1.0,
-      "_src": "audit_route_callclaude",
-      "_tgt": "audit_route_buildauditprompt",
-      "source": "audit_route_buildauditprompt",
-      "target": "audit_route_callclaude"
-    },
-    {
-      "relation": "calls",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "app/api/audit/route.ts",
-      "source_location": "L172",
-      "weight": 1.0,
-      "_src": "audit_route_buildauditprompt",
-      "_tgt": "lib_prefetch_formatgbpblock",
-      "source": "audit_route_buildauditprompt",
-      "target": "lib_prefetch_formatgbpblock"
-    },
-    {
-      "relation": "calls",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "app/api/audit/route.ts",
-      "source_location": "L173",
-      "weight": 1.0,
-      "_src": "audit_route_buildauditprompt",
-      "_tgt": "lib_prefetch_formatpagespeedblock",
-      "source": "audit_route_buildauditprompt",
-      "target": "lib_prefetch_formatpagespeedblock"
-    },
-    {
-      "relation": "calls",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "app/api/audit/route.ts",
-      "source_location": "L174",
-      "weight": 1.0,
-      "_src": "audit_route_buildauditprompt",
-      "_tgt": "lib_prefetch_formatwebsiteblock",
-      "source": "audit_route_buildauditprompt",
-      "target": "lib_prefetch_formatwebsiteblock"
-    },
-    {
-      "relation": "calls",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "app/api/audit/route.ts",
-      "source_location": "L175",
-      "weight": 1.0,
-      "_src": "audit_route_buildauditprompt",
-      "_tgt": "lib_prefetch_formatbacklinksblock",
-      "source": "audit_route_buildauditprompt",
-      "target": "lib_prefetch_formatbacklinksblock"
+      "_tgt": "lib_audit_helpers_sanitizeurl",
+      "source": "audit_route_post",
+      "target": "lib_audit_helpers_sanitizeurl"
     },
     {
       "relation": "calls",
@@ -1538,165 +1837,154 @@
       "source_file": "app/api/audit/route.ts",
       "source_location": "L176",
       "weight": 1.0,
-      "_src": "audit_route_buildauditprompt",
-      "_tgt": "lib_prefetch_formatreviewsblock",
-      "source": "audit_route_buildauditprompt",
-      "target": "lib_prefetch_formatreviewsblock"
-    },
-    {
-      "relation": "calls",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "app/api/audit/route.ts",
-      "source_location": "L177",
-      "weight": 1.0,
-      "_src": "audit_route_buildauditprompt",
-      "_tgt": "lib_prefetch_formatserperblock",
-      "source": "audit_route_buildauditprompt",
-      "target": "lib_prefetch_formatserperblock"
+      "_src": "audit_route_post",
+      "_tgt": "lib_supabase_createserverclient",
+      "source": "audit_route_post",
+      "target": "lib_supabase_createserverclient"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L32",
+      "source_location": "L26",
       "weight": 1.0,
       "_src": "app_api_email_route_ts",
       "_tgt": "email_route_sanitizestring",
       "source": "app_api_email_route_ts",
-      "target": "email_route_sanitizestring"
+      "target": "email_route_sanitizestring",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L41",
+      "source_location": "L35",
       "weight": 1.0,
       "_src": "app_api_email_route_ts",
       "_tgt": "email_route_post",
       "source": "app_api_email_route_ts",
-      "target": "email_route_post"
+      "target": "email_route_post",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L313",
+      "source_location": "L323",
       "weight": 1.0,
       "_src": "app_api_email_route_ts",
       "_tgt": "email_route_buildemailhtml",
       "source": "app_api_email_route_ts",
-      "target": "email_route_buildemailhtml"
+      "target": "email_route_buildemailhtml",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L448",
+      "source_location": "L458",
       "weight": 1.0,
       "_src": "app_api_email_route_ts",
       "_tgt": "email_route_emailshell",
       "source": "app_api_email_route_ts",
-      "target": "email_route_emailshell"
+      "target": "email_route_emailshell",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L485",
+      "source_location": "L495",
       "weight": 1.0,
       "_src": "app_api_email_route_ts",
       "_tgt": "email_route_builddripday2html",
       "source": "app_api_email_route_ts",
-      "target": "email_route_builddripday2html"
+      "target": "email_route_builddripday2html",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L548",
+      "source_location": "L558",
       "weight": 1.0,
       "_src": "app_api_email_route_ts",
       "_tgt": "email_route_builddripday5html",
       "source": "app_api_email_route_ts",
-      "target": "email_route_builddripday5html"
+      "target": "email_route_builddripday5html",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L602",
+      "source_location": "L612",
       "weight": 1.0,
       "_src": "app_api_email_route_ts",
       "_tgt": "email_route_builddripday9html",
       "source": "app_api_email_route_ts",
-      "target": "email_route_builddripday9html"
+      "target": "email_route_builddripday9html",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L653",
+      "source_location": "L663",
       "weight": 1.0,
       "_src": "app_api_email_route_ts",
       "_tgt": "email_route_builddripday14html",
       "source": "app_api_email_route_ts",
-      "target": "email_route_builddripday14html"
+      "target": "email_route_builddripday14html",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L702",
+      "source_location": "L712",
       "weight": 1.0,
       "_src": "app_api_email_route_ts",
       "_tgt": "email_route_builddripday21html",
       "source": "app_api_email_route_ts",
-      "target": "email_route_builddripday21html"
+      "target": "email_route_builddripday21html",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L744",
+      "source_location": "L754",
       "weight": 1.0,
       "_src": "app_api_email_route_ts",
       "_tgt": "email_route_buildreauditreminderhtml",
       "source": "app_api_email_route_ts",
-      "target": "email_route_buildreauditreminderhtml"
+      "target": "email_route_buildreauditreminderhtml",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L50",
+      "source_location": "L44",
       "weight": 1.0,
       "_src": "email_route_post",
       "_tgt": "email_route_sanitizestring",
       "source": "email_route_sanitizestring",
-      "target": "email_route_post"
+      "target": "email_route_post",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L140",
+      "source_location": "L150",
       "weight": 1.0,
       "_src": "email_route_post",
       "_tgt": "email_route_buildemailhtml",
       "source": "email_route_post",
-      "target": "email_route_buildemailhtml"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "source_file": "app/api/email/route.ts",
-      "source_location": "L226",
-      "weight": 1.0,
-      "_src": "email_route_post",
-      "_tgt": "email_route_builddripday2html",
-      "source": "email_route_post",
-      "target": "email_route_builddripday2html"
+      "target": "email_route_buildemailhtml",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -1705,9 +1993,10 @@
       "source_location": "L236",
       "weight": 1.0,
       "_src": "email_route_post",
-      "_tgt": "email_route_builddripday5html",
+      "_tgt": "email_route_builddripday2html",
       "source": "email_route_post",
-      "target": "email_route_builddripday5html"
+      "target": "email_route_builddripday2html",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -1716,9 +2005,10 @@
       "source_location": "L246",
       "weight": 1.0,
       "_src": "email_route_post",
-      "_tgt": "email_route_builddripday9html",
+      "_tgt": "email_route_builddripday5html",
       "source": "email_route_post",
-      "target": "email_route_builddripday9html"
+      "target": "email_route_builddripday5html",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -1727,9 +2017,10 @@
       "source_location": "L256",
       "weight": 1.0,
       "_src": "email_route_post",
-      "_tgt": "email_route_builddripday14html",
+      "_tgt": "email_route_builddripday9html",
       "source": "email_route_post",
-      "target": "email_route_builddripday14html"
+      "target": "email_route_builddripday9html",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -1738,9 +2029,10 @@
       "source_location": "L266",
       "weight": 1.0,
       "_src": "email_route_post",
-      "_tgt": "email_route_builddripday21html",
+      "_tgt": "email_route_builddripday14html",
       "source": "email_route_post",
-      "target": "email_route_builddripday21html"
+      "target": "email_route_builddripday14html",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -1749,9 +2041,22 @@
       "source_location": "L276",
       "weight": 1.0,
       "_src": "email_route_post",
+      "_tgt": "email_route_builddripday21html",
+      "source": "email_route_post",
+      "target": "email_route_builddripday21html",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/email/route.ts",
+      "source_location": "L286",
+      "weight": 1.0,
+      "_src": "email_route_post",
       "_tgt": "email_route_buildreauditreminderhtml",
       "source": "email_route_post",
-      "target": "email_route_buildreauditreminderhtml"
+      "target": "email_route_buildreauditreminderhtml",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -1769,254 +2074,481 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L496",
+      "source_location": "L506",
       "weight": 1.0,
       "_src": "email_route_builddripday2html",
       "_tgt": "email_route_emailshell",
       "source": "email_route_emailshell",
-      "target": "email_route_builddripday2html"
+      "target": "email_route_builddripday2html",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L560",
+      "source_location": "L570",
       "weight": 1.0,
       "_src": "email_route_builddripday5html",
       "_tgt": "email_route_emailshell",
       "source": "email_route_emailshell",
-      "target": "email_route_builddripday5html"
+      "target": "email_route_builddripday5html",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L613",
+      "source_location": "L623",
       "weight": 1.0,
       "_src": "email_route_builddripday9html",
       "_tgt": "email_route_emailshell",
       "source": "email_route_emailshell",
-      "target": "email_route_builddripday9html"
+      "target": "email_route_builddripday9html",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L664",
+      "source_location": "L674",
       "weight": 1.0,
       "_src": "email_route_builddripday14html",
       "_tgt": "email_route_emailshell",
       "source": "email_route_emailshell",
-      "target": "email_route_builddripday14html"
+      "target": "email_route_builddripday14html",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L713",
+      "source_location": "L723",
       "weight": 1.0,
       "_src": "email_route_builddripday21html",
       "_tgt": "email_route_emailshell",
       "source": "email_route_emailshell",
-      "target": "email_route_builddripday21html"
+      "target": "email_route_builddripday21html",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "app/api/email/route.ts",
-      "source_location": "L760",
+      "source_location": "L770",
       "weight": 1.0,
       "_src": "email_route_buildreauditreminderhtml",
       "_tgt": "email_route_emailshell",
       "source": "email_route_emailshell",
-      "target": "email_route_buildreauditreminderhtml"
+      "target": "email_route_buildreauditreminderhtml",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "lib/prefetch.ts",
+      "source_file": "app/api/grid/route.ts",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_src": "app_api_grid_route_ts",
+      "_tgt": "grid_route_sleep",
+      "source": "app_api_grid_route_ts",
+      "target": "grid_route_sleep",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/grid/route.ts",
       "source_location": "L20",
       "weight": 1.0,
-      "_src": "lib_prefetch_ts",
-      "_tgt": "lib_prefetch_fetchgbpdata",
-      "source": "lib_prefetch_ts",
-      "target": "lib_prefetch_fetchgbpdata"
+      "_src": "app_api_grid_route_ts",
+      "_tgt": "grid_route_checkrankatpoint",
+      "source": "app_api_grid_route_ts",
+      "target": "grid_route_checkrankatpoint",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L80",
+      "source_file": "app/api/grid/route.ts",
+      "source_location": "L71",
       "weight": 1.0,
-      "_src": "lib_prefetch_ts",
-      "_tgt": "lib_prefetch_fetchpagespeeddata",
-      "source": "lib_prefetch_ts",
-      "target": "lib_prefetch_fetchpagespeeddata"
+      "_src": "app_api_grid_route_ts",
+      "_tgt": "grid_route_post",
+      "source": "app_api_grid_route_ts",
+      "target": "grid_route_post",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L131",
+      "source_file": "app/api/grid/route.ts",
+      "source_location": "L166",
       "weight": 1.0,
-      "_src": "lib_prefetch_ts",
-      "_tgt": "lib_prefetch_formatgbpblock",
-      "source": "lib_prefetch_ts",
-      "target": "lib_prefetch_formatgbpblock"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L173",
-      "weight": 1.0,
-      "_src": "lib_prefetch_ts",
-      "_tgt": "lib_prefetch_striptags",
-      "source": "lib_prefetch_ts",
-      "target": "lib_prefetch_striptags"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L177",
-      "weight": 1.0,
-      "_src": "lib_prefetch_ts",
-      "_tgt": "lib_prefetch_extractjsonldblocks",
-      "source": "lib_prefetch_ts",
-      "target": "lib_prefetch_extractjsonldblocks"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L192",
-      "weight": 1.0,
-      "_src": "lib_prefetch_ts",
-      "_tgt": "lib_prefetch_fetchwebsitedata",
-      "source": "lib_prefetch_ts",
-      "target": "lib_prefetch_fetchwebsitedata"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L278",
-      "weight": 1.0,
-      "_src": "lib_prefetch_ts",
-      "_tgt": "lib_prefetch_formatwebsiteblock",
-      "source": "lib_prefetch_ts",
-      "target": "lib_prefetch_formatwebsiteblock"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L312",
-      "weight": 1.0,
-      "_src": "lib_prefetch_ts",
-      "_tgt": "lib_prefetch_fetchserperdata",
-      "source": "lib_prefetch_ts",
-      "target": "lib_prefetch_fetchserperdata"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L355",
-      "weight": 1.0,
-      "_src": "lib_prefetch_ts",
-      "_tgt": "lib_prefetch_formatserperblock",
-      "source": "lib_prefetch_ts",
-      "target": "lib_prefetch_formatserperblock"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L380",
-      "weight": 1.0,
-      "_src": "lib_prefetch_ts",
-      "_tgt": "lib_prefetch_fetchbacklinksdata",
-      "source": "lib_prefetch_ts",
-      "target": "lib_prefetch_fetchbacklinksdata"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L417",
-      "weight": 1.0,
-      "_src": "lib_prefetch_ts",
-      "_tgt": "lib_prefetch_formatbacklinksblock",
-      "source": "lib_prefetch_ts",
-      "target": "lib_prefetch_formatbacklinksblock"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L448",
-      "weight": 1.0,
-      "_src": "lib_prefetch_ts",
-      "_tgt": "lib_prefetch_fetchreviewsdata",
-      "source": "lib_prefetch_ts",
-      "target": "lib_prefetch_fetchreviewsdata"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L493",
-      "weight": 1.0,
-      "_src": "lib_prefetch_ts",
-      "_tgt": "lib_prefetch_formatreviewsblock",
-      "source": "lib_prefetch_ts",
-      "target": "lib_prefetch_formatreviewsblock"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L518",
-      "weight": 1.0,
-      "_src": "lib_prefetch_ts",
-      "_tgt": "lib_prefetch_formatpagespeedblock",
-      "source": "lib_prefetch_ts",
-      "target": "lib_prefetch_formatpagespeedblock"
+      "_src": "app_api_grid_route_ts",
+      "_tgt": "grid_route_get",
+      "source": "app_api_grid_route_ts",
+      "target": "grid_route_get",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L231",
+      "source_file": "app/api/grid/route.ts",
+      "source_location": "L151",
       "weight": 1.0,
-      "_src": "lib_prefetch_fetchwebsitedata",
-      "_tgt": "lib_prefetch_striptags",
-      "source": "lib_prefetch_striptags",
-      "target": "lib_prefetch_fetchwebsitedata"
+      "_src": "grid_route_post",
+      "_tgt": "grid_route_sleep",
+      "source": "grid_route_sleep",
+      "target": "grid_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/api/grid/route.ts",
+      "source_location": "L74",
+      "weight": 1.0,
+      "_src": "grid_route_post",
+      "_tgt": "lib_supabase_createserverclient",
+      "source": "grid_route_post",
+      "target": "lib_supabase_createserverclient"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/api/grid/route.ts",
+      "source_location": "L96",
+      "weight": 1.0,
+      "_src": "grid_route_post",
+      "_tgt": "lib_supabase_getsupabase",
+      "source": "grid_route_post",
+      "target": "lib_supabase_getsupabase"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/api/grid/route.ts",
+      "source_location": "L120",
+      "weight": 1.0,
+      "_src": "grid_route_post",
+      "_tgt": "lib_grid_buildgrid",
+      "source": "grid_route_post",
+      "target": "lib_grid_buildgrid"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/api/grid/route.ts",
+      "source_location": "L169",
+      "weight": 1.0,
+      "_src": "grid_route_get",
+      "_tgt": "lib_supabase_createserverclient",
+      "source": "grid_route_get",
+      "target": "lib_supabase_createserverclient"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/api/grid/route.ts",
+      "source_location": "L179",
+      "weight": 1.0,
+      "_src": "grid_route_get",
+      "_tgt": "lib_supabase_getsupabase",
+      "source": "grid_route_get",
+      "target": "lib_supabase_getsupabase"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/login/LoginForm.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_src": "app_login_loginform_tsx",
+      "_tgt": "login_loginform_handlesubmit",
+      "source": "app_login_loginform_tsx",
+      "target": "login_loginform_handlesubmit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/login/LoginForm.tsx",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_src": "login_loginform_handlesubmit",
+      "_tgt": "lib_supabase_createbrowserclient",
+      "source": "login_loginform_handlesubmit",
+      "target": "lib_supabase_createbrowserclient"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/keywords.ts",
+      "source_location": "L82",
+      "weight": 1.0,
+      "_src": "lib_keywords_ts",
+      "_tgt": "lib_keywords_normalizetrade",
+      "source": "lib_keywords_ts",
+      "target": "lib_keywords_normalizetrade",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/keywords.ts",
+      "source_location": "L94",
+      "weight": 1.0,
+      "_src": "lib_keywords_ts",
+      "_tgt": "lib_keywords_getsuggestedkeywords",
+      "source": "lib_keywords_ts",
+      "target": "lib_keywords_getsuggestedkeywords",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "confidence": "EXTRACTED",
-      "source_file": "lib/prefetch.ts",
-      "source_location": "L243",
+      "source_file": "lib/keywords.ts",
+      "source_location": "L95",
       "weight": 1.0,
-      "_src": "lib_prefetch_fetchwebsitedata",
-      "_tgt": "lib_prefetch_extractjsonldblocks",
-      "source": "lib_prefetch_extractjsonldblocks",
-      "target": "lib_prefetch_fetchwebsitedata"
+      "_src": "lib_keywords_getsuggestedkeywords",
+      "_tgt": "lib_keywords_normalizetrade",
+      "source": "lib_keywords_normalizetrade",
+      "target": "lib_keywords_getsuggestedkeywords",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/audit-helpers.ts",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_src": "lib_audit_helpers_ts",
+      "_tgt": "lib_audit_helpers_sanitizestring",
+      "source": "lib_audit_helpers_ts",
+      "target": "lib_audit_helpers_sanitizestring",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/audit-helpers.ts",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_src": "lib_audit_helpers_ts",
+      "_tgt": "lib_audit_helpers_sanitizeurl",
+      "source": "lib_audit_helpers_ts",
+      "target": "lib_audit_helpers_sanitizeurl",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/audit-helpers.ts",
+      "source_location": "L161",
+      "weight": 1.0,
+      "_src": "lib_audit_helpers_ts",
+      "_tgt": "lib_audit_helpers_buildauditprompt",
+      "source": "lib_audit_helpers_ts",
+      "target": "lib_audit_helpers_buildauditprompt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/audit-helpers.ts",
+      "source_location": "L244",
+      "weight": 1.0,
+      "_src": "lib_audit_helpers_ts",
+      "_tgt": "lib_audit_helpers_parseauditresult",
+      "source": "lib_audit_helpers_ts",
+      "target": "lib_audit_helpers_parseauditresult",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lib/audit-helpers.ts",
+      "source_location": "L188",
+      "weight": 1.0,
+      "_src": "lib_audit_helpers_buildauditprompt",
+      "_tgt": "prefetch_gbp_formatpagespeedblock",
+      "source": "lib_audit_helpers_buildauditprompt",
+      "target": "prefetch_gbp_formatpagespeedblock"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lib/audit-helpers.ts",
+      "source_location": "L195",
+      "weight": 1.0,
+      "_src": "lib_audit_helpers_buildauditprompt",
+      "_tgt": "prefetch_website_formatwebsiteblock",
+      "source": "lib_audit_helpers_buildauditprompt",
+      "target": "prefetch_website_formatwebsiteblock"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lib/audit-helpers.ts",
+      "source_location": "L202",
+      "weight": 1.0,
+      "_src": "lib_audit_helpers_buildauditprompt",
+      "_tgt": "prefetch_links_reviews_formatbacklinksblock",
+      "source": "lib_audit_helpers_buildauditprompt",
+      "target": "prefetch_links_reviews_formatbacklinksblock"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lib/audit-helpers.ts",
+      "source_location": "L206",
+      "weight": 1.0,
+      "_src": "lib_audit_helpers_buildauditprompt",
+      "_tgt": "prefetch_links_reviews_formatreviewsblock",
+      "source": "lib_audit_helpers_buildauditprompt",
+      "target": "prefetch_links_reviews_formatreviewsblock"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lib/audit-helpers.ts",
+      "source_location": "L210",
+      "weight": 1.0,
+      "_src": "lib_audit_helpers_buildauditprompt",
+      "_tgt": "prefetch_serper_formatserperblock",
+      "source": "lib_audit_helpers_buildauditprompt",
+      "target": "prefetch_serper_formatserperblock"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lib/audit-helpers.ts",
+      "source_location": "L214",
+      "weight": 1.0,
+      "_src": "lib_audit_helpers_buildauditprompt",
+      "_tgt": "prefetch_gbp_formatgbpblock",
+      "source": "lib_audit_helpers_buildauditprompt",
+      "target": "prefetch_gbp_formatgbpblock"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lib/audit-helpers.ts",
+      "source_location": "L217",
+      "weight": 1.0,
+      "_src": "lib_audit_helpers_buildauditprompt",
+      "_tgt": "prefetch_ai_citability_formataicitabilityblock",
+      "source": "lib_audit_helpers_buildauditprompt",
+      "target": "prefetch_ai_citability_formataicitabilityblock"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "lib/claude.ts",
+      "source_location": "L67",
+      "weight": 1.0,
+      "_src": "lib_claude_callclaude",
+      "_tgt": "lib_audit_helpers_buildauditprompt",
+      "source": "lib_audit_helpers_buildauditprompt",
+      "target": "lib_claude_callclaude"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/claude.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_src": "lib_claude_ts",
+      "_tgt": "lib_claude_callclaude",
+      "source": "lib_claude_ts",
+      "target": "lib_claude_callclaude",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "lib/supabase.ts",
-      "source_location": "L5",
+      "source_location": "L12",
       "weight": 1.0,
       "_src": "lib_supabase_ts",
       "_tgt": "lib_supabase_getsupabase",
       "source": "lib_supabase_ts",
-      "target": "lib_supabase_getsupabase"
+      "target": "lib_supabase_getsupabase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/supabase.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_src": "lib_supabase_ts",
+      "_tgt": "lib_supabase_createbrowserclient",
+      "source": "lib_supabase_ts",
+      "target": "lib_supabase_createbrowserclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/supabase.ts",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_src": "lib_supabase_ts",
+      "_tgt": "lib_supabase_createserverclient",
+      "source": "lib_supabase_ts",
+      "target": "lib_supabase_createserverclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/grid.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_src": "lib_grid_ts",
+      "_tgt": "lib_grid_buildgrid",
+      "source": "lib_grid_ts",
+      "target": "lib_grid_buildgrid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/grid.ts",
+      "source_location": "L46",
+      "weight": 1.0,
+      "_src": "lib_grid_ts",
+      "_tgt": "lib_grid_rankcolor",
+      "source": "lib_grid_ts",
+      "target": "lib_grid_rankcolor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/grid.ts",
+      "source_location": "L53",
+      "weight": 1.0,
+      "_src": "lib_grid_ts",
+      "_tgt": "lib_grid_ranklabel",
+      "source": "lib_grid_ts",
+      "target": "lib_grid_ranklabel",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -2027,7 +2559,8 @@
       "_src": "lib_auditpdf_tsx",
       "_tgt": "lib_auditpdf_statuscolor",
       "source": "lib_auditpdf_tsx",
-      "target": "lib_auditpdf_statuscolor"
+      "target": "lib_auditpdf_statuscolor",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -2038,567 +2571,272 @@
       "_src": "lib_auditpdf_tsx",
       "_tgt": "lib_auditpdf_formatdate",
       "source": "lib_auditpdf_tsx",
-      "target": "lib_auditpdf_formatdate"
+      "target": "lib_auditpdf_formatdate",
+      "confidence_score": 1.0
     },
     {
-      "relation": "configures_plugin",
+      "relation": "contains",
       "confidence": "EXTRACTED",
-      "_src": "postcss_config",
-      "_tgt": "tailwindcss",
-      "source": "postcss_config",
-      "target": "tailwindcss"
+      "source_file": "lib/prefetch/ai-citability.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_src": "lib_prefetch_ai_citability_ts",
+      "_tgt": "prefetch_ai_citability_normalisephone",
+      "source": "lib_prefetch_ai_citability_ts",
+      "target": "prefetch_ai_citability_normalisephone",
+      "confidence_score": 1.0
     },
     {
-      "relation": "ignores_generated_file",
+      "relation": "contains",
       "confidence": "EXTRACTED",
-      "_src": "eslint_config",
-      "_tgt": "next_env_dts",
-      "source": "next_env_dts",
-      "target": "eslint_config"
+      "source_file": "lib/prefetch/ai-citability.ts",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_src": "lib_prefetch_ai_citability_ts",
+      "_tgt": "prefetch_ai_citability_extractservicekeywords",
+      "source": "lib_prefetch_ai_citability_ts",
+      "target": "prefetch_ai_citability_extractservicekeywords",
+      "confidence_score": 1.0
     },
     {
-      "relation": "redirects_root_to",
+      "relation": "contains",
       "confidence": "EXTRACTED",
-      "_src": "next_config",
-      "_tgt": "free_local_seo_page",
-      "source": "next_config",
-      "target": "free_local_seo_page"
+      "source_file": "lib/prefetch/ai-citability.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_src": "lib_prefetch_ai_citability_ts",
+      "_tgt": "prefetch_ai_citability_computeaicitabilitysignals",
+      "source": "lib_prefetch_ai_citability_ts",
+      "target": "prefetch_ai_citability_computeaicitabilitysignals",
+      "confidence_score": 1.0
     },
     {
-      "relation": "imports",
+      "relation": "contains",
       "confidence": "EXTRACTED",
-      "_src": "app_layout",
-      "_tgt": "globals_css",
-      "source": "app_layout",
-      "target": "globals_css"
+      "source_file": "lib/prefetch/ai-citability.ts",
+      "source_location": "L132",
+      "weight": 1.0,
+      "_src": "lib_prefetch_ai_citability_ts",
+      "_tgt": "prefetch_ai_citability_formataicitabilityblock",
+      "source": "lib_prefetch_ai_citability_ts",
+      "target": "prefetch_ai_citability_formataicitabilityblock",
+      "confidence_score": 1.0
     },
     {
-      "relation": "wraps_as_child",
-      "confidence": "INFERRED",
-      "_src": "app_layout",
-      "_tgt": "free_local_seo_page",
-      "source": "app_layout",
-      "target": "free_local_seo_page"
-    },
-    {
-      "relation": "wraps_as_child",
-      "confidence": "INFERRED",
-      "_src": "app_layout",
-      "_tgt": "thank_you_page",
-      "source": "app_layout",
-      "target": "thank_you_page"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "app_page",
-      "_tgt": "site_nav_minimal",
-      "source": "app_page",
-      "target": "site_nav_minimal"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "app_page",
-      "_tgt": "hero_section",
-      "source": "app_page",
-      "target": "hero_section"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "app_page",
-      "_tgt": "trust_bar",
-      "source": "app_page",
-      "target": "trust_bar"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "app_page",
-      "_tgt": "how_it_works",
-      "source": "app_page",
-      "target": "how_it_works"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "app_page",
-      "_tgt": "what_we_check",
-      "source": "app_page",
-      "target": "what_we_check"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "app_page",
-      "_tgt": "testimonials",
-      "source": "app_page",
-      "target": "testimonials"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "app_page",
-      "_tgt": "faq_section",
-      "source": "app_page",
-      "target": "faq_section"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "app_page",
-      "_tgt": "final_cta",
-      "source": "app_page",
-      "target": "final_cta"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "app_page",
-      "_tgt": "site_footer_minimal",
-      "source": "app_page",
-      "target": "site_footer_minimal"
-    },
-    {
-      "relation": "imports_styles_from",
-      "confidence": "EXTRACTED",
-      "_src": "app_page",
-      "_tgt": "landing_module_css",
-      "source": "app_page",
-      "target": "landing_module_css"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "thank_you_page",
-      "_tgt": "site_nav_minimal",
-      "source": "thank_you_page",
-      "target": "site_nav_minimal"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "thank_you_page",
-      "_tgt": "site_footer_minimal",
-      "source": "thank_you_page",
-      "target": "site_footer_minimal"
-    },
-    {
-      "relation": "imports_styles_from",
-      "confidence": "EXTRACTED",
-      "_src": "thank_you_page",
-      "_tgt": "thank_you_module_css",
-      "source": "thank_you_page",
-      "target": "thank_you_module_css"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "free_local_seo_page",
-      "_tgt": "site_nav_minimal",
-      "source": "free_local_seo_page",
-      "target": "site_nav_minimal"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "free_local_seo_page",
-      "_tgt": "site_footer_minimal",
-      "source": "free_local_seo_page",
-      "target": "site_footer_minimal"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "free_local_seo_page",
-      "_tgt": "hero_section",
-      "source": "free_local_seo_page",
-      "target": "hero_section"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "free_local_seo_page",
-      "_tgt": "diagnostic_grid",
-      "source": "free_local_seo_page",
-      "target": "diagnostic_grid"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "free_local_seo_page",
-      "_tgt": "trust_bar",
-      "source": "free_local_seo_page",
-      "target": "trust_bar"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "free_local_seo_page",
-      "_tgt": "how_it_works",
-      "source": "free_local_seo_page",
-      "target": "how_it_works"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "free_local_seo_page",
-      "_tgt": "report_preview",
-      "source": "free_local_seo_page",
-      "target": "report_preview"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "free_local_seo_page",
-      "_tgt": "testimonials",
-      "source": "free_local_seo_page",
-      "target": "testimonials"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "free_local_seo_page",
-      "_tgt": "final_cta",
-      "source": "free_local_seo_page",
-      "target": "final_cta"
-    },
-    {
-      "relation": "imports_styles_from",
-      "confidence": "EXTRACTED",
-      "_src": "free_local_seo_page",
-      "_tgt": "landing_module_css",
-      "source": "free_local_seo_page",
-      "target": "landing_module_css"
-    },
-    {
-      "relation": "imports_styles_from",
-      "confidence": "EXTRACTED",
-      "_src": "site_footer",
-      "_tgt": "site_footer_module_css",
-      "source": "site_footer",
-      "target": "site_footer_module_css"
-    },
-    {
-      "relation": "imports_styles_from",
-      "confidence": "EXTRACTED",
-      "_src": "site_footer_minimal",
-      "_tgt": "site_footer_minimal_module_css",
-      "source": "site_footer_minimal",
-      "target": "site_footer_minimal_module_css"
-    },
-    {
-      "relation": "imports_styles_from",
-      "confidence": "EXTRACTED",
-      "_src": "site_nav_minimal",
-      "_tgt": "site_nav_module_css",
-      "source": "site_nav_minimal",
-      "target": "site_nav_module_css"
-    },
-    {
-      "relation": "imports_styles_from",
-      "confidence": "EXTRACTED",
-      "_src": "site_nav_minimal",
-      "_tgt": "landing_module_css",
-      "source": "site_nav_minimal",
-      "target": "landing_module_css"
-    },
-    {
-      "relation": "embeds",
-      "confidence": "EXTRACTED",
-      "_src": "hero_section",
-      "_tgt": "audit_tool",
-      "source": "hero_section",
-      "target": "audit_tool"
-    },
-    {
-      "relation": "uses_for_animation",
-      "confidence": "EXTRACTED",
-      "_src": "hero_section",
-      "_tgt": "framer_motion",
-      "source": "hero_section",
-      "target": "framer_motion"
-    },
-    {
-      "relation": "imports_styles_from",
-      "confidence": "EXTRACTED",
-      "_src": "hero_section",
-      "_tgt": "landing_module_css",
-      "source": "hero_section",
-      "target": "landing_module_css"
-    },
-    {
-      "relation": "uses_for_animation",
-      "confidence": "EXTRACTED",
-      "_src": "diagnostic_grid",
-      "_tgt": "framer_motion",
-      "source": "diagnostic_grid",
-      "target": "framer_motion"
-    },
-    {
-      "relation": "imports_styles_from",
-      "confidence": "EXTRACTED",
-      "_src": "diagnostic_grid",
-      "_tgt": "landing_module_css",
-      "source": "diagnostic_grid",
-      "target": "landing_module_css"
-    },
-    {
-      "relation": "imports_styles_from",
-      "confidence": "EXTRACTED",
-      "_src": "trust_bar",
-      "_tgt": "landing_module_css",
-      "source": "trust_bar",
-      "target": "landing_module_css"
-    },
-    {
-      "relation": "imports_styles_from",
-      "confidence": "EXTRACTED",
-      "_src": "how_it_works",
-      "_tgt": "landing_module_css",
-      "source": "how_it_works",
-      "target": "landing_module_css"
-    },
-    {
-      "relation": "imports_styles_from",
-      "confidence": "EXTRACTED",
-      "_src": "what_we_check",
-      "_tgt": "landing_module_css",
-      "source": "what_we_check",
-      "target": "landing_module_css"
-    },
-    {
-      "relation": "imports_styles_from",
-      "confidence": "EXTRACTED",
-      "_src": "report_preview",
-      "_tgt": "landing_module_css",
-      "source": "report_preview",
-      "target": "landing_module_css"
-    },
-    {
-      "relation": "imports_styles_from",
-      "confidence": "EXTRACTED",
-      "_src": "faq_section",
-      "_tgt": "landing_module_css",
-      "source": "faq_section",
-      "target": "landing_module_css"
-    },
-    {
-      "relation": "imports_styles_from",
-      "confidence": "EXTRACTED",
-      "_src": "final_cta",
-      "_tgt": "landing_module_css",
-      "source": "final_cta",
-      "target": "landing_module_css"
-    },
-    {
-      "relation": "imports_styles_from",
-      "confidence": "EXTRACTED",
-      "_src": "testimonials",
-      "_tgt": "landing_module_css",
-      "source": "testimonials",
-      "target": "landing_module_css"
-    },
-    {
-      "relation": "posts_to",
-      "confidence": "INFERRED",
-      "_src": "audit_tool",
-      "_tgt": "api_audit_route",
-      "source": "audit_tool",
-      "target": "api_audit_route"
-    },
-    {
-      "relation": "uses_for_animation",
-      "confidence": "EXTRACTED",
-      "_src": "audit_tool",
-      "_tgt": "framer_motion",
-      "source": "audit_tool",
-      "target": "framer_motion"
-    },
-    {
-      "relation": "imports_styles_from",
+      "relation": "calls",
       "confidence": "EXTRACTED",
-      "_src": "audit_tool",
-      "_tgt": "audit_module_css",
-      "source": "audit_tool",
-      "target": "audit_module_css"
+      "source_file": "lib/prefetch/ai-citability.ts",
+      "source_location": "L53",
+      "weight": 1.0,
+      "_src": "prefetch_ai_citability_computeaicitabilitysignals",
+      "_tgt": "prefetch_ai_citability_normalisephone",
+      "source": "prefetch_ai_citability_normalisephone",
+      "target": "prefetch_ai_citability_computeaicitabilitysignals",
+      "confidence_score": 1.0
     },
     {
-      "relation": "calls parallel pre-fetch via",
+      "relation": "calls",
       "confidence": "EXTRACTED",
-      "_src": "api_audit_route",
-      "_tgt": "lib_prefetch",
-      "source": "api_audit_route",
-      "target": "lib_prefetch"
+      "source_file": "lib/prefetch/ai-citability.ts",
+      "source_location": "L71",
+      "weight": 1.0,
+      "_src": "prefetch_ai_citability_computeaicitabilitysignals",
+      "_tgt": "prefetch_ai_citability_extractservicekeywords",
+      "source": "prefetch_ai_citability_extractservicekeywords",
+      "target": "prefetch_ai_citability_computeaicitabilitysignals",
+      "confidence_score": 1.0
     },
     {
-      "relation": "enforces IP rate limiting via",
+      "relation": "contains",
       "confidence": "EXTRACTED",
-      "_src": "api_audit_route",
-      "_tgt": "lib_ratelimit",
-      "source": "api_audit_route",
-      "target": "lib_ratelimit"
+      "source_file": "lib/prefetch/gbp.ts",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_src": "lib_prefetch_gbp_ts",
+      "_tgt": "prefetch_gbp_fetchgbpdata",
+      "source": "lib_prefetch_gbp_ts",
+      "target": "prefetch_gbp_fetchgbpdata",
+      "confidence_score": 1.0
     },
     {
-      "relation": "persists audit result to",
+      "relation": "contains",
       "confidence": "EXTRACTED",
-      "_src": "api_audit_route",
-      "_tgt": "lib_supabase",
-      "source": "api_audit_route",
-      "target": "lib_supabase"
+      "source_file": "lib/prefetch/gbp.ts",
+      "source_location": "L117",
+      "weight": 1.0,
+      "_src": "lib_prefetch_gbp_ts",
+      "_tgt": "prefetch_gbp_fetchpagespeeddata",
+      "source": "lib_prefetch_gbp_ts",
+      "target": "prefetch_gbp_fetchpagespeeddata",
+      "confidence_score": 1.0
     },
     {
-      "relation": "calls for AI audit generation",
-      "confidence": "EXTRACTED",
-      "_src": "api_audit_route",
-      "_tgt": "svc_anthropic",
-      "source": "api_audit_route",
-      "target": "svc_anthropic"
-    },
-    {
-      "relation": "specifies behavior of",
-      "confidence": "EXTRACTED",
-      "_src": "build_spec",
-      "_tgt": "api_audit_route",
-      "source": "api_audit_route",
-      "target": "build_spec"
-    },
-    {
-      "relation": "defines coding conventions for",
-      "confidence": "EXTRACTED",
-      "_src": "agents_md",
-      "_tgt": "api_audit_route",
-      "source": "api_audit_route",
-      "target": "agents_md"
-    },
-    {
-      "relation": "links to main site pages on",
-      "confidence": "EXTRACTED",
-      "_src": "site_nav",
-      "_tgt": "svc_localsearchally",
-      "source": "site_nav",
-      "target": "svc_localsearchally"
-    },
-    {
-      "relation": "renders",
-      "confidence": "EXTRACTED",
-      "_src": "audit_page",
-      "_tgt": "shared_audit_view",
-      "source": "shared_audit_view",
-      "target": "audit_page"
-    },
-    {
-      "relation": "previews design shown in",
-      "confidence": "INFERRED",
-      "_src": "shared_audit_view",
-      "_tgt": "img_audit_preview",
-      "source": "shared_audit_view",
-      "target": "img_audit_preview"
-    },
-    {
-      "relation": "fetches audit record via",
-      "confidence": "EXTRACTED",
-      "_src": "audit_page",
-      "_tgt": "lib_supabase",
-      "source": "audit_page",
-      "target": "lib_supabase"
-    },
-    {
-      "relation": "renders PDF using",
-      "confidence": "EXTRACTED",
-      "_src": "api_email_route",
-      "_tgt": "lib_audit_pdf",
-      "source": "api_email_route",
-      "target": "lib_audit_pdf"
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/prefetch/gbp.ts",
+      "source_location": "L168",
+      "weight": 1.0,
+      "_src": "lib_prefetch_gbp_ts",
+      "_tgt": "prefetch_gbp_formatgbpblock",
+      "source": "lib_prefetch_gbp_ts",
+      "target": "prefetch_gbp_formatgbpblock",
+      "confidence_score": 1.0
     },
     {
-      "relation": "sends email via",
-      "confidence": "EXTRACTED",
-      "_src": "api_email_route",
-      "_tgt": "svc_resend",
-      "source": "api_email_route",
-      "target": "svc_resend"
-    },
-    {
-      "relation": "reads audit record from",
-      "confidence": "EXTRACTED",
-      "_src": "api_email_route",
-      "_tgt": "lib_supabase",
-      "source": "api_email_route",
-      "target": "lib_supabase"
-    },
-    {
-      "relation": "specifies behavior of",
-      "confidence": "EXTRACTED",
-      "_src": "build_spec",
-      "_tgt": "api_email_route",
-      "source": "api_email_route",
-      "target": "build_spec"
-    },
-    {
-      "relation": "fetches GBP data from",
-      "confidence": "EXTRACTED",
-      "_src": "lib_prefetch",
-      "_tgt": "svc_google_places",
-      "source": "lib_prefetch",
-      "target": "svc_google_places"
-    },
-    {
-      "relation": "fetches Core Web Vitals from",
-      "confidence": "EXTRACTED",
-      "_src": "lib_prefetch",
-      "_tgt": "svc_pagespeed",
-      "source": "lib_prefetch",
-      "target": "svc_pagespeed"
-    },
-    {
-      "relation": "fetches map pack results from",
-      "confidence": "EXTRACTED",
-      "_src": "lib_prefetch",
-      "_tgt": "svc_serper",
-      "source": "lib_prefetch",
-      "target": "svc_serper"
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/prefetch/gbp.ts",
+      "source_location": "L188",
+      "weight": 1.0,
+      "_src": "lib_prefetch_gbp_ts",
+      "_tgt": "prefetch_gbp_formatpagespeedblock",
+      "source": "lib_prefetch_gbp_ts",
+      "target": "prefetch_gbp_formatpagespeedblock",
+      "confidence_score": 1.0
     },
     {
-      "relation": "fetches backlinks and reviews from",
-      "confidence": "EXTRACTED",
-      "_src": "lib_prefetch",
-      "_tgt": "svc_dataforseo",
-      "source": "lib_prefetch",
-      "target": "svc_dataforseo"
-    },
-    {
-      "relation": "specifies pre-fetch pipeline for",
-      "confidence": "EXTRACTED",
-      "_src": "build_spec",
-      "_tgt": "lib_prefetch",
-      "source": "lib_prefetch",
-      "target": "build_spec"
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/prefetch/website.ts",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_src": "lib_prefetch_website_ts",
+      "_tgt": "prefetch_website_striptags",
+      "source": "lib_prefetch_website_ts",
+      "target": "prefetch_website_striptags",
+      "confidence_score": 1.0
     },
     {
-      "relation": "defines coding conventions for",
-      "confidence": "INFERRED",
-      "_src": "agents_md",
-      "_tgt": "lib_prefetch",
-      "source": "lib_prefetch",
-      "target": "agents_md"
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/prefetch/website.ts",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_src": "lib_prefetch_website_ts",
+      "_tgt": "prefetch_website_extractjsonldblocks",
+      "source": "lib_prefetch_website_ts",
+      "target": "prefetch_website_extractjsonldblocks",
+      "confidence_score": 1.0
     },
     {
-      "relation": "uses Redis sliding window via",
-      "confidence": "EXTRACTED",
-      "_src": "lib_ratelimit",
-      "_tgt": "svc_upstash",
-      "source": "lib_ratelimit",
-      "target": "svc_upstash"
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/prefetch/website.ts",
+      "source_location": "L63",
+      "weight": 1.0,
+      "_src": "lib_prefetch_website_ts",
+      "_tgt": "prefetch_website_fetchwebsitedata",
+      "source": "lib_prefetch_website_ts",
+      "target": "prefetch_website_fetchwebsitedata",
+      "confidence_score": 1.0
     },
     {
-      "relation": "connects to",
-      "confidence": "EXTRACTED",
-      "_src": "lib_supabase",
-      "_tgt": "svc_supabase",
-      "source": "lib_supabase",
-      "target": "svc_supabase"
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/prefetch/website.ts",
+      "source_location": "L176",
+      "weight": 1.0,
+      "_src": "lib_prefetch_website_ts",
+      "_tgt": "prefetch_website_formatwebsiteblock",
+      "source": "lib_prefetch_website_ts",
+      "target": "prefetch_website_formatwebsiteblock",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/prefetch/website.ts",
+      "source_location": "L118",
+      "weight": 1.0,
+      "_src": "prefetch_website_fetchwebsitedata",
+      "_tgt": "prefetch_website_striptags",
+      "source": "prefetch_website_striptags",
+      "target": "prefetch_website_fetchwebsitedata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/prefetch/website.ts",
+      "source_location": "L130",
+      "weight": 1.0,
+      "_src": "prefetch_website_fetchwebsitedata",
+      "_tgt": "prefetch_website_extractjsonldblocks",
+      "source": "prefetch_website_extractjsonldblocks",
+      "target": "prefetch_website_fetchwebsitedata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/prefetch/links-reviews.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_src": "lib_prefetch_links_reviews_ts",
+      "_tgt": "prefetch_links_reviews_fetchbacklinksdata",
+      "source": "lib_prefetch_links_reviews_ts",
+      "target": "prefetch_links_reviews_fetchbacklinksdata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/prefetch/links-reviews.ts",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_src": "lib_prefetch_links_reviews_ts",
+      "_tgt": "prefetch_links_reviews_formatbacklinksblock",
+      "source": "lib_prefetch_links_reviews_ts",
+      "target": "prefetch_links_reviews_formatbacklinksblock",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/prefetch/links-reviews.ts",
+      "source_location": "L90",
+      "weight": 1.0,
+      "_src": "lib_prefetch_links_reviews_ts",
+      "_tgt": "prefetch_links_reviews_fetchreviewsdata",
+      "source": "lib_prefetch_links_reviews_ts",
+      "target": "prefetch_links_reviews_fetchreviewsdata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/prefetch/links-reviews.ts",
+      "source_location": "L135",
+      "weight": 1.0,
+      "_src": "lib_prefetch_links_reviews_ts",
+      "_tgt": "prefetch_links_reviews_formatreviewsblock",
+      "source": "lib_prefetch_links_reviews_ts",
+      "target": "prefetch_links_reviews_formatreviewsblock",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/prefetch/serper.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_src": "lib_prefetch_serper_ts",
+      "_tgt": "prefetch_serper_fetchserperdata",
+      "source": "lib_prefetch_serper_ts",
+      "target": "prefetch_serper_fetchserperdata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/prefetch/serper.ts",
+      "source_location": "L61",
+      "weight": 1.0,
+      "_src": "lib_prefetch_serper_ts",
+      "_tgt": "prefetch_serper_formatserperblock",
+      "source": "lib_prefetch_serper_ts",
+      "target": "prefetch_serper_formatserperblock",
+      "confidence_score": 1.0
     },
     {
       "relation": "describes feature illustrated by",
@@ -2606,7 +2844,8 @@
       "_src": "build_spec",
       "_tgt": "img_map_pack",
       "source": "build_spec",
-      "target": "img_map_pack"
+      "target": "img_map_pack",
+      "confidence_score": 0.5
     },
     {
       "relation": "describes outcome illustrated by",
@@ -2614,7 +2853,9 @@
       "_src": "build_spec",
       "_tgt": "img_visibility",
       "source": "build_spec",
-      "target": "img_visibility"
+      "target": "img_visibility",
+      "confidence_score": 0.5
     }
-  ]
+  ],
+  "hyperedges": []
 }
