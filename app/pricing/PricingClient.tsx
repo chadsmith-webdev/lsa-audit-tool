@@ -164,59 +164,66 @@ export default function PricingPage({
             maxWidth: "1100px",
             margin: "0 auto",
             padding: `${banner ? "var(--space-8)" : "var(--space-12)"} var(--page-gutter) var(--space-10)`,
-            textAlign: "center",
           }}
         >
-          <span
+          <div className={styles.heroGrid}>
+            <div>
+              <span className={styles.eyebrow}>
+                <span aria-hidden='true' className={styles.eyebrowIndex}>
+                  §
+                </span>
+                Pricing · 2026
+              </span>
+              <h1
+                className='heading-1'
+                style={{
+                  margin: "var(--space-3) 0 var(--space-5)",
+                  textWrap: "balance",
+                }}
+              >
+                One service call covers a whole year of better leads.
+              </h1>
+              <p
+                style={{
+                  fontSize: "var(--text-md)",
+                  color: "var(--text-secondary)",
+                  margin: 0,
+                  maxWidth: "560px",
+                  lineHeight: 1.55,
+                }}
+              >
+                Built for NWA contractors. Audit your local search presence,
+                then use 8 AI-powered tools to fix what&apos;s broken — no
+                agency required.
+              </p>
+            </div>
+            <aside className={styles.specSheet} aria-label='At a glance'>
+              <SpecRow k='Free audit' v='Forever' />
+              <SpecRow k='Pro tools' v='8 included' />
+              <SpecRow k='Trial' v='14 days, no card charged' />
+              <SpecRow k='Cancel' v='One click, anytime' />
+              <SpecRow k='Built for' v='NWA contractors' />
+            </aside>
+          </div>
+          <div
             style={{
-              display: "inline-block",
-              fontSize: "var(--text-xs)",
-              fontFamily: "var(--font-mono)",
-              fontWeight: 700,
-              textTransform: "uppercase",
-              letterSpacing: "0.12em",
-              color: "var(--carolina)",
-              marginBottom: "var(--space-3)",
+              marginTop: "var(--space-10)",
+              display: "flex",
+              justifyContent: "center",
             }}
           >
-            Pricing
-          </span>
-          <h1
-            className='heading-1'
-            style={{
-              marginBottom: "var(--space-4)",
-              maxWidth: "720px",
-              marginLeft: "auto",
-              marginRight: "auto",
-            }}
-          >
-            One service call covers a whole year of better leads.
-          </h1>
-          <p
-            className='text-md'
-            style={{
-              color: "var(--text-secondary)",
-              maxWidth: "640px",
-              margin: "0 auto var(--space-7)",
-              lineHeight: 1.55,
-              textAlign: "center",
-            }}
-          >
-            Built for NWA contractors. Audit your local search presence, then
-            use 8 AI-powered tools to fix what&apos;s broken — no agency
-            required.
-          </p>
-
-          <BillingToggle billing={billing} onChange={setBilling} />
+            <BillingToggle billing={billing} onChange={setBilling} />
+          </div>
         </section>
 
         <section
           style={{
             maxWidth: "1100px",
             margin: "0 auto",
-            padding: "0 var(--page-gutter) var(--space-16)",
+            padding: "var(--space-4) var(--page-gutter) var(--space-16)",
           }}
         >
+          <SectionMarker index='01' label='Plans' />
           <div
             style={{
               display: "grid",
@@ -296,6 +303,8 @@ export default function PricingPage({
         <ToolsRail />
 
         <ComparisonTable />
+
+        <ManagedServices />
 
         <FAQSection />
 
@@ -658,22 +667,10 @@ function ToolsRail() {
         borderTop: "1px solid var(--border)",
       }}
     >
-      <p
-        className='label'
-        style={{
-          color: "var(--carolina)",
-          marginBottom: "var(--space-3)",
-          textAlign: "center",
-        }}
-      >
-        Included in Pro · 8 tools
-      </p>
+      <SectionMarker index='02' label='Toolkit' />
       <h2
         className='heading-3'
-        style={{
-          textAlign: "center",
-          marginBottom: "var(--space-7)",
-        }}
+        style={{ margin: "0 0 var(--space-7)", textWrap: "balance" }}
       >
         Everything you need to outrank the shop down the street.
       </h2>
@@ -738,13 +735,8 @@ function ComparisonTable() {
         borderTop: "1px solid var(--border)",
       }}
     >
-      <h2
-        className='heading-3'
-        style={{
-          textAlign: "center",
-          marginBottom: "var(--space-7)",
-        }}
-      >
+      <SectionMarker index='03' label='Comparison' />
+      <h2 className='heading-3' style={{ margin: "0 0 var(--space-7)" }}>
         Compare plans
       </h2>
       <div
@@ -844,7 +836,181 @@ const tdCell: React.CSSProperties = {
   padding: "var(--space-3) var(--space-4)",
   color: "var(--text-secondary)",
 };
+/* ─── Section marker (§01 / Label) ─────────────────────────── */
 
+function SectionMarker({ index, label }: { index: string; label: string }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "var(--space-3)",
+        marginBottom: "var(--space-5)",
+        fontFamily: "var(--font-mono)",
+        fontSize: "var(--text-xs)",
+        fontWeight: 700,
+        letterSpacing: "0.12em",
+        textTransform: "uppercase",
+        color: "var(--carolina)",
+      }}
+    >
+      <span aria-hidden='true'>§{index}</span>
+      <span
+        aria-hidden='true'
+        style={{
+          flex: "0 0 28px",
+          height: "1px",
+          background: "var(--carolina)",
+          opacity: 0.6,
+        }}
+      />
+      <span style={{ color: "var(--text-secondary)" }}>{label}</span>
+    </div>
+  );
+}
+
+/* ─── Spec sheet row ─────────────────────────────────────────────── */
+
+function SpecRow({ k, v }: { k: string; v: string }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "baseline",
+        gap: "var(--space-3)",
+        padding: "var(--space-3) 0",
+        borderBottom: "1px solid var(--border)",
+        fontSize: "var(--text-sm)",
+      }}
+    >
+      <span
+        style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: "var(--text-xs)",
+          textTransform: "uppercase",
+          letterSpacing: "0.08em",
+          color: "var(--text-secondary)",
+        }}
+      >
+        {k}
+      </span>
+      <span
+        style={{ color: "var(--text)", fontWeight: 500, textAlign: "right" }}
+      >
+        {v}
+      </span>
+    </div>
+  );
+}
+
+/* ─── Managed services panel ───────────────────────────────────── */
+
+function ManagedServices() {
+  return (
+    <section
+      style={{
+        maxWidth: "1100px",
+        margin: "0 auto",
+        padding: "var(--space-16) var(--page-gutter)",
+        borderTop: "1px solid var(--border)",
+      }}
+    >
+      <SectionMarker index='04' label='Done-for-you' />
+      <div className={styles.managedPanel}>
+        <div>
+          <h2
+            className='heading-3'
+            style={{ margin: "0 0 var(--space-4)", textWrap: "balance" }}
+          >
+            Don’t want to run it yourself?
+          </h2>
+          <p
+            style={{
+              margin: "0 0 var(--space-5)",
+              color: "var(--text-secondary)",
+              fontSize: "var(--text-md)",
+              lineHeight: 1.55,
+              maxWidth: "520px",
+            }}
+          >
+            We&apos;ll handle your local SEO end-to-end — audits, fixes,
+            citations, reviews, content. You stay on the truck.
+          </p>
+          <ul
+            style={{
+              listStyle: "none",
+              padding: 0,
+              margin: "0 0 var(--space-6)",
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "var(--space-2) var(--space-5)",
+              fontSize: "var(--text-sm)",
+              color: "var(--text)",
+            }}
+          >
+            {[
+              "Monthly audits & reporting",
+              "GBP managed for you",
+              "Review responses handled",
+              "Citation cleanup",
+              "Content posted weekly",
+              "Dedicated point of contact",
+            ].map((item) => (
+              <li
+                key={item}
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: "var(--space-2)",
+                  lineHeight: 1.5,
+                }}
+              >
+                <CheckIcon />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <Link
+            href='/consult'
+            className='btn btn-primary'
+            style={{ alignSelf: "flex-start" }}
+          >
+            Book a free consult →
+          </Link>
+        </div>
+        <aside className={styles.managedAside}>
+          <span className={styles.managedTag} aria-hidden='true'>
+            §— By inquiry
+          </span>
+          <p
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
+              lineHeight: 1,
+              fontWeight: 700,
+              margin: "var(--space-4) 0 var(--space-3)",
+              color: "var(--text)",
+            }}
+          >
+            Custom
+          </p>
+          <p
+            style={{
+              margin: 0,
+              fontSize: "var(--text-sm)",
+              color: "var(--text-secondary)",
+              lineHeight: 1.6,
+            }}
+          >
+            Pricing depends on your locations, competition, and how much we take
+            off your plate. 30-minute call, no pressure.
+          </p>
+        </aside>
+      </div>
+    </section>
+  );
+}
 /* ─── FAQ ──────────────────────────────────────────────────────────────── */
 
 function FAQSection() {
@@ -883,13 +1049,8 @@ function FAQSection() {
         borderTop: "1px solid var(--border)",
       }}
     >
-      <h2
-        className='heading-3'
-        style={{
-          textAlign: "center",
-          marginBottom: "var(--space-7)",
-        }}
-      >
+      <SectionMarker index='05' label='FAQ' />
+      <h2 className='heading-3' style={{ margin: "0 0 var(--space-7)" }}>
         Questions, answered straight.
       </h2>
       <div
