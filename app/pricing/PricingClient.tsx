@@ -95,8 +95,8 @@ export default function PricingPage({
           >
             <div
               style={{
-                padding: "var(--space-3) var(--space-4)",
-                borderRadius: "10px",
+                padding: "var(--space-4) var(--space-5)",
+                borderRadius: "var(--radius-md)",
                 border:
                   banner.tone === "error"
                     ? "1px solid var(--danger, #c0392b)"
@@ -131,7 +131,7 @@ export default function PricingPage({
                 {banner.tone === "error"
                   ? "Error"
                   : banner.tone === "highlight"
-                    ? "Gated"
+                    ? "Pro tool"
                     : "Cancelled"}
               </span>
               <div style={{ minWidth: 0 }}>
@@ -163,7 +163,7 @@ export default function PricingPage({
           style={{
             maxWidth: "1100px",
             margin: "0 auto",
-            padding: "var(--space-10) var(--page-gutter) var(--space-6)",
+            padding: `${banner ? "var(--space-6)" : "var(--space-10)"} var(--page-gutter) var(--space-6)`,
             textAlign: "center",
           }}
         >
@@ -740,7 +740,7 @@ function ComparisonTable() {
         className='heading-3'
         style={{
           textAlign: "center",
-          marginBottom: "var(--space-6)",
+          marginBottom: "var(--space-7)",
         }}
       >
         Compare plans
@@ -762,9 +762,24 @@ function ComparisonTable() {
         >
           <thead>
             <tr style={{ background: "var(--surface2)" }}>
-              <th style={thStyle}></th>
-              <th style={thStyle}>Free</th>
+              <th scope='col' style={thStyle}>
+                <span
+                  style={{
+                    position: "absolute",
+                    width: 1,
+                    height: 1,
+                    overflow: "hidden",
+                    clip: "rect(0 0 0 0)",
+                  }}
+                >
+                  Feature
+                </span>
+              </th>
+              <th scope='col' style={thStyle}>
+                Free
+              </th>
               <th
+                scope='col'
                 style={{
                   ...thStyle,
                   color: "var(--carolina)",
@@ -773,13 +788,17 @@ function ComparisonTable() {
               >
                 Pro
               </th>
-              <th style={thStyle}>Multi-Location</th>
+              <th scope='col' style={thStyle}>
+                Multi-Location
+              </th>
             </tr>
           </thead>
           <tbody>
             {rows.map(([label, free, pro, multi]) => (
               <tr key={label} style={{ borderTop: "1px solid var(--border)" }}>
-                <td style={tdLabel}>{label}</td>
+                <th scope='row' style={tdLabel}>
+                  {label}
+                </th>
                 <td style={tdCell}>{free}</td>
                 <td
                   style={{
@@ -816,6 +835,7 @@ const tdLabel: React.CSSProperties = {
   padding: "var(--space-3) var(--space-4)",
   color: "var(--text-secondary)",
   fontWeight: 500,
+  textAlign: "left",
 };
 
 const tdCell: React.CSSProperties = {
@@ -864,7 +884,7 @@ function FAQSection() {
         className='heading-3'
         style={{
           textAlign: "center",
-          marginBottom: "var(--space-6)",
+          marginBottom: "var(--space-7)",
         }}
       >
         Questions, answered straight.
