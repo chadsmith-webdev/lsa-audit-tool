@@ -163,7 +163,7 @@ export default function PricingPage({
           style={{
             maxWidth: "1100px",
             margin: "0 auto",
-            padding: `${banner ? "var(--space-6)" : "var(--space-10)"} var(--page-gutter) var(--space-6)`,
+            padding: `${banner ? "var(--space-8)" : "var(--space-12)"} var(--page-gutter) var(--space-10)`,
             textAlign: "center",
           }}
         >
@@ -199,6 +199,7 @@ export default function PricingPage({
               maxWidth: "640px",
               margin: "0 auto var(--space-7)",
               lineHeight: 1.55,
+              textAlign: "center",
             }}
           >
             Built for NWA contractors. Audit your local search presence, then
@@ -213,7 +214,7 @@ export default function PricingPage({
           style={{
             maxWidth: "1100px",
             margin: "0 auto",
-            padding: "0 var(--page-gutter) var(--space-12)",
+            padding: "0 var(--page-gutter) var(--space-16)",
           }}
         >
           <div
@@ -302,7 +303,7 @@ export default function PricingPage({
           style={{
             maxWidth: "780px",
             margin: "0 auto",
-            padding: "var(--space-10) var(--page-gutter) var(--space-12)",
+            padding: "var(--space-16) var(--page-gutter)",
             textAlign: "center",
             borderTop: "1px solid var(--border)",
           }}
@@ -653,7 +654,7 @@ function ToolsRail() {
       style={{
         maxWidth: "1100px",
         margin: "0 auto",
-        padding: "var(--space-10) var(--page-gutter)",
+        padding: "var(--space-16) var(--page-gutter)",
         borderTop: "1px solid var(--border)",
       }}
     >
@@ -733,7 +734,8 @@ function ComparisonTable() {
       style={{
         maxWidth: "880px",
         margin: "0 auto",
-        padding: "var(--space-10) var(--page-gutter)",
+        padding: "var(--space-16) var(--page-gutter)",
+        borderTop: "1px solid var(--border)",
       }}
     >
       <h2
@@ -877,7 +879,8 @@ function FAQSection() {
       style={{
         maxWidth: "780px",
         margin: "0 auto",
-        padding: "var(--space-10) var(--page-gutter)",
+        padding: "var(--space-16) var(--page-gutter)",
+        borderTop: "1px solid var(--border)",
       }}
     >
       <h2
