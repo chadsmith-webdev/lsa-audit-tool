@@ -5,6 +5,7 @@ import Link from "next/link";
 import SiteNavMinimal from "@/app/components/SiteNavMinimal";
 import SiteFooterMinimal from "@/app/components/SiteFooterMinimal";
 import landingStyles from "@/styles/landing.module.css";
+import styles from "@/styles/pricing.module.css";
 
 type Billing = "monthly" | "annual";
 
@@ -115,16 +116,16 @@ export default function PricingPage({
                 aria-hidden='true'
                 style={{
                   fontFamily: "var(--font-mono)",
-                  fontSize: "var(--text-xs)",
+                  fontSize: "var(--text-sm)",
                   fontWeight: 700,
                   letterSpacing: "0.08em",
                   textTransform: "uppercase",
+                  lineHeight: 1.5,
                   color:
                     banner.tone === "error"
                       ? "var(--danger, #c0392b)"
                       : "var(--carolina)",
                   flexShrink: 0,
-                  paddingTop: "2px",
                 }}
               >
                 {banner.tone === "error"
@@ -385,6 +386,7 @@ function ToggleButton({
       role='radio'
       aria-checked={active}
       onClick={onClick}
+      className={`${styles.toggleBtn} ${active ? styles.toggleBtnActive : ""}`}
       style={{
         display: "inline-flex",
         alignItems: "center",
@@ -397,7 +399,6 @@ function ToggleButton({
         cursor: "pointer",
         fontSize: "var(--text-sm)",
         fontWeight: 600,
-        transition: "all 160ms ease",
       }}
     >
       {label}
@@ -409,11 +410,11 @@ function ToggleButton({
             padding: "2px 8px",
             borderRadius: "999px",
             background: active
-              ? "rgba(10, 10, 10, 0.15)"
+              ? "color-mix(in srgb, var(--bg) 18%, transparent)"
               : "var(--status-green-dim)",
             color: active ? "var(--bg)" : "var(--status-green)",
             border: active
-              ? "1px solid rgba(10,10,10,0.2)"
+              ? "1px solid color-mix(in srgb, var(--bg) 25%, transparent)"
               : "1px solid var(--status-green-mid)",
           }}
         >
@@ -452,6 +453,7 @@ function PlanCard({
   const featured = variant === "featured";
   return (
     <div
+      className={`${styles.planCard} ${featured ? styles.planCardFeatured : ""}`}
       style={{
         position: "relative",
         padding: "var(--space-6)",
@@ -527,17 +529,27 @@ function PlanCard({
             {cadence}
           </span>
         </div>
-        {priceSub && (
+        {priceSub ? (
           <p
             style={{
               margin: 0,
               fontSize: "var(--text-xs)",
               fontFamily: "var(--font-mono)",
               color: featured ? "var(--carolina)" : "var(--muted)",
+              minHeight: "1.4em",
             }}
           >
             {priceSub}
           </p>
+        ) : (
+          <p
+            aria-hidden='true'
+            style={{
+              margin: 0,
+              fontSize: "var(--text-xs)",
+              minHeight: "1.4em",
+            }}
+          />
         )}
         <p
           style={{
@@ -572,7 +584,7 @@ function PlanCard({
               gap: "var(--space-2)",
               fontSize: "var(--text-sm)",
               color: "var(--text)",
-              lineHeight: 1.4,
+              lineHeight: 1.5,
             }}
           >
             <CheckIcon />
@@ -616,9 +628,9 @@ function CheckIcon() {
       viewBox='0 0 16 16'
       aria-hidden='true'
       style={{
-        marginTop: "3px",
         color: "var(--carolina)",
         flexShrink: 0,
+        transform: "translateY(0.2em)",
       }}
     >
       <path
@@ -867,6 +879,7 @@ function FAQSection() {
         {faqs.map((f) => (
           <details
             key={f.q}
+            className={styles.faqItem}
             style={{
               padding: "var(--space-4) var(--space-5)",
               background: "var(--surface)",
@@ -874,20 +887,25 @@ function FAQSection() {
               borderRadius: "var(--radius-md)",
             }}
           >
-            <summary
-              style={{
-                cursor: "pointer",
-                fontWeight: 600,
-                color: "var(--text)",
-                fontSize: "var(--text-base)",
-                listStyle: "none",
-              }}
-            >
-              {f.q}
+            <summary className={styles.faqSummary}>
+              <span>{f.q}</span>
+              <svg
+                className={styles.faqIcon}
+                viewBox='0 0 14 14'
+                aria-hidden='true'
+              >
+                <path
+                  d='M7 1v12M1 7h12'
+                  stroke='currentColor'
+                  strokeWidth='2'
+                  strokeLinecap='round'
+                  fill='none'
+                />
+              </svg>
             </summary>
             <p
               style={{
-                marginTop: "var(--space-2)",
+                marginTop: "var(--space-3)",
                 marginBottom: 0,
                 fontSize: "var(--text-sm)",
                 color: "var(--text-secondary)",

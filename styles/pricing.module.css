@@ -1,0 +1,96 @@
+/* ─── Plan cards ───────────────────────────────────────────────────────── */
+
+.planCard {
+  transition:
+    transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+  will-change: transform;
+}
+
+.planCard:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-accent);
+}
+
+.planCard:focus-within {
+  border-color: var(--border-accent);
+  outline: 2px solid var(--carolina);
+  outline-offset: 2px;
+}
+
+.planCardFeatured:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 1px var(--carolina),
+    0 18px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* ─── Billing toggle ───────────────────────────────────────────────────── */
+
+.toggleBtn {
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.toggleBtn:not(.toggleBtnActive):hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.toggleBtn:focus-visible {
+  outline: 2px solid var(--carolina);
+  outline-offset: 2px;
+}
+
+/* ─── FAQ ──────────────────────────────────────────────────────────────── */
+
+.faqItem {
+  transition: border-color 160ms ease;
+}
+
+.faqItem:hover {
+  border-color: var(--border-strong);
+}
+
+.faqItem[open] {
+  border-color: var(--border-accent);
+}
+
+.faqSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text);
+  font-size: var(--text-base);
+  list-style: none;
+}
+
+.faqSummary::-webkit-details-marker {
+  display: none;
+}
+
+.faqSummary:focus-visible {
+  outline: 2px solid var(--carolina);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.faqIcon {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  color: var(--text-secondary);
+  transition:
+    transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 200ms ease;
+}
+
+.faqItem[open] .faqIcon {
+  transform: rotate(45deg);
+  color: var(--carolina);
+}
