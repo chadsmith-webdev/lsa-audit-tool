@@ -7,6 +7,7 @@ import type { AuditSection, AICitabilitySection } from "@/lib/types";
 import { cardIn } from "./motionVariants";
 import { getSuggestedKeywords } from "@/lib/keywords";
 import { createBrowserClient } from "@/lib/supabase";
+import { track } from "@/lib/analytics";
 
 // ─── CopyLinkButton ───────────────────────────────────────────────────────────
 
@@ -534,21 +535,22 @@ export function EmailCopyCard({
       typeof window !== "undefined" &&
       typeof (window as unknown as { gtag?: unknown }).gtag === "function"
     ) {
-      const g = (window as unknown as { gtag: (...args: unknown[]) => void })
-        .gtag;
       // Google Ads conversion
-      g("event", "conversion", {
-        send_to: "AW-18091036166/R9z0CNyoqpwcEIacvbJD",
-        value: 1.0,
-        currency: "USD",
-      });
-      // GA4 custom event
-      g("event", "email_captured", {
+      track("email_captured", {
         business_name: businessName,
         trade: trade,
         city: city,
         overall_score: overallScore,
       });
+      // Google Ads conversion ping (separate — uses send_to)
+      const g = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag;
+      if (typeof g === "function") {
+        g("event", "conversion", {
+          send_to: "AW-18091036166/R9z0CNyoqpwcEIacvbJD",
+          value: 1.0,
+          currency: "USD",
+        });
+      }
     }
     setSentTo(email);
     setSent(true);

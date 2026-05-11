@@ -6,6 +6,7 @@ import type { AuditInput, AuditSection, AuditResult } from "@/lib/types";
 import { AuditForm } from "./audit/AuditForm";
 import { AuditLoading } from "./audit/AuditLoading";
 import { AuditResults } from "./audit/AuditResults";
+import { track } from "@/lib/analytics";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -86,6 +87,8 @@ export default function AuditTool() {
     setAuditError(null);
     setStatusMessage("Connecting…");
 
+    track("audit_started", { trade: form.primaryTrade, city: form.serviceCity });
+
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 120_000);
 
@@ -152,20 +155,12 @@ export default function AuditTool() {
             setResult(auditResult);
             setPhase("results");
 
-            // GA4 Custom Event: audit_complete
-            if (
-              typeof window !== "undefined" &&
-              typeof (window as unknown as { gtag?: unknown }).gtag ===
-                "function"
-            ) {
-              (
-                window as unknown as { gtag: (...args: unknown[]) => void }
-              ).gtag("event", "audit_complete", {
+            // GA4 Custom Event: audit_completed
+              track("audit_completed", {
                 business_name: auditResult.business_name,
                 overall_score: auditResult.overall_score,
                 score_bucket: auditResult.score_bucket,
               });
-            }
           } else if (eventType === "status") {
             setStatusMessage((data as { message: string }).message);
           } else if (eventType === "error") {

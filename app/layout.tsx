@@ -69,7 +69,9 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-11HLEEF2CQ');
+            gtag('config', 'G-11HLEEF2CQ', {
+              linker: { domains: ['localsearchally.com', 'audit.localsearchally.com'] }
+            });
             gtag('config', 'AW-18091036166');
           `}
         </Script>

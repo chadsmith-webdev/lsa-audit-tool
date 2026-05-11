@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import styles from "@/styles/audit.module.css";
+import { track } from "@/lib/analytics";
 import type { AuditInput, AuditResult } from "@/lib/types";
 import { fadeUp, stagger } from "./motionVariants";
 import { createBrowserClient } from "@/lib/supabase";
@@ -145,6 +146,7 @@ export function AuditResults({
               className={styles.dfyBtn}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => track("upgrade_clicked", { plan: "dfy", source: "audit-results" })}
             >
               Book a Free Call →
             </a>
