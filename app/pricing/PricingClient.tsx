@@ -127,7 +127,11 @@ export default function PricingPage({
                   paddingTop: "2px",
                 }}
               >
-                {banner.tone === "error" ? "Heads up" : "Heads up"}
+                {banner.tone === "error"
+                  ? "Error"
+                  : banner.tone === "highlight"
+                    ? "Gated"
+                    : "Cancelled"}
               </span>
               <div style={{ minWidth: 0 }}>
                 <p
@@ -158,7 +162,7 @@ export default function PricingPage({
           style={{
             maxWidth: "1100px",
             margin: "0 auto",
-            padding: "var(--space-10) var(--page-gutter) var(--space-8)",
+            padding: "var(--space-10) var(--page-gutter) var(--space-6)",
             textAlign: "center",
           }}
         >
@@ -179,7 +183,7 @@ export default function PricingPage({
           <h1
             className='heading-1'
             style={{
-              marginBottom: "var(--space-3)",
+              marginBottom: "var(--space-4)",
               maxWidth: "720px",
               marginLeft: "auto",
               marginRight: "auto",
@@ -192,8 +196,8 @@ export default function PricingPage({
             style={{
               color: "var(--text-secondary)",
               maxWidth: "640px",
-              margin: "0 auto var(--space-6)",
-              lineHeight: 1.5,
+              margin: "0 auto var(--space-7)",
+              lineHeight: 1.55,
             }}
           >
             Built for NWA contractors. Audit your local search presence, then
@@ -208,7 +212,7 @@ export default function PricingPage({
           style={{
             maxWidth: "1100px",
             margin: "0 auto",
-            padding: "0 var(--page-gutter) var(--space-10)",
+            padding: "0 var(--page-gutter) var(--space-12)",
           }}
         >
           <div
@@ -299,6 +303,7 @@ export default function PricingPage({
             margin: "0 auto",
             padding: "var(--space-10) var(--page-gutter) var(--space-12)",
             textAlign: "center",
+            borderTop: "1px solid var(--border)",
           }}
         >
           <h2 className='heading-2' style={{ marginBottom: "var(--space-3)" }}>
@@ -308,8 +313,8 @@ export default function PricingPage({
             className='text-md'
             style={{
               color: "var(--text-secondary)",
-              marginBottom: "var(--space-5)",
-              lineHeight: 1.5,
+              marginBottom: "var(--space-6)",
+              lineHeight: 1.55,
             }}
           >
             Run the free audit. If you don&apos;t see at least three concrete
@@ -636,7 +641,7 @@ function ToolsRail() {
       style={{
         maxWidth: "1100px",
         margin: "0 auto",
-        padding: "var(--space-8) var(--page-gutter)",
+        padding: "var(--space-10) var(--page-gutter)",
         borderTop: "1px solid var(--border)",
       }}
     >
@@ -654,7 +659,7 @@ function ToolsRail() {
         className='heading-3'
         style={{
           textAlign: "center",
-          marginBottom: "var(--space-6)",
+          marginBottom: "var(--space-7)",
         }}
       >
         Everything you need to outrank the shop down the street.
@@ -716,14 +721,14 @@ function ComparisonTable() {
       style={{
         maxWidth: "880px",
         margin: "0 auto",
-        padding: "var(--space-8) var(--page-gutter)",
+        padding: "var(--space-10) var(--page-gutter)",
       }}
     >
       <h2
         className='heading-3'
         style={{
           textAlign: "center",
-          marginBottom: "var(--space-5)",
+          marginBottom: "var(--space-6)",
         }}
       >
         Compare plans
@@ -747,7 +752,15 @@ function ComparisonTable() {
             <tr style={{ background: "var(--surface2)" }}>
               <th style={thStyle}></th>
               <th style={thStyle}>Free</th>
-              <th style={{ ...thStyle, color: "var(--carolina)" }}>Pro</th>
+              <th
+                style={{
+                  ...thStyle,
+                  color: "var(--carolina)",
+                  background: "var(--carolina-dim)",
+                }}
+              >
+                Pro
+              </th>
               <th style={thStyle}>Multi-Location</th>
             </tr>
           </thead>
@@ -757,7 +770,12 @@ function ComparisonTable() {
                 <td style={tdLabel}>{label}</td>
                 <td style={tdCell}>{free}</td>
                 <td
-                  style={{ ...tdCell, color: "var(--text)", fontWeight: 600 }}
+                  style={{
+                    ...tdCell,
+                    color: "var(--text)",
+                    fontWeight: 600,
+                    background: "var(--carolina-dim)",
+                  }}
                 >
                   {pro}
                 </td>
@@ -827,14 +845,14 @@ function FAQSection() {
       style={{
         maxWidth: "780px",
         margin: "0 auto",
-        padding: "var(--space-8) var(--page-gutter)",
+        padding: "var(--space-10) var(--page-gutter)",
       }}
     >
       <h2
         className='heading-3'
         style={{
           textAlign: "center",
-          marginBottom: "var(--space-5)",
+          marginBottom: "var(--space-6)",
         }}
       >
         Questions, answered straight.
