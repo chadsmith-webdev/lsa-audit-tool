@@ -310,22 +310,26 @@ export default function PricingPage({
 
         <section
           style={{
-            maxWidth: "780px",
+            maxWidth: "1100px",
             margin: "0 auto",
             padding: "var(--space-16) var(--page-gutter)",
-            textAlign: "center",
             borderTop: "1px solid var(--border)",
           }}
         >
-          <h2 className='heading-2' style={{ marginBottom: "var(--space-3)" }}>
+          <SectionMarker index='06' label='Last word' />
+          <h2
+            className='heading-2'
+            style={{ margin: "0 0 var(--space-3)", textWrap: "balance" }}
+          >
             Still on the fence?
           </h2>
           <p
-            className='text-md'
             style={{
+              fontSize: "var(--text-md)",
               color: "var(--text-secondary)",
               marginBottom: "var(--space-6)",
               lineHeight: 1.55,
+              maxWidth: "560px",
             }}
           >
             Run the free audit. If you don&apos;t see at least three concrete
@@ -986,7 +990,7 @@ function ManagedServices() {
           <p
             style={{
               fontFamily: "var(--font-display)",
-              fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
+              fontSize: "clamp(1.75rem, 3vw, 2.5rem)",
               lineHeight: 1,
               fontWeight: 700,
               margin: "var(--space-4) 0 var(--space-3)",
