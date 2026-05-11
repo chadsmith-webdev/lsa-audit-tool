@@ -163,7 +163,7 @@ export default function PricingPage({
           style={{
             maxWidth: "1100px",
             margin: "0 auto",
-            padding: `${banner ? "var(--space-8)" : "var(--space-12)"} var(--page-gutter) var(--space-10)`,
+            padding: `${banner ? "var(--space-10)" : "var(--space-16)"} var(--page-gutter) var(--space-12)`,
             textAlign: "center",
           }}
         >
@@ -171,7 +171,7 @@ export default function PricingPage({
           <h1
             className='heading-1'
             style={{
-              margin: "var(--space-3) auto var(--space-5)",
+              margin: "var(--space-4) auto var(--space-6)",
               textWrap: "balance",
               maxWidth: "20ch",
             }}
@@ -184,16 +184,16 @@ export default function PricingPage({
               color: "var(--text-secondary)",
               margin: "0 auto",
               maxWidth: "560px",
-              lineHeight: 1.55,
+              lineHeight: 1.6,
             }}
           >
-            Built for NWA contractors. Audit your local search presence, then
-            use 8 AI-powered tools to fix what&apos;s broken — no agency
-            required.
+            Built for NWA contractors. Find exactly where Google isn&apos;t
+            showing you — then use 8 AI-powered tools to fix it yourself, no
+            agency needed.
           </p>
           <div
             style={{
-              marginTop: "var(--space-8)",
+              marginTop: "var(--space-10)",
               display: "flex",
               justifyContent: "center",
             }}
@@ -212,7 +212,7 @@ export default function PricingPage({
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                gap: "var(--space-5)",
+                gap: "var(--space-6)",
                 alignItems: "stretch",
               }}
             >
@@ -241,7 +241,7 @@ export default function PricingPage({
                     ? "$432 billed yearly · save $156"
                     : "billed monthly"
                 }
-                tagline='The full toolkit for one local business.'
+                tagline='Fix what the audit finds — all 8 tools, one monthly cost.'
                 features={[
                   "Unlimited audits + full history",
                   "All 8 Pro Tools unlocked",
@@ -267,7 +267,7 @@ export default function PricingPage({
                     ? "$1,788 billed yearly · save $600"
                     : "billed monthly"
                 }
-                tagline='For operators managing multiple locations.'
+                tagline='One dashboard for every location you run.'
                 features={[
                   "Everything in Pro",
                   "Up to 10 locations",
@@ -322,7 +322,7 @@ export default function PricingPage({
             </Link>
           </section>
         </div>
-        <div style={{ height: "var(--space-16)" }} aria-hidden='true' />
+        <div style={{ height: "calc(var(--space-16) * 2)" }} aria-hidden='true' />
       </main>
       <SiteFooterMinimal />
     </>
@@ -454,7 +454,7 @@ function PlanCard({
       className={`${styles.planCard} ${featured ? styles.planCardFeatured : ""}`}
       style={{
         position: "relative",
-        padding: "var(--space-6)",
+        padding: "var(--space-8)",
         background: featured ? "var(--surface2)" : "var(--surface)",
         border: featured
           ? "1px solid var(--border-accent)"
@@ -489,7 +489,7 @@ function PlanCard({
         </span>
       )}
 
-      <header style={{ marginBottom: "var(--space-4)" }}>
+      <header style={{ marginBottom: "var(--space-6)" }}>
         <p
           className='label'
           style={{
@@ -570,7 +570,7 @@ function PlanCard({
           flex: 1,
           display: "flex",
           flexDirection: "column",
-          gap: "var(--space-2)",
+          gap: "var(--space-3)",
         }}
       >
         {features.map((f) => (
@@ -591,7 +591,7 @@ function PlanCard({
         ))}
       </ul>
 
-      <div style={{ marginTop: "var(--space-5)" }}>
+      <div style={{ marginTop: "var(--space-8)" }}>
         <Link
           href={cta.href}
           className={featured ? "btn btn-primary" : "btn btn-secondary"}
@@ -652,7 +652,7 @@ function ToolsRail() {
       <h2
         className='heading-3'
         style={{
-          margin: "var(--space-3) 0 var(--space-7)",
+          margin: "var(--space-3) 0 var(--space-8)",
           textWrap: "balance",
         }}
       >
@@ -662,14 +662,14 @@ function ToolsRail() {
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-          gap: "var(--space-3)",
+          gap: "var(--space-4)",
         }}
       >
         {TOOLS.map((t, i) => (
           <div
             key={t}
             style={{
-              padding: "var(--space-3) var(--space-4)",
+              padding: "var(--space-4) var(--space-5)",
               background: "var(--surface)",
               border: "1px solid var(--border)",
               borderRadius: "var(--radius-md)",
@@ -715,7 +715,7 @@ function ComparisonTable() {
       <span className={styles.eyebrow}>Compare</span>
       <h2
         className='heading-3'
-        style={{ margin: "var(--space-3) 0 var(--space-7)" }}
+        style={{ margin: "var(--space-3) 0 var(--space-8)" }}
       >
         Compare plans
       </h2>
@@ -795,7 +795,7 @@ function ComparisonTable() {
 }
 
 const thStyle: React.CSSProperties = {
-  padding: "var(--space-3) var(--space-4)",
+  padding: "var(--space-4) var(--space-5)",
   textAlign: "left",
   fontFamily: "var(--font-mono)",
   fontSize: "var(--text-xs)",
@@ -806,14 +806,14 @@ const thStyle: React.CSSProperties = {
 };
 
 const tdLabel: React.CSSProperties = {
-  padding: "var(--space-3) var(--space-4)",
+  padding: "var(--space-4) var(--space-5)",
   color: "var(--text-secondary)",
   fontWeight: 500,
   textAlign: "left",
 };
 
 const tdCell: React.CSSProperties = {
-  padding: "var(--space-3) var(--space-4)",
+  padding: "var(--space-4) var(--space-5)",
   color: "var(--text-secondary)",
 };
 /* ─── Managed services panel ───────────────────────────────────── */
@@ -825,7 +825,7 @@ function ManagedServices() {
       <h2
         className='heading-3'
         style={{
-          margin: "var(--space-3) 0 var(--space-7)",
+          margin: "var(--space-3) 0 var(--space-8)",
           textWrap: "balance",
         }}
       >
@@ -842,17 +842,17 @@ function ManagedServices() {
               maxWidth: "520px",
             }}
           >
-            We&apos;ll handle your local SEO end-to-end — audits, fixes,
+            I&apos;ll handle your local SEO end-to-end — audits, fixes,
             citations, reviews, content. You stay on the truck.
           </p>
           <ul
             style={{
               listStyle: "none",
               padding: 0,
-              margin: "0 0 var(--space-6)",
+              margin: "0 0 var(--space-8)",
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
-              gap: "var(--space-2) var(--space-5)",
+              gap: "var(--space-3) var(--space-6)",
               fontSize: "var(--text-sm)",
               color: "var(--text)",
             }}
@@ -911,7 +911,7 @@ function ManagedServices() {
               lineHeight: 1.6,
             }}
           >
-            Pricing depends on your locations, competition, and how much we take
+            Pricing depends on your locations, competition, and how much I take
             off your plate. 30-minute call, no pressure.
           </p>
         </aside>
@@ -937,7 +937,7 @@ function FAQSection() {
     },
     {
       q: "Is the early adopter price really locked for life?",
-      a: "Yes. As long as your annual Pro subscription stays active, your renewal price never goes up — even when we raise prices for new customers.",
+      a: "Yes. As long as your annual Pro subscription stays active, your renewal price never goes up — even when I raise prices for new customers.",
     },
     {
       q: "What if I only need to run a few audits?",
@@ -945,7 +945,7 @@ function FAQSection() {
     },
     {
       q: "Do you offer refunds?",
-      a: "If something breaks or you're not getting value in the first 30 days of a paid month, email us and we'll refund you. No forms, no scripts.",
+      a: "If something breaks or you're not getting value in the first 30 days of a paid month, email me and I'll refund you. No forms, no scripts.",
     },
   ];
   return (
@@ -953,7 +953,7 @@ function FAQSection() {
       <span className={styles.eyebrow}>FAQ</span>
       <h2
         className='heading-3'
-        style={{ margin: "var(--space-3) 0 var(--space-7)" }}
+        style={{ margin: "var(--space-3) 0 var(--space-8)" }}
       >
         Questions, answered straight.
       </h2>
@@ -961,7 +961,7 @@ function FAQSection() {
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: "var(--space-3)",
+          gap: "var(--space-4)",
         }}
       >
         {faqs.map((f) => (
@@ -969,7 +969,7 @@ function FAQSection() {
             key={f.q}
             className={styles.faqItem}
             style={{
-              padding: "var(--space-4) var(--space-5)",
+              padding: "var(--space-5) var(--space-6)",
               background: "var(--bg)",
               border: "1px solid var(--border)",
               borderRadius: "var(--radius-md)",
