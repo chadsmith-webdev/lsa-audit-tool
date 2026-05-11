@@ -8,6 +8,7 @@ import StartTrialButton from "./StartTrialButton";
 import SiteNavMinimal from "@/app/components/SiteNavMinimal";
 import SiteFooterMinimal from "@/app/components/SiteFooterMinimal";
 import landingStyles from "@/styles/landing.module.css";
+import styles from "@/styles/signup.module.css";
 
 export const metadata: Metadata = {
   title: "Start Free Trial — Local Search Ally",
@@ -63,68 +64,24 @@ export default async function SignupPage({
   return (
     <>
       <SiteNavMinimal />
-      <main
-        className={landingStyles.mainContent}
-        style={{ background: "var(--bg)", minHeight: "100vh" }}
-      >
-        <section
-          style={{
-            maxWidth: "560px",
-            margin: "0 auto",
-            padding: "var(--space-10) var(--page-gutter)",
-          }}
-        >
-          <p style={{ marginBottom: "var(--space-3)" }}>
-            <Link
-              href='/pricing'
-              style={{
-                fontSize: "var(--text-sm)",
-                color: "var(--carolina)",
-                textDecoration: "none",
-              }}
-            >
+      <main className={`${landingStyles.mainContent} ${styles.main}`}>
+        <section className={styles.section}>
+          <p className={styles.backLinkWrap}>
+            <Link href='/pricing' className={styles.backLink}>
               ← Back to pricing
             </Link>
           </p>
 
-          <span
-            style={{
-              display: "inline-block",
-              fontSize: "var(--text-xs)",
-              fontFamily: "var(--font-mono)",
-              fontWeight: 700,
-              textTransform: "uppercase",
-              letterSpacing: "0.1em",
-              color: "var(--carolina)",
-              marginBottom: "var(--space-2)",
-            }}
-          >
-            14-day free trial
-          </span>
-          <h1 className='heading-1' style={{ marginBottom: "var(--space-3)" }}>
+          <span className={styles.eyebrow}>14-day free trial</span>
+          <h1 className={`heading-1 ${styles.heading}`}>
             Start your {details.name} trial.
           </h1>
-          <p
-            className='text-md'
-            style={{
-              color: "var(--text-secondary)",
-              marginBottom: "var(--space-6)",
-              lineHeight: 1.5,
-            }}
-          >
+          <p className={`text-md ${styles.lede}`}>
             You won&apos;t be charged for 14 days. Cancel anytime before then
             and you pay nothing.
           </p>
 
-          <div
-            style={{
-              padding: "var(--space-5)",
-              background: "var(--surface)",
-              border: "1px solid var(--border-strong)",
-              borderRadius: "var(--radius-lg)",
-              marginBottom: "var(--space-5)",
-            }}
-          >
+          <div className={styles.summaryCard}>
             <SummaryRow label='Plan' value={details.name} />
             <SummaryRow
               label='Billing'
@@ -141,14 +98,7 @@ export default async function SignupPage({
 
           <StartTrialButton tier={tier} billing={billing} />
 
-          <p
-            style={{
-              marginTop: "var(--space-4)",
-              fontSize: "var(--text-xs)",
-              color: "var(--muted)",
-              lineHeight: 1.5,
-            }}
-          >
+          <p className={styles.disclaimer}>
             You&apos;ll be redirected to PayPal to authorize the subscription.
             We never see or store your card details. Your account upgrades
             automatically once PayPal confirms the trial.
@@ -171,38 +121,15 @@ function SummaryRow({
   highlight?: boolean;
   subtle?: boolean;
 }) {
+  const valueClass = highlight
+    ? styles.rowValueHighlight
+    : subtle
+      ? styles.rowValueSubtle
+      : styles.rowValue;
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "baseline",
-        padding: "var(--space-2) 0",
-        borderBottom: subtle ? "none" : "1px solid var(--border)",
-      }}
-    >
-      <span
-        style={{
-          fontSize: "var(--text-sm)",
-          color: "var(--text-secondary)",
-        }}
-      >
-        {label}
-      </span>
-      <span
-        style={{
-          fontSize: highlight ? "var(--text-lg)" : "var(--text-sm)",
-          fontWeight: highlight ? 700 : 500,
-          color: highlight
-            ? "var(--text)"
-            : subtle
-              ? "var(--status-green)"
-              : "var(--text)",
-          fontFamily: subtle ? "var(--font-mono)" : "inherit",
-        }}
-      >
-        {value}
-      </span>
+    <div className={`${styles.row} ${subtle ? styles.rowSubtle : ""}`}>
+      <span className={styles.rowLabel}>{label}</span>
+      <span className={valueClass}>{value}</span>
     </div>
   );
 }

@@ -1,0 +1,80 @@
+/* ==========================================================================
+   login.module.css
+   Visual styles for the sign-in page.
+   Layout/spacing → Tailwind. Visual styles → here.
+   Consume brand tokens via var(). Never hardcode colors or font names.
+   ========================================================================== */
+
+.main {
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6) var(--page-gutter);
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.logoRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-8);
+}
+
+.logoSvg {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.logoText {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-lg);
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.logoAccent {
+  color: var(--carolina);
+}
+
+.card {
+  padding: var(--space-8);
+}
+
+.heading {
+  margin-bottom: var(--space-2);
+}
+
+.subhead {
+  margin-bottom: var(--space-6);
+}
+
+.errorBanner {
+  padding: var(--space-3) var(--space-4);
+  background: rgba(255, 77, 77, 0.08);
+  border: 1px solid rgba(255, 77, 77, 0.2);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-5);
+}
+
+.errorText {
+  font-size: var(--text-sm);
+  color: var(--status-red);
+}
+
+.footer {
+  text-align: center;
+  margin-top: var(--space-6);
+}
+
+.footerLink {
+  color: var(--carolina);
+}

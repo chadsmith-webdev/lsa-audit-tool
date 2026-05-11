@@ -1,0 +1,236 @@
+/* ==========================================================================
+   dashboard.module.css
+   Visual styles for the main dashboard page.
+   Layout/spacing → Tailwind. Visual styles → here.
+   Consume brand tokens via var(). Never hardcode colors or font names.
+   ========================================================================== */
+
+.page {
+  background: var(--bg);
+}
+
+/* ─── Header ──────────────────────────────────────────────────────────────── */
+
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.headerInner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 var(--page-gutter);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerBrand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.logoSvg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.logoText {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-base);
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.logoAccent {
+  color: var(--carolina);
+}
+
+.headerNav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.headerLink {
+  font-size: var(--text-sm);
+  color: var(--carolina);
+  text-decoration: none;
+}
+
+/* ─── Main ────────────────────────────────────────────────────────────────── */
+
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-10) var(--page-gutter);
+}
+
+/* Trial welcome banner */
+.trialBanner {
+  margin-bottom: var(--space-6);
+  padding: var(--space-3) var(--space-4);
+  border-radius: 10px;
+  border: 1px solid var(--border-accent);
+  background: var(--carolina-dim);
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+
+.trialBadge {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--carolina);
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.trialBody {
+  min-width: 0;
+}
+
+.trialTitle {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.trialSubtitle {
+  margin: 2px 0 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Page title */
+.pageTitleWrap {
+  margin-bottom: var(--space-8);
+}
+
+.pageHeading {
+  margin-bottom: var(--space-2);
+}
+
+.pageHeadingFlush {
+  margin-bottom: 0;
+}
+
+.pageMeta {
+  color: var(--muted);
+}
+
+.pageMetaLink {
+  color: var(--carolina);
+  text-decoration: none;
+}
+
+/* Grid wrapper */
+.dashGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+/* Side-by-side widget pairs */
+.widgetPair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+  align-items: stretch;
+}
+
+.widgetStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.widgetStackFlex {
+  flex: 1;
+}
+
+/* Geo-Grid summary card */
+.gridSummaryCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.gridSummaryLabel {
+  margin-bottom: var(--space-2);
+}
+
+.gridSummaryKeyword {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: var(--space-1);
+}
+
+.gridSummaryButton {
+  flex-shrink: 0;
+}
+
+/* Audit history */
+.historyHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.historyEmpty {
+  text-align: center;
+  padding: var(--space-10);
+}
+
+.historyEmptyText {
+  margin-bottom: var(--space-4);
+}
+
+.historyList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  list-style: none;
+}
+
+.historyRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.historyCard {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+}
+
+.historyTitle {
+  font-weight: 600;
+  font-size: var(--text-base);
+  color: var(--text);
+}
+
+.historySubtitle {
+  margin-top: var(--space-1);
+}
+
+.historyDate {
+  flex-shrink: 0;
+  margin-left: var(--space-4);
+}

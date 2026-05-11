@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { createServerClient } from "@/lib/supabase";
 import Link from "next/link";
 import LoginForm from "./LoginForm";
+import styles from "@/styles/login.module.css";
 
 export const metadata: Metadata = {
   title: "Sign In — Local Search Ally Audit Tool",
@@ -26,31 +27,14 @@ export default async function LoginPage({
   const { error } = await searchParams;
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "var(--bg)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "var(--space-6) var(--page-gutter)",
-      }}
-    >
-      <div style={{ width: "100%", maxWidth: "400px" }}>
+    <main className={styles.main}>
+      <div className={styles.container}>
         {/* Logo */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "var(--space-3)",
-            marginBottom: "var(--space-8)",
-          }}
-        >
+        <div className={styles.logoRow}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 100 100'
-            style={{ width: "28px", height: "28px", flexShrink: 0 }}
+            className={styles.logoSvg}
             aria-hidden='true'
           >
             <defs>
@@ -75,48 +59,24 @@ export default async function LoginPage({
               <circle cx='49.5' cy='30.5' r='10.1' fill='#7bafd4' />
             </g>
           </svg>
-          <span
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 700,
-              fontSize: "var(--text-lg)",
-              color: "var(--text)",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            Local Search <span style={{ color: "var(--carolina)" }}>Ally</span>
+          <span className={styles.logoText}>
+            Local Search <span className={styles.logoAccent}>Ally</span>
           </span>
         </div>
 
         {/* Card */}
-        <div
-          className='card card-default'
-          style={{ padding: "var(--space-8)" }}
-        >
-          <h1 className='heading-3' style={{ marginBottom: "var(--space-2)" }}>
+        <div className={`card card-default ${styles.card}`}>
+          <h1 className={`heading-3 ${styles.heading}`}>
             Sign in to your dashboard
           </h1>
-          <p className='text-small' style={{ marginBottom: "var(--space-6)" }}>
+          <p className={`text-small ${styles.subhead}`}>
             Enter your email and we&apos;ll send you a sign-in link — no
             password needed.
           </p>
 
           {error === "auth_failed" && (
-            <div
-              style={{
-                padding: "var(--space-3) var(--space-4)",
-                background: "rgba(255,77,77,0.08)",
-                border: "1px solid rgba(255,77,77,0.2)",
-                borderRadius: "var(--radius-md)",
-                marginBottom: "var(--space-5)",
-              }}
-            >
-              <p
-                style={{
-                  fontSize: "var(--text-sm)",
-                  color: "var(--status-red)",
-                }}
-              >
+            <div className={styles.errorBanner}>
+              <p className={styles.errorText}>
                 That link has expired or already been used. Request a new one
                 below.
               </p>
@@ -126,12 +86,9 @@ export default async function LoginPage({
           <LoginForm />
         </div>
 
-        <p
-          className='text-small'
-          style={{ textAlign: "center", marginTop: "var(--space-6)" }}
-        >
+        <p className={`text-small ${styles.footer}`}>
           Don&apos;t have an account?{" "}
-          <Link href='/' style={{ color: "var(--carolina)" }}>
+          <Link href='/' className={styles.footerLink}>
             Run a free audit first
           </Link>
         </p>

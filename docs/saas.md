@@ -368,5 +368,4 @@ GOOGLE_OAUTH_REDIRECT_URI=https://localsearchally.com/api/gbp/oauth/callback
 - Admin portal live (`/admin`, `/admin/client/[id]`).
 - Plan tier renamed `agency` → `multi_location` (migration `20260511`).
 - Slack webhook notifications retired in favor of a single Resend "notify email" to `NOTIFY_EMAIL`.
-- **Known drift:** Several SaaS pages (`app/login/page.tsx`, `app/dashboard/page.tsx`, `app/dashboard/grid/page.tsx`, `app/signup/page.tsx`) use heavy inline `style={{}}` in violation of the styling rules in [`AGENTS.md`](../AGENTS.md). Original free-funnel surfaces still follow the rule via CSS Modules.
-- **Known drift:** Lint has ~35 errors (mostly `no-explicit-any` in `lib/prefetch/*` and `lib/audit-helpers.ts`). TypeScript is clean.
+- **Known drift:** Pro tool components (`app/dashboard/tools/**`) and shared widgets (`app/components/*Widget.tsx`, `UpgradeSlot`, `StatusPill`, etc.) still use heavy inline `style={{}}` in violation of the styling rules in [`AGENTS.md`](../AGENTS.md). The SaaS shell pages (`app/login`, `app/signup`, `app/dashboard`, `app/dashboard/grid`) and the original free-funnel surfaces are clean via CSS Modules.

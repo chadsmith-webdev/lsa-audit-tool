@@ -1,0 +1,89 @@
+/* ==========================================================================
+   grid.module.css
+   Visual styles for the Geo-Grid Rank Tracker page.
+   Layout/spacing → Tailwind. Visual styles → here.
+   Consume brand tokens via var(). Never hardcode colors or font names.
+   ========================================================================== */
+
+.page {
+  background: var(--bg);
+}
+
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.headerInner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 var(--page-gutter);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerBrand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.logoSvg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.logoText {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-base);
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.logoAccent {
+  color: var(--carolina);
+}
+
+.headerNav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.headerLink {
+  font-size: var(--text-sm);
+  color: var(--carolina);
+  text-decoration: none;
+}
+
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-10) var(--page-gutter);
+}
+
+.pageHeader {
+  margin-bottom: var(--space-8);
+}
+
+.pageHeading {
+  margin-bottom: var(--space-2);
+}
+
+.pageLede {
+  font-size: var(--text-base);
+  color: var(--muted);
+  max-width: 560px;
+  line-height: 1.6;
+}
+
+.suspenseFallback {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

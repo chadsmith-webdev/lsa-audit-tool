@@ -16,6 +16,7 @@ import AICitabilityWidget from "@/app/components/AICitabilityWidget";
 import DeleteAuditButton from "@/app/components/DeleteAuditButton";
 import UpgradeSlot from "@/app/components/UpgradeSlot";
 import { getUserPlan, hasProAccess } from "@/lib/subscription";
+import styles from "@/styles/dashboard.module.css";
 
 export const metadata: Metadata = {
   title: "Dashboard — Local Search Ally",
@@ -145,37 +146,15 @@ export default async function DashboardPage({
       : null);
 
   return (
-    <div className='min-h-screen' style={{ background: "var(--bg)" }}>
+    <div className={`min-h-screen ${styles.page}`}>
       {/* Nav */}
-      <header
-        role='banner'
-        style={{
-          background: "var(--surface)",
-          borderBottom: "1px solid var(--border-strong)",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "1100px",
-            margin: "0 auto",
-            padding: "0 var(--page-gutter)",
-            height: "60px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "var(--space-3)",
-            }}
-          >
+      <header role='banner' className={styles.header}>
+        <div className={styles.headerInner}>
+          <div className={styles.headerBrand}>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               viewBox='0 0 100 100'
-              style={{ width: "24px", height: "24px", flexShrink: 0 }}
+              className={styles.logoSvg}
               aria-hidden='true'
             >
               <defs>
@@ -200,35 +179,13 @@ export default async function DashboardPage({
                 <circle cx='49.5' cy='30.5' r='10.1' fill='#7bafd4' />
               </g>
             </svg>
-            <span
-              style={{
-                fontFamily: "var(--font-display)",
-                fontWeight: 700,
-                fontSize: "var(--text-base)",
-                color: "var(--text)",
-                letterSpacing: "-0.02em",
-              }}
-            >
-              Local Search{" "}
-              <span style={{ color: "var(--carolina)" }}>Ally</span>
+            <span className={styles.logoText}>
+              Local Search <span className={styles.logoAccent}>Ally</span>
             </span>
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "var(--space-4)",
-            }}
-          >
-            <Link
-              href='/dashboard/grid'
-              style={{
-                fontSize: "var(--text-sm)",
-                color: "var(--carolina)",
-                textDecoration: "none",
-              }}
-            >
+          <div className={styles.headerNav}>
+            <Link href='/dashboard/grid' className={styles.headerLink}>
               Geo-Grid
             </Link>
             <form action='/auth/signout' method='POST'>
@@ -241,62 +198,17 @@ export default async function DashboardPage({
       </header>
 
       {/* Page body */}
-      <main
-        style={{
-          maxWidth: "1100px",
-          margin: "0 auto",
-          padding: "var(--space-10) var(--page-gutter)",
-        }}
-      >
+      <main className={styles.main}>
         {showTrialWelcome && plan.status === "trialing" && (
-          <div
-            role='status'
-            aria-live='polite'
-            style={{
-              marginBottom: "var(--space-6)",
-              padding: "var(--space-3) var(--space-4)",
-              borderRadius: "10px",
-              border: "1px solid var(--border-accent)",
-              background: "var(--carolina-dim)",
-              display: "flex",
-              gap: "var(--space-3)",
-              alignItems: "flex-start",
-            }}
-          >
-            <span
-              aria-hidden='true'
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "var(--text-xs)",
-                fontWeight: 700,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                color: "var(--carolina)",
-                flexShrink: 0,
-                paddingTop: "2px",
-              }}
-            >
+          <div role='status' aria-live='polite' className={styles.trialBanner}>
+            <span aria-hidden='true' className={styles.trialBadge}>
               Trial active
             </span>
-            <div style={{ minWidth: 0 }}>
-              <p
-                style={{
-                  margin: 0,
-                  fontSize: "var(--text-sm)",
-                  fontWeight: 600,
-                  color: "var(--text)",
-                }}
-              >
-                You’re in. Your 14-day Pro trial is live.
+            <div className={styles.trialBody}>
+              <p className={styles.trialTitle}>
+                You&rsquo;re in. Your 14-day Pro trial is live.
               </p>
-              <p
-                style={{
-                  margin: "2px 0 0",
-                  fontSize: "var(--text-sm)",
-                  color: "var(--text-secondary)",
-                  lineHeight: 1.5,
-                }}
-              >
+              <p className={styles.trialSubtitle}>
                 {plan.daysLeftInTrial !== null
                   ? `${plan.daysLeftInTrial} day${plan.daysLeftInTrial === 1 ? "" : "s"} left — cancel anytime before then and you won’t be charged.`
                   : "Cancel anytime in the next 14 days and you won’t be charged."}
@@ -306,18 +218,14 @@ export default async function DashboardPage({
         )}
 
         {/* Page title */}
-        <div
-          className='animate-fade-up'
-          style={{ marginBottom: "var(--space-8)" }}
-        >
+        <div className={`animate-fade-up ${styles.pageTitleWrap}`}>
           <h1
-            className='heading-1'
-            style={{ marginBottom: latestFull ? "var(--space-2)" : 0 }}
+            className={`heading-1 ${latestFull ? styles.pageHeading : styles.pageHeadingFlush}`}
           >
             {latestBusiness || "Your Dashboard"}
           </h1>
           {latestFull?.created_at && (
-            <p className='text-small' style={{ color: "var(--muted)" }}>
+            <p className={`text-small ${styles.pageMeta}`}>
               Last audited{" "}
               {new Date(latestFull.created_at).toLocaleDateString("en-US", {
                 month: "long",
@@ -325,10 +233,7 @@ export default async function DashboardPage({
                 year: "numeric",
               })}
               {" · "}
-              <Link
-                href='/'
-                style={{ color: "var(--carolina)", textDecoration: "none" }}
-              >
+              <Link href='/' className={styles.pageMetaLink}>
                 Run new audit →
               </Link>
             </p>
@@ -336,40 +241,17 @@ export default async function DashboardPage({
         </div>
 
         {/* Two-column layout on wider screens */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr",
-            gap: "var(--space-6)",
-          }}
-          className='dashboard-grid'
-        >
+        <div className={`dashboard-grid ${styles.dashGrid}`}>
           {/* Geo-Grid — summary card */}
           <section className='animate-fade-up stagger-1'>
-            <div
-              className='card card-default'
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                flexWrap: "wrap",
-                gap: "var(--space-4)",
-              }}
-            >
+            <div className={`card card-default ${styles.gridSummaryCard}`}>
               <div>
-                <p className='label' style={{ marginBottom: "var(--space-2)" }}>
+                <p className={`label ${styles.gridSummaryLabel}`}>
                   Geo-Grid Rank Tracker
                 </p>
                 {recentScans.length > 0 ? (
                   <>
-                    <p
-                      style={{
-                        fontSize: "var(--text-base)",
-                        fontWeight: 600,
-                        color: "var(--text)",
-                        marginBottom: "var(--space-1)",
-                      }}
-                    >
+                    <p className={styles.gridSummaryKeyword}>
                       {recentScans[0].keyword}
                     </p>
                     <p className='text-small'>
@@ -391,8 +273,7 @@ export default async function DashboardPage({
               </div>
               <Link
                 href='/dashboard/grid'
-                className='btn btn-primary'
-                style={{ flexShrink: 0 }}
+                className={`btn btn-primary ${styles.gridSummaryButton}`}
               >
                 {recentScans.length > 0
                   ? "View Full Grid →"
@@ -404,37 +285,18 @@ export default async function DashboardPage({
           {/* GBP + Reviews — side by side */}
           {(latestGBP || reviewsSection) && (
             <section className='animate-fade-up stagger-2'>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                  gap: "var(--space-4)",
-                  alignItems: "stretch",
-                }}
-              >
+              <div className={styles.widgetPair}>
                 {latestGBP && (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "var(--space-2)",
-                    }}
-                  >
-                    <div style={{ flex: 1 }}>
+                  <div className={styles.widgetStack}>
+                    <div className={styles.widgetStackFlex}>
                       <GBPWidget gbp={latestGBP} />
                     </div>
                     <UpgradeSlot tool='gbp' hasPro={hasPro} />
                   </div>
                 )}
                 {reviewsSection && latestFull && (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "var(--space-2)",
-                    }}
-                  >
-                    <div style={{ flex: 1 }}>
+                  <div className={styles.widgetStack}>
+                    <div className={styles.widgetStackFlex}>
                       <ReviewsWidget
                         section={reviewsSection}
                         auditDate={latestFull.created_at}
@@ -451,12 +313,7 @@ export default async function DashboardPage({
           {/* Citations — full width */}
           {citationsSection && latestFull && (
             <section
-              className='animate-fade-up stagger-3'
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "var(--space-2)",
-              }}
+              className={`animate-fade-up stagger-3 ${styles.widgetStack}`}
             >
               <CitationsWidget
                 section={citationsSection}
@@ -470,12 +327,7 @@ export default async function DashboardPage({
           {/* Competitors — full width */}
           {competitorsSection && latestFull && (
             <section
-              className='animate-fade-up stagger-4'
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "var(--space-2)",
-              }}
+              className={`animate-fade-up stagger-4 ${styles.widgetStack}`}
             >
               <CompetitorsWidget
                 section={competitorsSection}
@@ -490,12 +342,7 @@ export default async function DashboardPage({
           {/* Backlinks — full width */}
           {backlinksSection && latestFull && (
             <section
-              className='animate-fade-up stagger-4'
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "var(--space-2)",
-              }}
+              className={`animate-fade-up stagger-4 ${styles.widgetStack}`}
             >
               <BacklinksWidget
                 section={backlinksSection}
@@ -509,23 +356,10 @@ export default async function DashboardPage({
           {/* On-Page + Technical — side by side */}
           {(onpageSection || technicalSection) && latestFull && (
             <section className='animate-fade-up stagger-4'>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                  gap: "var(--space-4)",
-                  alignItems: "stretch",
-                }}
-              >
+              <div className={styles.widgetPair}>
                 {onpageSection && (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "var(--space-2)",
-                    }}
-                  >
-                    <div style={{ flex: 1 }}>
+                  <div className={styles.widgetStack}>
+                    <div className={styles.widgetStackFlex}>
                       <OnPageWidget
                         section={onpageSection}
                         auditDate={latestFull.created_at}
@@ -536,14 +370,8 @@ export default async function DashboardPage({
                   </div>
                 )}
                 {technicalSection && (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "var(--space-2)",
-                    }}
-                  >
-                    <div style={{ flex: 1 }}>
+                  <div className={styles.widgetStack}>
+                    <div className={styles.widgetStackFlex}>
                       <TechnicalWidget
                         section={technicalSection}
                         auditDate={latestFull.created_at}
@@ -560,12 +388,7 @@ export default async function DashboardPage({
           {/* AI Visibility — full width */}
           {aiCitabilitySection && latestFull && (
             <section
-              className='animate-fade-up stagger-4'
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "var(--space-2)",
-              }}
+              className={`animate-fade-up stagger-4 ${styles.widgetStack}`}
             >
               <AICitabilityWidget
                 section={aiCitabilitySection}
@@ -578,14 +401,7 @@ export default async function DashboardPage({
 
           {/* Audit history */}
           <section className='animate-fade-up stagger-4'>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginBottom: "var(--space-4)",
-              }}
-            >
+            <div className={styles.historyHeader}>
               <h2 className='heading-3'>Audit History</h2>
               <Link href='/' className='btn btn-ghost btn-sm'>
                 + New Audit
@@ -593,14 +409,8 @@ export default async function DashboardPage({
             </div>
 
             {rows.length === 0 ? (
-              <div
-                className='card card-default'
-                style={{ textAlign: "center", padding: "var(--space-10)" }}
-              >
-                <p
-                  className='text-small'
-                  style={{ marginBottom: "var(--space-4)" }}
-                >
+              <div className={`card card-default ${styles.historyEmpty}`}>
+                <p className={`text-small ${styles.historyEmptyText}`}>
                   No audits yet. Run one to see results here.
                 </p>
                 <Link href='/' className='btn btn-primary btn-sm'>
@@ -608,14 +418,7 @@ export default async function DashboardPage({
                 </Link>
               </div>
             ) : (
-              <ul
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "var(--space-2)",
-                  listStyle: "none",
-                }}
-              >
+              <ul className={styles.historyList}>
                 {rows.map((audit) => {
                   const date = new Date(audit.created_at).toLocaleDateString(
                     "en-US",
@@ -627,51 +430,22 @@ export default async function DashboardPage({
                   );
 
                   return (
-                    <li
-                      key={audit.id}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "var(--space-2)",
-                      }}
-                    >
+                    <li key={audit.id} className={styles.historyRow}>
                       <Link
                         href={`/audit/${audit.id}`}
-                        className='card card-default'
-                        style={{
-                          flex: 1,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          textDecoration: "none",
-                        }}
+                        className={`card card-default ${styles.historyCard}`}
                       >
                         <div>
-                          <p
-                            style={{
-                              fontWeight: 600,
-                              fontSize: "var(--text-base)",
-                              color: "var(--text)",
-                            }}
-                          >
+                          <p className={styles.historyTitle}>
                             {audit.business_name ?? "Unnamed business"}
                           </p>
-                          <p
-                            className='text-small'
-                            style={{ marginTop: "var(--space-1)" }}
-                          >
+                          <p className={`text-small ${styles.historySubtitle}`}>
                             {[audit.trade, audit.city]
                               .filter(Boolean)
                               .join(" · ")}
                           </p>
                         </div>
-                        <span
-                          className='text-small'
-                          style={{
-                            flexShrink: 0,
-                            marginLeft: "var(--space-4)",
-                          }}
-                        >
+                        <span className={`text-small ${styles.historyDate}`}>
                           {date}
                         </span>
                       </Link>
