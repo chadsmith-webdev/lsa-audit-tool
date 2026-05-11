@@ -1,12 +1,12 @@
 # Graph Report - lsa-audit-tool  (2026-05-10)
 
 ## Corpus Check
-- 105 files · ~202,131 words
+- 114 files · ~206,167 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 279 nodes · 295 edges · 27 communities detected
-- Extraction: 76% EXTRACTED · 24% INFERRED · 0% AMBIGUOUS · INFERRED: 71 edges (avg confidence: 0.79)
+- 305 nodes · 345 edges · 30 communities detected
+- Extraction: 72% EXTRACTED · 28% INFERRED · 0% AMBIGUOUS · INFERRED: 95 edges (avg confidence: 0.79)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
@@ -23,32 +23,35 @@
 - [[_COMMUNITY_Community 10|Community 10]]
 - [[_COMMUNITY_Community 11|Community 11]]
 - [[_COMMUNITY_Community 12|Community 12]]
-- [[_COMMUNITY_Community 16|Community 16]]
-- [[_COMMUNITY_Community 23|Community 23]]
-- [[_COMMUNITY_Community 25|Community 25]]
-- [[_COMMUNITY_Community 27|Community 27]]
-- [[_COMMUNITY_Community 78|Community 78]]
-- [[_COMMUNITY_Community 79|Community 79]]
-- [[_COMMUNITY_Community 80|Community 80]]
-- [[_COMMUNITY_Community 81|Community 81]]
-- [[_COMMUNITY_Community 82|Community 82]]
+- [[_COMMUNITY_Community 13|Community 13]]
+- [[_COMMUNITY_Community 14|Community 14]]
+- [[_COMMUNITY_Community 18|Community 18]]
+- [[_COMMUNITY_Community 20|Community 20]]
+- [[_COMMUNITY_Community 26|Community 26]]
+- [[_COMMUNITY_Community 28|Community 28]]
+- [[_COMMUNITY_Community 30|Community 30]]
 - [[_COMMUNITY_Community 83|Community 83]]
 - [[_COMMUNITY_Community 84|Community 84]]
 - [[_COMMUNITY_Community 85|Community 85]]
 - [[_COMMUNITY_Community 86|Community 86]]
 - [[_COMMUNITY_Community 87|Community 87]]
+- [[_COMMUNITY_Community 88|Community 88]]
+- [[_COMMUNITY_Community 89|Community 89]]
+- [[_COMMUNITY_Community 90|Community 90]]
+- [[_COMMUNITY_Community 91|Community 91]]
+- [[_COMMUNITY_Community 92|Community 92]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `createServerClient()` - 23 edges
-2. `getSupabase()` - 21 edges
-3. `POST()` - 10 edges
-4. `buildAuditPrompt()` - 9 edges
-5. `POST()` - 8 edges
-6. `POST()` - 7 edges
-7. `emailShell()` - 7 edges
-8. `getAccessTokenForUser()` - 7 edges
-9. `GET()` - 6 edges
-10. `POST()` - 6 edges
+1. `getSupabase()` - 26 edges
+2. `createServerClient()` - 25 edges
+3. `proGateApi()` - 12 edges
+4. `POST()` - 10 edges
+5. `POST()` - 9 edges
+6. `buildAuditPrompt()` - 9 edges
+7. `POST()` - 8 edges
+8. `POST()` - 7 edges
+9. `POST()` - 7 edges
+10. `POST()` - 7 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `POST()` --calls--> `createServerClient()`  [INFERRED]
@@ -59,161 +62,173 @@
   app/api/gbp/oauth/callback/route.ts → lib/gbp-oauth.ts
 - `GET()` --calls--> `getSupabase()`  [INFERRED]
   app/api/gbp/oauth/callback/route.ts → lib/supabase.ts
-- `POST()` --calls--> `createServerClient()`  [INFERRED]
-  app/api/tools/ai-citability/route.ts → lib/supabase.ts
+- `deleteAudit()` --calls--> `createServerClient()`  [INFERRED]
+  app/actions/deleteAudit.ts → lib/supabase.ts
 
 ## Communities
 
 ### Community 0 - "Community 0"
-Cohesion: 0.07
-Nodes (25): deleteAudit(), buildPrompt(), parsePayload(), POST(), POST(), buildPrompt(), parsePayload(), POST() (+17 more)
+Cohesion: 0.13
+Nodes (17): createLocalPost(), ctaLabelToActionType(), friendlyFor(), GbpApiError, getAccessTokenForUser(), getConnection(), listAccounts(), listAllLocations() (+9 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.11
-Nodes (11): buildAuditPrompt(), callClaude(), computeAICitabilitySignals(), extractServiceKeywords(), formatAICitabilityBlock(), normalisePhone(), formatGBPBlock(), formatPageSpeedBlock() (+3 more)
+Nodes (14): deleteAudit(), POST(), POST(), createBrowserClient(), getSupabase(), handleSubmit(), buildReplyPrompt(), buildRequestPrompt() (+6 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.18
-Nodes (13): createLocalPost(), ctaLabelToActionType(), friendlyFor(), GbpApiError, getAccessTokenForUser(), getConnection(), listAccounts(), listAllLocations() (+5 more)
+Cohesion: 0.11
+Nodes (11): buildAuditPrompt(), callClaude(), computeAICitabilitySignals(), extractServiceKeywords(), formatAICitabilityBlock(), normalisePhone(), formatGBPBlock(), formatPageSpeedBlock() (+3 more)
 
 ### Community 3 - "Community 3"
+Cohesion: 0.2
+Nodes (12): buildPrompt(), parsePayload(), POST(), buildPrompt(), parsePayload(), POST(), proGateApi(), requireProAccess() (+4 more)
+
+### Community 4 - "Community 4"
+Cohesion: 0.24
+Nodes (9): cancelSubscription(), fetchSubscription(), getAccessToken(), getPlanId(), verifyWebhookSignature(), computeTrialEnd(), GET(), mapPaypalStatus() (+1 more)
+
+### Community 5 - "Community 5"
 Cohesion: 0.29
 Nodes (9): buildPrompt(), isTone(), parseSuggestions(), POST(), toSuggestions(), extractJsonLdBlocks(), fetchWebsiteData(), formatWebsiteBlock() (+1 more)
 
-### Community 4 - "Community 4"
+### Community 6 - "Community 6"
 Cohesion: 0.44
 Nodes (10): buildDripDay14Html(), buildDripDay21Html(), buildDripDay2Html(), buildDripDay5Html(), buildDripDay9Html(), buildEmailHtml(), buildReauditReminderHtml(), emailShell() (+2 more)
 
-### Community 5 - "Community 5"
+### Community 7 - "Community 7"
 Cohesion: 0.25
 Nodes (7): GET(), buildAuthUrl(), decodeIdTokenEmail(), exchangeCodeForTokens(), getOAuthEnv(), refreshAccessToken(), GET()
 
-### Community 6 - "Community 6"
+### Community 8 - "Community 8"
+Cohesion: 0.25
+Nodes (4): GET(), POST(), sleep(), buildGrid()
+
+### Community 9 - "Community 9"
 Cohesion: 0.52
 Nodes (6): buildFaqSchema(), buildLocalBusinessSchema(), buildPrompt(), jsonLdScript(), parsePayload(), POST()
 
-### Community 7 - "Community 7"
+### Community 10 - "Community 10"
 Cohesion: 0.33
 Nodes (3): POST(), sanitizeString(), sanitizeUrl()
 
-### Community 8 - "Community 8"
+### Community 11 - "Community 11"
 Cohesion: 0.47
 Nodes (4): buildPrompt(), parseDescriptions(), POST(), directoriesForTrade()
 
-### Community 9 - "Community 9"
+### Community 12 - "Community 12"
 Cohesion: 0.5
 Nodes (2): loadLocations(), openPicker()
 
-### Community 10 - "Community 10"
+### Community 13 - "Community 13"
 Cohesion: 0.7
 Nodes (4): buildPrompt(), isTheme(), parsePosts(), POST()
 
-### Community 11 - "Community 11"
+### Community 14 - "Community 14"
 Cohesion: 0.7
 Nodes (4): buildPrompt(), isTone(), parseVariants(), POST()
 
-### Community 12 - "Community 12"
-Cohesion: 0.7
-Nodes (4): buildReplyPrompt(), buildRequestPrompt(), parseVariants(), POST()
-
-### Community 16 - "Community 16"
+### Community 18 - "Community 18"
 Cohesion: 0.83
 Nodes (3): computeDeltas(), loadScan(), runScan()
 
-### Community 23 - "Community 23"
+### Community 20 - "Community 20"
+Cohesion: 0.83
+Nodes (3): generateGuidance(), POST(), runScan()
+
+### Community 26 - "Community 26"
 Cohesion: 1.0
 Nodes (2): handleSubmit(), validate()
 
-### Community 25 - "Community 25"
+### Community 28 - "Community 28"
 Cohesion: 1.0
 Nodes (2): getSuggestedKeywords(), normalizeTrade()
 
-### Community 27 - "Community 27"
+### Community 30 - "Community 30"
 Cohesion: 0.67
 Nodes (3): Build Spec (docs/build-spec.md), Map Pack Visibility Image, Visibility Transformation Image
 
-### Community 78 - "Community 78"
+### Community 83 - "Community 83"
 Cohesion: 1.0
 Nodes (1): README
 
-### Community 79 - "Community 79"
+### Community 84 - "Community 84"
 Cohesion: 1.0
 Nodes (1): AGENTS.md Agent Rules
 
-### Community 80 - "Community 80"
+### Community 85 - "Community 85"
 Cohesion: 1.0
 Nodes (1): Step 1 Visual
 
-### Community 81 - "Community 81"
+### Community 86 - "Community 86"
 Cohesion: 1.0
 Nodes (1): Step 2 Visual
 
-### Community 82 - "Community 82"
+### Community 87 - "Community 87"
 Cohesion: 1.0
 Nodes (1): Step 3 Visual
 
-### Community 83 - "Community 83"
+### Community 88 - "Community 88"
 Cohesion: 1.0
 Nodes (1): Testimonial Avatars
 
-### Community 84 - "Community 84"
+### Community 89 - "Community 89"
 Cohesion: 1.0
 Nodes (1): OG Image
 
-### Community 85 - "Community 85"
+### Community 90 - "Community 90"
 Cohesion: 1.0
 Nodes (1): Audit Report Preview Image
 
-### Community 86 - "Community 86"
+### Community 91 - "Community 91"
 Cohesion: 1.0
 Nodes (1): How It Works Steps Image
 
-### Community 87 - "Community 87"
+### Community 92 - "Community 92"
 Cohesion: 1.0
 Nodes (1): LocalSearchAlly Main Site
 
 ## Knowledge Gaps
-- **Thin community `Community 9`** (5 nodes): `GbpConnection.tsx`, `handleDisconnect()`, `handleSelect()`, `loadLocations()`, `openPicker()`
+- **Thin community `Community 12`** (5 nodes): `GbpConnection.tsx`, `handleDisconnect()`, `handleSelect()`, `loadLocations()`, `openPicker()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 23`** (3 nodes): `AuditTool.tsx`, `handleSubmit()`, `validate()`
+- **Thin community `Community 26`** (3 nodes): `AuditTool.tsx`, `handleSubmit()`, `validate()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 25`** (3 nodes): `getSuggestedKeywords()`, `normalizeTrade()`, `keywords.ts`
+- **Thin community `Community 28`** (3 nodes): `getSuggestedKeywords()`, `normalizeTrade()`, `keywords.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 78`** (1 nodes): `README`
+- **Thin community `Community 83`** (1 nodes): `README`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 79`** (1 nodes): `AGENTS.md Agent Rules`
+- **Thin community `Community 84`** (1 nodes): `AGENTS.md Agent Rules`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 80`** (1 nodes): `Step 1 Visual`
+- **Thin community `Community 85`** (1 nodes): `Step 1 Visual`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 81`** (1 nodes): `Step 2 Visual`
+- **Thin community `Community 86`** (1 nodes): `Step 2 Visual`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 82`** (1 nodes): `Step 3 Visual`
+- **Thin community `Community 87`** (1 nodes): `Step 3 Visual`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 83`** (1 nodes): `Testimonial Avatars`
+- **Thin community `Community 88`** (1 nodes): `Testimonial Avatars`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 84`** (1 nodes): `OG Image`
+- **Thin community `Community 89`** (1 nodes): `OG Image`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 85`** (1 nodes): `Audit Report Preview Image`
+- **Thin community `Community 90`** (1 nodes): `Audit Report Preview Image`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 86`** (1 nodes): `How It Works Steps Image`
+- **Thin community `Community 91`** (1 nodes): `How It Works Steps Image`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 87`** (1 nodes): `LocalSearchAlly Main Site`
+- **Thin community `Community 92`** (1 nodes): `LocalSearchAlly Main Site`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `createServerClient()` connect `Community 0` to `Community 2`, `Community 3`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 10`, `Community 11`, `Community 12`?**
-  _High betweenness centrality (0.155) - this node is a cross-community bridge._
-- **Why does `getSupabase()` connect `Community 0` to `Community 2`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 8`, `Community 10`, `Community 11`, `Community 12`?**
-  _High betweenness centrality (0.105) - this node is a cross-community bridge._
-- **Why does `buildAuditPrompt()` connect `Community 1` to `Community 3`, `Community 7`?**
-  _High betweenness centrality (0.072) - this node is a cross-community bridge._
-- **Are the 22 inferred relationships involving `createServerClient()` (e.g. with `proxy()` and `POST()`) actually correct?**
-  _`createServerClient()` has 22 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 20 inferred relationships involving `getSupabase()` (e.g. with `deleteAudit()` and `POST()`) actually correct?**
-  _`getSupabase()` has 20 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 8 inferred relationships involving `buildAuditPrompt()` (e.g. with `formatPageSpeedBlock()` and `formatWebsiteBlock()`) actually correct?**
-  _`buildAuditPrompt()` has 8 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 2 inferred relationships involving `POST()` (e.g. with `createServerClient()` and `getSupabase()`) actually correct?**
-  _`POST()` has 2 INFERRED edges - model-reasoned connections that need verification._
+- **Why does `createServerClient()` connect `Community 0` to `Community 1`, `Community 3`, `Community 4`, `Community 5`, `Community 7`, `Community 8`, `Community 9`, `Community 10`, `Community 11`, `Community 13`, `Community 14`, `Community 20`?**
+  _High betweenness centrality (0.150) - this node is a cross-community bridge._
+- **Why does `getSupabase()` connect `Community 1` to `Community 0`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 8`, `Community 9`, `Community 11`, `Community 13`, `Community 14`, `Community 20`?**
+  _High betweenness centrality (0.128) - this node is a cross-community bridge._
+- **Why does `buildAuditPrompt()` connect `Community 2` to `Community 10`, `Community 5`?**
+  _High betweenness centrality (0.070) - this node is a cross-community bridge._
+- **Are the 25 inferred relationships involving `getSupabase()` (e.g. with `deleteAudit()` and `POST()`) actually correct?**
+  _`getSupabase()` has 25 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 24 inferred relationships involving `createServerClient()` (e.g. with `proxy()` and `POST()`) actually correct?**
+  _`createServerClient()` has 24 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 11 inferred relationships involving `proGateApi()` (e.g. with `POST()` and `POST()`) actually correct?**
+  _`proGateApi()` has 11 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 3 inferred relationships involving `POST()` (e.g. with `createServerClient()` and `proGateApi()`) actually correct?**
+  _`POST()` has 3 INFERRED edges - model-reasoned connections that need verification._
