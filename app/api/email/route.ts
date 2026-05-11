@@ -101,7 +101,15 @@ export async function POST(req: Request) {
     process.env.NEXT_PUBLIC_CALENDLY_URL ??
     "https://calendly.com/localsearchally";
   const auditUrl = auditId ? `${siteUrl}/audit/${auditId}` : siteUrl;
+  const signupUrl = `${siteUrl}/signup`;
+  const pricingUrl = `${siteUrl}/pricing`;
+  const dashboardUrl = `${siteUrl}/dashboard`;
   const lowestLabel = SECTION_LABELS[lowestSection] ?? lowestSection;
+  // /pricing?gate=<section> names the tool on the pricing page (see GATE_TOOL_NAMES)
+  // and works for both anonymous and signed-in users.
+  const lowestToolUrl = lowestSection
+    ? `${pricingUrl}?gate=${encodeURIComponent(lowestSection)}`
+    : pricingUrl;
 
   const resend = new Resend(resendKey);
 
@@ -154,6 +162,8 @@ export async function POST(req: Request) {
         overallScore,
         lowestLabel,
         auditUrl,
+        signupUrl,
+        pricingUrl,
         calendlyUrl,
         unsubscribeUrl: unsubscribeMailto,
       }),
@@ -236,6 +246,8 @@ export async function POST(req: Request) {
       html: buildDripDay2Html({
         businessName,
         lowestLabel,
+        lowestToolUrl,
+        signupUrl,
         calendlyUrl,
         unsubscribeUrl: unsubscribeMailto,
       }),
@@ -246,6 +258,7 @@ export async function POST(req: Request) {
       html: buildDripDay5Html({
         businessName,
         trade,
+        signupUrl,
         calendlyUrl,
         unsubscribeUrl: unsubscribeMailto,
       }),
@@ -256,6 +269,7 @@ export async function POST(req: Request) {
       html: buildDripDay9Html({
         businessName,
         trade,
+        signupUrl,
         calendlyUrl,
         unsubscribeUrl: unsubscribeMailto,
       }),
@@ -266,6 +280,7 @@ export async function POST(req: Request) {
       html: buildDripDay14Html({
         businessName,
         trade,
+        signupUrl,
         calendlyUrl,
         unsubscribeUrl: unsubscribeMailto,
       }),
@@ -276,6 +291,7 @@ export async function POST(req: Request) {
       html: buildDripDay21Html({
         businessName,
         trade,
+        signupUrl,
         calendlyUrl,
         unsubscribeUrl: unsubscribeMailto,
       }),
@@ -288,6 +304,8 @@ export async function POST(req: Request) {
         trade,
         city,
         siteUrl,
+        dashboardUrl,
+        signupUrl,
         calendlyUrl,
         unsubscribeUrl: unsubscribeMailto,
       }),
@@ -328,6 +346,8 @@ function buildEmailHtml({
   overallScore,
   lowestLabel,
   auditUrl,
+  signupUrl,
+  pricingUrl,
   calendlyUrl,
   unsubscribeUrl,
 }: {
@@ -338,6 +358,8 @@ function buildEmailHtml({
   overallScore: number;
   lowestLabel: string;
   auditUrl: string;
+  signupUrl: string;
+  pricingUrl: string;
   calendlyUrl: string;
   unsubscribeUrl: string;
 }): string {
@@ -421,16 +443,26 @@ function buildEmailHtml({
           <tr>
             <td style="background:rgba(123,175,212,0.05);border:1px solid rgba(123,175,212,0.14);border-radius:10px;padding:24px;">
               <p style="margin:0 0 8px;font-size:15px;font-weight:600;color:#ffffff;">
-                Want to walk through it together?
+                Ready to fix what's holding you back?
               </p>
               <p style="margin:0 0 16px;font-size:14px;line-height:1.6;color:rgba(255,255,255,0.5);">
-                I'll show you exactly what to fix first and what to skip — no pitch,
-                just the plan. Takes about 20 minutes.
+                Start a 14-day free trial of the full toolkit — GBP optimizer,
+                citation tracker, geo-grid Map Pack rankings, and the rest of
+                the eight tools that map to every section in your audit.
+                $49/mo after the trial. Cancel anytime.
               </p>
-              <a href="${calendlyUrl}"
-                style="display:inline-block;background:transparent;color:#7bafd4;font-size:14px;font-weight:600;text-decoration:none;border:1px solid rgba(123,175,212,0.35);border-radius:6px;padding:10px 20px;">
-                Book a Free 20-Min Call →
+              <a href="${signupUrl}"
+                style="display:inline-block;background:#7bafd4;color:#020203;font-size:14px;font-weight:600;text-decoration:none;border-radius:6px;padding:11px 22px;margin-bottom:14px;">
+                Start Free 14-Day Trial →
               </a>
+              <p style="margin:14px 0 0;font-size:13px;line-height:1.6;color:rgba(255,255,255,0.4);">
+                Prefer to talk it through first?
+                <a href="${calendlyUrl}" style="color:#7bafd4;text-decoration:none;">Book a free 20-min call</a>
+                — no pitch, just the plan.
+              </p>
+              <p style="margin:6px 0 0;font-size:12px;color:rgba(255,255,255,0.25);">
+                <a href="${pricingUrl}" style="color:rgba(255,255,255,0.4);text-decoration:underline;">See full pricing</a>
+              </p>
             </td>
           </tr>
 
@@ -454,6 +486,27 @@ function buildEmailHtml({
 }
 
 // ─── Shared email shell ────────────────────────────────────────────────────────
+
+function twoPathCta({
+  primaryUrl,
+  primaryLabel,
+  calendlyUrl,
+}: {
+  primaryUrl: string;
+  primaryLabel: string;
+  calendlyUrl: string;
+}): string {
+  return `
+        <a href="${primaryUrl}"
+          style="display:inline-block;background:#7bafd4;color:#020203;font-size:15px;font-weight:600;text-decoration:none;border-radius:8px;padding:14px 28px;">
+          ${primaryLabel} →
+        </a>
+        <p style="margin:16px 0 0;font-size:13px;line-height:1.6;color:rgba(255,255,255,0.4);">
+          Prefer to talk it through first?
+          <a href="${calendlyUrl}" style="color:#7bafd4;text-decoration:none;">Book a free 20-min call</a>.
+        </p>
+  `;
+}
 
 function emailShell(bodyHtml: string, unsubscribeUrl: string): string {
   return `<!DOCTYPE html>
@@ -495,11 +548,15 @@ function emailShell(bodyHtml: string, unsubscribeUrl: string): string {
 function buildDripDay2Html({
   businessName,
   lowestLabel,
+  lowestToolUrl,
+  signupUrl,
   calendlyUrl,
   unsubscribeUrl,
 }: {
   businessName: string;
   lowestLabel: string;
+  lowestToolUrl: string;
+  signupUrl: string;
   calendlyUrl: string;
   unsubscribeUrl: string;
 }): string {
@@ -517,17 +574,21 @@ function buildDripDay2Html({
           you do in your area.
         </p>
         <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
-          The fix itself isn't complicated — but it does need to be done right, not
-          just checked off a list. I can walk you through exactly what to do (and
-          what not to do) in about 20 minutes.
+          There's a tool inside Local Search Ally built specifically for this —
+          it walks you through the exact fixes for your ${lowestLabel.toLowerCase()}
+          gaps step by step. You can
+          <a href="${lowestToolUrl}" style="color:#7bafd4;text-decoration:none;">see what it does here</a>,
+          or start a 14-day free trial and just use it.
         </p>
         <p style="margin:0 0 28px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
-          No pitch. Just the fix.
+          $49/mo after the trial. Cancel anytime. No card needed to start
+          looking around.
         </p>
-        <a href="${calendlyUrl}"
-          style="display:inline-block;background:#7bafd4;color:#020203;font-size:15px;font-weight:600;text-decoration:none;border-radius:8px;padding:14px 28px;">
-          Book a Free 20-Min Call →
-        </a>
+        ${twoPathCta({
+          primaryUrl: signupUrl,
+          primaryLabel: "Start Free 14-Day Trial",
+          calendlyUrl,
+        })}
       </td>
     </tr>
   `,
@@ -558,11 +619,13 @@ const TRADE_STATS: Record<string, string> = {
 function buildDripDay5Html({
   businessName,
   trade,
+  signupUrl,
   calendlyUrl,
   unsubscribeUrl,
 }: {
   businessName: string;
   trade: string;
+  signupUrl: string;
   calendlyUrl: string;
   unsubscribeUrl: string;
 }): string {
@@ -590,16 +653,19 @@ function buildDripDay5Html({
         </p>
         <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
           The audit I ran for <strong style="color:#ffffff;">${businessName}</strong>
-          shows exactly what's keeping you out of that top 3. The fixes are specific
-          to your listing — not a generic checklist.
+          shows what's keeping you out of that top 3. The toolkit shows where you
+          actually rank — there's a geo-grid Map Pack tracker that scans your
+          rankings across your whole service area so you know exactly which
+          neighborhoods you're winning and which you're losing.
         </p>
         <p style="margin:0 0 28px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
-          If you want to talk through what to prioritize, I've got time this week.
+          Try it free for 14 days and see your grid.
         </p>
-        <a href="${calendlyUrl}"
-          style="display:inline-block;background:#7bafd4;color:#020203;font-size:15px;font-weight:600;text-decoration:none;border-radius:8px;padding:14px 28px;">
-          Book a Free Strategy Call →
-        </a>
+        ${twoPathCta({
+          primaryUrl: signupUrl,
+          primaryLabel: "Start Free 14-Day Trial",
+          calendlyUrl,
+        })}
       </td>
     </tr>
   `,
@@ -612,11 +678,13 @@ function buildDripDay5Html({
 function buildDripDay9Html({
   businessName,
   trade,
+  signupUrl,
   calendlyUrl,
   unsubscribeUrl,
 }: {
   businessName: string;
   trade: string;
+  signupUrl: string;
   calendlyUrl: string;
   unsubscribeUrl: string;
 }): string {
@@ -634,23 +702,25 @@ function buildDripDay9Html({
           ranking above them despite having more reviews.
         </p>
         <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
-          After we fixed three specific things — their GBP setup, citation
-          consistency, and a couple of on-page issues — they were in the Map Pack for
-          their top keyword within six weeks.
+          We fixed three specific things — their <strong style="color:#ffffff;">GBP setup</strong>,
+          <strong style="color:#ffffff;">citation consistency</strong>, and a couple of
+          <strong style="color:#ffffff;">on-page issues</strong>. Six weeks later
+          they were in the Map Pack for their top keyword.
         </p>
         <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
-          That's not a promise — every market is different. But the playbook is
-          consistent: find the gaps, fix them in the right order, let the algorithm
-          catch up.
+          Those three things are three of the eight tools inside Local Search Ally.
+          You can work through them yourself in the dashboard, or have me walk
+          you through which one to start with.
         </p>
         <p style="margin:0 0 28px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
-          The audit I ran for <strong style="color:#ffffff;">${businessName}</strong>
-          already shows the gaps. The rest is execution.
+          The audit for <strong style="color:#ffffff;">${businessName}</strong>
+          already shows the gaps. The toolkit is how you close them.
         </p>
-        <a href="${calendlyUrl}"
-          style="display:inline-block;background:#7bafd4;color:#020203;font-size:15px;font-weight:600;text-decoration:none;border-radius:8px;padding:14px 28px;">
-          Book a Free Call to Talk Through It →
-        </a>
+        ${twoPathCta({
+          primaryUrl: signupUrl,
+          primaryLabel: "Start Free 14-Day Trial",
+          calendlyUrl,
+        })}
       </td>
     </tr>
   `,
@@ -662,11 +732,13 @@ function buildDripDay9Html({
 
 function buildDripDay14Html({
   trade,
+  signupUrl,
   calendlyUrl,
   unsubscribeUrl,
 }: {
   businessName: string;
   trade: string;
+  signupUrl: string;
   calendlyUrl: string;
   unsubscribeUrl: string;
 }): string {
@@ -688,17 +760,18 @@ function buildDripDay14Html({
           Local SEO for service contractors is a different discipline. It's your
           Google Business Profile, citation consistency, review signals, and
           hyperlocal on-page signals. That's where Map Pack rankings come from.
-          That's what we work on.
+          That's what every tool in Local Search Ally is built around.
         </p>
         <p style="margin:0 0 28px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
-          If you've been burned before and want to understand what's actually
-          different — 20 minutes on a call will make it clear.
-          No commitment, just clarity.
+          And if you've been burned before — you don't have to take my word for it.
+          $49/mo, 14 days free, cancel from your dashboard in two clicks.
+          Or hop on a 20-minute call first if that feels safer.
         </p>
-        <a href="${calendlyUrl}"
-          style="display:inline-block;background:#7bafd4;color:#020203;font-size:15px;font-weight:600;text-decoration:none;border-radius:8px;padding:14px 28px;">
-          Book a Free Call →
-        </a>
+        ${twoPathCta({
+          primaryUrl: signupUrl,
+          primaryLabel: "Start Free 14-Day Trial",
+          calendlyUrl,
+        })}
       </td>
     </tr>
   `,
@@ -711,11 +784,13 @@ function buildDripDay14Html({
 function buildDripDay21Html({
   businessName,
   trade,
+  signupUrl,
   calendlyUrl,
   unsubscribeUrl,
 }: {
   businessName: string;
   trade: string;
+  signupUrl: string;
   calendlyUrl: string;
   unsubscribeUrl: string;
 }): string {
@@ -732,17 +807,18 @@ function buildDripDay21Html({
           no explanation needed.
         </p>
         <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
-          What I will say: the audit results for
-          <strong style="color:#ffffff;">${businessName}</strong> don't expire.
-          When you're ready to act on them, I'm here.
+          The audit results for <strong style="color:#ffffff;">${businessName}</strong>
+          don't expire. When you're ready, you can re-run a fresh audit anytime,
+          start a free trial of the toolkit, or just book a call.
         </p>
         <p style="margin:0 0 28px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.65);">
           And if you'd rather I leave you alone — unsubscribe below, no hard feelings.
         </p>
-        <a href="${calendlyUrl}"
-          style="display:inline-block;background:transparent;color:#7bafd4;font-size:15px;font-weight:600;text-decoration:none;border:1px solid rgba(123,175,212,0.35);border-radius:8px;padding:13px 28px;">
-          Book a Call Whenever You're Ready →
-        </a>
+        ${twoPathCta({
+          primaryUrl: signupUrl,
+          primaryLabel: "Start Free 14-Day Trial",
+          calendlyUrl,
+        })}
       </td>
     </tr>
   `,
@@ -755,6 +831,8 @@ function buildReauditReminderHtml({
   trade,
   city,
   siteUrl,
+  dashboardUrl,
+  signupUrl,
   calendlyUrl,
   unsubscribeUrl,
 }: {
@@ -762,6 +840,8 @@ function buildReauditReminderHtml({
   trade: string;
   city: string;
   siteUrl: string;
+  dashboardUrl: string;
+  signupUrl: string;
   calendlyUrl: string;
   unsubscribeUrl: string;
 }): string {
@@ -786,9 +866,16 @@ function buildReauditReminderHtml({
           style="display:inline-block;background:#7bafd4;color:#020203;font-size:15px;font-weight:700;text-decoration:none;border-radius:8px;padding:14px 32px;">
           Re-Run My Free Audit →
         </a>
-        <p style="margin:28px 0 0;font-size:13px;line-height:1.7;color:rgba(255,255,255,0.35);">
-          Prefer to skip straight to a strategy call?
-          <a href="${calendlyUrl}" style="color:#7bafd4;text-decoration:none;">Book a time with Chad</a> instead.
+        <p style="margin:24px 0 0;font-size:13px;line-height:1.7;color:rgba(255,255,255,0.4);">
+          Already inside the toolkit?
+          <a href="${dashboardUrl}" style="color:#7bafd4;text-decoration:none;">Open your dashboard</a>
+          to re-run from there and see your score history.
+        </p>
+        <p style="margin:8px 0 0;font-size:13px;line-height:1.7;color:rgba(255,255,255,0.4);">
+          New here?
+          <a href="${signupUrl}" style="color:#7bafd4;text-decoration:none;">Start a 14-day free trial</a>
+          to track every audit over time — or
+          <a href="${calendlyUrl}" style="color:#7bafd4;text-decoration:none;">book a strategy call</a>.
         </p>
       </td>
     </tr>
