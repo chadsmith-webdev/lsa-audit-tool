@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createServerClient, getSupabase } from "@/lib/supabase";
+import { requireProAccess } from "@/lib/require-pro";
 import BacklinkOutreach from "./BacklinkOutreach";
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default async function BacklinksToolPage() {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
+  await requireProAccess(user.id, "backlinks");
 
   const db = getSupabase();
   const { data: latest } = await db

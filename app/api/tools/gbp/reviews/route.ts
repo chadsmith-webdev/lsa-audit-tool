@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createServerClient, getSupabase } from "@/lib/supabase";
+import { proGateApi } from "@/lib/require-pro";
 
 /**
  * POST /api/tools/gbp/reviews
@@ -104,6 +105,8 @@ export async function POST(req: Request) {
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+  const gate = await proGateApi(user.id);
+  if (gate) return gate;
 
   let body: Record<string, unknown>;
   try {
