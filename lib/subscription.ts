@@ -4,9 +4,9 @@ import { getSupabase } from "@/lib/supabase";
  * Subscription helper — single source of truth for what a user can access.
  *
  * Plans:
- *   - "free"    → audits only, all Pro Tools locked
- *   - "pro"     → unlimited audits + all 8 Pro Tools, 1 location
- *   - "agency"  → everything in Pro + up to 10 locations + white-label
+ *   - "free"           → audits only, all Pro Tools locked
+ *   - "pro"            → unlimited audits + all 8 Pro Tools, 1 location
+ *   - "multi_location" → everything in Pro + up to 10 locations + white-label
  *
  * Statuses that grant Pro access:
  *   - "trialing"  → 14-day free trial window
@@ -16,7 +16,7 @@ import { getSupabase } from "@/lib/supabase";
  * Everything else (inactive, past_due, expired) falls back to free-tier access.
  */
 
-export type Plan = "free" | "pro" | "agency";
+export type Plan = "free" | "pro" | "multi_location";
 export type SubStatus =
   | "inactive"
   | "trialing"
@@ -134,5 +134,5 @@ function defaultFreePlan(): EffectivePlan {
  * Convenience: does this user have access to Pro Tools?
  */
 export function hasProAccess(plan: EffectivePlan): boolean {
-  return plan.effective === "pro" || plan.effective === "agency";
+  return plan.effective === "pro" || plan.effective === "multi_location";
 }

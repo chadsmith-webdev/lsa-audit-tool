@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const tier = body.tier === "agency" ? "agency" : "pro";
+  const tier = body.tier === "multi_location" ? "multi_location" : "pro";
   const billing = body.billing === "annual" ? "annual" : "monthly";
 
   const planId = getPlanId({ tier, billing });

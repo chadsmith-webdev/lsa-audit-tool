@@ -116,7 +116,7 @@ export default function PricingPage() {
               cadence='per month'
               priceSub={
                 billing === "annual"
-                  ? "$441 billed yearly · save $147"
+                  ? "$432 billed yearly · save $156"
                   : "billed monthly"
               }
               tagline='The full toolkit for one local business.'
@@ -137,15 +137,15 @@ export default function PricingPage() {
             />
 
             <PlanCard
-              tier='Agency'
+              tier='Multi-Location'
               priceLabel={billing === "annual" ? "$149" : "$199"}
               cadence='per month'
               priceSub={
                 billing === "annual"
-                  ? "$1,791 billed yearly · save $597"
+                  ? "$1,788 billed yearly · save $600"
                   : "billed monthly"
               }
-              tagline='For agencies and multi-location operators.'
+              tagline='For operators managing multiple locations.'
               features={[
                 "Everything in Pro",
                 "Up to 10 locations",
@@ -155,7 +155,7 @@ export default function PricingPage() {
               ]}
               cta={{
                 label: "Start 14-day free trial",
-                href: `/signup?plan=agency&billing=${billing}`,
+                href: `/signup?plan=multi_location&billing=${billing}`,
               }}
               variant='default'
             />
@@ -622,11 +622,11 @@ function ComparisonTable() {
               <th style={thStyle}></th>
               <th style={thStyle}>Free</th>
               <th style={{ ...thStyle, color: "var(--carolina)" }}>Pro</th>
-              <th style={thStyle}>Agency</th>
+              <th style={thStyle}>Multi-Location</th>
             </tr>
           </thead>
           <tbody>
-            {rows.map(([label, free, pro, agency]) => (
+            {rows.map(([label, free, pro, multi]) => (
               <tr key={label} style={{ borderTop: "1px solid var(--border)" }}>
                 <td style={tdLabel}>{label}</td>
                 <td style={tdCell}>{free}</td>
@@ -635,7 +635,7 @@ function ComparisonTable() {
                 >
                   {pro}
                 </td>
-                <td style={tdCell}>{agency}</td>
+                <td style={tdCell}>{multi}</td>
               </tr>
             ))}
           </tbody>
@@ -681,7 +681,7 @@ function FAQSection() {
     },
     {
       q: "Can I switch plans later?",
-      a: "Yes. Upgrade from Pro to Agency anytime. Downgrades take effect at the end of your current billing period.",
+      a: "Yes. Upgrade from Pro to Multi-Location anytime. Downgrades take effect at the end of your current billing period.",
     },
     {
       q: "Is the early adopter price really locked for life?",

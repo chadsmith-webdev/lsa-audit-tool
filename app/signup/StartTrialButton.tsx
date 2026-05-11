@@ -6,7 +6,7 @@ export default function StartTrialButton({
   tier,
   billing,
 }: {
-  tier: "pro" | "agency";
+  tier: "pro" | "multi_location";
   billing: "monthly" | "annual";
 }) {
   const [loading, setLoading] = useState(false);

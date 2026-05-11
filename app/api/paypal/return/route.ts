@@ -16,7 +16,7 @@ export async function GET(req: Request) {
   const subscriptionId = url.searchParams.get("subscription_id");
   const tierParam = url.searchParams.get("tier");
   const billingParam = url.searchParams.get("billing");
-  const tier = tierParam === "agency" ? "agency" : "pro";
+  const tier = tierParam === "multi_location" ? "multi_location" : "pro";
   const billing = billingParam === "annual" ? "annual" : "monthly";
 
   if (!subscriptionId) {

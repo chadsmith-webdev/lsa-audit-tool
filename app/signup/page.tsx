@@ -15,15 +15,15 @@ export const metadata: Metadata = {
     "Start your 14-day Pro trial. No charge for 14 days. Cancel anytime.",
 };
 
-type Tier = "pro" | "agency";
+type Tier = "pro" | "multi_location";
 type Billing = "monthly" | "annual";
 
 const PLAN_DETAILS: Record<
   Tier,
   { name: string; monthly: number; annual: number }
 > = {
-  pro: { name: "Pro", monthly: 49, annual: 441 },
-  agency: { name: "Agency", monthly: 199, annual: 1791 },
+  pro: { name: "Pro", monthly: 49, annual: 432 },
+  multi_location: { name: "Multi-Location", monthly: 199, annual: 1788 },
 };
 
 export default async function SignupPage({
@@ -32,7 +32,7 @@ export default async function SignupPage({
   searchParams: Promise<{ plan?: string; billing?: string }>;
 }) {
   const { plan: planParam, billing: billingParam } = await searchParams;
-  const tier: Tier = planParam === "agency" ? "agency" : "pro";
+  const tier: Tier = planParam === "multi_location" ? "multi_location" : "pro";
   const billing: Billing = billingParam === "monthly" ? "monthly" : "annual";
 
   const cookieStore = await cookies();

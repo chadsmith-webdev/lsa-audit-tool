@@ -164,7 +164,7 @@ export type { PayPalSubscription };
  * have a 14-day TRIAL phase ($0) followed by the recurring REGULAR phase.
  */
 export function getPlanId(args: {
-  tier: "pro" | "agency";
+  tier: "pro" | "multi_location";
   billing: "monthly" | "annual";
 }): string | null {
   const key = `PAYPAL_PLAN_${args.tier.toUpperCase()}_${args.billing.toUpperCase()}`;
