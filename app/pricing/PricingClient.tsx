@@ -164,50 +164,36 @@ export default function PricingPage({
             maxWidth: "1100px",
             margin: "0 auto",
             padding: `${banner ? "var(--space-8)" : "var(--space-12)"} var(--page-gutter) var(--space-10)`,
+            textAlign: "center",
           }}
         >
-          <div className={styles.heroGrid}>
-            <div>
-              <span className={styles.eyebrow}>
-                <span aria-hidden='true' className={styles.eyebrowIndex}>
-                  §
-                </span>
-                Pricing · 2026
-              </span>
-              <h1
-                className='heading-1'
-                style={{
-                  margin: "var(--space-3) 0 var(--space-5)",
-                  textWrap: "balance",
-                }}
-              >
-                One service call covers a whole year of better leads.
-              </h1>
-              <p
-                style={{
-                  fontSize: "var(--text-md)",
-                  color: "var(--text-secondary)",
-                  margin: 0,
-                  maxWidth: "560px",
-                  lineHeight: 1.55,
-                }}
-              >
-                Built for NWA contractors. Audit your local search presence,
-                then use 8 AI-powered tools to fix what&apos;s broken — no
-                agency required.
-              </p>
-            </div>
-            <aside className={styles.specSheet} aria-label='At a glance'>
-              <SpecRow k='Free audit' v='Forever' />
-              <SpecRow k='Pro tools' v='8 included' />
-              <SpecRow k='Trial' v='14 days, no card charged' />
-              <SpecRow k='Cancel' v='One click, anytime' />
-              <SpecRow k='Built for' v='NWA contractors' />
-            </aside>
-          </div>
+          <span className={styles.eyebrow}>Pricing · 2026</span>
+          <h1
+            className='heading-1'
+            style={{
+              margin: "var(--space-3) auto var(--space-5)",
+              textWrap: "balance",
+              maxWidth: "20ch",
+            }}
+          >
+            One service call covers a whole year of better leads.
+          </h1>
+          <p
+            style={{
+              fontSize: "var(--text-md)",
+              color: "var(--text-secondary)",
+              margin: "0 auto",
+              maxWidth: "560px",
+              lineHeight: 1.55,
+            }}
+          >
+            Built for NWA contractors. Audit your local search presence, then
+            use 8 AI-powered tools to fix what&apos;s broken — no agency
+            required.
+          </p>
           <div
             style={{
-              marginTop: "var(--space-10)",
+              marginTop: "var(--space-8)",
               display: "flex",
               justifyContent: "center",
             }}
@@ -216,129 +202,127 @@ export default function PricingPage({
           </div>
         </section>
 
-        <section
-          style={{
-            maxWidth: "1100px",
-            margin: "0 auto",
-            padding: "var(--space-4) var(--page-gutter) var(--space-16)",
-          }}
-        >
-          <SectionMarker index='01' label='Plans' />
-          <div
+        <div className={styles.tileWrap}>
+          <section
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-              gap: "var(--space-5)",
-              alignItems: "stretch",
+              padding: 0,
             }}
           >
-            <PlanCard
-              tier='Free'
-              priceLabel='$0'
-              cadence='forever'
-              tagline='See where you stand. No credit card.'
-              features={[
-                "Free local SEO audit",
-                "Dashboard with your score + GBP, citations, reviews",
-                "Competitor names list",
-                "Grid rank tracking locked",
-                "All 8 Pro Tools locked (preview only)",
-              ]}
-              cta={{ label: "Run free audit", href: "/" }}
-              variant='default'
-            />
-
-            <PlanCard
-              tier='Pro'
-              priceLabel={billing === "annual" ? "$36" : "$49"}
-              cadence='per month'
-              priceSub={
-                billing === "annual"
-                  ? "$432 billed yearly · save $156"
-                  : "billed monthly"
-              }
-              tagline='The full toolkit for one local business.'
-              features={[
-                "Unlimited audits + full history",
-                "All 8 Pro Tools unlocked",
-                "Grid view rank tracking",
-                "Audit PDF export",
-                "Email support",
-              ]}
-              cta={{
-                label: "Start 14-day free trial",
-                href: `/signup?plan=pro&billing=${billing}`,
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                gap: "var(--space-5)",
+                alignItems: "stretch",
               }}
-              variant='featured'
-              ribbon='Most popular'
-              earlyAdopter={billing === "annual"}
-            />
+            >
+              <PlanCard
+                tier='Free'
+                priceLabel='$0'
+                cadence='forever'
+                tagline='See where you stand. No credit card.'
+                features={[
+                  "Free local SEO audit",
+                  "Dashboard with your score + GBP, citations, reviews",
+                  "Competitor names list",
+                  "Grid rank tracking locked",
+                  "All 8 Pro Tools locked (preview only)",
+                ]}
+                cta={{ label: "Run free audit", href: "/" }}
+                variant='default'
+              />
 
-            <PlanCard
-              tier='Multi-Location'
-              priceLabel={billing === "annual" ? "$149" : "$199"}
-              cadence='per month'
-              priceSub={
-                billing === "annual"
-                  ? "$1,788 billed yearly · save $600"
-                  : "billed monthly"
-              }
-              tagline='For operators managing multiple locations.'
-              features={[
-                "Everything in Pro",
-                "Up to 10 locations",
-                "White-label PDF exports",
-                "Priority support",
-                "1:1 onboarding call",
-              ]}
-              cta={{
-                label: "Start 14-day free trial",
-                href: `/signup?plan=multi_location&billing=${billing}`,
+              <PlanCard
+                tier='Pro'
+                priceLabel={billing === "annual" ? "$36" : "$49"}
+                cadence='per month'
+                priceSub={
+                  billing === "annual"
+                    ? "$432 billed yearly · save $156"
+                    : "billed monthly"
+                }
+                tagline='The full toolkit for one local business.'
+                features={[
+                  "Unlimited audits + full history",
+                  "All 8 Pro Tools unlocked",
+                  "Grid view rank tracking",
+                  "Audit PDF export",
+                  "Email support",
+                ]}
+                cta={{
+                  label: "Start 14-day free trial",
+                  href: `/signup?plan=pro&billing=${billing}`,
+                }}
+                variant='featured'
+                ribbon='Most popular'
+                earlyAdopter={billing === "annual"}
+              />
+
+              <PlanCard
+                tier='Multi-Location'
+                priceLabel={billing === "annual" ? "$149" : "$199"}
+                cadence='per month'
+                priceSub={
+                  billing === "annual"
+                    ? "$1,788 billed yearly · save $600"
+                    : "billed monthly"
+                }
+                tagline='For operators managing multiple locations.'
+                features={[
+                  "Everything in Pro",
+                  "Up to 10 locations",
+                  "White-label PDF exports",
+                  "Priority support",
+                  "1:1 onboarding call",
+                ]}
+                cta={{
+                  label: "Start 14-day free trial",
+                  href: `/signup?plan=multi_location&billing=${billing}`,
+                }}
+                variant='default'
+              />
+            </div>
+          </section>
+
+          <ToolsRail />
+
+          <ComparisonTable />
+
+          <ManagedServices />
+
+          <FAQSection />
+
+          <section
+            className={`${styles.tile} ${styles.tileFeatured} ${styles.tileCentered}`}
+          >
+            <span className={styles.eyebrow}>Ready?</span>
+            <h2
+              className='heading-2'
+              style={{
+                margin: "var(--space-3) 0 var(--space-3)",
+                textWrap: "balance",
               }}
-              variant='default'
-            />
-          </div>
-        </section>
-
-        <ToolsRail />
-
-        <ComparisonTable />
-
-        <ManagedServices />
-
-        <FAQSection />
-
-        <section
-          style={{
-            maxWidth: "1100px",
-            margin: "0 auto",
-            padding: "var(--space-16) var(--page-gutter)",
-            borderTop: "1px solid var(--border)",
-          }}
-        >
-          <SectionMarker index='06' label='Last word' />
-          <h2
-            className='heading-2'
-            style={{ margin: "0 0 var(--space-3)", textWrap: "balance" }}
-          >
-            Still on the fence?
-          </h2>
-          <p
-            style={{
-              fontSize: "var(--text-md)",
-              color: "var(--text-secondary)",
-              marginBottom: "var(--space-6)",
-              lineHeight: 1.55,
-              maxWidth: "560px",
-            }}
-          >
-            Run the free audit. If you don&apos;t see at least three concrete
-            things to fix, you don&apos;t need us.
-          </p>
-          <Link href='/' className='btn btn-primary'>
-            Run a free audit →
-          </Link>
-        </section>
+            >
+              Still on the fence?
+            </h2>
+            <p
+              style={{
+                fontSize: "var(--text-md)",
+                color: "var(--text-secondary)",
+                margin: "0 auto var(--space-6)",
+                lineHeight: 1.55,
+                maxWidth: "480px",
+              }}
+            >
+              Run the free audit. If you don&apos;t see at least three concrete
+              things to fix, you don&apos;t need us.
+            </p>
+            <Link href='/' className='btn btn-primary'>
+              Run a free audit →
+            </Link>
+          </section>
+        </div>
+        <div style={{ height: "var(--space-16)" }} aria-hidden='true' />
       </main>
       <SiteFooterMinimal />
     </>
@@ -663,18 +647,14 @@ function CheckIcon() {
 
 function ToolsRail() {
   return (
-    <section
-      style={{
-        maxWidth: "1100px",
-        margin: "0 auto",
-        padding: "var(--space-16) var(--page-gutter)",
-        borderTop: "1px solid var(--border)",
-      }}
-    >
-      <SectionMarker index='02' label='Toolkit' />
+    <section className={`${styles.tile} ${styles.tileAlt}`}>
+      <span className={styles.eyebrow}>Toolkit</span>
       <h2
         className='heading-3'
-        style={{ margin: "0 0 var(--space-7)", textWrap: "balance" }}
+        style={{
+          margin: "var(--space-3) 0 var(--space-7)",
+          textWrap: "balance",
+        }}
       >
         Everything you need to outrank the shop down the street.
       </h2>
@@ -731,21 +711,17 @@ function ComparisonTable() {
     ["Support", "Email", "Email", "Priority + 1:1"],
   ];
   return (
-    <section
-      style={{
-        maxWidth: "880px",
-        margin: "0 auto",
-        padding: "var(--space-16) var(--page-gutter)",
-        borderTop: "1px solid var(--border)",
-      }}
-    >
-      <SectionMarker index='03' label='Comparison' />
-      <h2 className='heading-3' style={{ margin: "0 0 var(--space-7)" }}>
+    <section className={styles.tile}>
+      <span className={styles.eyebrow}>Compare</span>
+      <h2
+        className='heading-3'
+        style={{ margin: "var(--space-3) 0 var(--space-7)" }}
+      >
         Compare plans
       </h2>
       <div
         style={{
-          background: "var(--surface)",
+          background: "var(--bg)",
           border: "1px solid var(--border-strong)",
           borderRadius: "var(--radius-md)",
           overflow: "hidden",
@@ -840,95 +816,23 @@ const tdCell: React.CSSProperties = {
   padding: "var(--space-3) var(--space-4)",
   color: "var(--text-secondary)",
 };
-/* ─── Section marker (§01 / Label) ─────────────────────────── */
-
-function SectionMarker({ index, label }: { index: string; label: string }) {
-  return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "var(--space-3)",
-        marginBottom: "var(--space-5)",
-        fontFamily: "var(--font-mono)",
-        fontSize: "var(--text-xs)",
-        fontWeight: 700,
-        letterSpacing: "0.12em",
-        textTransform: "uppercase",
-        color: "var(--carolina)",
-      }}
-    >
-      <span aria-hidden='true'>§{index}</span>
-      <span
-        aria-hidden='true'
-        style={{
-          flex: "0 0 28px",
-          height: "1px",
-          background: "var(--carolina)",
-          opacity: 0.6,
-        }}
-      />
-      <span style={{ color: "var(--text-secondary)" }}>{label}</span>
-    </div>
-  );
-}
-
-/* ─── Spec sheet row ─────────────────────────────────────────────── */
-
-function SpecRow({ k, v }: { k: string; v: string }) {
-  return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "baseline",
-        gap: "var(--space-3)",
-        padding: "var(--space-3) 0",
-        borderBottom: "1px solid var(--border)",
-        fontSize: "var(--text-sm)",
-      }}
-    >
-      <span
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "var(--text-xs)",
-          textTransform: "uppercase",
-          letterSpacing: "0.08em",
-          color: "var(--text-secondary)",
-        }}
-      >
-        {k}
-      </span>
-      <span
-        style={{ color: "var(--text)", fontWeight: 500, textAlign: "right" }}
-      >
-        {v}
-      </span>
-    </div>
-  );
-}
-
 /* ─── Managed services panel ───────────────────────────────────── */
 
 function ManagedServices() {
   return (
-    <section
-      style={{
-        maxWidth: "1100px",
-        margin: "0 auto",
-        padding: "var(--space-16) var(--page-gutter)",
-        borderTop: "1px solid var(--border)",
-      }}
-    >
-      <SectionMarker index='04' label='Done-for-you' />
+    <section className={`${styles.tile} ${styles.tileAlt}`}>
+      <span className={styles.eyebrow}>Done-for-you</span>
+      <h2
+        className='heading-3'
+        style={{
+          margin: "var(--space-3) 0 var(--space-7)",
+          textWrap: "balance",
+        }}
+      >
+        Prefer to hand it off?
+      </h2>
       <div className={styles.managedPanel}>
         <div>
-          <h2
-            className='heading-3'
-            style={{ margin: "0 0 var(--space-4)", textWrap: "balance" }}
-          >
-            Don’t want to run it yourself?
-          </h2>
           <p
             style={{
               margin: "0 0 var(--space-5)",
@@ -1045,16 +949,12 @@ function FAQSection() {
     },
   ];
   return (
-    <section
-      style={{
-        maxWidth: "780px",
-        margin: "0 auto",
-        padding: "var(--space-16) var(--page-gutter)",
-        borderTop: "1px solid var(--border)",
-      }}
-    >
-      <SectionMarker index='05' label='FAQ' />
-      <h2 className='heading-3' style={{ margin: "0 0 var(--space-7)" }}>
+    <section className={styles.tile}>
+      <span className={styles.eyebrow}>FAQ</span>
+      <h2
+        className='heading-3'
+        style={{ margin: "var(--space-3) 0 var(--space-7)" }}
+      >
         Questions, answered straight.
       </h2>
       <div
@@ -1070,7 +970,7 @@ function FAQSection() {
             className={styles.faqItem}
             style={{
               padding: "var(--space-4) var(--space-5)",
-              background: "var(--surface)",
+              background: "var(--bg)",
               border: "1px solid var(--border)",
               borderRadius: "var(--radius-md)",
             }}
