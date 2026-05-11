@@ -1,7 +1,7 @@
 # Graph Report - lsa-audit-tool  (2026-05-11)
 
 ## Corpus Check
-- 118 files · ~209,300 words
+- 118 files · ~209,422 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary

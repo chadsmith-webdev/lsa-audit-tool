@@ -123,6 +123,34 @@ export function AuditResults({
           />
         </motion.div>
 
+        {/* Done-for-you upsell */}
+        <motion.div
+          className={styles.dfyCard}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.75, duration: 0.45, ease: "easeOut" }}
+        >
+          <div className={styles.dfyInner}>
+            <div className={styles.dfyText}>
+              <p className={styles.dfyHeading}>
+                Rather have someone fix this for you?
+              </p>
+              <p className={styles.dfySub}>
+                I work with NWA home service trades directly — no contracts, no
+                hand-offs to a team you&apos;ve never met. Starting at $497/month.
+              </p>
+            </div>
+            <a
+              href="https://localsearchally.com/contact?utm_source=audit-tool&utm_medium=results-cta&utm_campaign=dfy-upsell"
+              className={styles.dfyBtn}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Book a Free Call →
+            </a>
+          </div>
+        </motion.div>
+
         {/* Re-audit footer */}
         <motion.div
           className={styles.reauditCard}

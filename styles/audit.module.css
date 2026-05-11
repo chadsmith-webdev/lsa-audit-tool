@@ -855,6 +855,63 @@
   width: auto;
 }
 
+/* ─── Done-for-you Upsell Card ─────────────────────────────────────────────── */
+
+.dfyCard {
+  border: 1px solid rgba(123, 175, 212, 0.18);
+  border-radius: 12px;
+  background: rgba(123, 175, 212, 0.04);
+  padding: 20px 24px;
+}
+
+.dfyInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.dfyText {
+  flex: 1;
+}
+
+.dfyHeading {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 6px;
+}
+
+.dfySub {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.dfyBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  border: 1px solid rgba(123, 175, 212, 0.5);
+  border-radius: 8px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  color: #7bafd4;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.dfyBtn:hover {
+  background: rgba(123, 175, 212, 0.1);
+  border-color: rgba(123, 175, 212, 0.75);
+}
+
 /* ─── Re-audit Footer ──────────────────────────────────────────────────────── */
 
 .reauditCard {
@@ -947,6 +1004,16 @@
   .reauditCard {
     flex-direction: column;
     text-align: center;
+  }
+
+  .dfyInner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dfyBtn {
+    width: 100%;
+    justify-content: center;
   }
 }
 
