@@ -21,6 +21,15 @@ function getRatelimiter() {
 }
 
 // ─── Proxy (formerly middleware) ──────────────────────────────────────────────
+// Cookie domain is scoped to .localsearchally.com in production so the auth
+// session is shared between audit.localsearchally.com and localsearchally.com.
+
+const COOKIE_DOMAIN =
+  process.env.NODE_ENV === "production" ? ".localsearchally.com" : undefined;
+
+function withDomain(options: Record<string, unknown> = {}): Record<string, unknown> {
+  return COOKIE_DOMAIN ? { ...options, domain: COOKIE_DOMAIN } : options;
+}
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -81,7 +90,7 @@ export async function proxy(req: NextRequest) {
             );
             response = NextResponse.next({ request: req });
             cookiesToSet.forEach(({ name, value, options }) =>
-              response.cookies.set(name, value, options),
+              response.cookies.set(name, value, withDomain(options as Record<string, unknown>)),
             );
           },
         },
@@ -119,7 +128,7 @@ export async function proxy(req: NextRequest) {
             );
             response = NextResponse.next({ request: req });
             cookiesToSet.forEach(({ name, value, options }) =>
-              response.cookies.set(name, value, options),
+              response.cookies.set(name, value, withDomain(options as Record<string, unknown>)),
             );
           },
         },

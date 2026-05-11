@@ -22,11 +22,18 @@ export function getSupabase(): SupabaseClient {
 
 // ─── Browser client (Client Components) ──────────────────────────────────────
 // Uses anon key. Reads/writes session from cookies automatically.
+// Cookie domain is scoped to .localsearchally.com in production so the session
+// is shared between audit.localsearchally.com and localsearchally.com.
+
+const COOKIE_DOMAIN =
+  process.env.NODE_ENV === "production" ? ".localsearchally.com" : undefined;
 
 export function createBrowserClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-  return _createBrowserClient(url, key);
+  return _createBrowserClient(url, key, {
+    cookieOptions: COOKIE_DOMAIN ? { domain: COOKIE_DOMAIN } : undefined,
+  });
 }
 
 // ─── Server client (Server Components, middleware) ────────────────────────────
@@ -41,6 +48,7 @@ export function createServerClient(
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
   return _createServerClient(url, key, {
+    cookieOptions: COOKIE_DOMAIN ? { domain: COOKIE_DOMAIN } : undefined,
     cookies: {
       getAll() {
         return cookieStore.getAll();
