@@ -151,7 +151,7 @@ export async function POST(req: Request) {
   // ── Send confirmation email ──────────────────────────────────────────────
   try {
     const sendResult = await resend.emails.send({
-      from: "Local Search Ally <audits@localsearchally.com>",
+      from: "Chad Smith <chad@localsearchally.com>",
       to: email,
       subject: `Your Local SEO Audit — ${businessName}`,
       html: buildEmailHtml({
@@ -215,7 +215,7 @@ export async function POST(req: Request) {
   // ── Internal lead notification ───────────────────────────────────────────
   resend.emails
     .send({
-      from: "Local Search Ally <audits@localsearchally.com>",
+      from: "Chad Smith <chad@localsearchally.com>",
       to: "chad@localsearchally.com",
       subject: `🔔 New audit lead — ${businessName}`,
       html: `<p><strong>${businessName}</strong> — ${trade} in ${city}</p>
@@ -233,6 +233,7 @@ export async function POST(req: Request) {
         audienceId,
         email,
         firstName: businessName,
+        lastName: "audit",
         unsubscribed: false,
       })
       .catch((err) => console.error("Resend contact create failed:", err));
@@ -318,7 +319,7 @@ export async function POST(req: Request) {
     ).toISOString();
     resend.emails
       .send({
-        from: "Local Search Ally <audits@localsearchally.com>",
+        from: "Chad Smith <chad@localsearchally.com>",
         to: email,
         subject: drip.subject,
         html: drip.html,

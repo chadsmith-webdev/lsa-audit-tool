@@ -142,7 +142,7 @@ async function notifyEmail(
 
   const resend = new Resend(apiKey);
   const { error } = await resend.emails.send({
-    from: "Local Search Ally <noreply@localsearchally.com>",
+    from: "Chad Smith <chad@localsearchally.com>",
     to: toEmail,
     subject: `New audit: ${input.businessName} — ${result.overall_score}/10 (${result.score_bucket})`,
     html,
