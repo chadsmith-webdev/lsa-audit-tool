@@ -15,6 +15,7 @@ import TechnicalWidget from "@/app/components/TechnicalWidget";
 import AICitabilityWidget from "@/app/components/AICitabilityWidget";
 import DeleteAuditButton from "@/app/components/DeleteAuditButton";
 import UpgradeSlot from "@/app/components/UpgradeSlot";
+import { getUserPlan, hasProAccess } from "@/lib/subscription";
 
 export const metadata: Metadata = {
   title: "Dashboard — Local Search Ally",
@@ -29,6 +30,9 @@ export default async function DashboardPage() {
   } = await supabase.auth.getUser();
 
   if (!user) redirect("/login");
+
+  const plan = await getUserPlan(user.id);
+  const hasPro = hasProAccess(plan);
 
   const db = getSupabase();
 
@@ -357,7 +361,7 @@ export default async function DashboardPage() {
                     <div style={{ flex: 1 }}>
                       <GBPWidget gbp={latestGBP} />
                     </div>
-                    <UpgradeSlot tool='gbp' />
+                    <UpgradeSlot tool='gbp' hasPro={hasPro} />
                   </div>
                 )}
                 {reviewsSection && latestFull && (
@@ -375,7 +379,7 @@ export default async function DashboardPage() {
                         businessName={latestFull.business_name}
                       />
                     </div>
-                    <UpgradeSlot tool='reviews' />
+                    <UpgradeSlot tool='reviews' hasPro={hasPro} />
                   </div>
                 )}
               </div>
@@ -397,7 +401,7 @@ export default async function DashboardPage() {
                 auditDate={latestFull.created_at}
                 businessName={latestFull.business_name}
               />
-              <UpgradeSlot tool='citations' />
+              <UpgradeSlot tool='citations' hasPro={hasPro} />
             </section>
           )}
 
@@ -417,7 +421,7 @@ export default async function DashboardPage() {
                 auditDate={latestFull.created_at}
                 businessName={latestFull.business_name}
               />
-              <UpgradeSlot tool='competitors' />
+              <UpgradeSlot tool='competitors' hasPro={hasPro} />
             </section>
           )}
 
@@ -436,7 +440,7 @@ export default async function DashboardPage() {
                 auditDate={latestFull.created_at}
                 businessName={latestFull.business_name}
               />
-              <UpgradeSlot tool='backlinks' />
+              <UpgradeSlot tool='backlinks' hasPro={hasPro} />
             </section>
           )}
 
@@ -466,7 +470,7 @@ export default async function DashboardPage() {
                         businessName={latestFull.business_name}
                       />
                     </div>
-                    <UpgradeSlot tool='onpage' />
+                    <UpgradeSlot tool='onpage' hasPro={hasPro} />
                   </div>
                 )}
                 {technicalSection && (
@@ -484,7 +488,7 @@ export default async function DashboardPage() {
                         businessName={latestFull.business_name}
                       />
                     </div>
-                    <UpgradeSlot tool='technical' />
+                    <UpgradeSlot tool='technical' hasPro={hasPro} />
                   </div>
                 )}
               </div>
@@ -506,7 +510,7 @@ export default async function DashboardPage() {
                 auditDate={latestFull.created_at}
                 businessName={latestFull.business_name}
               />
-              <UpgradeSlot tool='ai-visibility' />
+              <UpgradeSlot tool='ai-visibility' hasPro={hasPro} />
             </section>
           )}
 

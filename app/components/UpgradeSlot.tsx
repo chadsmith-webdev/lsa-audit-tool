@@ -92,9 +92,21 @@ const TOOL_CATALOG: Record<ToolSlug, ToolEntry> = {
   },
 };
 
-export default function UpgradeSlot({ tool }: { tool: ToolSlug }) {
+export default function UpgradeSlot({
+  tool,
+  hasPro = false,
+}: {
+  tool: ToolSlug;
+  /**
+   * When false (default), the slot renders a "Start free trial" CTA pointing
+   * at the signup flow with the relevant tool slug attached. When true, the
+   * CTA opens the tool directly.
+   */
+  hasPro?: boolean;
+}) {
   const entry = TOOL_CATALOG[tool];
   const isSoon = entry.status === "soon";
+  const trialHref = `/signup?plan=pro&billing=annual&gate=${tool}`;
 
   return (
     <div
@@ -174,7 +186,7 @@ export default function UpgradeSlot({ tool }: { tool: ToolSlug }) {
         >
           In development
         </span>
-      ) : entry.href ? (
+      ) : hasPro && entry.href ? (
         <a
           href={entry.href}
           className='btn btn-primary btn-sm'
@@ -182,7 +194,15 @@ export default function UpgradeSlot({ tool }: { tool: ToolSlug }) {
         >
           Open →
         </a>
-      ) : null}
+      ) : (
+        <a
+          href={trialHref}
+          className='btn btn-primary btn-sm'
+          style={{ flexShrink: 0 }}
+        >
+          Start free trial →
+        </a>
+      )}
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { getUserPlan, hasProAccess } from "@/lib/subscription";
 import StartTrialButton from "./StartTrialButton";
 import SiteNavMinimal from "@/app/components/SiteNavMinimal";
 import SiteFooterMinimal from "@/app/components/SiteFooterMinimal";
+import landingStyles from "@/styles/landing.module.css";
 
 export const metadata: Metadata = {
   title: "Start Free Trial — Local Search Ally",
@@ -62,7 +63,10 @@ export default async function SignupPage({
   return (
     <>
       <SiteNavMinimal />
-      <main style={{ background: "var(--bg)", minHeight: "100vh" }}>
+      <main
+        className={landingStyles.mainContent}
+        style={{ background: "var(--bg)", minHeight: "100vh" }}
+      >
         <section
           style={{
             maxWidth: "560px",
