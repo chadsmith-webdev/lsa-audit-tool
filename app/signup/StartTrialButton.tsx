@@ -24,11 +24,12 @@ export default function StartTrialButton({
       const data = (await res.json()) as {
         approveUrl?: string;
         error?: string;
+        detail?: string;
       };
       if (!res.ok || !data.approveUrl) {
-        setError(
-          data.error ?? "Couldn't start the trial. Try again in a moment.",
-        );
+        const base =
+          data.error ?? "Couldn't start the trial. Try again in a moment.";
+        setError(data.detail ? `${base} — ${data.detail}` : base);
         setLoading(false);
         return;
       }

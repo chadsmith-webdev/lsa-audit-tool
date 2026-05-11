@@ -89,6 +89,13 @@ export async function POST(req: Request) {
 
   if (!subRes.ok) {
     const text = await subRes.text();
+    console.error("[paypal/start-trial] create failed", {
+      status: subRes.status,
+      planId,
+      tier,
+      billing,
+      detail: text,
+    });
     return NextResponse.json(
       { error: "PayPal subscription create failed", detail: text },
       { status: 502 },
