@@ -7,6 +7,21 @@ export const metadata: Metadata = {
     "$49/mo for the full local SEO toolkit built for NWA contractors. 14-day free trial. Early adopter annual pricing locked for life.",
 };
 
-export default function PricingPage() {
-  return <PricingClient />;
+export default async function PricingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    gate?: string;
+    cancelled?: string;
+    error?: string;
+  }>;
+}) {
+  const { gate, cancelled, error } = await searchParams;
+  return (
+    <PricingClient
+      gate={gate ?? null}
+      cancelled={cancelled === "1"}
+      error={error ?? null}
+    />
+  );
 }

@@ -22,7 +22,14 @@ export const metadata: Metadata = {
   description: "Monitor and manage your local SEO.",
 };
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ welcome?: string }>;
+}) {
+  const { welcome } = await searchParams;
+  const showTrialWelcome = welcome === "trial";
+
   const cookieStore = await cookies();
   const supabase = createServerClient(cookieStore);
   const {
@@ -243,6 +250,63 @@ export default async function DashboardPage() {
           padding: "var(--space-10) var(--page-gutter)",
         }}
       >
+        {showTrialWelcome && plan.status === "trialing" && (
+          <div
+            role='status'
+            aria-live='polite'
+            style={{
+              marginBottom: "var(--space-6)",
+              padding: "var(--space-3) var(--space-4)",
+              borderRadius: "10px",
+              border: "1px solid var(--border-accent)",
+              background: "var(--carolina-dim)",
+              display: "flex",
+              gap: "var(--space-3)",
+              alignItems: "flex-start",
+            }}
+          >
+            <span
+              aria-hidden='true'
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "var(--text-xs)",
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                color: "var(--carolina)",
+                flexShrink: 0,
+                paddingTop: "2px",
+              }}
+            >
+              Trial active
+            </span>
+            <div style={{ minWidth: 0 }}>
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: "var(--text-sm)",
+                  fontWeight: 600,
+                  color: "var(--text)",
+                }}
+              >
+                You’re in. Your 14-day Pro trial is live.
+              </p>
+              <p
+                style={{
+                  margin: "2px 0 0",
+                  fontSize: "var(--text-sm)",
+                  color: "var(--text-secondary)",
+                  lineHeight: 1.5,
+                }}
+              >
+                {plan.daysLeftInTrial !== null
+                  ? `${plan.daysLeftInTrial} day${plan.daysLeftInTrial === 1 ? "" : "s"} left — cancel anytime before then and you won’t be charged.`
+                  : "Cancel anytime in the next 14 days and you won’t be charged."}
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Page title */}
         <div
           className='animate-fade-up'

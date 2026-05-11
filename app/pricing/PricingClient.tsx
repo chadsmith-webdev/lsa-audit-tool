@@ -19,8 +19,61 @@ const TOOLS = [
   "Competitor Watch",
 ];
 
-export default function PricingPage() {
+// Maps the `?gate=<slug>` value from requireProAccess() to a friendly tool name.
+// Accepts both UpgradeSlot's slug (ai-visibility) and the tool route slug
+// (ai-citability) so either source can deep-link here.
+const GATE_TOOL_NAMES: Record<string, string> = {
+  gbp: "GBP Optimizer",
+  reviews: "Review Engine",
+  citations: "Citation Builder",
+  competitors: "Competitor Watch",
+  backlinks: "Backlink Outreach",
+  onpage: "On-Page Fixer",
+  technical: "Technical Monitor",
+  "ai-visibility": "AI Citability Booster",
+  "ai-citability": "AI Citability Booster",
+};
+
+export default function PricingPage({
+  gate,
+  cancelled,
+  error,
+}: {
+  gate?: string | null;
+  cancelled?: boolean;
+  error?: string | null;
+}) {
   const [billing, setBilling] = useState<Billing>("annual");
+
+  const banner = (() => {
+    if (cancelled) {
+      return {
+        tone: "neutral" as const,
+        title: "Trial signup cancelled",
+        body: "No worries — nothing was charged. Start the 14-day free trial whenever you’re ready.",
+      };
+    }
+    if (error === "missing_sub") {
+      return {
+        tone: "error" as const,
+        title: "Something went sideways with PayPal",
+        body: "We didn’t get a subscription back. Try the free trial again — and if it keeps happening, email chad@localsearchally.com.",
+      };
+    }
+    if (gate) {
+      const toolName = gate === "1" ? null : (GATE_TOOL_NAMES[gate] ?? null);
+      return {
+        tone: "highlight" as const,
+        title: toolName
+          ? `${toolName} is a Pro tool`
+          : "That tool is part of Pro",
+        body: toolName
+          ? `Start your 14-day free trial to unlock ${toolName} and the rest of the toolkit.`
+          : "Start your 14-day free trial to unlock the full toolkit.",
+      };
+    }
+    return null;
+  })();
 
   return (
     <>
@@ -29,6 +82,78 @@ export default function PricingPage() {
         className={landingStyles.mainContent}
         style={{ background: "var(--bg)", minHeight: "100vh" }}
       >
+        {banner && (
+          <div
+            role='status'
+            aria-live='polite'
+            style={{
+              maxWidth: "1100px",
+              margin: "var(--space-6) auto 0",
+              padding: "0 var(--page-gutter)",
+            }}
+          >
+            <div
+              style={{
+                padding: "var(--space-3) var(--space-4)",
+                borderRadius: "10px",
+                border:
+                  banner.tone === "error"
+                    ? "1px solid var(--danger, #c0392b)"
+                    : banner.tone === "highlight"
+                      ? "1px solid var(--border-accent)"
+                      : "1px solid var(--border-strong)",
+                background:
+                  banner.tone === "highlight"
+                    ? "var(--carolina-dim)"
+                    : "var(--surface)",
+                display: "flex",
+                gap: "var(--space-3)",
+                alignItems: "flex-start",
+              }}
+            >
+              <span
+                aria-hidden='true'
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "var(--text-xs)",
+                  fontWeight: 700,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  color:
+                    banner.tone === "error"
+                      ? "var(--danger, #c0392b)"
+                      : "var(--carolina)",
+                  flexShrink: 0,
+                  paddingTop: "2px",
+                }}
+              >
+                {banner.tone === "error" ? "Heads up" : "Heads up"}
+              </span>
+              <div style={{ minWidth: 0 }}>
+                <p
+                  style={{
+                    margin: 0,
+                    fontSize: "var(--text-sm)",
+                    fontWeight: 600,
+                    color: "var(--text)",
+                  }}
+                >
+                  {banner.title}
+                </p>
+                <p
+                  style={{
+                    margin: "2px 0 0",
+                    fontSize: "var(--text-sm)",
+                    color: "var(--text-secondary)",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {banner.body}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
         <section
           style={{
             maxWidth: "1100px",
