@@ -223,12 +223,12 @@ export default function PricingPage({
               tier='Free'
               priceLabel='$0'
               cadence='forever'
-              tagline='See what&rsquo;s broken. Fix it yourself.'
+              tagline='See where you stand. No credit card.'
               features={[
-                "1 saved audit",
-                "GBP, citations, reviews score",
+                "Free local SEO audit",
+                "Dashboard with your score + GBP, citations, reviews",
                 "Competitor names list",
-                "Grid view locked",
+                "Grid rank tracking locked",
                 "All 8 Pro Tools locked (preview only)",
               ]}
               cta={{ label: "Run free audit", href: "/" }}
@@ -703,7 +703,8 @@ function ToolsRail() {
 
 function ComparisonTable() {
   const rows: Array<[string, string, string, string]> = [
-    ["Saved audits", "1", "Unlimited", "Unlimited"],
+    ["Local SEO audit", "✓", "✓ unlimited", "✓ unlimited"],
+    ["Dashboard", "✓", "✓", "✓"],
     ["Locations", "1", "1", "Up to 10"],
     ["All 8 Pro Tools", "—", "✓", "✓"],
     ["Grid rank tracking", "—", "✓", "✓"],
