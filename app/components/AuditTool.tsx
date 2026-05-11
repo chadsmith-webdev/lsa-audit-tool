@@ -75,7 +75,7 @@ export default function AuditTool() {
     e.preventDefault();
     if (!validate()) return;
 
-    let input = { ...form };
+    const input = { ...form };
     if (input.websiteUrl && !/^https?:\/\//.test(input.websiteUrl)) {
       input.websiteUrl = "https://" + input.websiteUrl;
     }

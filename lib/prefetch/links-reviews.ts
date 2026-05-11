@@ -44,8 +44,8 @@ export async function fetchBacklinksData(
       referringDomains: result.referring_domains,
       backlinks: result.backlinks,
     };
-  } catch (err: any) {
-    return { fetchError: err.message };
+  } catch (err) {
+    return { fetchError: err instanceof Error ? err.message : String(err) };
   }
 }
 
@@ -118,17 +118,29 @@ export async function fetchReviewsData(
 
     if (!res.ok) return { reviews: [], fetchError: `HTTP ${res.status}` };
     const data = await res.json();
-    const items: any[] = data?.tasks?.[0]?.result?.[0]?.items ?? [];
+    type RawReview = {
+      rating?: number | { value?: number };
+      time_value?: string;
+      timestamp?: string;
+      owner_answer?: unknown;
+    };
+    const items: RawReview[] = data?.tasks?.[0]?.result?.[0]?.items ?? [];
 
-    const reviews: ReviewItem[] = items.map((item: any) => ({
-      rating: item.rating?.value ?? item.rating,
+    const reviews: ReviewItem[] = items.map((item) => ({
+      rating:
+        typeof item.rating === "object" && item.rating !== null
+          ? (item.rating.value ?? 0)
+          : (item.rating ?? 0),
       date: item.time_value ?? item.timestamp,
       hasOwnerResponse: !!item.owner_answer,
     }));
 
     return { reviews };
-  } catch (err: any) {
-    return { reviews: [], fetchError: err.message };
+  } catch (err) {
+    return {
+      reviews: [],
+      fetchError: err instanceof Error ? err.message : String(err),
+    };
   }
 }
 
@@ -145,10 +157,6 @@ export function formatReviewsBlock(rv: ReviewsData): string {
   const mostRecent = rv.reviews[0]?.date ?? "unknown";
   const avgRating =
     rv.reviews.reduce((sum, r) => sum + (r.rating ?? 0), 0) / rv.reviews.length;
-
-  const recencyNote = rv.reviews[0]?.date
-    ? ` (most recent: ${rv.reviews[0].date})`
-    : "";
 
   return `REVIEWS_DATA (last ${rv.reviews.length} Google reviews, newest first):
   Most recent review: ${mostRecent}

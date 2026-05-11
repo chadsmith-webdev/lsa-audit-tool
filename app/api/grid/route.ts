@@ -4,7 +4,8 @@ import { createServerClient } from "@/lib/supabase";
 import { getSupabase } from "@/lib/supabase";
 import { buildGrid } from "@/lib/grid";
 
-const DATAFORSEO_API = "https://api.dataforseo.com/v3/serp/google/maps/live/advanced";
+const DATAFORSEO_API =
+  "https://api.dataforseo.com/v3/serp/google/maps/live/advanced";
 const GRID_SIZE = 5;
 const RADIUS_MILES = 1;
 // DataForSEO expects radius in kilometres for location_coordinate
@@ -49,18 +50,22 @@ async function checkRankAtPoint(
   }
 
   const data = await res.json();
-  const items: any[] =
-    data?.tasks?.[0]?.result?.[0]?.items ?? [];
+  type RawMapsItem = {
+    title?: string;
+    rank_absolute?: number | null;
+  };
+  const items: RawMapsItem[] = data?.tasks?.[0]?.result?.[0]?.items ?? [];
 
-  const competitors = items.slice(0, 5).map((item: any) => ({
+  const competitors = items.slice(0, 5).map((item) => ({
     title: item.title ?? "",
     rank: item.rank_absolute ?? null,
   }));
 
   const normalizedTarget = businessName.toLowerCase().trim();
-  const match = items.find((item: any) =>
-    (item.title ?? "").toLowerCase().includes(normalizedTarget) ||
-    normalizedTarget.includes((item.title ?? "").toLowerCase()),
+  const match = items.find(
+    (item) =>
+      (item.title ?? "").toLowerCase().includes(normalizedTarget) ||
+      normalizedTarget.includes((item.title ?? "").toLowerCase()),
   );
 
   const rank = match ? (match.rank_absolute ?? null) : null;
@@ -72,7 +77,9 @@ export async function POST(request: NextRequest) {
   // Auth check
   const cookieStore = await cookies();
   const supabase = createServerClient(cookieStore);
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -83,14 +90,20 @@ export async function POST(request: NextRequest) {
 
   if (!keyword || !businessName || centerLat == null || centerLng == null) {
     return NextResponse.json(
-      { error: "Missing required fields: keyword, businessName, centerLat, centerLng" },
+      {
+        error:
+          "Missing required fields: keyword, businessName, centerLat, centerLng",
+      },
       { status: 400 },
     );
   }
 
   const apiKey = process.env.DATAFORSEO_API_KEY;
   if (!apiKey) {
-    return NextResponse.json({ error: "DataForSEO API key not configured" }, { status: 500 });
+    return NextResponse.json(
+      { error: "DataForSEO API key not configured" },
+      { status: 500 },
+    );
   }
 
   const db = getSupabase();
@@ -113,14 +126,24 @@ export async function POST(request: NextRequest) {
 
   if (scanErr || !scan) {
     console.error("[grid] scan insert error:", scanErr?.message);
-    return NextResponse.json({ error: "Failed to create scan" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to create scan" },
+      { status: 500 },
+    );
   }
 
   const scanId = scan.id;
   const points = buildGrid(centerLat, centerLng, RADIUS_MILES, GRID_SIZE);
 
   // Process in batches to respect rate limits
-  const results: { scan_id: string; point_index: number; lat: number; lng: number; rank: number | null; competitors: object }[] = [];
+  const results: {
+    scan_id: string;
+    point_index: number;
+    lat: number;
+    lng: number;
+    rank: number | null;
+    competitors: object;
+  }[] = [];
 
   for (let i = 0; i < points.length; i += BATCH_SIZE) {
     const batch = points.slice(i, i + BATCH_SIZE);
@@ -157,7 +180,10 @@ export async function POST(request: NextRequest) {
 
   if (resultsErr) {
     console.error("[grid] results insert error:", resultsErr.message);
-    return NextResponse.json({ error: "Failed to save results" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to save results" },
+      { status: 500 },
+    );
   }
 
   return NextResponse.json({ scanId, results });
@@ -167,7 +193,9 @@ export async function GET(request: NextRequest) {
   // Auth check
   const cookieStore = await cookies();
   const supabase = createServerClient(cookieStore);
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -203,14 +231,19 @@ export async function GET(request: NextRequest) {
   // List all scans for this user
   const { data: scans, error } = await db
     .from("grid_scans")
-    .select("id, business_name, keyword, center_lat, center_lng, radius_miles, grid_size, created_at, audit_id")
+    .select(
+      "id, business_name, keyword, center_lat, center_lng, radius_miles, grid_size, created_at, audit_id",
+    )
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
     .limit(50);
 
   if (error) {
     console.error("[grid] list scans error:", error.message);
-    return NextResponse.json({ error: "Failed to fetch scans" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch scans" },
+      { status: 500 },
+    );
   }
 
   return NextResponse.json({ scans: scans ?? [] });

@@ -186,7 +186,7 @@ export default function AiCitabilityBooster({
                 marginBottom: "var(--space-3)",
               }}
             >
-              Add these as visible Q&amp;A on your page. Schema alone isn't
+              Add these as visible Q&amp;A on your page. Schema alone isn&apos;t
               enough — AI assistants prefer answers that are also human-readable
               on the page.
             </p>

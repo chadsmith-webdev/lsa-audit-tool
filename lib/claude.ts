@@ -1,6 +1,10 @@
 // lib/claude.ts — Anthropic API call wrapper for audit generation
 
-import { SYSTEM_PROMPT, buildAuditPrompt, parseAuditResult } from "@/lib/audit-helpers";
+import {
+  SYSTEM_PROMPT,
+  buildAuditPrompt,
+  parseAuditResult,
+} from "@/lib/audit-helpers";
 import type {
   AICitabilitySignals,
   BacklinksData,
@@ -54,21 +58,24 @@ export async function callClaude(
       throw new Error(`Anthropic API error ${response.status}: ${details}`);
     }
 
-    const data = await response.json();
-    const textBlocks = (data.content as any[]).filter(
-      (b: any) => b.type === "text",
-    );
+    const data = (await response.json()) as {
+      content?: Array<{ type: string; text?: string }>;
+    };
+    const textBlocks = (data.content ?? []).filter((b) => b.type === "text");
     const textBlock = textBlocks[textBlocks.length - 1];
-    if (!textBlock) throw new Error("No text block in Anthropic response");
+    if (!textBlock || !textBlock.text) {
+      throw new Error("No text block in Anthropic response");
+    }
     return parseAuditResult(textBlock.text);
   }
 
   try {
     return await attempt(buildAuditPrompt(input, prefetch));
-  } catch (err: any) {
+  } catch (err) {
     if (err instanceof SyntaxError) {
       return await attempt(
-        buildAuditPrompt(input, prefetch) + "\n\nReturn ONLY JSON, no other text.",
+        buildAuditPrompt(input, prefetch) +
+          "\n\nReturn ONLY JSON, no other text.",
       );
     }
     throw err;

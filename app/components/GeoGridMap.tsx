@@ -51,9 +51,11 @@ export default function GeoGridMap({
       // @ts-expect-error _getIconUrl is not in types
       delete L.Icon.Default.prototype._getIconUrl;
       L.Icon.Default.mergeOptions({
-        iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+        iconRetinaUrl:
+          "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
         iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-        shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+        shadowUrl:
+          "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
       });
 
       const container = document.getElementById(containerId);
@@ -76,7 +78,8 @@ export default function GeoGridMap({
 
       // OpenStreetMap tiles — free, no API key
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        attribution:
+          '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         maxZoom: 19,
       }).addTo(map);
 
@@ -116,7 +119,9 @@ export default function GeoGridMap({
           iconAnchor: [18, 18],
         });
 
-        const label = L.marker([point.lat, point.lng], { icon, interactive: false }).addTo(map);
+        L.marker([point.lat, point.lng], { icon, interactive: false }).addTo(
+          map,
+        );
 
         // Delta badge
         const delta = deltas[point.point_index] ?? null;
@@ -134,7 +139,10 @@ export default function GeoGridMap({
             iconSize: [24, 12],
             iconAnchor: [-8, 18],
           });
-          L.marker([point.lat, point.lng], { icon: deltaIcon, interactive: false }).addTo(map);
+          L.marker([point.lat, point.lng], {
+            icon: deltaIcon,
+            interactive: false,
+          }).addTo(map);
         }
 
         // Hover interaction on the ring marker
@@ -165,7 +173,7 @@ export default function GeoGridMap({
             [Math.min(...lats) - 0.003, Math.min(...lngs) - 0.003],
             [Math.max(...lats) + 0.003, Math.max(...lngs) + 0.003],
           ],
-          { animate: false }
+          { animate: false },
         );
       }
     }
@@ -200,9 +208,9 @@ export default function GeoGridMap({
     <>
       {/* Leaflet CSS */}
       <link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        crossOrigin=""
+        rel='stylesheet'
+        href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
+        crossOrigin=''
       />
       <div
         id={containerId}

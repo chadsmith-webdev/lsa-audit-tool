@@ -9,6 +9,8 @@ export interface GBPData {
   hasHours?: boolean;
   phone?: string;
   address?: string;
+  /** True when the Places API photo array hit its 10-item cap. */
+  photoAtCap?: boolean;
 }
 
 export interface PageSpeedData {
@@ -108,7 +110,7 @@ export async function fetchGBPData(
       phone: place.nationalPhoneNumber,
       address: place.formattedAddress,
       ...(photoAtCap ? { photoAtCap: true } : {}),
-    } as GBPData & { photoAtCap?: boolean };
+    };
   } catch {
     return { found: false };
   }
@@ -160,8 +162,8 @@ export async function fetchPageSpeedData(
       : undefined;
 
     return { lcp, inp, cls, mobileScore };
-  } catch (err: any) {
-    return { fetchError: err.message };
+  } catch (err) {
+    return { fetchError: err instanceof Error ? err.message : String(err) };
   }
 }
 
@@ -170,7 +172,7 @@ export function formatGBPBlock(gbp: GBPData): string {
     return "GBP_EXISTS: UNCONFIRMED — the Google Places API returned no match for this business name and city. This may be a name mismatch, not a missing profile. Use web search to verify. If you find the business in Google Maps or the local pack, score gbp based on what you find and note the discrepancy. Only score as red if web search also confirms no profile exists.";
   }
 
-  const photoAtCap = (gbp as any).photoAtCap;
+  const photoAtCap = gbp.photoAtCap;
   const photoStr = photoAtCap
     ? "10+ (API maximum returned)"
     : `${gbp.photoCount ?? "unknown"} ${(gbp.photoCount ?? 0) < 10 ? "— CRITICAL: under 10 photos" : ""}`;

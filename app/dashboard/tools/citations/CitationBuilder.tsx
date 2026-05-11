@@ -414,8 +414,8 @@ function DescriptionsBlock({ descriptions }: { descriptions: Descriptions }) {
           marginBottom: "var(--space-3)",
         }}
       >
-        Pick the version that fits each directory's character limit (shown on
-        each row below).
+        Pick the version that fits each directory&apos;s character limit (shown
+        on each row below).
       </p>
       <div style={{ display: "grid", gap: "var(--space-3)" }}>
         {items.map(({ key, label, cap }) => {

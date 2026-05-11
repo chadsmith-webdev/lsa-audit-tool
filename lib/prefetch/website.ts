@@ -42,17 +42,27 @@ function stripTags(html: string): string {
     .trim();
 }
 
-function extractJsonLdBlocks(html: string): any[] {
-  const blocks: any[] = [];
+type JsonLdBlock = Record<string, unknown>;
+
+function extractJsonLdBlocks(html: string): JsonLdBlock[] {
+  const blocks: JsonLdBlock[] = [];
   const re =
     /<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
   let match: RegExpExecArray | null;
   while ((match = re.exec(html)) !== null) {
     try {
-      const parsed = JSON.parse(match[1]);
-      if (Array.isArray(parsed)) blocks.push(...parsed);
-      else if (parsed["@graph"]) blocks.push(...parsed["@graph"]);
-      else blocks.push(parsed);
+      const parsed: unknown = JSON.parse(match[1]);
+      if (Array.isArray(parsed)) {
+        blocks.push(...(parsed as JsonLdBlock[]));
+      } else if (
+        parsed &&
+        typeof parsed === "object" &&
+        Array.isArray((parsed as JsonLdBlock)["@graph"])
+      ) {
+        blocks.push(...((parsed as JsonLdBlock)["@graph"] as JsonLdBlock[]));
+      } else if (parsed && typeof parsed === "object") {
+        blocks.push(parsed as JsonLdBlock);
+      }
     } catch {
       /* skip malformed */
     }
@@ -86,7 +96,7 @@ export async function fetchWebsiteData(
     }
     const full = await res.text();
     html = full.slice(0, 250_000); // 250KB covers <head> on any real site
-  } catch (err: any) {
+  } catch (err) {
     return {
       h2s: [],
       hasLocalBusinessSchema: false,
@@ -95,7 +105,7 @@ export async function fetchWebsiteData(
       schemaMissingFields: SCHEMA_FIELDS,
       isHttps,
       hasSitemap: false,
-      fetchError: err.message,
+      fetchError: err instanceof Error ? err.message : String(err),
     };
   }
 
@@ -128,11 +138,18 @@ export async function fetchWebsiteData(
 
   // JSON-LD schema
   const blocks = extractJsonLdBlocks(html);
-  const localBizBlocks = blocks.filter((b) =>
-    LOCAL_BUSINESS_TYPES.has(b["@type"]),
-  );
+  const localBizBlocks = blocks.filter((b) => {
+    const t = b["@type"];
+    return typeof t === "string" && LOCAL_BUSINESS_TYPES.has(t);
+  });
   const hasLocalBusinessSchema = localBizBlocks.length > 0;
-  const schemaTypes = Array.from(new Set(localBizBlocks.map((b) => b["@type"])));
+  const schemaTypes = Array.from(
+    new Set(
+      localBizBlocks
+        .map((b) => b["@type"])
+        .filter((t): t is string => typeof t === "string"),
+    ),
+  );
 
   const schemaPresentFields: string[] = [];
   const schemaMissingFields: string[] = [];

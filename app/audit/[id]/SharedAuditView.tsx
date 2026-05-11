@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import styles from "@/styles/audit.module.css";
 import type { AuditRow } from "@/lib/types";
 import {
@@ -67,9 +68,9 @@ export default function SharedAuditView({ audit }: { audit: AuditRow }) {
           <p className={styles.sharedCtaText}>
             Want results like this for your business?
           </p>
-          <a href='/' className='btn btn-primary'>
+          <Link href='/' className='btn btn-primary'>
             Run Your Free Audit →
-          </a>
+          </Link>
         </div>
       </div>
     </div>

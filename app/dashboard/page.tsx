@@ -98,8 +98,6 @@ export default async function DashboardPage({
     created_at: string;
   }[];
   const latestBusiness = rows[0]?.business_name ?? "";
-  const latestTrade = rows[0]?.trade ?? "";
-  const latestCity = rows[0]?.city ?? "";
   const latestGBP = rows[0]
     ? {
         found: rows[0].gbp_found ?? false,
@@ -327,12 +325,12 @@ export default async function DashboardPage({
                 year: "numeric",
               })}
               {" · "}
-              <a
+              <Link
                 href='/'
                 style={{ color: "var(--carolina)", textDecoration: "none" }}
               >
                 Run new audit →
-              </a>
+              </Link>
             </p>
           )}
         </div>

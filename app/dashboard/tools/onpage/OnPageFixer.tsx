@@ -70,8 +70,8 @@ export default function OnPageFixer({ auditId, defaultUrl }: Props) {
           style={{ color: "var(--text-secondary)", margin: 0 }}
         >
           AI-rewritten title, meta description, and H1 ready to paste into your
-          CMS. We fetch your live page so suggestions improve what's already
-          there.
+          CMS. We fetch your live page so suggestions improve what&apos;s
+          already there.
         </p>
       </header>
 
@@ -202,7 +202,7 @@ export default function OnPageFixer({ auditId, defaultUrl }: Props) {
                 marginBottom: "var(--space-4)",
               }}
             >
-              Couldn't fetch the live page ({data.current.fetchError}).
+              Couldn&apos;t fetch the live page ({data.current.fetchError}).
               Suggestions are generated from scratch — double-check them against
               your CMS before publishing.
             </p>

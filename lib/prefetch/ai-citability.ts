@@ -23,9 +23,29 @@ function normalisePhone(raw: string | undefined): string {
 function extractServiceKeywords(name: string | undefined): string[] {
   if (!name) return [];
   const stops = new Set([
-    "the", "and", "of", "in", "at", "by", "for", "a", "an", "&",
-    "llc", "inc", "co", "company", "services", "service", "solutions",
-    "group", "team", "pros", "pro", "home", "local",
+    "the",
+    "and",
+    "of",
+    "in",
+    "at",
+    "by",
+    "for",
+    "a",
+    "an",
+    "&",
+    "llc",
+    "inc",
+    "co",
+    "company",
+    "services",
+    "service",
+    "solutions",
+    "group",
+    "team",
+    "pros",
+    "pro",
+    "home",
+    "local",
   ]);
   return name
     .toLowerCase()
@@ -70,7 +90,11 @@ export function computeAICitabilitySignals(
   // ── Grounding: service keyword presence on website ──────────────────────
   const keywords = extractServiceKeywords(gbp.name);
   if (keywords.length > 0 && website) {
-    const webText = [website.title ?? "", website.h1 ?? "", ...(website.h2s ?? [])]
+    const webText = [
+      website.title ?? "",
+      website.h1 ?? "",
+      ...(website.h2s ?? []),
+    ]
       .join(" ")
       .toLowerCase();
 
@@ -101,7 +125,7 @@ export function computeAICitabilitySignals(
     checksTotal > 0 ? Math.round((checksPassed / checksTotal) * 100) : 0;
 
   // ── Photo freshness pulse ───────────────────────────────────────────────
-  const photoAtCap = (gbp as any).photoAtCap as boolean | undefined;
+  const photoAtCap = gbp.photoAtCap;
   const photoCount = gbp.photoCount ?? 0;
   const photoFreshnessPulse: AICitabilitySignals["photoFreshnessPulse"] =
     !gbp.found

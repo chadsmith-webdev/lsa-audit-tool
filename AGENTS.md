@@ -12,7 +12,7 @@ local SEO auditor for NWA contractors.
 Key rules:
 
 - All API routes live in app/api/
-- Brand tokens are defined in lib/tokens.ts — always import from there
+- Brand tokens are defined as CSS custom properties in app/globals.css — consume via `var(--carolina)`, `var(--font-ui)`, etc. Never hardcode hex values or font names.
 - The Anthropic API key is accessed via process.env.ANTHROPIC_API_KEY
 - Never use the Pages Router — App Router only
 

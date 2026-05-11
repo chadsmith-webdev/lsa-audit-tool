@@ -40,10 +40,11 @@ export async function fetchSerperData(
     if (!res.ok) return { results: [], fetchError: `HTTP ${res.status}` };
 
     const data = await res.json();
-    const raw: any[] = data.localResults ?? data.places ?? [];
+    type RawSerperResult = Partial<SerperLocalResult>;
+    const raw: RawSerperResult[] = data.localResults ?? data.places ?? [];
 
-    const results: SerperLocalResult[] = raw.slice(0, 5).map((r: any) => ({
-      title: r.title,
+    const results: SerperLocalResult[] = raw.slice(0, 5).map((r) => ({
+      title: r.title ?? "",
       address: r.address,
       rating: r.rating,
       ratingCount: r.ratingCount,
@@ -53,8 +54,11 @@ export async function fetchSerperData(
     }));
 
     return { results };
-  } catch (err: any) {
-    return { results: [], fetchError: err.message };
+  } catch (err) {
+    return {
+      results: [],
+      fetchError: err instanceof Error ? err.message : String(err),
+    };
   }
 }
 

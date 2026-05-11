@@ -30,18 +30,22 @@ export default function GbpFixList({
   auditId: string;
 }) {
   const storageKey = `gbp-fixes-completed:${auditId}`;
-  const [done, setDone] = useState<Set<string>>(new Set());
-  const [hydrated, setHydrated] = useState(false);
-
-  useEffect(() => {
+  const [done, setDone] = useState<Set<string>>(() => {
+    if (typeof window === "undefined") return new Set();
     try {
-      const raw = localStorage.getItem(storageKey);
-      if (raw) setDone(new Set(JSON.parse(raw) as string[]));
+      const raw = window.localStorage.getItem(storageKey);
+      if (raw) return new Set(JSON.parse(raw) as string[]);
     } catch {
       // ignore — quota or parse errors fall back to empty set
     }
+    return new Set();
+  });
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-shot hydration flag to gate progress UI until client mount
     setHydrated(true);
-  }, [storageKey]);
+  }, []);
 
   function toggle(id: string) {
     setDone((prev) => {

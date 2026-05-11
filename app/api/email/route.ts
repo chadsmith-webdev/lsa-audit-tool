@@ -1,6 +1,6 @@
 import { Resend } from "resend";
-import { renderToBuffer } from "@react-pdf/renderer";
-import { createElement } from "react";
+import { renderToBuffer, type DocumentProps } from "@react-pdf/renderer";
+import { createElement, type ReactElement } from "react";
 import { AuditPdf } from "@/lib/AuditPdf";
 import { getSupabase } from "@/lib/supabase";
 import { ratelimit } from "@/lib/ratelimit";
@@ -119,13 +119,12 @@ export async function POST(req: Request) {
         .single();
 
       if (auditRow?.result) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const pdfElement = createElement(AuditPdf, {
           result: auditRow.result,
           trade,
           city,
           calendlyUrl,
-        }) as any;
+        }) as unknown as ReactElement<DocumentProps>;
         const pdfBuffer = await renderToBuffer(pdfElement);
         pdfAttachment = {
           filename: `local-seo-audit-${businessName.toLowerCase().replace(/\s+/g, "-")}.pdf`,
@@ -165,10 +164,11 @@ export async function POST(req: Request) {
       ...(pdfAttachment ? { attachments: [pdfAttachment] } : {}),
     });
     console.log("Resend send result:", sendResult);
-  } catch (err: any) {
-    console.error("Resend error:", err.message || err);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("Resend error:", msg);
     return Response.json(
-      { error: "Failed to send email: " + (err.message || "Unknown error") },
+      { error: "Failed to send email: " + msg },
       { status: 500 },
     );
   }
@@ -661,7 +661,6 @@ function buildDripDay9Html({
 // ─── Day 14: Objection handler ────────────────────────────────────────────────
 
 function buildDripDay14Html({
-  businessName,
   trade,
   calendlyUrl,
   unsubscribeUrl,

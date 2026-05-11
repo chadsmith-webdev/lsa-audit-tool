@@ -9,7 +9,6 @@ import {
   fetchSerperData,
   fetchWebsiteData,
   computeAICitabilitySignals,
-  type AICitabilitySignals,
   type BacklinksData,
   type GBPData,
   type PageSpeedData,
@@ -20,12 +19,7 @@ import {
 import { ratelimit } from "@/lib/ratelimit";
 import { sanitizeString, sanitizeUrl } from "@/lib/audit-helpers";
 import { callClaude } from "@/lib/claude";
-import type {
-  AuditInput,
-  AuditResult,
-  AuditSection,
-  AICitabilitySection,
-} from "@/lib/types";
+import type { AuditInput, AuditResult } from "@/lib/types";
 
 export const maxDuration = 120;
 
@@ -39,13 +33,17 @@ async function notifyEmail(
   if (!apiKey || !toEmail) return;
 
   // Skip notification for obvious test/spam submissions
-  const SPAM_PATTERNS = /\b(test|testing|asdf|qwerty|foo|bar|baz|example|sample|lorem|dummy|fake)\b/i;
+  const SPAM_PATTERNS =
+    /\b(test|testing|asdf|qwerty|foo|bar|baz|example|sample|lorem|dummy|fake)\b/i;
   if (
     SPAM_PATTERNS.test(input.businessName) ||
     SPAM_PATTERNS.test(input.serviceCity) ||
     input.businessName.trim().length < 4
   ) {
-    console.log("Skipping notify email — looks like a test submission:", input.businessName);
+    console.log(
+      "Skipping notify email — looks like a test submission:",
+      input.businessName,
+    );
     return;
   }
 
@@ -179,19 +177,23 @@ export async function POST(req: Request) {
       {
         cookies: {
           getAll() {
-            return req.headers
-              .get("cookie")
-              ?.split(";")
-              .map((c) => {
-                const [name, ...rest] = c.trim().split("=");
-                return { name: name.trim(), value: rest.join("=") };
-              }) ?? [];
+            return (
+              req.headers
+                .get("cookie")
+                ?.split(";")
+                .map((c) => {
+                  const [name, ...rest] = c.trim().split("=");
+                  return { name: name.trim(), value: rest.join("=") };
+                }) ?? []
+            );
           },
           setAll() {},
         },
       },
     );
-    const { data: { user: sessionUser } } = await anonClient.auth.getUser();
+    const {
+      data: { user: sessionUser },
+    } = await anonClient.auth.getUser();
     resolvedUserId = sessionUser?.id ?? null;
     if (resolvedUserId) {
       rateLimitKey = `user:${resolvedUserId}`;
@@ -255,7 +257,8 @@ export async function POST(req: Request) {
             .eq("input->>businessName", input.businessName)
             .gte("created_at", new Date(Date.now() - 86_400_000).toISOString())
             .maybeSingle();
-          if (cacheErr) console.error("Supabase cache lookup failed:", cacheErr);
+          if (cacheErr)
+            console.error("Supabase cache lookup failed:", cacheErr);
 
           if (cached && cached.result?.ai_citability_section) {
             const cachedResult: AuditResult = cached.result;
@@ -274,7 +277,9 @@ export async function POST(req: Request) {
         }
 
         // --- Pre-fetch all signals in parallel (failures degrade per-block) ---
-        send("status", { message: "Pulling your Google listing, reviews, and site data…" });
+        send("status", {
+          message: "Pulling your Google listing, reviews, and site data…",
+        });
         const failedBlocks = new Set<string>();
         const tag =
           <T>(key: string, fallback: T) =>
@@ -374,8 +379,12 @@ export async function POST(req: Request) {
               user_id: userId,
               // Raw GBP snapshot — stored separately for dashboard widgets
               gbp_rating: gbpData.found ? (gbpData.rating ?? null) : null,
-              gbp_review_count: gbpData.found ? (gbpData.reviewCount ?? null) : null,
-              gbp_photo_count: gbpData.found ? (gbpData.photoCount ?? null) : null,
+              gbp_review_count: gbpData.found
+                ? (gbpData.reviewCount ?? null)
+                : null,
+              gbp_photo_count: gbpData.found
+                ? (gbpData.photoCount ?? null)
+                : null,
               gbp_has_hours: gbpData.found ? (gbpData.hasHours ?? null) : null,
               gbp_found: gbpData.found,
             })
@@ -387,21 +396,23 @@ export async function POST(req: Request) {
           console.error("Supabase insert exception:", dbEx);
         }
 
-        // --- Slack notification (before complete so it fires before client can navigate away) ---
+        // --- Email notification (before complete so it fires before client can navigate away) ---
         await notifyEmail(result, input, auditId).catch((e) =>
-          console.error("Slack notify failed:", e),
+          console.error("Email notify failed:", e),
         );
 
         send("complete", { ...result, auditId });
-      } catch (err: any) {
+      } catch (err) {
         clearTimeout(timer);
-        if (err.name === "AbortError") {
+        if (err instanceof Error && err.name === "AbortError") {
           send("error", {
             message:
               "The audit took too long — try again, it usually completes.",
           });
         } else {
-          send("error", { message: err.message ?? "Unknown error" });
+          send("error", {
+            message: err instanceof Error ? err.message : "Unknown error",
+          });
         }
       } finally {
         controller.close();

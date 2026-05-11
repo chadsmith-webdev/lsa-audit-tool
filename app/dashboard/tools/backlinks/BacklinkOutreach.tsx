@@ -110,7 +110,7 @@ export default function BacklinkOutreach({ auditId }: { auditId: string }) {
           >
             For each category, search Google for the examples below in{" "}
             {data.business.city}. Look for a Contact / Sponsorship / Partner
-            page — that's where to pitch.
+            page — that&apos;s where to pitch.
           </p>
           <div
             style={{
