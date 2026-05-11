@@ -328,6 +328,26 @@ export async function POST(req: Request) {
           "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
         },
       })
+      .then(async (res) => {
+        // Persist the Resend id so we can cancel the send if the lead
+        // converts before this drip fires. See lib/cancel-drips.ts.
+        const resendId = res?.data?.id;
+        if (!resendId) return;
+        try {
+          await getSupabase().from("scheduled_drips").insert({
+            email,
+            audit_id: auditId,
+            resend_id: resendId,
+            subject: drip.subject,
+            scheduled_at: scheduledAt,
+          });
+        } catch (err) {
+          console.error(
+            `Drip day-${drip.daysOut} persist failed (non-fatal):`,
+            err,
+          );
+        }
+      })
       .catch((err) =>
         console.error(`Drip day-${drip.daysOut} schedule failed:`, err),
       );
@@ -599,21 +619,21 @@ function buildDripDay2Html({
 // ─── Day 5: Why the Map Pack matters ─────────────────────────────────────────
 
 const TRADE_STATS: Record<string, string> = {
-  HVAC: "HVAC contractors in the Google Map Pack receive 3× more calls than those ranking below it — BrightLocal, 2024.",
+  HVAC: "HVAC contractors in the Google Map Pack receive roughly 3× more calls than those ranking below it. (BrightLocal)",
   Plumbing:
-    "Plumbers in the Map Pack get 2.7× more quote requests than those on page 2 — BrightLocal, 2024.",
+    "Plumbers in the Map Pack get about 2.7× more quote requests than those on page 2. (BrightLocal)",
   Electrical:
-    "Electricians ranking in the top 3 local results capture 68% of all local service clicks — BrightLocal, 2024.",
+    "Electricians ranking in the top 3 local results capture roughly 68% of all local-service clicks. (BrightLocal)",
   Roofing:
-    "Roofing contractors in the Map Pack close 40% more storm-season leads than unlisted competitors — BrightLocal, 2024.",
+    "Roofing contractors in the Map Pack close around 40% more storm-season leads than unlisted competitors. (BrightLocal)",
   Landscaping:
-    "Landscaping companies in the top 3 local spots get 3× more seasonal inquiry volume — BrightLocal, 2024.",
+    "Landscaping companies in the top 3 local spots get roughly 3× more seasonal inquiries. (BrightLocal)",
   Remodeling:
-    "Remodelers with complete GBP profiles get 520% more direction requests than incomplete listings — Google, 2024.",
+    "Remodelers with complete GBP profiles receive up to 520% more direction requests than incomplete listings. (Google)",
   "General Contracting":
-    "General contractors listed in the Map Pack receive 2.8× more project quote requests — BrightLocal, 2024.",
+    "General contractors listed in the Map Pack receive roughly 2.8× more project quote requests. (BrightLocal)",
   Other:
-    "Local service businesses in the Google Map Pack receive on average 2.5× more calls than those outside it — BrightLocal, 2024.",
+    "Local service businesses in the Google Map Pack receive on average ~2.5× more calls than those outside it. (BrightLocal)",
 };
 
 function buildDripDay5Html({

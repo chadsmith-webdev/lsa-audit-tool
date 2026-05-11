@@ -6,6 +6,7 @@ import {
   verifyWebhookSignature,
   type PayPalSubscription,
 } from "@/lib/paypal";
+import { cancelPendingDrips } from "@/lib/cancel-drips";
 
 /**
  * PayPal Subscriptions webhook receiver.
@@ -163,6 +164,14 @@ async function processEvent(event: PaypalWebhookEvent) {
           current_period_end: sub.billing_info?.next_billing_time ?? null,
         })
         .eq("paypal_subscription_id", subscriptionId);
+
+      // Conversion: cancel pending audit drips so we stop pitching the
+      // trial after they've already started one. Fire-and-forget.
+      if (status === "trialing" || status === "active") {
+        cancelDripsForSubscription(subscriptionId).catch((err) =>
+          console.error("cancelDripsForSubscription failed:", err),
+        );
+      }
       return;
     }
 
@@ -214,4 +223,28 @@ async function processEvent(event: PaypalWebhookEvent) {
       // Unhandled event types are logged but don't fail.
       return;
   }
+}
+
+/**
+ * Look up the user_id on a subscription row, resolve their auth email,
+ * and cancel any pending audit drips for that address. Used when a
+ * subscription transitions to trialing/active so we stop emailing them
+ * "start a free trial" CTAs after they've already started one.
+ */
+async function cancelDripsForSubscription(
+  paypalSubscriptionId: string,
+): Promise<void> {
+  const db = getSupabase();
+  const { data: subRow } = await db
+    .from("subscriptions")
+    .select("user_id")
+    .eq("paypal_subscription_id", paypalSubscriptionId)
+    .maybeSingle();
+  if (!subRow?.user_id) return;
+
+  const { data: userRes } = await db.auth.admin.getUserById(subRow.user_id);
+  const email = userRes?.user?.email;
+  if (!email) return;
+
+  await cancelPendingDrips(email);
 }

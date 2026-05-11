@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createServerClient, getSupabase } from "@/lib/supabase";
 import { fetchSubscription } from "@/lib/paypal";
+import { cancelPendingDrips } from "@/lib/cancel-drips";
 
 /**
  * PayPal redirects here after the user approves a subscription.
@@ -53,6 +54,15 @@ export async function GET(req: Request) {
         early_adopter: billing === "annual",
       })
       .eq("user_id", user.id);
+
+    // Lead just converted — cancel any pending audit drips for this email
+    // so they don't keep getting "start a free trial" follow-ups after
+    // they've already started one. Best-effort, non-blocking.
+    if (user.email) {
+      cancelPendingDrips(user.email).catch((err) =>
+        console.error("cancelPendingDrips (return) failed:", err),
+      );
+    }
   } catch {
     // Webhook will reconcile this — don't block the user.
   }
