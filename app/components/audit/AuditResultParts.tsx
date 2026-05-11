@@ -725,12 +725,14 @@ export function SaveAndMonitorCard({
     <div className={styles.emailCard}>
       <div className={styles.emailCardInner}>
         <h3 className={styles.emailCardTitle}>
-          Track this score every 30 days.
+          Get your free monitoring dashboard.
         </h3>
         <p className={styles.emailCardSub}>
-          Save this audit to a free dashboard so you can see what changes —
-          rankings, reviews, citations, AI visibility — over time. No password,
-          just a sign-in link by email.
+          Save <strong>{businessName}</strong> to a free dashboard and watch
+          your score move. Track rankings on a geo-grid heatmap, monitor reviews
+          and citations, see when AI assistants start citing you, and re-run
+          this audit any time — all in one place. No password, just a sign-in
+          link by email.
         </p>
         <form onSubmit={handleSubmit} className={styles.emailForm} noValidate>
           <input

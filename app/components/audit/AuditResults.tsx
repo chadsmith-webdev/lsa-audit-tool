@@ -1,9 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import styles from "@/styles/audit.module.css";
 import type { AuditInput, AuditResult } from "@/lib/types";
 import { fadeUp, stagger } from "./motionVariants";
+import { createBrowserClient } from "@/lib/supabase";
 import {
   CopyLinkButton,
   ScoreGauge,
@@ -29,6 +31,26 @@ export function AuditResults({
   input: AuditInput;
   onRunAgain: () => void;
 }) {
+  const [isAuthed, setIsAuthed] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const supabase = createBrowserClient();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (!cancelled) setIsAuthed(!!user);
+      } catch {
+        /* ignore */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <motion.div
       className={styles.resultsWrap}
@@ -111,9 +133,16 @@ export function AuditResults({
           <p className={styles.reauditText}>
             Want to test a different business or location?
           </p>
-          <button onClick={onRunAgain} className='btn btn-secondary btn-sm'>
-            Run Another Audit
-          </button>
+          <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+            {isAuthed && (
+              <a href='/dashboard' className='btn btn-secondary btn-sm'>
+                ← Back to Dashboard
+              </a>
+            )}
+            <button onClick={onRunAgain} className='btn btn-secondary btn-sm'>
+              Run Another Audit
+            </button>
+          </div>
         </motion.div>
       </div>
     </motion.div>

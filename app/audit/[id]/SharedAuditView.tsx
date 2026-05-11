@@ -66,10 +66,11 @@ export default function SharedAuditView({ audit }: { audit: AuditRow }) {
         {/* CTA */}
         <div className={styles.sharedCta}>
           <p className={styles.sharedCtaText}>
-            Want results like this for your business?
+            Want results like this for your business — plus a free dashboard to
+            track your score, rankings, and reviews over time?
           </p>
           <Link href='/' className='btn btn-primary'>
-            Run Your Free Audit →
+            Get My Free Audit + Dashboard →
           </Link>
         </div>
       </div>
