@@ -864,6 +864,11 @@
   padding: 20px 24px;
 }
 
+.dfyCardCritical {
+  border-color: rgba(255, 77, 77, 0.3);
+  background: rgba(255, 77, 77, 0.04);
+}
+
 .dfyInner {
   display: flex;
   align-items: center;

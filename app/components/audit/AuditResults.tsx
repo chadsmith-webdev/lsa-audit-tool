@@ -124,31 +124,47 @@ export function AuditResults({
           />
         </motion.div>
 
-        {/* Done-for-you upsell */}
+        {/* Done-for-you upsell — copy and urgency vary by score */}
         <motion.div
-          className={styles.dfyCard}
+          className={`${styles.dfyCard} ${result.overall_label === "Critical" ? styles.dfyCardCritical : ""}`}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.75, duration: 0.45, ease: "easeOut" }}
         >
           <div className={styles.dfyInner}>
             <div className={styles.dfyText}>
-              <p className={styles.dfyHeading}>
-                Rather have someone fix this for you?
-              </p>
-              <p className={styles.dfySub}>
-                I work with NWA home service trades directly — no contracts, no
-                hand-offs to a team you&apos;ve never met. Starting at $497/month.
-              </p>
+              {result.overall_label === "Critical" ? (
+                <>
+                  <p className={styles.dfyHeading}>
+                    You&apos;re invisible right now — and your competitors aren&apos;t.
+                  </p>
+                  <p className={styles.dfySub}>
+                    A Critical score means customers searching for your trade in{" "}
+                    {input.serviceCity} aren&apos;t finding you. I work directly with NWA
+                    home service trades to fix exactly this — no contracts, no hand-offs
+                    to a team you&apos;ve never met.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className={styles.dfyHeading}>
+                    Rather have someone fix this for you?
+                  </p>
+                  <p className={styles.dfySub}>
+                    I work with NWA home service trades directly — no contracts, no
+                    hand-offs to a team you&apos;ve never met. Starting at $497/month.
+                  </p>
+                </>
+              )}
             </div>
             <a
-              href="https://localsearchally.com/contact?utm_source=audit-tool&utm_medium=results-cta&utm_campaign=dfy-upsell"
+              href={`https://localsearchally.com/contact?utm_source=audit-tool&utm_medium=results-cta&utm_campaign=dfy-${result.overall_label === "Critical" ? "critical" : "upsell"}`}
               className={styles.dfyBtn}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => track("upgrade_clicked", { plan: "dfy", source: "audit-results" })}
+              onClick={() => track("upgrade_clicked", { plan: "dfy", source: "audit-results", score_label: result.overall_label })}
             >
-              Book a Free Call →
+              {result.overall_label === "Critical" ? "Let's Talk — It's Free →" : "Book a Free Call →"}
             </a>
           </div>
         </motion.div>
