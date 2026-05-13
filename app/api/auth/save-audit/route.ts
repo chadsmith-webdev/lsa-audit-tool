@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { getSupabase } from "@/lib/supabase";
 import { createClient } from "@supabase/supabase-js";
+import type { AuditResult, AuditSection, AuditInput } from "@/lib/types";
 
 /**
  * Save & Monitor signup endpoint.
@@ -83,6 +84,54 @@ export async function POST(request: NextRequest) {
       { error: "Couldn't send the magic link. Try again or contact Chad." },
       { status: 500 },
     );
+  }
+
+  // Enroll in drip sequence fire-and-forget.
+  // If the user never clicks the magic link, they still get follow-up emails.
+  // cancelPendingDrips() in auth/callback cancels these when they convert.
+  if (auditId) {
+    const userIp =
+      (request.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() ||
+      "anonymous";
+    const db = getSupabase();
+    (async () => {
+      try {
+        const { data: auditRow } = await db
+          .from("audits")
+          .select("result, input")
+          .eq("id", auditId)
+          .single();
+        if (!auditRow?.result || !auditRow?.input) return;
+
+        const result = auditRow.result as AuditResult;
+        const input = auditRow.input as AuditInput;
+        const lowestSection = result.sections?.length
+          ? result.sections.reduce((a: AuditSection, b: AuditSection) =>
+              a.score < b.score ? a : b,
+            ).id
+          : "";
+
+        await fetch(`${siteUrl}/api/email`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-forwarded-for": userIp,
+          },
+          body: JSON.stringify({
+            email,
+            auditId,
+            businessName: result.business_name,
+            trade: input.primaryTrade,
+            city: input.serviceCity,
+            scoreBucket: result.overall_label,
+            overallScore: result.overall_score,
+            lowestSection,
+          }),
+        });
+      } catch (err) {
+        console.error("[save-audit] drip enrollment failed:", err);
+      }
+    })();
   }
 
   return NextResponse.json({ ok: true });
