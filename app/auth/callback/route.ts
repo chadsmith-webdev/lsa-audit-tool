@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import { cancelPendingDrips } from "@/lib/cancel-drips";
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
@@ -53,6 +54,14 @@ export async function GET(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
   if (user) {
+    // Cancel any pending drip emails so converted users don't keep receiving
+    // "start your free trial" CTAs. Fire-and-forget — don't block the redirect.
+    if (user.email) {
+      cancelPendingDrips(user.email).catch((err) =>
+        console.error("[auth/callback] cancelPendingDrips failed:", err),
+      );
+    }
+
     const { createClient } = await import("@supabase/supabase-js");
     const adminDb = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
