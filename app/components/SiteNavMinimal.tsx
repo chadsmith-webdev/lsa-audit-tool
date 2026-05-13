@@ -49,6 +49,21 @@ export default function SiteNavMinimal() {
             Local Search <span>Ally</span>
           </span>
         </a>
+
+        <nav className={styles.navLinks} aria-label='Site'>
+          <a
+            href='https://localsearchally.com/about'
+            className={styles.navLink}
+          >
+            About
+          </a>
+          <a
+            href='https://localsearchally.com/contact'
+            className={styles.navCta}
+          >
+            Book a call
+          </a>
+        </nav>
       </div>
     </header>
   );

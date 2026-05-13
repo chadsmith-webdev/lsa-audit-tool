@@ -1128,11 +1128,36 @@ details[open] > .faqA {
 .navInnerMinimal {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 var(--page-gutter);
   height: 60px;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.navLink {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.navLink:hover {
+  color: var(--text);
+}
+
+.navLink:focus-visible {
+  outline: 2px solid var(--carolina);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
 /* ─── Map Pack visual ────────────────────────────────────────────────────── */
