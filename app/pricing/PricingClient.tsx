@@ -880,9 +880,11 @@ function ManagedServices() {
             ))}
           </ul>
           <Link
-            href='/consult'
+            href='https://www.localsearchally.com/contact'
             className='btn btn-primary'
             style={{ alignSelf: "flex-start" }}
+            target='_blank'
+            rel='noopener noreferrer'
           >
             Book a free consult →
           </Link>
