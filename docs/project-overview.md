@@ -110,13 +110,33 @@ states, transitions, and shadows.
 
 The `/services` page uses a three-tier bundled model:
 
-| Plan          | Price            | Best For                                                        |
-|---------------|------------------|-----------------------------------------------------------------|
-| DIY Pro       | $49/mo           | Contractors who want to run the tools themselves                |
-| Multi-Location| $199/mo          | Multiple locations, one dashboard                               |
-| Done-for-You  | $497/mo starting | Full-service local SEO — Chad handles everything                |
+**DIY Pro — $49/mo**
+You run it. Access to all 8 tools in the audit dashboard.
+- Geo-grid rank tracking across your service area
+- Google Business Profile audit + monitoring
+- Citation tracking across top directories
+- AI visibility check (ChatGPT, Perplexity, Google AI)
+- 8 pro local SEO tools in one dashboard
+- Monthly plain-English report
 
-Month-to-month. No contracts. No setup fees.
+**Multi-Location — $199/mo** *(recommended)*
+For operators running 2–10 locations or small agencies managing multiple clients.
+- Everything in DIY Pro
+- Up to 10 location profiles
+- Cross-location rank comparison
+- Consolidated reporting across all locations
+- Priority support
+
+**Done-for-You — $497/mo starting**
+Chad handles everything — GBP, citations, on-page SEO, monthly reporting.
+- Full GBP audit, optimization, and ongoing management
+- Citation cleanup across top 15 directories
+- On-page SEO for service pages
+- Monthly plain-English visibility report
+- Review request process — templates + guidance
+- Final price scoped on the first call based on market
+
+Month-to-month. No contracts. DIY plans include a 14-day free trial.
 
 ### Brand Voice Rules (always enforce)
 
