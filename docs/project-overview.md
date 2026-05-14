@@ -264,10 +264,17 @@ scheduling, review monitoring.
 
 ### Subscription & Billing
 
-- Free tier: run audits, view results, no dashboard tools
-- Pro tier: full dashboard, all tools, GBP connection, geo-grid
-- PayPal handles billing: trial start, webhook reconciliation, subscription status
+| Plan           | Monthly | Annual (billed yearly) | Notes                              |
+|----------------|---------|------------------------|------------------------------------|
+| Free           | $0      | $0                     | Audits + score only; all tools locked |
+| Pro            | $49/mo  | $36/mo ($432/yr)       | All 8 tools, geo-grid, unlimited audits; 14-day free trial |
+| Multi-Location | $199/mo | $149/mo ($1,788/yr)    | Everything in Pro, up to 10 locations, white-label PDFs, priority support + 1:1 onboarding |
+
+- Annual Pro is an early-adopter price locked for life as long as the subscription stays active
+- PayPal handles billing: trial authorization, subscription activation, webhook reconciliation
+- 14-day free trial requires PayPal authorization upfront; no charge until day 15
 - Invite-only signup: `/api/auth/check-invite` validates email against `invited_emails` table
+- Free-tier users are auto-invited via the `save-audit` flow (no manual invite needed)
 - Plan check: `getUserPlan()` / `hasProAccess()` gate dashboard tools
 
 ### Admin Portal
