@@ -33,6 +33,7 @@ export interface SubscriptionRow {
   current_period_end: string | null;
   early_adopter: boolean;
   paypal_subscription_id: string | null;
+  is_owner: boolean;
 }
 
 export interface EffectivePlan {
@@ -56,7 +57,7 @@ export async function getUserPlan(userId: string): Promise<EffectivePlan> {
   const { data, error } = await db
     .from("subscriptions")
     .select(
-      "plan, status, billing, trial_ends_at, current_period_end, early_adopter, paypal_subscription_id",
+      "plan, status, billing, trial_ends_at, current_period_end, early_adopter, paypal_subscription_id, is_owner",
     )
     .eq("user_id", userId)
     .maybeSingle();
@@ -74,6 +75,20 @@ export async function getUserPlan(userId: string): Promise<EffectivePlan> {
  * Pure function — no DB calls. Useful when you've already fetched the row.
  */
 export function resolvePlan(row: SubscriptionRow): EffectivePlan {
+  if (row.is_owner) {
+    return {
+      plan: "multi_location",
+      effective: "multi_location",
+      status: "active",
+      isTrialing: false,
+      trialEndsAt: null,
+      daysLeftInTrial: null,
+      currentPeriodEnd: null,
+      earlyAdopter: false,
+      billing: "monthly",
+    };
+  }
+
   const now = Date.now();
   const trialEndsAt = row.trial_ends_at ? new Date(row.trial_ends_at) : null;
   const periodEnd = row.current_period_end
