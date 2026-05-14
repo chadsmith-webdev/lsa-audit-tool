@@ -80,5 +80,5 @@ export function formatSerperBlock(serper: SerperData): string {
     return `  ${i + 1}. ${r.title} — ${rating}, ${reviews}, ${site}${r.address ? `, ${r.address}` : ""}`;
   });
 
-  return `MAP_PACK (real Google results for this trade + city query):\n${lines.join("\n")}`;
+  return `MAP_PACK (real Google results for this business type + city query):\n${lines.join("\n")}`;
 }

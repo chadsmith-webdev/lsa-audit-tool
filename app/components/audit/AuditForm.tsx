@@ -5,7 +5,7 @@ import styles from "@/styles/audit.module.css";
 import type { AuditInput } from "@/lib/types";
 import { fadeUp } from "./motionVariants";
 
-const TRADES = [
+const HOME_SERVICES = [
   "HVAC",
   "Plumbing",
   "Electrical",
@@ -13,6 +13,15 @@ const TRADES = [
   "Landscaping",
   "Remodeling",
   "General Contracting",
+];
+
+const PROFESSIONAL_SERVICES = [
+  "Local SEO / Digital Marketing",
+  "Web Design & Development",
+  "Accounting & Bookkeeping",
+  "Insurance Agency",
+  "Real Estate",
+  "Cleaning Services",
   "Other",
 ];
 
@@ -60,7 +69,7 @@ export function AuditForm({
 
           <div className={styles.fieldGroup}>
             <label className='form-label' htmlFor='primaryTrade'>
-              Primary Trade
+              Business Type
             </label>
             <select
               id='primaryTrade'
@@ -69,12 +78,21 @@ export function AuditForm({
               onChange={(e) => onChange("primaryTrade", e.target.value)}
               aria-invalid={!!errors.primaryTrade}
             >
-              <option value=''>Select trade…</option>
-              {TRADES.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
+              <option value=''>Select type…</option>
+              <optgroup label='Home Services'>
+                {HOME_SERVICES.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label='Professional Services'>
+                {PROFESSIONAL_SERVICES.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </optgroup>
             </select>
             {errors.primaryTrade && (
               <span className='form-error'>{errors.primaryTrade}</span>

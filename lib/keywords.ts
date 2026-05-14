@@ -5,6 +5,24 @@
  */
 
 const TRADE_KEYWORDS: Record<string, string[]> = {
+  seo: [
+    "local SEO company {city}",
+    "SEO agency {city}",
+    "digital marketing agency {city}",
+    "local search marketing {city}",
+    "SEO consultant {city}",
+    "Google Business Profile management {city}",
+    "local SEO services {city}",
+  ],
+  marketing: [
+    "marketing agency {city}",
+    "digital marketing {city}",
+    "online marketing company {city}",
+    "marketing consultant {city}",
+    "web design company {city}",
+    "social media marketing {city}",
+    "advertising agency {city}",
+  ],
   hvac: [
     "HVAC repair {city}",
     "AC repair {city}",
@@ -64,6 +82,12 @@ const TRADE_KEYWORDS: Record<string, string[]> = {
 // Normalize trade strings coming from the audit form
 // e.g. "HVAC / Air Conditioning" -> "hvac"
 const TRADE_ALIASES: Record<string, string> = {
+  "local seo": "seo",
+  "seo agency": "seo",
+  "seo company": "seo",
+  "digital marketing": "marketing",
+  "marketing agency": "marketing",
+  "web design": "marketing",
   hvac: "hvac",
   "air conditioning": "hvac",
   plumbing: "plumbing",
