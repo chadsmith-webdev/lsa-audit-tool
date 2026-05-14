@@ -108,15 +108,13 @@ states, transitions, and shadows.
 
 ### Services & Pricing (current live prices)
 
-| Service                  | Starting Price | Notes                                    |
-|--------------------------|----------------|------------------------------------------|
-| Local SEO                | $499/mo        | GBP, citations, on-page, monthly reports |
-| GBP Optimization         | $199           | Full profile audit, photo strategy       |
-| Web Design & Development | $799           | Mobile-first, SEO-built                  |
-| Reputation Building      | $99/mo         | Review systems, templates, monitoring    |
-| Content & Keywords       | $299/mo        | Service pages, location pages, blog      |
-| SEO Audits               | $299           | Technical, citation audit, competitor gap |
-| Citation Building        | See sub-page   | `/services/citation-building`            |
+The `/services` page uses a three-tier bundled model:
+
+| Plan          | Price            | Best For                                                        |
+|---------------|------------------|-----------------------------------------------------------------|
+| DIY Pro       | $49/mo           | Contractors who want to run the tools themselves                |
+| Multi-Location| $199/mo          | Multiple locations, one dashboard                               |
+| Done-for-You  | $497/mo starting | Full-service local SEO — Chad handles everything                |
 
 Month-to-month. No contracts. No setup fees.
 
